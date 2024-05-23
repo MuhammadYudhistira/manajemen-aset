@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  SEKWAN
+  KEPALA_BAGIAN
+  STAFF
+  GUEST
+}
+
+enum Status_Aset {
+  Available
+  Inactive
+  Damaged
+  Under_Maintenance
+  Lost
+}
+
+enum Status_laporan {
+  Reported
+  Approved
+  Rejected
+}
+
+enum Status_perbaikan {
+  Reported
+  Approved
+  Rejected
+  In_progress
+  Completed
+}
+
+model User {
+  id                String              @id @default(uuid())
+  nip               String              @unique @db.VarChar(18)
+  nama              String              @db.VarChar(100)
+  password          String
+  alamat            String
+  no_hp             String              @db.VarChar(18)
+  role              Role                @default(GUEST)
+  Penanggung_Jawab  Penanggung_Jawab[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Laporan_Kerusakan Laporan_Kerusakan[]
+
+  @@map("users")
+}
+
+model Ruangan {
+  id           String        @id @default(uuid())
+  nama_ruangan String        @db.VarChar(100)
+  Detail_Aset  Detail_Aset[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("ruangan")
+}
+
+model Aset {
+  id              String        @id @default(uuid())
+  nama_barang     String        @db.VarChar(100)
+  merk            String?       @db.VarChar(100)
+  tahun_perolehan DateTime
+  ukuran          String?       @db.VarChar(100)
+  harga_satuan    Int
+  jumlah_barang   Int
+  nilai_perolehan Int
+  Detail_Aset     Detail_Aset[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("asets")
+}
+
+model Detail_Aset {
+  id                 String               @id @default(uuid())
+  kode_barang        String?              @db.VarChar(100)
+  nomor_rangka       String?              @db.VarChar(100)
+  nomor_mesin        String?              @db.VarChar(100)
+  nomor_polisi       String?              @db.VarChar(100)
+  nomor_bpkb         String?              @db.VarChar(100)
+  status             Status_Aset          @default(Available)
+  keterangan         String?
+  aset               Aset                 @relation(fields: [id_aset], references: [id])
+  id_aset            String
+  ruangan            Ruangan              @relation(fields: [id_ruangan], references: [id])
+  id_ruangan         String
+  Penanggung_Jawab   Penanggung_Jawab[]
+  Detail_Aset_Images Detail_Aset_Images[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  @@map("detail_aset")
+}
+
+model Detail_Aset_Images {
+  id             Int         @id @default(autoincrement())
+  link           String
+  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id])
+  id_detail_aset String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("detail_aset_images")
+}
+
+model Penanggung_Jawab {
+  id             String      @id @default(uuid())
+  user           User        @relation(fields: [id_user], references: [id])
+  id_user        String
+  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id])
+  id_detail_aset String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("penanggung_jawab")
+}
+
+model Laporan_Kerusakan {
+  id              String         @id @default(uuid())
+  deskripsi       String
+  bukti_kerusakan String //image
+  approved_by     String?        @db.VarChar(100)
+  approved_date   DateTime?
+  status          Status_laporan @default(Reported)
+  keterangan      String?
+  user            User           @relation(fields: [id_pelapor], references: [id])
+  id_pelapor      String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  Perbaikan       Perbaikan[]
+
+  @@map("laporan_kerusakan")
+}
+
+model Perbaikan {
+  id                   String             @id @default(uuid())
+  bagian_kerusakan     String
+  biaya_perbaikan      Int
+  approved_by          String?            @db.VarChar(100)
+  approved_date        DateTime?
+  faktur               String?
+  kuitansi             String?
+  berita_acara         String?
+  status               Status_perbaikan
+  keterangan           String?
+  laporan_kerusakan    Laporan_Kerusakan  @relation(fields: [id_laporan_kerusakan], references: [id])
+  id_laporan_kerusakan String
+  Perbaikan_Images     Perbaikan_Images[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  @@map("perbaikan")
+}
+
+model Perbaikan_Images {
+  id           String    @id @default(uuid())
+  link         String
+  perbaikan    Perbaikan @relation(fields: [id_perbaikan], references: [id])
+  id_perbaikan String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("perbaikan_images")
+}
