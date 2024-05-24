@@ -1,4 +1,10 @@
-const { findAssets, findAssetsById } = require("./aset.repository");
+const {
+  findAssets,
+  findAssetsById,
+  insertAsset,
+  deleteAsset,
+  editAsset,
+} = require("./aset.repository");
 
 const getAllAssets = async () => {
   const assets = await findAssets();
@@ -7,7 +13,31 @@ const getAllAssets = async () => {
 
 const getAssetByid = async (id) => {
   const assets = await findAssetsById(id);
+  if (!assets) throw new Error("Aset tidak ditemukan");
   return assets;
 };
 
-module.exports = { getAllAssets, getAssetByid };
+const createAsset = async (newAssetData) => {
+  const asset = await insertAsset(newAssetData);
+  return asset;
+};
+
+const editAsetById = async (id, newAssetData) => {
+  await getAssetByid(id);
+  const asset = await editAsset(id, newAssetData);
+  return asset;
+};
+
+const deleteAssetById = async (id) => {
+  await getAssetByid(id);
+  const asset = await deleteAsset(id);
+  return asset;
+};
+
+module.exports = {
+  getAllAssets,
+  getAssetByid,
+  createAsset,
+  editAsetById,
+  deleteAssetById,
+};
