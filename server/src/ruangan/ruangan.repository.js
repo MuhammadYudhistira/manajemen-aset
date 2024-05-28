@@ -25,7 +25,7 @@ const insertRuangan = async (ruanganData) => {
   return ruangan;
 };
 
-const editRuangan = async (id, ruanganData) => {
+const editRuanganById = async (id, ruanganData) => {
   const ruangan = await prisma.ruangan.update({
     where: {
       id: id,
@@ -38,7 +38,7 @@ const editRuangan = async (id, ruanganData) => {
   return ruangan;
 };
 
-const deletedRuangan = async (id) => {
+const deleteRuanganById = async (id) => {
   const ruangan = await prisma.ruangan.delete({
     where: {
       id: id,
@@ -52,6 +52,6 @@ module.exports = {
   findRuangan,
   findRuanganById,
   insertRuangan,
-  editRuangan,
-  deletedRuangan,
+  editRuanganById,
+  deleteRuanganById,
 };
