@@ -14,10 +14,10 @@ const Layout = () => {
                     <details>
                         <summary class="group">Aset</summary>
                         <ul className="bg-slate-50 rounded-xl">
-                            <li><a href="/detail-aset" class="group"> <span>Detail Aset</span></a></li>
-                            <li><a href="/detail-aset" class="group"> <span>Detail Aset</span></a></li>
-                            <li><a href="/detail-aset" class="group"> <span>Detail Aset</span></a></li>
-                            <li><a href="/detail-aset" class="group"> <span>Detail Aset</span></a></li>
+                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
+                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
+                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
+                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
                         </ul>
                     </details>
                 </li>
