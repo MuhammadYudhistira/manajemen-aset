@@ -1,4 +1,8 @@
 const prisma = require("../../db/index");
+const {
+  createRuanganValidation,
+} = require("../../validation/ruangan-validation");
+const { validate } = require("../../validation/ruangan-validation");
 
 const findRuangan = async () => {
   const listRuangan = await prisma.ruangan.findMany();
