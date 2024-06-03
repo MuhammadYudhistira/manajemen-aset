@@ -6,7 +6,7 @@ const Header = () => {
 
     return (
         <header className='w-[95%] mt-2 bg-white mx-auto sticky top-0 rounded-xl border'>
-            <div className="navbar">
+            <div className="navbar bg-white rounded-xl">
                 <label htmlFor='my-drawer-2' className="btn btn-square btn-ghost lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
@@ -20,13 +20,7 @@ const Header = () => {
                             </div>
                         </div>
                         <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                            <li>
-                                <a className="justify-between">
-                                    Profile
-                                    <span className="badge">New</span>
-                                </a>
-                            </li>
-                            <li><a>Settings</a></li>
+                            <li><a>Profile</a></li>
                             <li><a>Logout</a></li>
                         </ul>
                     </div>

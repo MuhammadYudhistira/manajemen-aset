@@ -10,22 +10,13 @@ const Layout = () => {
                 <li><Link href={"/"} className='text-lg font-bold'> <Image src={logo} alt='logo' width={30} />DPRD SUMBAR</Link></li>
                 <div className="divider mt-0"></div>
                 <li><Link href="/dashboard">Dashboard</Link></li>
+                <li><Link href="/aset">Aset</Link></li>
                 <li>
                     <details>
-                        <summary class="group">Aset</summary>
+                        <summary class="group">Laporan</summary>
                         <ul className="bg-slate-50 rounded-xl">
-                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
-                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
-                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
-                            <li><Link href="/dashboard/detail-aset" class="group"> <span>Detail Aset</span></Link></li>
-                        </ul>
-                    </details>
-                </li>
-                <li>
-                    <details>
-                        <summary class="group">Staff</summary>
-                        <ul className="bg-slate-50 rounded-xl">
-                            <li><a href="/detail-aset" class="group"> <span>Detail Aset</span></a></li>
+                            <li><a href="/detail-aset" class="group"> <span>Laporan Perbaikan</span></a></li>
+                            <li><a href="/detail-aset" class="group"> <span>Rekap Laporan Aset</span></a></li>
                         </ul>
                     </details>
                 </li>
