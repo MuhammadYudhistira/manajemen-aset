@@ -24,7 +24,7 @@ const page = () => {
                     </span>
 
                     <div>
-                        <p className="text-2xl font-medium text-gray-900">Rp 50,000,000,000</p>
+                        <p className="text-2xl font-medium text-gray-900">Rp 50.000.000.000</p>
 
                         <p className="text-sm text-gray-500">Nilai Aset</p>
                     </div>
@@ -48,7 +48,7 @@ const page = () => {
                     </span>
 
                     <div>
-                        <p className="text-2xl font-medium text-gray-900">3,000</p>
+                        <p className="text-2xl font-medium text-gray-900">3.000</p>
 
                         <p className="text-sm text-gray-500">Total Aset</p>
                     </div>
@@ -84,79 +84,74 @@ const page = () => {
                     <AreaCharts />
                 </div>
                 <div className="bg-white p-5 rounded-xl border space-y-5 w-full">
-                    <h3>User terbaru</h3>
+                    <h3>Aset Terbaru</h3>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
-
-                            <p className="mt-0.5 text-gray-700">
-                                Sekretaris
+                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
+                            <p className="mt-0.5 text-gray-400">
+                                12 Januari 2024
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
-
-                            <p className="mt-0.5 text-gray-700">
-                                Sekretaris
+                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
+                            <p className="mt-0.5 text-gray-400">
+                                12 Januari 2024
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
-
-                            <p className="mt-0.5 text-gray-700">
-                                Sekretaris
+                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
+                            <p className="mt-0.5 text-gray-400">
+                                12 Januari 2024
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
-
-                            <p className="mt-0.5 text-gray-700">
-                                Sekretaris
+                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
+                            <p className="mt-0.5 text-gray-400">
+                                12 Januari 2024
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
-
-                            <p className="mt-0.5 text-gray-700">
-                                Sekretaris
+                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
+                            <p className="mt-0.5 text-gray-400">
+                                12 Januari 2024
                             </p>
                         </div>
                     </div>
@@ -164,46 +159,49 @@ const page = () => {
             </section>
             <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
                 <div className="bg-white p-5 rounded-xl border space-y-5 w-full">
-                    <h3>Aset terbaru</h3>
+                    <h3>Aset Terbaru</h3>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
-                            <p className="mt-0.5 text-gray-400">
-                                12 Januari 2024
+                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
+
+                            <p className="mt-0.5 text-gray-700">
+                                Sekretaris
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
-                            <p className="mt-0.5 text-gray-400">
-                                12 Januari 2024
+                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
+
+                            <p className="mt-0.5 text-gray-700">
+                                Sekretaris
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <img
-                            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="size-12 rounded-full object-cover"
                         />
 
                         <div>
-                            <h3 className="text-lg/tight font-medium text-gray-900">Macbook Pro 14" 2024</h3>
-                            <p className="mt-0.5 text-gray-400">
-                                12 Januari 2024
+                            <h3 className="text-lg/tight font-medium text-gray-900">Daniel</h3>
+
+                            <p className="mt-0.5 text-gray-700">
+                                Sekretaris
                             </p>
                         </div>
                     </div>

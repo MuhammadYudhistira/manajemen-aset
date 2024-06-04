@@ -42,7 +42,7 @@ const BarCharts = () => {
             data={chartdata}
             index="name"
             categories={['Total Aset']}
-            colors={['black']}
+            colors={['blue']}
             valueFormatter={dataFormatter}
             yAxisWidth={48}
             onValueChange={(v) => console.log(v)}
