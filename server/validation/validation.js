@@ -7,4 +7,4 @@ const validate = (schema, request) => {
   }
 };
 
-export default { validate };
+module.exports = { validate };

@@ -1,7 +1,7 @@
 const {
   createRuanganValidation,
 } = require("../../validation/ruangan-validation");
-const { validate } = require("../../validation/validation").default;
+const validate = require("../../validation/validation").default;
 const {
   findRuangan,
   findRuanganById,
