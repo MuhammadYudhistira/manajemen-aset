@@ -7,7 +7,11 @@ const {
   deleteAssetById,
   editAsetById,
 } = require("./aset.service");
-const { getDetailAsets, getListDetailAset } = require("../detail_aset/detail_aset.controller");
+const {
+  getDetailAsets,
+  getListDetailAset,
+  getDetailDetailAset,
+} = require("../detail_aset/detail_aset.controller");
 
 const router = express.Router();
 
@@ -84,6 +88,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/detail-aset", getListDetailAset)
+router.get("/:id/detail-aset", getListDetailAset);
+router.get("/:id/detail-aset/:idDetail", getDetailDetailAset);
 
 module.exports = router;
