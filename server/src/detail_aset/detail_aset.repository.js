@@ -1,21 +1,41 @@
 const prisma = require('../../db/index')
 
-const findDetailAset = async () =>{
-    const detail_aset = prisma.detail_Aset.findMany()
-    return detail_aset
+const findDetailAset = async (id) =>{
+    const detailAset = prisma.detail_Aset.findMany({
+        where:{
+            id_aset: id
+        },
+        include : {
+            aset:{
+                select: {
+                    nama_barang: true,
+                    merk:true,
+                    tahun_perolehan:true,
+                    ukuran:true,
+                    harga_satuan: true,
+                }
+            },
+            ruangan: {
+                select: {
+                    nama_ruangan: true
+                }
+            }
+        },
+    })
+    return detailAset
 }
 
 const findDetailAsetById = async (id) =>{
-    const detail_Aset = prisma.detail_Aset.findUnique({
+    const detailAset = prisma.detail_Aset.findUnique({
         where:{
             id: id
         }
     })
-    return detail_Aset
+    return detailAset
 }
 
-const createDetailAset = async (newDetailAsetData) =>{
-    const detail_Aset = prisma.detail_Aset.create({
+const insertDetailAset = async (newDetailAsetData) =>{
+    const detailAset = prisma.detail_Aset.create({
         data: {
             nomor_barang: newDetailAsetData.nomor_barang,
             nomor_rangka: newDetailAsetData.nomor_rangka,
@@ -27,11 +47,11 @@ const createDetailAset = async (newDetailAsetData) =>{
         }
     })
 
-    return detail_Aset
+    return detailAset
 }
 
-const editDetailAset = async (id, newDetailAsetData) =>{
-    const detail_Aset = prisma.detail_Aset.update({
+const editDetailAsetById = async (id, newDetailAsetData) =>{
+    const detailAset = prisma.detail_Aset.update({
         where:{
             id: id
         },
@@ -46,17 +66,17 @@ const editDetailAset = async (id, newDetailAsetData) =>{
         }
     })
 
-    return detail_Aset
+    return detailAset
 }
 
-const deleteDetailAset = async(id)=>{
-    const detail_Aset = prisma.detail_Aset.delete({
+const deleteDetailAsetById = async(id)=>{
+    const detailAset = prisma.detail_Aset.delete({
         where:{
             id:id
         }
     })
 
-    return detail_Aset
+    return detailAset
 }
 
-module.exports = {findDetailAset, findDetailAsetById, createDetailAset, editDetailAset, deleteDetailAset}
+module.exports = {findDetailAset, findDetailAsetById, insertDetailAset, editDetailAsetById, deleteDetailAsetById}

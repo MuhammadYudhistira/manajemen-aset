@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   getAllRuangan,
   getRuanganById,
@@ -6,6 +7,7 @@ const {
   editRuangan,
   deleteRuangan,
 } = require("./ruangan.service");
+
 const response = require("../response/response");
 const responseError = require("../response/responseError");
 
@@ -14,9 +16,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const listRuangan = await getAllRuangan();
-    res.json(listRuangan);
+    response(200, listRuangan, "Berhasil mengambil data", res)
   } catch (error) {
-    res.status(500).json(error.message);
+    responseError(500, error.message, res)
   }
 });
 
@@ -34,9 +36,9 @@ router.post("/", async (req, res) => {
   try {
     const newRuanganData = req.body;
     const ruangan = await createRuangan(newRuanganData);
-    res.status(200).json(ruangan);
+    response(200, ruangan, "Berhasil menambah data", res);
   } catch (error) {
-    res.status(500).json(error.message);
+    responseError(500, error.message, res);
   }
 });
 
@@ -45,9 +47,9 @@ router.patch("/:id", async (req, res) => {
     const id = req.params.id;
     const newRuanganData = req.body;
     const ruangan = await editRuangan(id, newRuanganData);
-    res.status(200).json(ruangan);
+    response(200, ruangan, "Berhasil mengupdate data", res);
   } catch (error) {
-    res.status(500).json(error.message);
+    responseError(500, error.message, res);
   }
 });
 
@@ -55,15 +57,9 @@ router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await deleteRuangan(id);
-    res.status(200).json({
-      message: "Data ruangan berhasil dihapus",
-      error: false,
-    });
+    response(200, null, "Berhasil menghapus data", res);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      error: true,
-    });
+    responseError(404, error.message, res)
   }
 });
 

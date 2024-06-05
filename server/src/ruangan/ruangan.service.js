@@ -1,7 +1,6 @@
-const {
-  createRuanganValidation,
-} = require("../../validation/ruangan-validation");
-const validate = require("../../validation/validation").default;
+const {createRuanganValidation} = require('../validation/ruangan-validation');
+const { validate } = require('../validation/validation');
+
 const {
   findRuangan,
   findRuanganById,
@@ -23,13 +22,15 @@ const getRuanganById = async (id) => {
 
 const createRuangan = async (newRuanganData) => {
   const data = validate(createRuanganValidation, newRuanganData);
+  console.log(data)
   const ruangan = await insertRuangan(data);
   return ruangan;
 };
 
 const editRuangan = async (id, newRuanganData) => {
   await getRuanganById(id);
-  const ruangan = await editRuanganById(id, newRuanganData);
+  const data = validate(createRuanganValidation, newRuanganData);
+  const ruangan = await editRuanganById(id, data);
   return ruangan;
 };
 

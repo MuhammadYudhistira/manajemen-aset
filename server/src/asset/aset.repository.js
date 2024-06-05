@@ -9,7 +9,26 @@ const findAssetsById = async (id) => {
   const asset = await prisma.aset.findUnique({
     where: {
       id: id,
-    },
+    },include: {
+      Detail_Aset: {
+        include: {
+          ruangan: {
+            select: {
+              nama_ruangan:true
+            }
+          },
+          Penanggung_Jawab: {
+            include: {
+              user: {
+                select: {
+                  nama:true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 
   return asset;
