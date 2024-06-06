@@ -7,4 +7,4 @@ const response = (statusCode, data, message, res) => {
   ]);
 };
 
-module.exports = response;
+module.exports = { response };

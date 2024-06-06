@@ -7,4 +7,4 @@ const responseError = (statusCode, message, res) => {
   ]);
 };
 
-module.exports = responseError;
+module.exports = { responseError };

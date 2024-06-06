@@ -1,7 +1,7 @@
 const prisma = require("../../db/index");
 
 const findDetailAset = async (id) => {
-  const detailAset = prisma.detail_Aset.findMany({
+  const detailAset = await prisma.detail_Aset.findMany({
     where: {
       id_aset: id,
     },
@@ -35,7 +35,7 @@ const findDetailAset = async (id) => {
 };
 
 const findDetailAsetById = async (idDetail) => {
-  const detailAset = prisma.detail_Aset.findUnique({
+  const detailAset = await prisma.detail_Aset.findUnique({
     where: {
       id: idDetail,
     },
@@ -72,10 +72,19 @@ const findDetailAsetById = async (idDetail) => {
   return detailAset;
 };
 
+const findDetailAsetByKodeBarang = async (kode_barang) => {
+  const detail_Aset = prisma.detail_Aset.count({
+    where: {
+      kode_barang: kode_barang,
+    },
+  });
+  return detail_Aset;
+};
+
 const insertDetailAset = async (newDetailAsetData) => {
   const detailAset = prisma.detail_Aset.create({
     data: {
-      nomor_barang: newDetailAsetData.nomor_barang,
+      kode_barang: newDetailAsetData.kode_barang,
       nomor_rangka: newDetailAsetData.nomor_rangka,
       nomor_bpkb: newDetailAsetData.nomor_bpkb,
       nomor_mesin: newDetailAsetData.nomor_mesin,
@@ -94,7 +103,7 @@ const editDetailAsetById = async (id, newDetailAsetData) => {
       id: id,
     },
     data: {
-      nomor_barang: newDetailAsetData.nomor_barang,
+      kode_barang: newDetailAsetData.kode_barang,
       nomor_rangka: newDetailAsetData.nomor_rangka,
       nomor_bpkb: newDetailAsetData.nomor_bpkb,
       nomor_mesin: newDetailAsetData.nomor_mesin,
@@ -123,4 +132,5 @@ module.exports = {
   insertDetailAset,
   editDetailAsetById,
   deleteDetailAsetById,
+  findDetailAsetByKodeBarang,
 };

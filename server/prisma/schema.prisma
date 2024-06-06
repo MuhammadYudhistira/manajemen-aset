@@ -87,17 +87,17 @@ model Aset {
 
 model Detail_Aset {
   id                 String               @id @default(uuid())
-  kode_barang        String?              @db.VarChar(100)
+  kode_barang        String               @unique @db.VarChar(100)
   nomor_rangka       String?              @db.VarChar(100)
   nomor_mesin        String?              @db.VarChar(100)
   nomor_polisi       String?              @db.VarChar(100)
   nomor_bpkb         String?              @db.VarChar(100)
   status             Status_Aset          @default(Available)
   keterangan         String?
-  aset               Aset                 @relation(fields: [id_aset], references: [id], onDelete: Cascade)
   id_aset            String
-  ruangan            Ruangan              @relation(fields: [id_ruangan], references: [id], onUpdate: Cascade)
   id_ruangan         String
+  aset               Aset                 @relation(fields: [id_aset], references: [id], onDelete: Cascade)
+  ruangan            Ruangan              @relation(fields: [id_ruangan], references: [id], onUpdate: Cascade)
   Penanggung_Jawab   Penanggung_Jawab[]
   Detail_Aset_Images Detail_Aset_Images[]
   createdAt          DateTime             @default(now())

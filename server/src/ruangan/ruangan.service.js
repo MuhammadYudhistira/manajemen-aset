@@ -22,7 +22,6 @@ const getRuanganById = async (id) => {
 
 const createRuangan = async (newRuanganData) => {
   const data = validate(createRuanganValidation, newRuanganData);
-  console.log(data)
   const ruangan = await insertRuangan(data);
   return ruangan;
 };
