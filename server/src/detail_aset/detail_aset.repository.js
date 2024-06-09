@@ -31,7 +31,13 @@ const findDetailAset = async (id) => {
       },
     },
   });
-  return detailAset;
+
+  const result = detailAset.map((detail) => ({
+    ...detail,
+    Penanggung_Jawab: detail.Penanggung_Jawab.map((pj) => pj.user),
+  }));
+
+  return result;
 };
 
 const findDetailAsetById = async (idDetail) => {
@@ -69,7 +75,12 @@ const findDetailAsetById = async (idDetail) => {
       },
     },
   });
-  return detailAset;
+  const result = {
+    ...detailAset,
+    Penanggung_Jawab: detailAset.Penanggung_Jawab.map((pj) => pj.user),
+  };
+
+  return result;
 };
 
 const findDetailAsetByKodeBarang = async (kode_barang) => {

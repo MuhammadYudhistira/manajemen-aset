@@ -43,11 +43,18 @@ enum Status_perbaikan {
   Completed
 }
 
+enum Jenis_Kelamin {
+  Pria
+  Wanita
+}
+
 model User {
   id                String              @id @default(uuid())
   nip               String              @unique @db.VarChar(18)
   nama              String              @db.VarChar(100)
   password          String
+  profile           String?
+  jenis_kelamin     Jenis_Kelamin
   alamat            String
   no_hp             String              @db.VarChar(18)
   role              Role                @default(GUEST)
@@ -72,6 +79,7 @@ model Ruangan {
 model Aset {
   id              String        @id @default(uuid())
   nama_barang     String        @db.VarChar(100)
+  deskripsi       String
   merk            String?       @db.VarChar(100)
   tahun_perolehan DateTime
   ukuran          String?       @db.VarChar(100)
@@ -119,13 +127,14 @@ model Detail_Aset_Images {
 
 model Penanggung_Jawab {
   id             String      @id @default(uuid())
-  user           User        @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_user        String
-  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_detail_aset String
+  user           User        @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
+  @@unique([id_user, id_detail_aset])
   @@map("penanggung_jawab")
 }
 

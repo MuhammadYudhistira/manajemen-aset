@@ -9,26 +9,27 @@ const findAssetsById = async (id) => {
   const asset = await prisma.aset.findUnique({
     where: {
       id: id,
-    },include: {
+    },
+    include: {
       Detail_Aset: {
         include: {
           ruangan: {
             select: {
-              nama_ruangan:true
-            }
+              nama_ruangan: true,
+            },
           },
           Penanggung_Jawab: {
             include: {
               user: {
                 select: {
-                  nama:true
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  nama: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 
   return asset;
@@ -38,6 +39,7 @@ const insertAsset = async (assetData) => {
   const asset = await prisma.aset.create({
     data: {
       nama_barang: assetData.nama_barang,
+      deskripsi: assetData.deskripsi,
       merk: assetData.merk,
       tahun_perolehan: assetData.tahun_perolehan,
       ukuran: assetData.ukuran,
