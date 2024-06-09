@@ -8,6 +8,14 @@ const HeaderTitle = () => {
     const formatTitle = (path) => {
         if (!path) return '';
 
+        // Regular expression to match '/admin/aset/:id-aset'
+        const detailAsetPattern = /^\/admin\/aset\/[^/]+$/;
+
+        // Specific title for paths matching the pattern '/admin/aset/:id-aset'
+        if (detailAsetPattern.test(path)) {
+            return 'Detail Aset';
+        }
+
         // Split the path by '/' and get the last segment
         const segments = path.split('/');
         const lastSegment = segments.pop() || '';
@@ -24,7 +32,7 @@ const HeaderTitle = () => {
         <div className="flex-1">
             <a className="btn btn-ghost text-xl">{title}</a>
         </div>
-    )
+    );
 }
 
 export default HeaderTitle

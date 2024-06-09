@@ -4,6 +4,7 @@ import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Link from 'next/link';
 
 const page = () => {
     return (
@@ -58,9 +59,157 @@ const page = () => {
                         <option>Tidak Aktif</option>
                         <option>Sedang diperbaiki</option>
                     </select>
+                    <select className="select select-bordered w-full lg:max-w-xs">
+                        <option>Terbaru</option>
+                        <option>Terlama</option>
+                    </select>
                     <button className="btn btn-neutral bg-black text-white"><SearchOutlinedIcon /></button>
                     <button className="btn bg-white text-black ml-auto"><AddCircleOutlineOutlinedIcon /> Tambah Aset</button>
                 </div>
+            </div>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-8'>
+                <Link href={"/admin/aset/2"} className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </Link>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1592921870789-04563d55041c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1592921870789-04563d55041c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1592921870789-04563d55041c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1592921870789-04563d55041c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
+                <article className="group bg-white rounded-lg border">
+                    <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                        className="h-56 w-full rounded-t-lg object-cover transition group-hover:grayscale-[50%]"
+                    />
+                    <div className="p-4">
+                        <a href="#">
+                            <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
+                        </a>
+                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+                            dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+                </article>
             </div>
         </>
     )
