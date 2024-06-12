@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const asetController = require("./src/asset/aset.controller");
 const ruanganController = require("./src/ruangan/ruangan.controller");
-const detailAsetController = require("./src/detail_aset/detail_aset.controller")
+const penanggungJawabController = require("./src/custodian/custodian.controller")
 
 dotenv.config();
 
@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/aset", asetController);
 app.use("/api/ruangan", ruanganController)
+app.use("/api/penanggung-jawab", penanggungJawabController)
 
 app.listen(port, () => {
   console.log(`server running in port ${port}`);

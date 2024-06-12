@@ -8,8 +8,8 @@ const {
   deleteRuangan,
 } = require("./ruangan.service");
 
-const response = require("../response/response");
-const responseError = require("../response/responseError");
+const {response} = require("../response/response");
+const {responseError} = require("../response/responseError");
 
 const router = express.Router();
 

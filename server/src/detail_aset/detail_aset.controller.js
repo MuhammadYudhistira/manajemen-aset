@@ -30,6 +30,7 @@ const getDetailDetailAset = async (req, res) => {
 
 const postDetailAset = async (req, res) => {
   try {
+    const {id} = req.params
     const data = req.body;
     const detailAsset = await createDetailAset(data);
     response(200, detailAsset, "Berhasil Menambahkan Data Detail Aset", res);
