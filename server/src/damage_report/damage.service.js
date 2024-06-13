@@ -1,4 +1,4 @@
-const { findAllDamage, findDamageById } = require("./damage.repository")
+const { findAllDamage, findDamageById, insertDamage, editDamegeById, deleteDamageById } = require("./damage.repository")
 
 const getAllDamage = async () => {
     const damage = await findAllDamage()
@@ -11,5 +11,21 @@ const getDetailDamage = async (id) =>{
     return damage
 }
 
-module.exports = {getAllDamage, getDetailDamage}
+const createDemage = async(newDamageData) => {
+    const damage = await insertDamage(newDamageData)
+    return damage
+}
+
+const editDamage = async (id, newDamageData) =>{
+    await getDetailDamage(id)
+    const damage = await editDamegeById(id, newDamageData)
+    return damage
+}
+
+const deleteDamage = async (id) => {
+    const damage = await deleteDamageById(id)
+    return damage
+}
+
+module.exports = {getAllDamage, getDetailDamage, createDemage, editDamage, deleteDamage}
 
