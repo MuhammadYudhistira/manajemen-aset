@@ -1,3 +1,4 @@
+const { getAssetByid } = require("../asset/aset.service");
 const {
   createDetailAsetValidation,
   UpdateDetailAsetValidation,
@@ -13,6 +14,7 @@ const {
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
+  await getAssetByid(id);
   const listDetailAset = await findDetailAset(id);
   return listDetailAset;
 };

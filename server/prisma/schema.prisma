@@ -55,8 +55,8 @@ model User {
   password          String
   profile           String?
   jenis_kelamin     Jenis_Kelamin
-  alamat            String
-  no_hp             String              @db.VarChar(18)
+  alamat            String?
+  no_hp             String?              @db.VarChar(18)
   role              Role                @default(GUEST)
   Penanggung_Jawab  Penanggung_Jawab[]
   createdAt         DateTime            @default(now())
