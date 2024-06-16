@@ -2,7 +2,7 @@ const {
   findUser,
   findUserById,
   insertUser,
-  countUserByNip,
+  findUserByNip,
 } = require("./user.repository");
 
 const bcrypt = require("bcrypt");
@@ -19,8 +19,8 @@ const getDetailUser = async (id) => {
 };
 
 const countUser = async (nip) => {
-  const user = await countUserByNip(nip);
-  if (user === 1) throw new Error("User dengan nip tersebut sudah ada");
+  const user = await findUserByNip(nip);
+  if (user) throw new Error("User dengan nip tersebut sudah ada");
   return user;
 };
 

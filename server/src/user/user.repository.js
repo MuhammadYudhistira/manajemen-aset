@@ -17,8 +17,8 @@ const findUserById = async (id) => {
   return user;
 };
 
-const countUserByNip = async (nip) => {
-  const user = await prisma.user.count({
+const findUserByNip = async (nip) => {
+  const user = await prisma.user.findUnique({
     where: {
       nip: nip,
     },
@@ -42,4 +42,4 @@ const insertUser = async (newUserData) => {
   return result;
 };
 
-module.exports = { findUser, findUserById, countUserByNip, insertUser };
+module.exports = { findUser, findUserById, findUserByNip, insertUser };

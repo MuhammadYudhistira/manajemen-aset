@@ -2,10 +2,11 @@ const express = require("express");
 const { response } = require("../response/response");
 const { getUser, getDetailUser, createUser } = require("./user.service");
 const { responseError } = require("../response/responseError");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const users = await getUser();
     response(200, users, "Berhasil mengambil data", res);
