@@ -9,6 +9,7 @@ const ruanganController = require("./src/ruangan/ruangan.controller");
 const penanggungJawabController = require("./src/custodian/custodian.controller");
 const laporanKerusakanController = require("./src/damage_report/damage.controller");
 const UserController = require("./src/user/user.controller");
+const { authMiddleware } = require("./src/middleware/authMiddleware");
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authController);
-app.use("/api/aset", asetController);
+app.use("/api/aset", authMiddleware, asetController);
 app.use("/api/ruangan", ruanganController);
 app.use("/api/penanggung-jawab", penanggungJawabController);
 app.use("/api/laporan-kerusakan", laporanKerusakanController);

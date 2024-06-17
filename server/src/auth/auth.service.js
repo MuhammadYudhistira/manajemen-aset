@@ -1,9 +1,12 @@
 const { findUserByNip } = require("../user/user.repository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { validate } = require("../validation/validation");
+const { loginValidation } = require("../validation/user-validation");
 
 const login = async (request) => {
-  const user = await findUserByNip(request.nip);
+  const data = validate(loginValidation, request);
+  const user = await findUserByNip(data.nip);
   if (!user) throw new Error("Nip atau password yang anda masukkan salah");
 
   const passswordValidation = await bcrypt.compare(
@@ -23,7 +26,7 @@ const login = async (request) => {
   };
 
   const secret = process.env.JWT_SECRET;
-  const expired = 60 * 60 * 24 * 1;
+  const expired = "1d";
   const token = jwt.sign(payload, secret, { expiresIn: expired });
 
   return { user: payload, token };

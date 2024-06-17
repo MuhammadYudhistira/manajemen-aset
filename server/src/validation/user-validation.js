@@ -13,4 +13,9 @@ const registerUserValidation = Joi.object({
     .required(),
 });
 
-module.exports = { registerUserValidation };
+const loginValidation = Joi.object({
+  nip: Joi.string().max(18).required(),
+  password: Joi.string().max(100).required(),
+});
+
+module.exports = { registerUserValidation, loginValidation };
