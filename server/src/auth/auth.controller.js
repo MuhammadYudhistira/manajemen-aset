@@ -1,6 +1,8 @@
 const express = require("express");
 const { login } = require("./auth.service");
 const { response } = require("../response/response");
+const { authMiddleware } = require("../middleware/authMiddleware");
+const { responseError } = require("../response/responseError");
 
 const router = express.Router();
 
@@ -11,6 +13,15 @@ router.post("/login", async (req, res) => {
     response(200, data, "Berhasil Login", res);
   } catch (error) {
     res.send(error.message);
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const user = req.user;
+    response(200, user, "Berhasil mengambil data", res);
+  } catch (error) {
+    responseError(401, "Unauthorized", res);
   }
 });
 

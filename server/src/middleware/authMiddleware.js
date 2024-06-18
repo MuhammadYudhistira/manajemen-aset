@@ -13,9 +13,13 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const jwtDecode = jwt.verify(token, secret);
-    req.userData = jwtDecode;
+    req.user = jwtDecode;
   } catch (error) {
-    return responseError(401, "Unauthorized", res);
+    if (error.name === "TokenExpiredError") {
+      return responseError(401, "Token sudah expired", res);
+    } else {
+      return responseError(401, error.message, res);
+    }
   }
   next();
 };
