@@ -9,7 +9,6 @@ const page = () => {
                     <a className="flex justify-center items-center font-bold text-2xl" href="#">
                         <img alt="asd"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Coat_of_arms_of_West_Sumatra.svg/800px-Coat_of_arms_of_West_Sumatra.svg.png"
-                            fill
                             className='w-10' />
                         DPRD SUMBAR
                     </a>

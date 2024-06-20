@@ -1,11 +1,14 @@
 import colors from "tailwindcss/colors";
 
+const { nextui } = require("@nextui-org/react");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     transparent: "transparent",
@@ -58,7 +61,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui")],
+  darkMode: "class",
+  plugins: [nextui(), require("daisyui")],
   daisyui: {
     themes: ["cmyk"],
   },
