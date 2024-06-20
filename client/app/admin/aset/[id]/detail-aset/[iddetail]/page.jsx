@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -7,14 +8,18 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import qrcode from "@/public/qrcode.png"
 import profile from "@/public/profile.jpg"
 import Image from 'next/image';
+import Link from 'next/link';
 
 const page = () => {
     return (
         <>
             <div className="hidden sm:flex md:flex-row justify-end items-center gap-5 mt-8">
                 <button className="btn bg-white text-black"><LocalPrintshopOutlinedIcon /> Cetak QR Code</button>
-                <button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Aset</button>
-                <button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300"><DeleteOutlineOutlinedIcon /> Delete Aset</button>
+                <button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Detail Aset</button>
+                <button
+                    className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
+                    <DeleteOutlineOutlinedIcon /> Delete Aset
+                </button>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mt-7">
                 <div className="bg-white w-full p-5 rounded-xl">
@@ -22,13 +27,13 @@ const page = () => {
                         <div tabIndex={0} role="button"><MoreHorizIcon /></div>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-72 space-y-2">
                             <li><button className="btn bg-white text-black"><LocalPrintshopOutlinedIcon /> Cetak QR Code</button></li>
-                            <li><button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Aset</button></li>
+                            <li><button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Detail Aset</button></li>
                             <li><button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300"><DeleteOutlineOutlinedIcon /> Delete Aset</button></li>
                         </ul>
                     </div>
                     <div className='flex flex-col md:flex-row w-full gap-4'>
                         <img
-                            alt=""
+                            alt="Aset"
                             src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
                             className="md:w-2/5 rounded-lg object-cover"
                         />
@@ -55,7 +60,7 @@ const page = () => {
                         </div>
                         <div className='w-[50%]'>
                             <Image
-                                alt=""
+                                alt="qrcode"
                                 src={qrcode}
                                 className="w-full rounded-lg object-cover"
                             />
@@ -87,16 +92,16 @@ const page = () => {
                                 <p className='text-sm text-gray-500'>12/01/2024</p>
                             </div>
                             <div>
-                                <button className='btn btn-sm bg-white'>View</button>
+                                <Link href={"/admin/laporan_kerusakan/123"} className='btn btn-sm bg-white'>View</Link>
                             </div>
                         </div>
                         <div className='flex justify-between'>
                             <div>
-                                <p className='text-sm text-gray-500'>Kipas rusak, ganti thermal paste, dan pembersihan motherboard</p>
+                                <p className='text-sm text-gray-500'>SSD Rusak</p>
                                 <p className='text-sm text-gray-500'>12/01/2024</p>
                             </div>
                             <div>
-                                <button className='btn btn-sm bg-white'>View</button>
+                                <Link href={"/admin/laporan_kerusakan/123"} className='btn btn-sm bg-white'>View</Link>
                             </div>
                         </div>
                     </div>
@@ -108,7 +113,7 @@ const page = () => {
                                 <p className='text-sm text-gray-500'>12/01/2024</p>
                             </div>
                             <div>
-                                <button className='btn btn-sm bg-white'>View</button>
+                                <Link href={"/admin/laporan_perbaikan/123"} className='btn btn-sm bg-white'>View</Link>
                             </div>
                         </div>
                         <div className='flex justify-between'>
@@ -117,7 +122,7 @@ const page = () => {
                                 <p className='text-sm text-gray-500'>12/01/2024</p>
                             </div>
                             <div>
-                                <button className='btn btn-sm bg-white'>View</button>
+                                <Link href={"/admin/laporan_perbaikan/123"} className='btn btn-sm bg-white'>View</Link>
                             </div>
                         </div>
                         <div className='flex justify-between'>
@@ -126,7 +131,7 @@ const page = () => {
                                 <p className='text-sm text-gray-500'>12/01/2024</p>
                             </div>
                             <div>
-                                <button className='btn btn-sm bg-white'>View</button>
+                                <Link href={"/admin/laporan_perbaikan/123"} className='btn btn-sm bg-white'>View</Link>
                             </div>
                         </div>
                     </div>
