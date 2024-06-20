@@ -20,14 +20,14 @@ const Layout = () => {
                 <li><Link href="/admin"><AutoAwesomeMosaicOutlinedIcon />Dashboard</Link></li>
                 <li><Link href="/admin/aset"><Inventory2OutlinedIcon /> Aset</Link></li>
                 <li><Link href="/admin/user"><GroupsOutlinedIcon /> User</Link></li>
-                <li><Link href="/admin/penanggung-jawab"><FolderSharedOutlinedIcon /> Penanggung Jawab</Link></li>
+                <li><Link href="/admin/penanggung_jawab"><FolderSharedOutlinedIcon /> Penanggung Jawab</Link></li>
                 <li><Link href="/admin/ruangan"><MeetingRoomOutlinedIcon /> Ruangan</Link></li>
                 <li>
                     <details>
                         <summary className="group"><FolderOpenOutlinedIcon />Laporan</summary>
                         <ul className="bg-slate-50 rounded-xl">
-                            <li><Link href="/admin/laporan-perbaikan" className=""><HomeRepairServiceOutlinedIcon />Perbaikan</Link></li>
-                            <li><Link href="/admin/rekap-aset" className="group"> <LaptopOutlinedIcon />Rekap Aset</Link></li>
+                            <li><Link href="/admin/laporan_perbaikan" className=""><HomeRepairServiceOutlinedIcon />Perbaikan</Link></li>
+                            <li><Link href="/admin/rekap_aset" className="group"> <LaptopOutlinedIcon />Rekap Aset</Link></li>
                         </ul>
                     </details>
                 </li>
