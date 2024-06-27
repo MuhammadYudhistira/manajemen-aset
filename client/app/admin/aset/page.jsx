@@ -5,8 +5,10 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Link from 'next/link';
+import GridAset from '@/components/(aset)/GridAset';
 
 const page = () => {
+
     return (
         <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 mb-7">
@@ -67,23 +69,8 @@ const page = () => {
                     <button className="btn bg-white text-black ml-auto"><AddCircleOutlineOutlinedIcon /> Tambah Aset</button>
                 </div>
             </div>
-            <div className='pb-10 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-8'>
-                <Link href={"/admin/aset/2"} className="group bg-white rounded-lg border">
-                    <img
-                        alt=""
-                        src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
-                        className="h-56 w-full rounded-t-lg object-cover"
-                    />
-                    <div className="p-4">
-                        <h3 className="text-lg font-medium text-gray-900">Finding the Journey to Mordor</h3>
-                        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
-                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
-                            mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
-                            dignissimos. Molestias explicabo corporis voluptatem?
-                        </p>
-                    </div>
-                </Link>
+            <div className=' pb-10 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-8'>
+                <GridAset />
             </div>
         </>
     )

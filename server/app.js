@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authController);
-app.use("/api/aset", authMiddleware, asetController);
+app.use("/api/aset", asetController);
 app.use("/api/ruangan", ruanganController);
 app.use("/api/penanggung-jawab", penanggungJawabController);
 app.use("/api/laporan-kerusakan", laporanKerusakanController);
