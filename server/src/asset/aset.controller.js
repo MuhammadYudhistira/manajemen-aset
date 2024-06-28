@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
     const listAssets = await getAllAssets();
     response(200, listAssets, "Berhasil mengambil data", res);
   } catch (error) {
-    responseError(500, "Terjadi kesalahan coba lagi nanti", res);
+    responseError(500, error.message, res);
   }
 });
 
@@ -32,12 +32,9 @@ router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const asset = await getAssetByid(id);
-    res.json(asset);
+    response(200, asset, "Berhasil mengambil data", res)
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-      error: true,
-    });
+    responseError(404, error.message, res)
   }
 });
 
@@ -45,16 +42,9 @@ router.post("/", async (req, res) => {
   try {
     const newAssetData = req.body;
     const asset = await createAsset(newAssetData);
-    res.status(200).json({
-      data: `Asset dengan nama ${asset.nama_barang} berhasil di tambahkan`,
-      message: "Sukses",
-      error: false,
-    });
+    response(200, asset, "Berhasil menambahkan data", res)
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      error: true,
-    });
+    responseError(400, error.message, res)
   }
 });
 
@@ -62,16 +52,9 @@ router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await deleteAssetById(id);
-    res.status(200).json({
-      data: "Aset berhasil dihapus",
-      message: "sukses",
-      error: false,
-    });
+    response(200, "Berhasil menghapus data", res)
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      error: true,
-    });
+    responseError(400, error.message, res)
   }
 });
 
@@ -80,15 +63,9 @@ router.patch("/:id", async (req, res) => {
     const id = req.params.id;
     const newAssetData = req.body;
     await editAsetById(id, newAssetData);
-    res.status(200).json({
-      message: `Data aset berhasil di update`,
-      error: false,
-    });
+    response(200, newAssetData, "Berhasil mengupdate data", res)
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      error: true,
-    });
+    response(400, error.message, res)
   }
 });
 

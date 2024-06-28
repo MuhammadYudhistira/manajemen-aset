@@ -11,13 +11,16 @@ const laporanKerusakanController = require("./src/damage_report/damage.controlle
 const UserController = require("./src/user/user.controller");
 const { authMiddleware } = require("./src/middleware/authMiddleware");
 
+
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
 
+
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
     credentials: true,
