@@ -6,7 +6,7 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const users = await getUser();
     response(200, users, "Berhasil mengambil data", res);

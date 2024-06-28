@@ -9,8 +9,23 @@ import qrcode from "@/public/qrcode.png"
 import profile from "@/public/profile.jpg"
 import Image from 'next/image';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import axios from '@/libs/axios';
+import moment from 'moment';
+import 'moment/locale/id';
 
-const page = () => {
+const page = ({ params }) => {
+
+    const { data, isLoading } = useQuery({
+        queryFn: async () => {
+            const response = await axios.get(`/aset/${params.id}/detail-aset/${params.iddetail}`)
+
+            console.log(response)
+            return response.data.payload
+        }
+    })
+
+
     return (
         <>
             <div className="hidden sm:flex md:flex-row justify-end items-center gap-5 mt-8">
@@ -37,25 +52,25 @@ const page = () => {
                             src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
                             className="md:w-2/5 rounded-lg object-cover"
                         />
-                        <h1 className='text-xl font-bold'>Macbook Pro 14 2024</h1>
+                        <h1 className='text-xl font-bold uppercase'>{data?.aset.nama_barang}</h1>
                     </div>
                     <div className='flex flex-row justify-between mt-4'>
                         <div className='space-y-2 w-[50%]'>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Merk</h3>
-                                <p className=' text-gray-400'>Apple</p>
+                                <p className=' text-gray-400'>{data?.aset.merk}</p>
                             </div>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Tahun Perolehan</h3>
-                                <p className=' text-gray-400'>12 Januari 2024</p>
+                                <p className=' text-gray-400'>{moment(data?.aset.tahun_perolehan).format("LL")}</p>
                             </div>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Ruangan</h3>
-                                <p className=' text-gray-400'>Komisi 1</p>
+                                <p className=' text-gray-400'>{data?.ruangan.nama_ruangan}</p>
                             </div>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Status</h3>
-                                <p className=' text-gray-400'>Aktif</p>
+                                <p className=' text-gray-400'>{data?.status}</p>
                             </div>
                         </div>
                         <div className='w-[50%]'>

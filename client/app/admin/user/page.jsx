@@ -4,14 +4,9 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import Face3OutlinedIcon from '@mui/icons-material/Face3Outlined';
 import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Link from 'next/link';
-
-import profile from "@/public/profile.jpg"
-import Image from 'next/image';
+import GridUser from '@/components/(user)/GridUser';
 
 
 const page = () => {
@@ -76,27 +71,8 @@ const page = () => {
                     <Link href={"/admin/user/create"} className="btn bg-white text-black"><AddCircleOutlineOutlinedIcon /> Tambah User</Link>
                 </div>
             </div>
-            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8'>
-                <div className="group bg-white rounded-lg border">
-                    <div className="flex justify-end dropdown px-2">
-                        <div tabIndex={0} role="button"><MoreHorizIcon /></div>
-                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
-                            <li><button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Detail User</button></li>
-                            <li><button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300"><DeleteOutlineOutlinedIcon /> Delete User</button></li>
-                        </ul>
-                    </div>
-                    <Image src={profile} alt='profile' className='size-[150px] rounded-full mx-auto object-cover object-top' />
-                    <div className="flex flex-col items-center p-5 space-y-2">
-                        <h3 className="text-xl font-medium text-gray-900">John Doe</h3>
-                        <span className="whitespace-nowrap rounded-full bg-gray-100 px-10 py-0.5 text-xs text-black text-center">
-                            Staff
-                        </span>
-                        <p className='text-xs font-medium flex justify-between w-full'>NIP <span>00123123806792</span></p>
-                        <p className='text-xs font-medium flex justify-between w-full'>Alamat <span>Padang</span></p>
-                        <p className='text-xs font-medium flex justify-between w-full'>Jenis Kelamin <span>Pria</span></p>
-                        <p className='text-xs font-medium flex justify-between w-full'>Nomor HP <span>081277948899</span></p>
-                    </div>
-                </div>
+            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8'>
+                <GridUser />
             </div>
         </>
     )

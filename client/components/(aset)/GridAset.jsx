@@ -1,12 +1,10 @@
 "use client"
 
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import CardAset from './CardAset'
 import SkeletonLoading from '../(global)/SkeletonLoading'
-import axios from '@/libs/axios'
 import { useFetchAset } from '@/hooks/aset/useFetchAset'
-import { toast, Toaster } from 'sonner'
+import { toast } from 'sonner'
 
 
 const GridAset = () => {

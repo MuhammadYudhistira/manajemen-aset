@@ -18,6 +18,7 @@ const getAssetByid = async (id) => {
 };
 
 const createAsset = async (newAssetData) => {
+  newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
   const asset = await insertAsset(newAssetData);
   return asset;
 };
