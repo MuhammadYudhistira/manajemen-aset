@@ -14,15 +14,17 @@ const {
   updateDetailAset,
   removeDetailAset,
 } = require("../detail_aset/detail_aset.controller");
+const { response } = require("../response/response");
+const { responseError } = require("../response/responseError");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
     const listAssets = await getAllAssets();
-    res.json(listAssets);
+    response(200, listAssets, "Berhasil mengambil data", res);
   } catch (error) {
-    res.status(500).send(error.message);
+    responseError(500, "Terjadi kesalahan coba lagi nanti", res);
   }
 });
 

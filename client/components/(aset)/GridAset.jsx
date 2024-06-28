@@ -1,21 +1,17 @@
 "use client"
 
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import React from 'react'
 import CardAset from './CardAset'
-import { Card, Skeleton } from '@nextui-org/react'
 import SkeletonLoading from '../(global)/SkeletonLoading'
+import axios from '@/libs/axios'
+import { useFetchAset } from '@/hooks/aset/useFetchAset'
+import { toast, Toaster } from 'sonner'
+
 
 const GridAset = () => {
 
-    const { data: asets, isLoading, error } = useQuery({
-        queryFn: async () => {
-            const response = await axios.get("http://localhost:2000/api/aset")
-            return response.data
-        },
-        queryKey: ["asets"]
-    })
+    const { data: asets, isLoading, isError } = useFetchAset()
 
     const cards = Array.from({ length: 8 });
 
@@ -27,6 +23,10 @@ const GridAset = () => {
                 ))}
             </>
         );
+    }
+
+    if (isError) {
+        toast.error("Server Error Coba lagi nanti")
     }
 
     return (

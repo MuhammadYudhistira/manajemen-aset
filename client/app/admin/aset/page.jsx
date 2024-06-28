@@ -4,7 +4,6 @@ import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import Link from 'next/link';
 import GridAset from '@/components/(aset)/GridAset';
 
 const page = () => {
