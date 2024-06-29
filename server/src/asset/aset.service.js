@@ -8,13 +8,21 @@ const {
 
 const getAllAssets = async () => {
   const assets = await findAssets();
+  assets.map((asset) => {
+    !asset.image
+      ? (asset.image = null)
+      : (asset.image = `https://storage.googleapis.com/${process.env.BUCKET_NAME}/${asset.image}`);
+  });
   return assets;
 };
 
 const getAssetByid = async (id) => {
-  const assets = await findAssetsById(id);
-  if (!assets) throw new Error("Aset tidak ditemukan");
-  return assets;
+  const asset = await findAssetsById(id);
+  if (!asset) throw new Error("Aset tidak ditemukan");
+  !asset.image
+    ? (asset.image = null)
+    : (asset.image = `https://storage.googleapis.com/${process.env.BUCKET_NAME}/${asset.image}`);
+  return asset;
 };
 
 const createAsset = async (newAssetData) => {

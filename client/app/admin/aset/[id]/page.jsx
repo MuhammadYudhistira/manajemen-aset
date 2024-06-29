@@ -62,7 +62,7 @@ const page = ({ params }) => {
             <div>
               <img
                 alt=""
-                src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                src={data?.image}
                 className="w-full rounded-lg object-cover"
               />
             </div>
