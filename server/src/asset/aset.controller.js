@@ -16,8 +16,15 @@ const {
 } = require("../detail_aset/detail_aset.controller");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
+const { uploadImage } = require("../middleware/uploadGambar");
 
 const router = express.Router();
+
+const uploadAssetImage = uploadImage(
+  "aset-image", // nama folder di bucket
+  1024 * 1024 * 3, // maksimal ukuran file, kalau ini brrti 3MB
+  ["image/png", "image/jpg", "image/jpeg", "image/webp"] //jenis file yang diterima
+);
 
 router.get("/", async (req, res) => {
   try {
@@ -32,19 +39,19 @@ router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const asset = await getAssetByid(id);
-    response(200, asset, "Berhasil mengambil data", res)
+    response(200, asset, "Berhasil mengambil data", res);
   } catch (error) {
-    responseError(404, error.message, res)
+    responseError(404, error.message, res);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", uploadAssetImage, async (req, res) => {
   try {
     const newAssetData = req.body;
     const asset = await createAsset(newAssetData);
-    response(200, asset, "Berhasil menambahkan data", res)
+    response(200, asset, "Berhasil menambahkan data", res);
   } catch (error) {
-    responseError(400, error.message, res)
+    responseError(400, error.message, res);
   }
 });
 
@@ -52,9 +59,9 @@ router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await deleteAssetById(id);
-    response(200, "Berhasil menghapus data", res)
+    response(200, "Berhasil menghapus data", res);
   } catch (error) {
-    responseError(400, error.message, res)
+    responseError(400, error.message, res);
   }
 });
 
@@ -63,9 +70,9 @@ router.patch("/:id", async (req, res) => {
     const id = req.params.id;
     const newAssetData = req.body;
     await editAsetById(id, newAssetData);
-    response(200, newAssetData, "Berhasil mengupdate data", res)
+    response(200, newAssetData, "Berhasil mengupdate data", res);
   } catch (error) {
-    response(400, error.message, res)
+    response(400, error.message, res);
   }
 });
 

@@ -46,6 +46,7 @@ const insertAsset = async (assetData) => {
       harga_satuan: assetData.harga_satuan,
       jumlah_barang: assetData.jumlah_barang,
       nilai_perolehan: assetData.nilai_perolehan,
+      image: assetData.image,
     },
   });
 

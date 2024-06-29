@@ -18,6 +18,13 @@ const getAssetByid = async (id) => {
 };
 
 const createAsset = async (newAssetData) => {
+  newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
+  newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
+  newAssetData.nilai_perolehan = parseInt(
+    newAssetData.jumlah_barang * newAssetData.harga_satuan
+  );
+  newAssetData.image = newAssetData.image[0];
+
   newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
   const asset = await insertAsset(newAssetData);
   return asset;
