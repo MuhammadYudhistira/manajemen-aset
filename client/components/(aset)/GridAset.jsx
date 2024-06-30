@@ -5,6 +5,8 @@ import CardAset from './CardAset'
 import SkeletonLoading from '../(global)/SkeletonLoading'
 import { useFetchAset } from '@/hooks/aset/useFetchAset'
 import { toast } from 'sonner'
+import computer from "@/public/computer.jpg"
+
 
 
 const GridAset = () => {
@@ -31,7 +33,7 @@ const GridAset = () => {
         <>
             {asets?.map((aset) => {
                 return (
-                    <CardAset deskripsi={aset.deskripsi} id={aset.id} image={aset.image}
+                    <CardAset deskripsi={aset.deskripsi} id={aset.id} image={aset.image ? aset.image : computer}
                         nama={aset.nama_barang} ukuran={aset.ukuran} key={aset.id} />
                 )
             })

@@ -5,10 +5,11 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import React from "react";
 import Link from "next/link";
-import SkeletonLoading from "@/components/(global)/SkeletonLoading";
 import moment from "moment";
 import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
 import { Spinner } from "@nextui-org/react";
+import Image from "next/image";
+import computer from "@/public/computer.jpg"
 
 const page = ({ params }) => {
 
@@ -59,10 +60,11 @@ const page = ({ params }) => {
                 </li>
               </ul>
             </div>
-            <div>
-              <img
-                alt=""
-                src={data?.image}
+            <div className="relative w-full">
+              <Image
+                alt={data?.nama_barang}
+                src={data?.image || computer}
+                fill
                 className="w-full rounded-lg object-cover"
               />
             </div>
