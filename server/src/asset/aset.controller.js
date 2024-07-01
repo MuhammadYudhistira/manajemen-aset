@@ -6,6 +6,7 @@ const {
   createAsset,
   deleteAssetById,
   editAsetById,
+  countAset,
 } = require("./aset.service");
 const {
   getListDetailAset,
@@ -29,7 +30,12 @@ const uploadAssetImage = uploadImage(
 router.get("/", async (req, res) => {
   try {
     const listAssets = await getAllAssets();
-    response(200, listAssets, "Berhasil mengambil data", res);
+    const count = await countAset();
+    const data = {
+      count,
+      listAssets,
+    };
+    response(200, data, "Berhasil mengambil data", res);
   } catch (error) {
     responseError(500, error.message, res);
   }
@@ -59,8 +65,9 @@ router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await deleteAssetById(id);
-    response(200, "Berhasil menghapus data", res);
+    response(200, null, "Berhasil menghapus data", res);
   } catch (error) {
+    console.log(error);
     responseError(400, error.message, res);
   }
 });

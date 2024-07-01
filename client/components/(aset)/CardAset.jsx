@@ -11,8 +11,9 @@ const CardAset = ({ id, image, nama, deskripsi, ukuran }) => {
                     alt={nama}
                     src={image}
                     fill
-                    className="rounded-t-lg object-cover"
-                    sizes="100vw"
+                    className="rounded-t-lg object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
                 />
             </div>
             <div className="p-4">

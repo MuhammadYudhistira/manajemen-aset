@@ -4,6 +4,8 @@ const {
   insertAsset,
   deleteAsset,
   editAsset,
+  countAssetStatus,
+  countAsset,
 } = require("./aset.repository");
 
 const getAllAssets = async () => {
@@ -50,10 +52,26 @@ const deleteAssetById = async (id) => {
   return asset;
 };
 
+const countAset = async () => {
+  const all = await countAsset();
+  const available = await countAssetStatus("Available");
+  const inactive = await countAssetStatus("Inactive");
+  const repairing = await countAssetStatus("Under_Maintenance");
+
+  const count = {
+    all,
+    available,
+    inactive,
+    repairing,
+  };
+  return count;
+};
+
 module.exports = {
   getAllAssets,
   getAssetByid,
   createAsset,
   editAsetById,
   deleteAssetById,
+  countAset,
 };

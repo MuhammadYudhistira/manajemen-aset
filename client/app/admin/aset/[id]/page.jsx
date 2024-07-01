@@ -3,30 +3,81 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import React from "react";
 import Link from "next/link";
 import moment from "moment";
 import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
-import { Spinner } from "@nextui-org/react";
+import { Spinner, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import computer from "@/public/computer.jpg"
+import { useDeleteAset } from "@/hooks/aset/useDeleteAset";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 const page = ({ params }) => {
 
   const { data, isLoading } = useFetchDetailAset(params.id)
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleClick = () => {
+    deleteAset(params.id)
+  }
+
+  const { mutate: deleteAset, isSuccess } = useDeleteAset({
+    onSuccess: () => {
+      toast.info("Berhasil menghapus aset")
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message)
+    }
+  })
+
+  if (isSuccess) {
+    redirect("/admin/aset")
+  }
 
   return (
     <>
       <div className="hidden sm:flex md:flex-row justify-end items-center gap-5 mt-8">
-        <button className="btn bg-white text-black">
+        <Link href={`/admin/aset/${params.id}/create`} className="btn bg-white text-black">
           <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-        </button>
+        </Link>
         <button className="btn bg-white text-black">
           <EditOutlinedIcon /> Edit Aset
         </button>
-        <button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
+        <Button onPress={onOpen} className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
           <DeleteOutlineOutlinedIcon /> Delete Aset
-        </button>
+        </Button>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} size="xl">
+          <ModalContent className="p-5">
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-row gap-1 text-red-500">
+                  <WarningAmberOutlinedIcon />
+                  <p>Warning</p>
+                </ModalHeader>
+                <ModalBody>
+                  <p>
+                    Apakah anda yakin akan menghapus aset ini??
+                  </p>
+                  <p className="text-xs first-letter:text-red-500">
+                    * jika menghapus aset ini, maka detail aset juga akan dihapus!!
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button className="bg-red-500 text-white" onClick={handleClick} onPress={onClose}>
+                    Action
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
       <div className="mt-4 p-5 bg-white rounded-xl grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         {isLoading ? (
@@ -44,9 +95,9 @@ const page = ({ params }) => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-72 space-y-2"
               >
                 <li>
-                  <button className="btn bg-white text-black">
+                  <Link href={`/admin/aset/${params.id}/create`} className="btn bg-white text-black">
                     <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-                  </button>
+                  </Link>
                 </li>
                 <li>
                   <button className="btn bg-white text-black">
@@ -54,18 +105,21 @@ const page = ({ params }) => {
                   </button>
                 </li>
                 <li>
-                  <button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
+                  <Button onPress={onOpen} className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
                     <DeleteOutlineOutlinedIcon /> Delete Aset
-                  </button>
+                  </Button>
                 </li>
               </ul>
             </div>
-            <div className="relative w-full">
+            <div className="w-full">
               <Image
                 alt={data?.nama_barang}
                 src={data?.image || computer}
-                fill
-                className="w-full rounded-lg object-cover"
+                layout="responsive"
+                priority
+                width={4}
+                height={3}
+                className="rounded-lg object-cover"
               />
             </div>
             <div className="space-y-2">

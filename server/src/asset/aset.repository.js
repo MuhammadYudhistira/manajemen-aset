@@ -1,7 +1,11 @@
 const prisma = require("../../db/index");
 
 const findAssets = async () => {
-  const assets = await prisma.aset.findMany();
+  const assets = await prisma.aset.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return assets;
 };
 
@@ -82,10 +86,32 @@ const editAsset = async (id, assetData) => {
   return asset;
 };
 
+const countAsset = async () => {
+  const assets = await prisma.detail_Aset.count();
+  return assets;
+};
+
+const countAssetStatus = async (status) => {
+  const assets = await prisma.aset.count({
+    where: {
+      Detail_Aset: {
+        some: {
+          status: {
+            equals: status,
+          },
+        },
+      },
+    },
+  });
+  return assets;
+};
+
 module.exports = {
   findAssets,
   findAssetsById,
   insertAsset,
   deleteAsset,
   editAsset,
+  countAsset,
+  countAssetStatus,
 };

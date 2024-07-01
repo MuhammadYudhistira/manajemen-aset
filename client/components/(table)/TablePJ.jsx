@@ -62,7 +62,7 @@ const TablePJ = () => {
             accessorKey: 'created_at',
         },
         columnHelper.accessor('pj', {
-            cell: url => <Image src={url.getValue()} alt="" className="size-10 rounded-full object-cover" />,
+            cell: url => <Image src={url.getValue()} alt="" className="size-4 md:size-8  rounded-full object-cover" />,
             header: "PJ"
         })
     ]

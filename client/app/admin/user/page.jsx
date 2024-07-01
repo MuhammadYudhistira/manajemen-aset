@@ -71,7 +71,7 @@ const page = () => {
                     <Link href={"/admin/user/create"} className="btn bg-white text-black"><AddCircleOutlineOutlinedIcon /> Tambah User</Link>
                 </div>
             </div>
-            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8'>
+            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4'>
                 <GridUser />
             </div>
         </>

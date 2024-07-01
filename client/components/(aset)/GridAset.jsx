@@ -31,7 +31,7 @@ const GridAset = () => {
 
     return (
         <>
-            {asets?.map((aset) => {
+            {asets.listAssets?.map((aset) => {
                 return (
                     <CardAset deskripsi={aset.deskripsi} id={aset.id} image={aset.image ? aset.image : computer}
                         nama={aset.nama_barang} ukuran={aset.ukuran} key={aset.id} />
