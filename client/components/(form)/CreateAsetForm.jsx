@@ -4,12 +4,11 @@ import { DatePicker, Spinner } from '@nextui-org/react'
 import { parseDate } from '@internationalized/date'
 import Dropzone from '../(input)/Dropzone'
 import { useFormik } from 'formik'
-import * as Yup from 'yup';
 import { toast } from 'sonner'
 import { redirect } from 'next/navigation';
 import { useCreateAset } from '@/hooks/aset/useCreateAset'
 
-const AsetForm = () => {
+const CreateAsetForm = () => {
 
     const [image, setImage] = useState([]);
     const [date, setDate] = useState()
@@ -119,4 +118,4 @@ const AsetForm = () => {
     )
 }
 
-export default AsetForm
+export default CreateAsetForm

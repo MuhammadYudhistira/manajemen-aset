@@ -72,14 +72,16 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", uploadAssetImage, async (req, res) => {
   try {
     const id = req.params.id;
     const newAssetData = req.body;
+    console.log("🚀 ~ router.patch ~ newAssetData:", newAssetData);
     await editAsetById(id, newAssetData);
     response(200, newAssetData, "Berhasil mengupdate data", res);
   } catch (error) {
-    response(400, error.message, res);
+    console.log(error);
+    responseError(400, error.message, res);
   }
 });
 

@@ -1,12 +1,12 @@
-import CreateAsetForm from '@/components/(form)/CreateAsetForm'
+import EditAsetForm from '@/components/(form)/EditAsetForm'
 import React from 'react'
 
-const page = () => {
+const page = ({ params }) => {
 
     return (
         <>
             <div className='p-5 bg-white rounded-xl'>
-                <CreateAsetForm />
+                <EditAsetForm id={params.id} />
             </div>
         </>
     )

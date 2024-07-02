@@ -5,7 +5,7 @@ const Header = () => {
 
 
     return (
-        <header className='w-[95%] mt-2 bg-white mx-auto sticky top-0 rounded-xl border'>
+        <header className='w-[95%] mt-2 bg-white mx-auto sticky top-0 z-10 rounded-xl border'>
             <div className="navbar bg-white rounded-xl">
                 <label htmlFor='my-drawer-2' className="btn btn-square btn-ghost lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>

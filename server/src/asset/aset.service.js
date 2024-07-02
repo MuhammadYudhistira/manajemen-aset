@@ -1,3 +1,4 @@
+const { deleteImage } = require("../middleware/uploadGambar");
 const {
   findAssets,
   findAssetsById,
@@ -33,7 +34,11 @@ const createAsset = async (newAssetData) => {
   newAssetData.nilai_perolehan = parseInt(
     newAssetData.jumlah_barang * newAssetData.harga_satuan
   );
-  newAssetData.image = newAssetData.image[0];
+  if (newAssetData.image.length >= 1) {
+    newAssetData.image = newAssetData.image[0];
+  } else {
+    newAssetData.image = null;
+  }
 
   newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
   const asset = await insertAsset(newAssetData);
@@ -42,6 +47,24 @@ const createAsset = async (newAssetData) => {
 
 const editAsetById = async (id, newAssetData) => {
   await getAssetByid(id);
+  if (newAssetData.harga_satuan && newAssetData.jumlah_barang) {
+    newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
+    newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
+    newAssetData.nilai_perolehan = parseInt(
+      newAssetData.jumlah_barang * newAssetData.harga_satuan
+    );
+  }
+
+  if (newAssetData.image.length >= 1) {
+    newAssetData.image = newAssetData.image[0];
+  } else {
+    newAssetData.image = undefined;
+  }
+
+  if (newAssetData.tahun_perolehan) {
+    newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
+  }
+
   const asset = await editAsset(id, newAssetData);
   return asset;
 };

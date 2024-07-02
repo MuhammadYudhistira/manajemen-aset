@@ -54,10 +54,11 @@ const uploadImage = (namaFolder, maxFileSize, allowedMimeTypes) => {
 
       const file = req.files;
       console.log("🚀 ~ multerUpload.array ~ file:", file);
-      if (!file || file.length == 0) {
+      if (!file || file.length === 0 || file === undefined) {
         console.log(`Tidak ada gambar yang diupload!!!`);
-        next();
+        return next();
       }
+
       for (const image of file) {
         const fileName =
           namaFolder + "/" + Date.now().toString() + "_" + image.originalname;
@@ -71,7 +72,6 @@ const uploadImage = (namaFolder, maxFileSize, allowedMimeTypes) => {
         });
 
         blobStream.on("finish", async () => {
-          // const publicUrl = `https://storage.googleapis.com/${process.env.BUCKET_NAME}/${namaFile}`;
           req.body.image.push(fileName);
 
           if (req.body.image.length === file.length) {
@@ -88,4 +88,15 @@ const uploadImage = (namaFolder, maxFileSize, allowedMimeTypes) => {
   return handleUploadGambar;
 };
 
-module.exports = { uploadImage };
+const deleteImage = async (fileName) => {
+  try {
+    const file = bucket.file(fileName);
+    await file.delete();
+    return `File ${fileName} deleted successfully.`;
+  } catch (error) {
+    console.error(error);
+    return error.message;
+  }
+};
+
+module.exports = { uploadImage, deleteImage };

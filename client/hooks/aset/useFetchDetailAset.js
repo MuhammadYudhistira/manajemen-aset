@@ -8,5 +8,6 @@ export const useFetchDetailAset = (id) => {
       return response.data.payload;
     },
     queryKey: ["aset"],
+    initialData: "aset",
   });
 };

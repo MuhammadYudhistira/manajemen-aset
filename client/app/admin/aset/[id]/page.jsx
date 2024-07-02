@@ -38,15 +38,21 @@ const page = ({ params }) => {
     redirect("/admin/aset")
   }
 
+  if (isLoading) {
+    return (
+      <Spinner />
+    )
+  }
+
   return (
     <>
       <div className="hidden sm:flex md:flex-row justify-end items-center gap-5 mt-8">
         <Link href={`/admin/aset/${params.id}/create`} className="btn bg-white text-black">
           <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
         </Link>
-        <button className="btn bg-white text-black">
+        <Link href={`/admin/aset/${params.id}/edit`} className="btn bg-white text-black">
           <EditOutlinedIcon /> Edit Aset
-        </button>
+        </Link>
         <Button onPress={onOpen} className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
           <DeleteOutlineOutlinedIcon /> Delete Aset
         </Button>
@@ -71,7 +77,7 @@ const page = ({ params }) => {
                     Close
                   </Button>
                   <Button className="bg-red-500 text-white" onClick={handleClick} onPress={onClose}>
-                    Action
+                    Delete
                   </Button>
                 </ModalFooter>
               </>
@@ -100,9 +106,9 @@ const page = ({ params }) => {
                   </Link>
                 </li>
                 <li>
-                  <button className="btn bg-white text-black">
+                  <Link href={`/admin/aset/${params.id}/edit`} className="btn bg-white text-black">
                     <EditOutlinedIcon /> Edit Aset
-                  </button>
+                  </Link>
                 </li>
                 <li>
                   <Button onPress={onOpen} className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
@@ -113,36 +119,40 @@ const page = ({ params }) => {
             </div>
             <div className="w-full">
               <Image
-                alt={data?.nama_barang}
+                alt={data?.nama_barang || "Aset"}
                 src={data?.image || computer}
                 layout="responsive"
                 priority
                 width={4}
                 height={3}
-                className="rounded-lg object-cover"
+                className="max-h-[450px] rounded-lg object-cover object-top"
               />
             </div>
             <div className="space-y-2">
               <h1 className="text-xl lg:text-3xl font-bold uppercase">
-                {data?.nama_barang}
+                {data.nama_barang}
               </h1>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Merk</h3>
-                <p className=" text-gray-400">{data?.merk}</p>
+                <p className=" text-gray-400">{data.merk}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Deskripsi</h3>
+                <p className=" text-gray-400">{data.deskripsi}</p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Tahun Perolehan</h3>
                 <p className=" text-gray-400">
-                  {moment(data?.createdAt).format("DD-MM-YYYY")}
+                  {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
                 </p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Harga Satuan</h3>
-                <p className=" text-gray-400">{data?.harga_satuan}</p>
+                <p className=" text-gray-400">{data.harga_satuan}</p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Jumlah Barang</h3>
-                <p className=" text-gray-400">{data?.jumlah_barang}</p>
+                <p className=" text-gray-400">{data.jumlah_barang}</p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Nilai Perolehan</h3>
@@ -165,7 +175,7 @@ const page = ({ params }) => {
           </div>
         ) : (
           <div className="overflow-x-auto mt-6">
-            {data?.Detail_Aset.length === 0 ? "Belum Ada Detail Aset" :
+            {data?.Detail_Aset?.length === 0 ? "Belum Ada Detail Aset" :
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                 <thead className="text-center md:text-left">
                   <tr>
@@ -186,7 +196,7 @@ const page = ({ params }) => {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {data?.Detail_Aset.map((detail) => {
+                  {data?.Detail_Aset?.map((detail) => {
                     return (
                       <tr key={detail.id}>
                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">

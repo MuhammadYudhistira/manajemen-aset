@@ -74,12 +74,14 @@ const editAsset = async (id, assetData) => {
     },
     data: {
       nama_barang: assetData.nama_barang,
+      deskripsi: assetData.deskripsi,
       merk: assetData.merk,
       tahun_perolehan: assetData.tahun_perolehan,
       ukuran: assetData.ukuran,
       harga_satuan: assetData.harga_satuan,
       jumlah_barang: assetData.jumlah_barang,
       nilai_perolehan: assetData.nilai_perolehan,
+      image: assetData.image,
     },
   });
 
