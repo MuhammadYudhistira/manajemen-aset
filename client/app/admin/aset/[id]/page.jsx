@@ -9,7 +9,7 @@ import Link from "next/link";
 import moment from "moment";
 import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
 import { Spinner, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import computer from "@/public/computer.jpg"
 import { useDeleteAset } from "@/hooks/aset/useDeleteAset";
 import { redirect } from "next/navigation";
@@ -121,11 +121,10 @@ const page = ({ params }) => {
               <Image
                 alt={data?.nama_barang || "Aset"}
                 src={data?.image || computer}
-                layout="responsive"
                 priority
-                width={4}
-                height={3}
-                className="max-h-[450px] rounded-lg object-cover object-top"
+                width={600}
+                height={450}
+                className="max-h-[450px] rounded-lg object-cover"
               />
             </div>
             <div className="space-y-2">

@@ -35,11 +35,41 @@ const insertUser = async (newUserData) => {
     select: {
       nip: true,
       nama: true,
-      profile: true,
+      image: true,
     },
   });
 
   return result;
 };
 
-module.exports = { findUser, findUserById, findUserByNip, insertUser };
+const deleteUserById = async (id) => {
+  const user = await prisma.user.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return user;
+};
+
+const editUserById = async (id, newUserData) => {
+  const user = validate(registerUserValidation, newUserData);
+
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: user,
+  });
+
+  return result;
+};
+
+module.exports = {
+  findUser,
+  findUserById,
+  findUserByNip,
+  insertUser,
+  deleteUserById,
+  editUserById,
+};

@@ -8,6 +8,10 @@ const registerUserValidation = Joi.object({
   jenis_kelamin: Joi.string().valid("Pria", "Wanita"),
   alamat: Joi.string(),
   no_hp: Joi.string().max(18),
+  image: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.optional()
+  ),
   role: Joi.string()
     .valid("ADMIN", "SEKWAN", "KEPALA_BAGIAN", "STAFF", "GUEST")
     .required(),

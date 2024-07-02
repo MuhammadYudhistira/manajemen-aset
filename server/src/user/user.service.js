@@ -3,6 +3,8 @@ const {
   findUserById,
   insertUser,
   findUserByNip,
+  deleteUserById,
+  editUserById,
 } = require("./user.repository");
 
 const bcrypt = require("bcrypt");
@@ -26,9 +28,37 @@ const countUser = async (nip) => {
 
 const createUser = async (newUserData) => {
   await countUser(newUserData.nip);
+  if (newUserData.image.length >= 1) {
+    newUserData.image = newUserData.image[0];
+  } else {
+    newUserData.image = null;
+  }
   newUserData.password = await bcrypt.hash(newUserData.password, 10);
   const user = await insertUser(newUserData);
   return user;
 };
 
-module.exports = { getUser, getDetailUser, createUser };
+const deleteUser = async (id) => {
+  await getDetailUser(id);
+  const user = await deleteUserById(id);
+  return user;
+};
+
+const editUser = async (id, newUserData) => {
+  const oldData = await getDetailUser(id);
+  if (newUserData.nip !== oldData.nip) {
+    await countUser(newUserData.nip);
+  }
+  if (newUserData.image.length >= 1) {
+    newUserData.image = newUserData.image[0];
+  } else {
+    newUserData.image = null;
+  }
+  if (newUserData.password) {
+    newUserData.password = await bcrypt.hash(newUserData.password, 10);
+  }
+  const user = await editUserById(id, newUserData);
+  return user;
+};
+
+module.exports = { getUser, getDetailUser, createUser, deleteUser, editUser };

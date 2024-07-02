@@ -1,30 +1,34 @@
 "use client"
-import axios from '@/libs/axios'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import CardUser from './CardUser'
+import SkeletonLoading from '../(global)/SkeletonLoading'
+import { useFetchUser } from '@/hooks/user/useFetchUser'
 
 const GridUser = () => {
 
-    const { data: users, isLoading } = useQuery({
-        queryFn: async () => {
-            const response = await axios.get("/user")
+    const { data: users, isLoading } = useFetchUser()
 
-            return response.data.payload
-        },
-        queryKey: ["users"]
-    })
+    console.log(users)
 
-    console.log({ users })
-
+    if (isLoading) {
+        return (
+            <>
+                <SkeletonLoading />
+                <SkeletonLoading />
+                <SkeletonLoading />
+                <SkeletonLoading />
+            </>
+        )
+    }
 
     return (
         <>
             {users?.map((user) => {
                 return (
                     <CardUser key={user.id}
+                        id={user.id}
                         nama={user.nama}
-                        profile={user.profile}
+                        profile={user.image}
                         alamat={user.alamat}
                         jenis_kelamin={user.jenis_kelamin}
                         nip={user.nip}

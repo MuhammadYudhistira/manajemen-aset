@@ -7,7 +7,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import qrcode from "@/public/qrcode.png"
 import profile from "@/public/profile.jpg"
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/libs/axios';

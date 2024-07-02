@@ -46,7 +46,7 @@ const createAsset = async (newAssetData) => {
 };
 
 const editAsetById = async (id, newAssetData) => {
-  await getAssetByid(id);
+  const oldData = await getAssetByid(id);
   if (newAssetData.harga_satuan && newAssetData.jumlah_barang) {
     newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
     newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
@@ -57,6 +57,21 @@ const editAsetById = async (id, newAssetData) => {
 
   if (newAssetData.image.length >= 1) {
     newAssetData.image = newAssetData.image[0];
+    const url = oldData.image;
+    const path = new URL(url).pathname;
+    const results = decodeURIComponent(path.replace("/manajemen-aset/", ""));
+    console.log(results);
+    deleteImage(results)
+      .then(async (result) => {
+        if (result.success) {
+          console.log(`File berhasil dihapus`);
+        } else {
+          console.error(`Gagal menghapus file, sebab: ${result}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Gagal menghapus file, sebab: ${error.message}`);
+      });
   } else {
     newAssetData.image = undefined;
   }

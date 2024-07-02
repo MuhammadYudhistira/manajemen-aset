@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Link from 'next/link'
 import React from 'react'
 
@@ -10,9 +10,8 @@ const CardAset = ({ id, image, nama, deskripsi, ukuran }) => {
                 <Image
                     alt={nama}
                     src={image}
-                    fill
+                    layout="fill"
                     className="rounded-t-lg object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority
                 />
             </div>

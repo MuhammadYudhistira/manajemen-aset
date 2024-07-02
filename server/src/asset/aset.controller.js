@@ -23,7 +23,7 @@ const router = express.Router();
 
 const uploadAssetImage = uploadImage(
   "aset-image", // nama folder di bucket
-  1024 * 1024 * 3, // maksimal ukuran file, kalau ini brrti 3MB
+  1024 * 1024 * 5, // maksimal ukuran file, kalau ini brrti 5MB
   ["image/png", "image/jpg", "image/jpeg", "image/webp"] //jenis file yang diterima
 );
 
@@ -76,7 +76,6 @@ router.patch("/:id", uploadAssetImage, async (req, res) => {
   try {
     const id = req.params.id;
     const newAssetData = req.body;
-    console.log("🚀 ~ router.patch ~ newAssetData:", newAssetData);
     await editAsetById(id, newAssetData);
     response(200, newAssetData, "Berhasil mengupdate data", res);
   } catch (error) {

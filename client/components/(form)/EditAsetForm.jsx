@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { toast } from 'sonner'
 import { redirect } from 'next/navigation';
 import { useFetchDetailAset } from '@/hooks/aset/useFetchDetailAset'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import { useEditAset } from '@/hooks/aset/useEditAset'
 import moment from 'moment'
 
@@ -145,7 +145,7 @@ const EditAsetForm = ({ id }) => {
                 ) : null}
 
             </div>
-            <Dropzone files={image} setFiles={setImage} maxFiles={1} accept={fileAccept} />
+            <Dropzone files={image} setFiles={setImage} maxFiles={1} accept={fileAccept} maxSize={1024 * 1024 * 5} />
             <div className="flex justify-end">
                 <button type='submit' className="btn mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">{isPending ? <Spinner /> : "Edit Aset"}</button>
             </div>

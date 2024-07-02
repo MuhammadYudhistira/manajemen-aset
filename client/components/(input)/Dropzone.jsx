@@ -1,5 +1,5 @@
 "use client"
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
@@ -52,10 +52,11 @@ const Dropzone = ({ files, setFiles, maxFiles, accept, maxSize = 1024 * 1024 * 5
             {files?.length ? <h1>Accepted Files</h1> : null}
             <ul className='mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10'>
                 {files?.map((file, index) => (
-                    <li key={index} className='relative h-32 rounded-md shadow-lg'>
+                    <li key={index} className='relative p-5 rounded-md shadow-lg'>
                         <Image
                             src={file.preview}
                             alt={file.name}
+                            layout="responsive"
                             width={100}
                             height={100}
                             className='h-full w-full object-contain rounded-md' />

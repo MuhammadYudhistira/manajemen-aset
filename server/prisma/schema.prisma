@@ -53,7 +53,7 @@ model User {
   nip               String              @unique @db.VarChar(18)
   nama              String              @db.VarChar(100)
   password          String
-  profile           String?
+  image             String?
   jenis_kelamin     Jenis_Kelamin
   alamat            String?
   no_hp             String?             @db.VarChar(18)
@@ -79,10 +79,10 @@ model Ruangan {
 model Aset {
   id              String        @id @default(uuid())
   nama_barang     String        @db.VarChar(100)
-  deskripsi       String
+  deskripsi       String        @db.LongText
   merk            String?       @db.VarChar(100)
   tahun_perolehan DateTime
-  ukuran          String?       @db.VarChar(100)
+  ukuran          String?       @db.LongText
   harga_satuan    Int
   jumlah_barang   Int
   nilai_perolehan Int
