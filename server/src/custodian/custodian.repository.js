@@ -20,8 +20,9 @@ const findCustodians = async () => {
       },
       user:{
         select:{
+          id:true,
           nama:true,
-          profile:true
+          image:true,
         }
       }
     }
