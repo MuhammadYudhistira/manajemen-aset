@@ -122,7 +122,7 @@ const CreateUserForm = () => {
                 </select>
             </label>
             <div className="flex justify-end">
-                <button type='submit' className="btn btn-sm mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">Tambah user</button>
+                <button type='submit' className="btn mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">Tambah user</button>
             </div>
         </form>
     )

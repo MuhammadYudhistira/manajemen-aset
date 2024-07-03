@@ -67,7 +67,7 @@ const editUser = async (id, newUserData) => {
         console.error(`Gagal menghapus file, sebab: ${error.message}`);
       });
   } else {
-    newUserData.image = null;
+    newUserData.image = undefined;
   }
   if (newUserData.password) {
     newUserData.password = await bcrypt.hash(newUserData.password, 10);

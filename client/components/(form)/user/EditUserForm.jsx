@@ -6,6 +6,7 @@ import { Spinner } from '@nextui-org/react';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
@@ -62,13 +63,16 @@ const EditUserForm = ({ id }) => {
         }
 
     })
-
     const handleFormInput = (event) => {
         formik.setFieldValue(event.target.name, event.target.value);
     };
 
     if (isLoading) {
         return <Spinner />
+    }
+
+    if (isSuccess) {
+        redirect("/admin/user")
     }
 
     return (
@@ -142,7 +146,7 @@ const EditUserForm = ({ id }) => {
                 </select>
             </label>
             <div className="flex justify-end">
-                <button type='submit' className="btn btn-sm mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">Edit user</button>
+                <button type='submit' className="btn mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">{isPending ? <Spinner /> : "Edit User"}</button>
             </div>
         </form>
     )
