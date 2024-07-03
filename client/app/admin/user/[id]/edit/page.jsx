@@ -1,8 +1,11 @@
+import EditUserForm from '@/components/(form)/user/EditUserForm'
 import React from 'react'
 
-const page = () => {
+const page = ({ params }) => {
     return (
-        <div>page</div>
+        <div className='p-5 bg-white rounded-xl'>
+            <EditUserForm id={params.id} />
+        </div>
     )
 }
 

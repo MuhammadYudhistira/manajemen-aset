@@ -17,9 +17,30 @@ const registerUserValidation = Joi.object({
     .required(),
 });
 
+const updateUserValidation = Joi.object({
+  nip: Joi.string().max(18).allow(null),
+  nama: Joi.string().max(100).optional(),
+  password: Joi.string().max(100).optional(),
+  profile: Joi.string().optional(),
+  jenis_kelamin: Joi.string().valid("Pria", "Wanita"),
+  alamat: Joi.string(),
+  no_hp: Joi.string().max(18),
+  image: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.optional()
+  ),
+  role: Joi.string()
+    .valid("ADMIN", "SEKWAN", "KEPALA_BAGIAN", "STAFF", "GUEST")
+    .optional(),
+});
+
 const loginValidation = Joi.object({
   nip: Joi.string().max(18).required(),
   password: Joi.string().max(100).required(),
 });
 
-module.exports = { registerUserValidation, loginValidation };
+module.exports = {
+  registerUserValidation,
+  loginValidation,
+  updateUserValidation,
+};

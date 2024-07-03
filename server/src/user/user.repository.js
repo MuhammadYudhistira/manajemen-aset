@@ -1,5 +1,8 @@
 const prisma = require("../../db/index");
-const { registerUserValidation } = require("../validation/user-validation");
+const {
+  registerUserValidation,
+  updateUserValidation,
+} = require("../validation/user-validation");
 const { validate } = require("../validation/validation");
 
 const findUser = async () => {
@@ -53,8 +56,7 @@ const deleteUserById = async (id) => {
 };
 
 const editUserById = async (id, newUserData) => {
-  const user = validate(registerUserValidation, newUserData);
-
+  const user = validate(updateUserValidation, newUserData);
   const result = await prisma.user.update({
     where: {
       id: id,

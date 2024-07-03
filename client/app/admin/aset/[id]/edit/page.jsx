@@ -4,11 +4,9 @@ import React from 'react'
 const page = ({ params }) => {
 
     return (
-        <>
-            <div className='p-5 bg-white rounded-xl'>
-                <EditAsetForm id={params.id} />
-            </div>
-        </>
+        <div className='p-5 bg-white rounded-xl'>
+            <EditAsetForm id={params.id} />
+        </div>
     )
 }
 

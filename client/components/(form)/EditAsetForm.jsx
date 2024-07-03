@@ -143,7 +143,6 @@ const EditAsetForm = ({ id }) => {
                         />
                     </div>
                 ) : null}
-
             </div>
             <Dropzone files={image} setFiles={setImage} maxFiles={1} accept={fileAccept} maxSize={1024 * 1024 * 5} />
             <div className="flex justify-end">

@@ -1,3 +1,4 @@
+const { deleteImage } = require("../middleware/uploadGambar");
 const {
   findUser,
   findUserById,
@@ -46,11 +47,25 @@ const deleteUser = async (id) => {
 
 const editUser = async (id, newUserData) => {
   const oldData = await getDetailUser(id);
-  if (newUserData.nip !== oldData.nip) {
+  if (newUserData.nip !== oldData.nip && newUserData.nip) {
     await countUser(newUserData.nip);
   }
   if (newUserData.image.length >= 1) {
     newUserData.image = newUserData.image[0];
+    const url = oldData.image;
+    console.log({ url });
+    deleteImage(url)
+      .then(async (result) => {
+        console.log(result);
+        if (result.success) {
+          console.log(`File berhasil dihapus`);
+        } else {
+          console.error(`Gagal menghapus file, sebab: ${result}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Gagal menghapus file, sebab: ${error.message}`);
+      });
   } else {
     newUserData.image = null;
   }
