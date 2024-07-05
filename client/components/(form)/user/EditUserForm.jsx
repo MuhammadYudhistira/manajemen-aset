@@ -1,5 +1,6 @@
 "use client"
 import Dropzone from '@/components/(input)/Dropzone';
+import { useEditUser } from '@/hooks/user/useEditUser';
 import { useFetchDetailUser } from '@/hooks/user/useFetchDetailUser';
 import axios from '@/libs/axios';
 import { Spinner } from '@nextui-org/react';
@@ -12,15 +13,7 @@ import { toast } from 'sonner';
 
 const EditUserForm = ({ id }) => {
     const { data: user, isLoading } = useFetchDetailUser(id)
-    const { mutate: editUser, isPending, isSuccess } = useMutation({
-        mutationFn: async ({ id, body }) => {
-            const response = await axios.patch(`/user/${id}`, body, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            return response
-        },
+    const { mutate: editUser, isPending, isSuccess } = useEditUser({
         onSuccess: () => {
             toast.success("Berhasil mengupdate data user")
         },
@@ -45,7 +38,6 @@ const EditUserForm = ({ id }) => {
         },
         enableReinitialize: true,
         onSubmit: () => {
-            console.log(formik.values)
             const { nama, alamat, jenis_kelamin, nip, no_hp, password, role } = formik.values
             const formData = new FormData()
             formData.append('nama', nama)

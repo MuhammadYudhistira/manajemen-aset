@@ -8,8 +8,6 @@ const GridUser = () => {
 
     const { data: users, isLoading } = useFetchUser()
 
-    console.log(users)
-
     if (isLoading) {
         return (
             <>
