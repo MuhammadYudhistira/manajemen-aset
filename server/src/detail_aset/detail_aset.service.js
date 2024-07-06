@@ -11,6 +11,8 @@ const {
   editDetailAsetById,
   deleteDetailAsetById,
   findDetailAsetByKodeBarang,
+  insertDetailAsetImage,
+  findAllDetailAset,
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
@@ -34,7 +36,16 @@ const countDetailAset = async (kode_barang) => {
 const createDetailAset = async (newDetailAsetData) => {
   const data = validate(createDetailAsetValidation, newDetailAsetData);
   await countDetailAset(data.kode_barang);
+
   const detailAset = await insertDetailAset(data);
+
+  const imageData = newDetailAsetData.image.map((img) => ({
+    id_detail_aset: detailAset.id,
+    link: img,
+  }));
+
+  await insertDetailAsetImage(imageData);
+
   return detailAset;
 };
 
@@ -52,10 +63,16 @@ const deleteDetailAset = async (id) => {
   return detailAset;
 };
 
+const listDetailAset = async () => {
+  const detailAset = await findAllDetailAset();
+  return detailAset;
+};
+
 module.exports = {
   getAllDetailAset,
   getDetailAset,
   createDetailAset,
   editDetailAset,
   deleteDetailAset,
+  listDetailAset,
 };

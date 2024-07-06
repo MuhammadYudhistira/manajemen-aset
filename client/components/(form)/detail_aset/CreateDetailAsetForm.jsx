@@ -1,9 +1,13 @@
 "use client"
 import Dropzone from '@/components/(input)/Dropzone'
 import { useFetchRuangan } from '@/hooks/ruangan/useFetchRuangan'
+import axios from '@/libs/axios'
 import { Spinner } from '@nextui-org/react'
+import { useMutation } from '@tanstack/react-query'
 import { useFormik } from 'formik'
+import { redirect } from 'next/navigation'
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 const CreateDetailAsetForm = ({ id }) => {
 
@@ -12,6 +16,21 @@ const CreateDetailAsetForm = ({ id }) => {
     const [image, setImage] = useState([]);
     const fileAccept = { "image/png": [], "image/jpg": [], "image/jpeg": [] }
 
+    const { mutate: createDetailAset, isPending, isSuccess } = useMutation({
+        mutationFn: async ({ id, body }) => {
+            const response = await axios.post(`/aset/${id}/detail-aset`, body)
+            console.log(response)
+            return response
+        },
+        onSuccess: () => {
+            toast.success("Berhasil menambahkan data Detail Aset")
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error(error.response.data.message)
+        }
+    })
+
     const formik = useFormik({
         initialValues: {
             kode_barang: "",
@@ -19,22 +38,33 @@ const CreateDetailAsetForm = ({ id }) => {
             nomor_mesin: "",
             nomor_polisi: "",
             nomor_bpkb: "",
+            keterangan: "",
             id_ruangan: "",
             id_aset: id
         },
         onSubmit: () => {
-            console.log(formik.values)
-            const { id_aset, id_ruangan, kode_barang, nomor_bpkb, nomor_mesin, nomor_polisi, nomor_rangka } = formik.values
-            // const formData = new FormData()
-            // formData.append('nama', nama)
-            // formData.append('alamat', alamat)
-            // formData.append('jenis_kelamin', jenis_kelamin)
-            // formData.append('nip', nip)
-            // formData.append('no_hp', no_hp)
-            // formData.append('password', password)
-            // formData.append('role', role)
-            // for (let i = 0; i < image.length; i++) {
-            //     formData.append('image', image[i]);
+            const { id_aset, id_ruangan, kode_barang, nomor_bpkb, nomor_mesin, nomor_polisi, nomor_rangka, keterangan } = formik.values
+            const formData = new FormData()
+            formData.append('id_aset', id_aset)
+            formData.append('id_ruangan', id_ruangan)
+            formData.append('kode_barang', kode_barang)
+            formData.append('nomor_bpkb', nomor_bpkb)
+            formData.append('nomor_mesin', nomor_mesin)
+            formData.append('nomor_polisi', nomor_polisi)
+            formData.append('nomor_rangka', nomor_rangka)
+            formData.append('keterangan', keterangan)
+            for (let i = 0; i < image.length; i++) {
+                formData.append(`image`, image[i]);
+            }
+            createDetailAset({ id, body: formData })
+            //Melihat isi formData
+            // for (let pair of formData.entries()) {
+            //     // Jika pair[1] adalah objek File, tampilkan nama filenya
+            //     if (pair[1] instanceof File) {
+            //         console.log(pair[0] + ': ' + pair[1].name);
+            //     } else {
+            //         console.log(pair[0] + ': ' + pair[1]);
+            //     }
             // }
         }
 
@@ -46,6 +76,10 @@ const CreateDetailAsetForm = ({ id }) => {
             formik.setFieldValue(event.target.name, `1.3.2.${event.target.value}`)
         }
     };
+
+    if (isSuccess) {
+        redirect(`/admin/aset/${id}`)
+    }
 
     return (
         <form className='w-full space-y-2' onSubmit={formik.handleSubmit}>
@@ -63,25 +97,25 @@ const CreateDetailAsetForm = ({ id }) => {
                     <div className="label">
                         <span className="label-text">Nomor Rangka</span>
                     </div>
-                    <input type="text" placeholder="Nomor Rangka" name='nomor_rangka' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" required />
+                    <input type="text" placeholder="Nomor Rangka" name='nomor_rangka' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" />
                 </label>
                 <label className="form-control w-full">
                     <div className="label">
                         <span className="label-text">Nomor Mesin</span>
                     </div>
-                    <input type="text" placeholder="Nomor Mesin" name='nomor_mesin' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" required />
+                    <input type="text" placeholder="Nomor Mesin" name='nomor_mesin' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" />
                 </label>
                 <label className="form-control w-full">
                     <div className="label">
                         <span className="label-text">Nomor Polisi</span>
                     </div>
-                    <input type="text" placeholder="Nomor Polisi" name='nomor_polisi' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" required />
+                    <input type="text" placeholder="Nomor Polisi" name='nomor_polisi' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" />
                 </label>
                 <label className="form-control w-full">
                     <div className="label">
                         <span className="label-text">Nomor BPKB</span>
                     </div>
-                    <input type="text" placeholder="Nomor BPKB" name='nomor_bpkb' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" required />
+                    <input type="text" placeholder="Nomor BPKB" name='nomor_bpkb' onChange={handleFormInput} className="input bg-blue-50 text-black text-sm" />
                 </label>
                 <label className="form-control w-full">
                     <div className="label">
@@ -97,6 +131,12 @@ const CreateDetailAsetForm = ({ id }) => {
                     </select>
                 </label>
             </div>
+            <label className="form-control w-full">
+                <div className="label">
+                    <span className="label-text">Keterangan</span>
+                </div>
+                <textarea type="text" placeholder="Keterangan" name='keterangan' onChange={handleFormInput} className="input textarea bg-blue-50 text-black text-sm" />
+            </label>
             <div className="label">
                 <span className="label-text">Gambar Barang</span>
             </div>

@@ -40,7 +40,21 @@ const createUser = async (newUserData) => {
 };
 
 const deleteUser = async (id) => {
-  await getDetailUser(id);
+  const oldData = await getDetailUser(id);
+  const url = oldData.image;
+  console.log({ url });
+  deleteImage(url)
+    .then(async (result) => {
+      console.log(result);
+      if (result.success) {
+        console.log(`File berhasil dihapus`);
+      } else {
+        console.error(`Gagal menghapus file, sebab: ${result}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Gagal menghapus file, sebab: ${error.message}`);
+    });
   const user = await deleteUserById(id);
   return user;
 };

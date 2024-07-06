@@ -15,6 +15,11 @@ const findDetailAset = async (id) => {
           harga_satuan: true,
         },
       },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
       ruangan: {
         select: {
           nama_ruangan: true,
@@ -25,6 +30,7 @@ const findDetailAset = async (id) => {
           user: {
             select: {
               nama: true,
+              image: true,
             },
           },
         },
@@ -55,6 +61,11 @@ const findDetailAsetById = async (idDetail) => {
           harga_satuan: true,
         },
       },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
       ruangan: {
         select: {
           nama_ruangan: true,
@@ -69,6 +80,7 @@ const findDetailAsetById = async (idDetail) => {
               no_hp: true,
               alamat: true,
               role: true,
+              image: true,
             },
           },
         },
@@ -102,6 +114,7 @@ const insertDetailAset = async (newDetailAsetData) => {
       nomor_polisi: newDetailAsetData.nomor_polisi,
       id_aset: newDetailAsetData.id_aset,
       id_ruangan: newDetailAsetData.id_ruangan,
+      keterangan: newDetailAsetData.keterangan,
     },
   });
 
@@ -137,6 +150,31 @@ const deleteDetailAsetById = async (id) => {
   return detailAset;
 };
 
+const insertDetailAsetImage = async (data) => {
+  const DAImage = prisma.detail_Aset_Images.createMany({
+    data,
+  });
+
+  return DAImage;
+};
+
+const findAllDetailAset = async () => {
+  const detailAset = await prisma.detail_Aset.findMany({
+    orderBy: {
+      kode_barang: "asc",
+    },
+    include: {
+      aset: {
+        select: {
+          nama_barang: true,
+        },
+      },
+    },
+  });
+
+  return detailAset;
+};
+
 module.exports = {
   findDetailAset,
   findDetailAsetById,
@@ -144,4 +182,6 @@ module.exports = {
   editDetailAsetById,
   deleteDetailAsetById,
   findDetailAsetByKodeBarang,
+  insertDetailAsetImage,
+  findAllDetailAset,
 };

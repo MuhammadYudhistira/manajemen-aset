@@ -4,27 +4,19 @@ import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlin
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
 import qrcode from "@/public/qrcode.png"
-import profile from "@/public/profile.jpg"
 import Image from "next/legacy/image";
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import axios from '@/libs/axios';
-import moment from 'moment';
-import 'moment/locale/id';
+import { useFetchDA } from '@/hooks/detail_aset/useFetchDA';
+import { Spinner } from '@nextui-org/react';
 
 const page = ({ params }) => {
 
-    const { data, isLoading } = useQuery({
-        queryFn: async () => {
-            const response = await axios.get(`/aset/${params.id}/detail-aset/${params.iddetail}`)
+    const { data, isLoading } = useFetchDA(params.id, params.iddetail)
 
-            console.log(response)
-            return response.data.payload
-        }
-    })
-
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <>
@@ -46,31 +38,59 @@ const page = ({ params }) => {
                             <li><button className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300"><DeleteOutlineOutlinedIcon /> Delete Aset</button></li>
                         </ul>
                     </div>
-                    <div className='flex flex-col md:flex-row w-full gap-4'>
-                        <img
+                    <div className='flex flex-row w-full gap-8'>
+                        <Image
                             alt="Aset"
-                            src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1450&q=80"
+                            src={data?.Detail_Aset_Images ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Detail_Aset_Images[0]?.link}` : `${process.env.NEXT_PUBLIC_IMAGE_URL}/${null}`}
+                            width={300}
+                            height={100}
                             className="md:w-2/5 rounded-lg object-cover"
                         />
-                        <h1 className='text-xl font-bold uppercase'>{data?.aset.nama_barang}</h1>
-                    </div>
-                    <div className='flex flex-row justify-between mt-4'>
-                        <div className='space-y-2 w-[50%]'>
+                        <div className='space-y-2'>
+                            <h1 className='text-xl font-bold uppercase'>{data?.aset?.nama_barang}</h1>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Merk</h3>
-                                <p className=' text-gray-400'>{data?.aset.merk}</p>
+                                <p className=' text-gray-400'>{data?.aset?.merk}</p>
                             </div>
                             <div className='space-y-2'>
-                                <h3 className='text-lg font-medium'>Tahun Perolehan</h3>
-                                <p className=' text-gray-400'>{moment(data?.aset.tahun_perolehan).format("LL")}</p>
+                                <h3 className='text-lg font-medium'>Kode Barang</h3>
+                                <p className=' text-gray-400'>{data?.kode_barang}</p>
                             </div>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Ruangan</h3>
-                                <p className=' text-gray-400'>{data?.ruangan.nama_ruangan}</p>
+                                <p className=' text-gray-400'>{data?.ruangan?.nama_ruangan}</p>
                             </div>
                             <div className='space-y-2'>
                                 <h3 className='text-lg font-medium'>Status</h3>
                                 <p className=' text-gray-400'>{data?.status}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='flex flex-row justify-between mt-4'>
+                        <div className='space-y-2 w-[50%]'>
+                            <div className='space-y-2'>
+                                <h3 className='text-lg font-medium'>Nomor Rangka</h3>
+                                {data?.nomor_rangka ? (
+                                    <p className=' text-gray-400'>{data?.nomor_rangka}</p>
+                                ) : "-"}
+                            </div>
+                            <div className='space-y-2'>
+                                <h3 className='text-lg font-medium'>Nomor Mesin</h3>
+                                {data?.nomor_mesin ? (
+                                    <p className=' text-gray-400'>{data?.nomor_mesin}</p>
+                                ) : "-"}
+                            </div>
+                            <div className='space-y-2'>
+                                <h3 className='text-lg font-medium'>Nomor Polisi</h3>
+                                {data?.nomor_polisi ? (
+                                    <p className=' text-gray-400'>{data?.nomor_polisi}</p>
+                                ) : "-"}
+                            </div>
+                            <div className='space-y-2'>
+                                <h3 className='text-lg font-medium'>Nomor bpkb</h3>
+                                {data?.nomor_bpkb ? (
+                                    <p className=' text-gray-400'>{data?.nomor_bpkb}</p>
+                                ) : "-"}
                             </div>
                         </div>
                         <div className='w-[50%]'>
@@ -78,26 +98,28 @@ const page = ({ params }) => {
                                 alt="qrcode"
                                 src={qrcode}
                                 className="w-full rounded-lg object-cover"
+                                priority
                             />
                         </div>
                     </div>
-                    <h3 className='text-lg font-medium'>Notes</h3>
-                    <p className=' text-gray-400'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet nisl purus in mollis. Mi sit amet mauris commodo.
-                        Mi tempus imperdiet nulla malesuada pellentesque elit.
-                        A cras semper auctor neque vitae. </p>
+                    <h3 className='text-lg font-medium mt-4'>Keterangan</h3>
+                    <p className=' text-gray-400'>{data?.keterangan ? data?.keterangan : "-"}</p>
                 </div>
                 <div className="space-y-5">
                     <div className='flex flex-col md:flex-row gap-5 p-5 bg-white rounded-xl '>
-                        <Image src={profile}
-                            className="w-full max-h-[300px] md:max-w-[200px] md:max-h-[200px] rounded-lg object-cover object-top" />
-                        <div className='w-full space-y-2'>
-                            <h2 className='text-lg font-medium'>John Doe</h2>
-                            <p className='flex items-center justify-between text-sm font-medium'><span>NIP</span> 00123123806792 </p>
-                            <p className='flex items-center justify-between text-sm font-medium'><span>Role</span> Staff </p>
-                            <p className='flex items-center justify-between text-sm font-medium'><span>No Hp</span> 2011523003 </p>
-                            <p className='flex items-center justify-between text-sm font-medium'><span>Alamat</span> Padang </p>
-                            <p className='flex items-center justify-between text-sm font-medium'><span>Jenis Kelamin</span> Pria </p>
-                        </div>
+                        {data?.Penanggung_Jawab?.length > 0 ? (
+                            <>
+                                <Image src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Penanggung_Jawab[0]?.image}`} alt='profile' width={200} height={200} className="w-full rounded-lg object-cover object-center" />
+                                <div className='w-full space-y-2'>
+                                    <h2 className='text-lg font-medium'>{data?.Penanggung_Jawab[0]?.nama}</h2>
+                                    <p className='flex items-center justify-between text-sm font-medium'><span>NIP</span> {data?.Penanggung_Jawab[0]?.nip} </p>
+                                    <p className='flex items-center justify-between text-sm font-medium'><span>Role</span> {data?.Penanggung_Jawab[0]?.role} </p>
+                                    <p className='flex items-center justify-between text-sm font-medium'><span>No Hp</span> {data?.Penanggung_Jawab[0]?.no_hp} </p>
+                                    <p className='flex justify-between text-sm font-medium'>Alamat <span className='ml-10 flex-grow text-right'>{data?.Penanggung_Jawab[0]?.alamat} </span></p>
+                                </div>
+                            </>
+                        ) : (<p>Belum ada Penanggung Jawab</p>)}
+
                     </div>
                     <div className='p-5 bg-white rounded-xl space-y-2'>
                         <h2 className='text-lg font-medium'>Riwayat Laporan kerusakan</h2>

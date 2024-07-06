@@ -6,6 +6,7 @@ const {
   createDetailAset,
   editDetailAset,
   deleteDetailAset,
+  listDetailAset,
 } = require("./detail_aset.service");
 
 const getListDetailAset = async (req, res) => {
@@ -31,9 +32,12 @@ const getDetailDetailAset = async (req, res) => {
 const postDetailAset = async (req, res) => {
   try {
     const data = req.body;
+    console.log("🚀 ~ postDetailAset ~ data:", data);
+
     const detailAsset = await createDetailAset(data);
     response(200, detailAsset, "Berhasil Menambahkan Data Detail Aset", res);
   } catch (error) {
+    console.log(error);
     responseError(400, error.message, res);
   }
 };
@@ -61,10 +65,21 @@ const removeDetailAset = async (req, res) => {
   }
 };
 
+const getAllListDetailAset = async (req, res) => {
+  try {
+    const data = await listDetailAset();
+    response(200, data, "Berhasil mengambil data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+};
+
 module.exports = {
   getListDetailAset,
   getDetailDetailAset,
   postDetailAset,
   updateDetailAset,
   removeDetailAset,
+  getAllListDetailAset,
 };

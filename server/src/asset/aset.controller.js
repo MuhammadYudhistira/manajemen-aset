@@ -14,6 +14,7 @@ const {
   postDetailAset,
   updateDetailAset,
   removeDetailAset,
+  getAllListDetailAset,
 } = require("../detail_aset/detail_aset.controller");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -23,6 +24,12 @@ const router = express.Router();
 
 const uploadAssetImage = uploadImage(
   "aset-image", // nama folder di bucket
+  1024 * 1024 * 5, // maksimal ukuran file, kalau ini brrti 5MB
+  ["image/png", "image/jpg", "image/jpeg", "image/webp"] //jenis file yang diterima
+);
+
+const uploadDetailAssetImage = uploadImage(
+  "detailAset-image", // nama folder di bucket
   1024 * 1024 * 5, // maksimal ukuran file, kalau ini brrti 5MB
   ["image/png", "image/jpg", "image/jpeg", "image/webp"] //jenis file yang diterima
 );
@@ -40,6 +47,8 @@ router.get("/", async (req, res) => {
     responseError(500, error.message, res);
   }
 });
+
+router.get("/detail-aset", getAllListDetailAset);
 
 router.get("/:id", async (req, res) => {
   try {
@@ -86,7 +95,7 @@ router.patch("/:id", uploadAssetImage, async (req, res) => {
 
 router.get("/:id/detail-aset", getListDetailAset);
 router.get("/:id/detail-aset/:idDetail", getDetailDetailAset);
-router.post("/:id/detail-aset", postDetailAset);
+router.post("/:id/detail-aset", uploadDetailAssetImage, postDetailAset);
 router.patch("/:id/detail-aset/:idDetail", updateDetailAset);
 router.delete("/:id/detail-aset/:idDetail", removeDetailAset);
 
