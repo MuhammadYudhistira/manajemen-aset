@@ -47,6 +47,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
     onGlobalFilterChange: setFiltering,
   });
 
+  const countPage = table.getPageCount()
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -89,7 +91,11 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {table.getRowModel().rows.map((row, index) => (
+            {countPage === 0 ? <tr>
+              <td></td>
+              <td className="py-4">No data available...</td>
+              <td></td>
+            </tr> : table.getRowModel().rows.map((row, index) => (
               <tr
                 className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
                 key={`${index}_${row.id}`}
@@ -151,9 +157,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.setPageIndex(0)}
-              className={`h-8 px-3 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`h-8 px-3 items-center justify-center rounded border border-gray-100 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               {" "}
               <FirstPageOutlinedIcon className="text-sm" />
@@ -163,9 +168,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               <NavigateBeforeOutlinedIcon className="text-sm" />
             </button>
@@ -189,9 +193,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanNextPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${!table.getCanNextPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               <NavigateNextOutlinedIcon className="text-sm" />
             </button>
@@ -200,9 +203,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               disabled={!table.getCanNextPage()}
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              className={`h-8 px-3 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`h-8 px-3 items-center justify-center rounded border border-gray-100 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               {" "}
               <LastPageOutlinedIcon className="text-sm" />

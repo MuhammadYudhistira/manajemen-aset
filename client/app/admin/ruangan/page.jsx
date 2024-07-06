@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <div className="flex gap-4 mt-8">
-        <div className="flex flex-1 flex-col lg:flex-row gap-4 w-full justify-end">
+        <div className="ml-auto">
           <CreateRuanganForm />
         </div>
       </div>

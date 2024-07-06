@@ -1,8 +1,11 @@
+import CreateDetailAsetForm from '@/components/(form)/detail_aset/CreateDetailAsetForm'
 import React from 'react'
 
-const page = () => {
+const page = ({ params }) => {
     return (
-        <div>page</div>
+        <div className='p-5 bg-white rounded-xl'>
+            <CreateDetailAsetForm id={params.id} />
+        </div>
     )
 }
 

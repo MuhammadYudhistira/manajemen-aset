@@ -1,7 +1,11 @@
 const prisma = require("../../db/index");
 
 const findRuangan = async () => {
-  const listRuangan = await prisma.ruangan.findMany();
+  const listRuangan = await prisma.ruangan.findMany({
+    orderBy: {
+      nama_ruangan: "asc",
+    },
+  });
   return listRuangan;
 };
 

@@ -12,7 +12,7 @@ import GridUser from '@/components/(user)/GridUser';
 const page = () => {
     return (
         <>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-8 mb-7">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-8 mb-7">
                 <article className="flex items-center gap-4 rounded-xl border bg-white p-6">
                     <span className="rounded-full bg-blue-50 p-3">
                         <GroupsOutlinedIcon className='text-3xl' />
@@ -71,7 +71,7 @@ const page = () => {
                     <Link href={"/admin/user/create"} className="btn bg-white text-black"><AddCircleOutlineOutlinedIcon /> Tambah User</Link>
                 </div>
             </div>
-            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4'>
+            <div className='pb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-4 lg:gap-4'>
                 <GridUser />
             </div>
         </>

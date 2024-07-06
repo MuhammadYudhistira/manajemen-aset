@@ -55,7 +55,7 @@ const StatsAset = () => {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 mb-7">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-8 mb-7">
             <article className="flex items-center gap-4 rounded-xl border bg-white p-6">
                 <span className="rounded-full bg-blue-50 p-3">
                     <Inventory2OutlinedIcon />
