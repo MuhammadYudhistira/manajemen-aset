@@ -27,7 +27,6 @@ const page = () => {
                     <span className="rounded-full bg-blue-50 p-3">
                         <AccountBoxOutlinedIcon className='text-3xl' />
                     </span>
-
                     <div>
                         <p className="text-2xl font-medium text-gray-900">1.001</p>
                         <p className="text-sm text-gray-500">Penanggung Jawab</p>

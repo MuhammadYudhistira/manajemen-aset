@@ -15,6 +15,7 @@ const {
   updateDetailAset,
   removeDetailAset,
   getAllListDetailAset,
+  deleteDetailImage,
 } = require("../detail_aset/detail_aset.controller");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -96,7 +97,8 @@ router.patch("/:id", uploadAssetImage, async (req, res) => {
 router.get("/:id/detail-aset", getListDetailAset);
 router.get("/:id/detail-aset/:idDetail", getDetailDetailAset);
 router.post("/:id/detail-aset", uploadDetailAssetImage, postDetailAset);
-router.patch("/:id/detail-aset/:idDetail", updateDetailAset);
+router.patch("/:id/detail-aset/:idDetail", uploadDetailAssetImage, updateDetailAset);
 router.delete("/:id/detail-aset/:idDetail", removeDetailAset);
+router.post("/:id/detail-aset/:idDetail/image", deleteDetailImage);
 
 module.exports = router;

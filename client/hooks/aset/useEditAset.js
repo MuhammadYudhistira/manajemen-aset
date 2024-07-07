@@ -4,8 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 export const useEditAset = ({ onSuccess, onError }) => {
   return useMutation({
     mutationFn: async ({ id, body }) => {
-      console.log({ body });
-      console.log({ id });
       try {
         const response = await axios.patch(`/aset/${id}`, body, {
           headers: {

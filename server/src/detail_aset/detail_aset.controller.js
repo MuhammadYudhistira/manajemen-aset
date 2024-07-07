@@ -7,6 +7,7 @@ const {
   editDetailAset,
   deleteDetailAset,
   listDetailAset,
+  deleteDetailAsetImage,
 } = require("./detail_aset.service");
 
 const getListDetailAset = async (req, res) => {
@@ -75,6 +76,17 @@ const getAllListDetailAset = async (req, res) => {
   }
 };
 
+const deleteDetailImage = async (req, res) => {
+  try {
+    const data = req.body;
+    await deleteDetailAsetImage(data);
+    response(200, data, "Berhasil menghapus gambar", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+};
+
 module.exports = {
   getListDetailAset,
   getDetailDetailAset,
@@ -82,4 +94,5 @@ module.exports = {
   updateDetailAset,
   removeDetailAset,
   getAllListDetailAset,
+  deleteDetailImage,
 };

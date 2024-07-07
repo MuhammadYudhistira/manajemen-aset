@@ -1,5 +1,6 @@
 import React from 'react'
 import HeaderTitle from './HeaderTitle'
+import Link from 'next/link'
 
 const Header = () => {
 
@@ -23,8 +24,8 @@ const Header = () => {
                             </div>
                         </div>
                         <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                            <li><a>Profile</a></li>
-                            <li><a>Logout</a></li>
+                            <li><Link href={"/profile"}>Profile</Link></li>
+                            <li><Link href={"/login"}>Logout</Link></li>
                         </ul>
                     </div>
                 </div>

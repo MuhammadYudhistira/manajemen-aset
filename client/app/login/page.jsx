@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
     return (
-        <section className="bg-white" >
+        <section className="bg-white max-h-[100vh]" >
             <div className="w-full lg:flex lg:min-h-screen">
                 <div className='w-full px-16 py-32 lg:w-[50%] md:px-28 md:py-52 h-screen flex flex-col'>
                     <a className="flex justify-center items-center font-bold text-2xl" href="#">

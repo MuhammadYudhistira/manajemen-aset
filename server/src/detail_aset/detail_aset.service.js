@@ -1,4 +1,5 @@
 const { getAssetByid } = require("../asset/aset.service");
+const { deleteImage } = require("../middleware/uploadGambar");
 const {
   createDetailAsetValidation,
   UpdateDetailAsetValidation,
@@ -13,6 +14,8 @@ const {
   findDetailAsetByKodeBarang,
   insertDetailAsetImage,
   findAllDetailAset,
+  deleteDetailAsetImageById,
+  findDetailAsetImageById,
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
@@ -50,10 +53,21 @@ const createDetailAset = async (newDetailAsetData) => {
 };
 
 const editDetailAset = async (id, newDetailAsetData) => {
-  await getDetailAset(id);
+  const oldData = await getDetailAset(id);
   const data = validate(UpdateDetailAsetValidation, newDetailAsetData);
-  await countDetailAset(data.kode_barang);
+  console.log(data);
+  if (oldData.kode_barang !== data.kode_barang) {
+    await countDetailAset(data.kode_barang);
+  }
   const detailAset = await editDetailAsetById(id, data);
+
+  const imageData = newDetailAsetData.image.map((img) => ({
+    id_detail_aset: detailAset.id,
+    link: img,
+  }));
+
+  await insertDetailAsetImage(imageData);
+
   return detailAset;
 };
 
@@ -68,6 +82,32 @@ const listDetailAset = async () => {
   return detailAset;
 };
 
+const getDetailAsetImage = async (id) => {
+  const idInt = parseInt(id);
+  const exist = await findDetailAsetImageById(idInt);
+  if (!exist) {
+    throw new Error("Tidak ada gambar yang dicari");
+  }
+  return exist;
+};
+
+const deleteDetailAsetImage = async (data) => {
+  if (!data.id || data.id === "") throw new Error("Id kosong");
+
+  await getDetailAsetImage(data.id);
+
+  const image = deleteDetailAsetImageById(data.id);
+
+  try {
+    deleteImage(data.link);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+
+  return image;
+};
+
 module.exports = {
   getAllDetailAset,
   getDetailAset,
@@ -75,4 +115,5 @@ module.exports = {
   editDetailAset,
   deleteDetailAset,
   listDetailAset,
+  deleteDetailAsetImage,
 };

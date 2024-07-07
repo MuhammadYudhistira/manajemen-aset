@@ -63,11 +63,13 @@ const findDetailAsetById = async (idDetail) => {
       },
       Detail_Aset_Images: {
         select: {
+          id: true,
           link: true,
         },
       },
       ruangan: {
         select: {
+          id: true,
           nama_ruangan: true,
         },
       },
@@ -134,6 +136,7 @@ const editDetailAsetById = async (id, newDetailAsetData) => {
       nomor_polisi: newDetailAsetData.nomor_polisi,
       id_aset: newDetailAsetData.id_aset,
       id_ruangan: newDetailAsetData.id_ruangan,
+      keterangan: newDetailAsetData.keterangan,
     },
   });
 
@@ -175,6 +178,25 @@ const findAllDetailAset = async () => {
   return detailAset;
 };
 
+const deleteDetailAsetImageById = async (id) => {
+  const DAImage = prisma.detail_Aset_Images.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return DAImage;
+};
+
+const findDetailAsetImageById = async (id) => {
+  const DAImage = prisma.detail_Aset_Images.findFirst({
+    where: {
+      id: id,
+    },
+  });
+  return DAImage;
+};
+
 module.exports = {
   findDetailAset,
   findDetailAsetById,
@@ -184,4 +206,6 @@ module.exports = {
   findDetailAsetByKodeBarang,
   insertDetailAsetImage,
   findAllDetailAset,
+  deleteDetailAsetImageById,
+  findDetailAsetImageById,
 };

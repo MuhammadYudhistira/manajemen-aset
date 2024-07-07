@@ -1,6 +1,7 @@
 "use client"
 import Dropzone from '@/components/(input)/Dropzone'
 import axios from '@/libs/axios'
+import { Spinner } from '@nextui-org/react'
 import { useMutation } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { redirect } from 'next/navigation'
@@ -122,7 +123,7 @@ const CreateUserForm = () => {
                 </select>
             </label>
             <div className="flex justify-end">
-                <button type='submit' className="btn mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">Tambah user</button>
+                <button type='submit' className="btn mt-4 bg-black text-white hover:bg-white hover:text-black hover:border-black">{isPending ? <Spinner /> : "Tambah user"}</button>
             </div>
         </form>
     )

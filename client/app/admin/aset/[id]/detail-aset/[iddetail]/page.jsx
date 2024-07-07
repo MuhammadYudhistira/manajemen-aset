@@ -22,7 +22,7 @@ const page = ({ params }) => {
         <>
             <div className="hidden sm:flex md:flex-row justify-end items-center gap-5 mt-8">
                 <button className="btn bg-white text-black"><LocalPrintshopOutlinedIcon /> Cetak QR Code</button>
-                <button className="btn bg-white text-black"><EditOutlinedIcon /> Edit Detail Aset</button>
+                <Link href={`/admin/aset/${params.id}/detail-aset/${params.iddetail}/edit`} className="btn bg-white text-black"><EditOutlinedIcon /> Edit Detail Aset</Link>
                 <button
                     className="btn bg-white text-red-500 hover:bg-red-50 hover:border-red-300">
                     <DeleteOutlineOutlinedIcon /> Delete Aset

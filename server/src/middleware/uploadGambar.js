@@ -92,6 +92,7 @@ const deleteImage = async (fileName) => {
   try {
     const file = bucket.file(fileName);
     await file.delete();
+    console.log(`File ${fileName} deleted successfully.`);
     return `File ${fileName} deleted successfully.`;
   } catch (error) {
     console.error(error);
