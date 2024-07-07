@@ -15,6 +15,17 @@ const findUserById = async (id) => {
     where: {
       id: id,
     },
+    include: {
+      Penanggung_Jawab: {
+        select: {
+          detail_aset: {
+            include: {
+              aset: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return user;

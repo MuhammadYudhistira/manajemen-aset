@@ -45,6 +45,8 @@ const TableRuangan = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
 
+  const selectedRuangan = ruangan.find(r => r.id === selectedId);
+
   const data = ruangan;
   const columnHelper = createColumnHelper();
 
@@ -73,13 +75,13 @@ const TableRuangan = () => {
     setSelectedId(id);
   };
 
+
   const formik = useFormik({
     initialValues: {
-      nama_ruangan: "",
+      nama_ruangan: selectedRuangan?.nama_ruangan || "",
     },
+    enableReinitialize: true,
     onSubmit: () => {
-      console.log(formik.values);
-      console.log(selectedId);
       const { nama_ruangan } = formik.values;
       editRuangan({ id: selectedId, body: nama_ruangan });
     },
@@ -118,6 +120,7 @@ const TableRuangan = () => {
                       type="text"
                       placeholder="Nama Ruangan"
                       name="nama_ruangan"
+                      value={formik.values.nama_ruangan}
                       onChange={handleFormInput}
                       className="input bg-blue-50 text-black text-sm"
                       required
