@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers/provider";
 import ReactQueryProvider from "./providers/ReactQueryProvider";
-import { Toaster } from 'sonner'
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 

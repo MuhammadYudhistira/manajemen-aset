@@ -69,7 +69,7 @@ const CreateRuanganForm = () => {
                       placeholder="Nama Ruangan"
                       name="nama_ruangan"
                       onChange={handleFormInput}
-                      className="input bg-blue-50 text-black text-sm"
+                      className="input bg-blue-50 text-sm text-black"
                       required
                     />
                   </label>

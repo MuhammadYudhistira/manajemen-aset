@@ -9,7 +9,7 @@ export const useDeleteDAImage = ({ onError, onSuccess }) => {
         {
           id: body.imageId,
           link: body.link,
-        }
+        },
       );
       return response;
     },

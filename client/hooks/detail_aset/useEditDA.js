@@ -11,7 +11,7 @@ export const useEditDA = ({ onSuccess, onError }) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       return response;
     },

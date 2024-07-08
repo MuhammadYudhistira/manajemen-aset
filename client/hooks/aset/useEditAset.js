@@ -15,7 +15,7 @@ export const useEditAset = ({ onSuccess, onError }) => {
       } catch (error) {
         console.log(error);
         throw new Error(
-          error.response?.data?.message || "Failed to edit asset"
+          error.response?.data?.message || "Failed to edit asset",
         );
       }
     },

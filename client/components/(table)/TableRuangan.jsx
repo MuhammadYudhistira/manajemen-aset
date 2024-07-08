@@ -45,7 +45,7 @@ const TableRuangan = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
 
-  const selectedRuangan = ruangan.find(r => r.id === selectedId);
+  const selectedRuangan = ruangan.find((r) => r.id === selectedId);
 
   const data = ruangan;
   const columnHelper = createColumnHelper();
@@ -63,7 +63,7 @@ const TableRuangan = () => {
 
   const handleDeleteClik = (id) => {
     const confirmation = confirm(
-      "Apakah anda yakin akan menghapus data ruangan?"
+      "Apakah anda yakin akan menghapus data ruangan?",
     );
     if (confirmation) {
       deleteRuangan(id);
@@ -74,7 +74,6 @@ const TableRuangan = () => {
     onOpen();
     setSelectedId(id);
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -122,7 +121,7 @@ const TableRuangan = () => {
                       name="nama_ruangan"
                       value={formik.values.nama_ruangan}
                       onChange={handleFormInput}
-                      className="input bg-blue-50 text-black text-sm"
+                      className="input bg-blue-50 text-sm text-black"
                       required
                     />
                   </label>

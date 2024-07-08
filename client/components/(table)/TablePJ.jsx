@@ -21,31 +21,30 @@ import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import { useEditCustodian } from "@/hooks/penanggung_jawab/useEditCustodian";
 
 const TablePJ = () => {
-
   const { data: penanggungJawab, isLoading, refetch } = useFetchCustodian();
-  const { data: users } = useFetchUser()
-  const { data: asets } = useFetchListDA()
+  const { data: users } = useFetchUser();
+  const { data: asets } = useFetchListDA();
   const { mutate: deletePJ } = useDeleteCustodian({
     onSuccess: () => {
-      toast.info("berhasil menghapus data penanggung jawab")
-      refetch()
+      toast.info("berhasil menghapus data penanggung jawab");
+      refetch();
     },
     onError: (error) => {
-      console.log(error)
-      toast.error(error.response.data.message)
-    }
-  })
+      console.log(error);
+      toast.error(error.response.data.message);
+    },
+  });
 
   const { mutate: editCustodian } = useEditCustodian({
     onSuccess: () => {
-      toast.success("berhasil mengupdate data")
-      refetch()
+      toast.success("berhasil mengupdate data");
+      refetch();
     },
     onError: (error) => {
-      console.log(error)
-      toast.error(error.response.data.message)
-    }
-  })
+      console.log(error);
+      toast.error(error.response.data.message);
+    },
+  });
 
   const columns = [
     {
@@ -53,11 +52,13 @@ const TablePJ = () => {
       accessorKey: "detail_aset.aset.nama_barang",
       cell: (info) => {
         const row = info.row.original;
-        const kode = row?.detail_aset?.kode_barang
+        const kode = row?.detail_aset?.kode_barang;
         return (
-          <p>{info.getValue()} ({kode})</p>
-        )
-      }
+          <p>
+            {info.getValue()} ({kode})
+          </p>
+        );
+      },
     },
     {
       header: "Ruangan",
@@ -78,7 +79,7 @@ const TablePJ = () => {
             <Image
               src={`https://storage.googleapis.com/manajemen-aset/${info.getValue()}`}
               alt=""
-              className="size-4 md:size-10 rounded-full object-cover"
+              className="size-4 rounded-full object-cover md:size-10"
             />
           </Tooltip>
         );
@@ -89,30 +90,30 @@ const TablePJ = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
 
-  const selectedPJ = penanggungJawab.find(pj => pj.id === selectedId);
+  const selectedPJ = penanggungJawab.find((pj) => pj.id === selectedId);
 
   const handleDeleteClik = (id) => {
     const confirmation = confirm(
-      "Apakah anda yakin akan menghapus data Penanggung Jawab?"
+      "Apakah anda yakin akan menghapus data Penanggung Jawab?",
     );
     if (confirmation) {
-      deletePJ(id)
+      deletePJ(id);
     }
   };
 
   const formik = useFormik({
     initialValues: {
       id_user: selectedPJ?.user?.id || "",
-      id_detail_aset: selectedPJ?.detail_aset?.id || ""
+      id_detail_aset: selectedPJ?.detail_aset?.id || "",
     },
     enableReinitialize: true,
     onSubmit: () => {
-      console.log(formik.values)
+      console.log(formik.values);
       const data = {
         id_user: formik.values.id_user,
-        id_detail_aset: formik.values.id_detail_aset
-      }
-      editCustodian({ id: selectedId, body: data })
+        id_detail_aset: formik.values.id_detail_aset,
+      };
+      editCustodian({ id: selectedId, body: data });
     },
   });
 
@@ -127,24 +128,43 @@ const TablePJ = () => {
 
   return (
     <>
-      {isLoading ? <Spinner /> : <BasicTable data={penanggungJawab} columns={columns} handleDeleteClick={handleDeleteClik} handleEditClick={handleEditClick} />}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <BasicTable
+          data={penanggungJawab}
+          columns={columns}
+          handleDeleteClick={handleDeleteClik}
+          handleEditClick={handleEditClick}
+        />
+      )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
         <ModalContent>
           {(onClose) => (
             <>
               <form onSubmit={formik.handleSubmit}>
-                <ModalHeader className="flex flex-col gap-1">Tambah Penanggung Jawab</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">
+                  Tambah Penanggung Jawab
+                </ModalHeader>
                 <ModalBody>
                   <label className="form-control w-full">
                     <div className="label">
                       <span className="label-text">Nama Pengguna</span>
                     </div>
-                    <select className="select bg-blue-50 text-sm" name='id_user' onChange={handleFormInput}>
-                      <option defaultValue={selectedPJ?.user?.id} hidden>{selectedPJ?.user?.nama}</option>
+                    <select
+                      className="select bg-blue-50 text-sm"
+                      name="id_user"
+                      onChange={handleFormInput}
+                    >
+                      <option defaultValue={selectedPJ?.user?.id} hidden>
+                        {selectedPJ?.user?.nama}
+                      </option>
                       {users.map((user) => {
                         return (
-                          <option value={user.id} key={user.id}>{user.nama}</option>
-                        )
+                          <option value={user.id} key={user.id}>
+                            {user.nama}
+                          </option>
+                        );
                       })}
                     </select>
                   </label>
@@ -152,12 +172,21 @@ const TablePJ = () => {
                     <div className="label">
                       <span className="label-text">Nama Aset</span>
                     </div>
-                    <select className="select bg-blue-50 text-sm" name='id_detail_aset' onChange={handleFormInput}>
-                      <option defaultValue={selectedPJ?.detail_aset?.id} hidden>{selectedPJ?.detail_aset?.aset.nama_barang} ({selectedPJ?.detail_aset?.kode_barang})</option>
+                    <select
+                      className="select bg-blue-50 text-sm"
+                      name="id_detail_aset"
+                      onChange={handleFormInput}
+                    >
+                      <option defaultValue={selectedPJ?.detail_aset?.id} hidden>
+                        {selectedPJ?.detail_aset?.aset.nama_barang} (
+                        {selectedPJ?.detail_aset?.kode_barang})
+                      </option>
                       {asets.map((aset) => {
                         return (
-                          <option value={aset.id} key={aset.id}>{aset.aset.nama_barang} ({aset.kode_barang})</option>
-                        )
+                          <option value={aset.id} key={aset.id}>
+                            {aset.aset.nama_barang} ({aset.kode_barang})
+                          </option>
+                        );
                       })}
                     </select>
                   </label>
@@ -166,7 +195,7 @@ const TablePJ = () => {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="primary" type='submit' onPress={onClose}>
+                  <Button color="primary" type="submit" onPress={onClose}>
                     Edit Penanggung Jawab
                   </Button>
                 </ModalFooter>
