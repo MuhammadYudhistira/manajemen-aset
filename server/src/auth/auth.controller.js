@@ -12,7 +12,8 @@ router.post("/login", async (req, res) => {
     const data = await login(request);
     response(200, data, "Berhasil Login", res);
   } catch (error) {
-    res.send(error.message);
+    console.log(error)
+    responseError(400, error.message, res);
   }
 });
 
