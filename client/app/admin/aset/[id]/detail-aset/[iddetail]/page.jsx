@@ -4,14 +4,50 @@ import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlin
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
+import computer from "@/public/computer.jpg"
+
 import qrcode from "@/public/qrcode.png";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useFetchDA } from "@/hooks/detail_aset/useFetchDA";
-import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  BreadcrumbItem, Breadcrumbs, Spinner
+} from "@nextui-org/react";
+import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 const page = ({ params }) => {
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data, isLoading } = useFetchDA(params.id, params.iddetail);
+
+  const { mutate: deleteDA, isSuccess } = useDeleteDA({
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.response.data.message)
+    },
+    onSuccess: () => {
+      toast.info("Berhasil mengahapus detail aset")
+    }
+  })
+
+
+  const handleClick = () => {
+    deleteDA({ id: params.id, iddetail: params.iddetail })
+  }
+
+  if (isSuccess) {
+    redirect(`/admin/aset/${params.id}`)
+  }
 
   if (isLoading) {
     return <Spinner />;
@@ -30,18 +66,21 @@ const page = ({ params }) => {
             <BreadcrumbItem>Detail Aset</BreadcrumbItem>
           </Breadcrumbs>
         </div>
-        <button className="btn bg-white text-black">
+        <Button className="btn bg-white text-black">
           <LocalPrintshopOutlinedIcon /> Cetak QR Code
-        </button>
+        </Button>
         <Link
           href={`/admin/aset/${params.id}/detail-aset/${params.iddetail}/edit`}
           className="btn bg-white text-black"
         >
           <EditOutlinedIcon /> Edit Detail Aset
         </Link>
-        <button className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50">
+        <Button
+          onPress={onOpen}
+          className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
+        >
           <DeleteOutlineOutlinedIcon /> Delete Aset
-        </button>
+        </Button>
       </div>
       <div className="mt-7 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
         <div className="w-full rounded-xl bg-white p-5">
@@ -64,24 +103,67 @@ const page = ({ params }) => {
                 </button>
               </li>
               <li>
-                <button className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50">
+                <Button
+                  onPress={onOpen}
+                  className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
+                >
                   <DeleteOutlineOutlinedIcon /> Delete Aset
-                </button>
+                </Button>
+                <Modal
+                  isOpen={isOpen}
+                  onOpenChange={onOpenChange}
+                  isDismissable={false}
+                  isKeyboardDismissDisabled={true}
+                  size="xl"
+                >
+                  <ModalContent className="p-5">
+                    {(onClose) => (
+                      <>
+                        <ModalHeader className="flex flex-row gap-1 text-red-500">
+                          <WarningAmberOutlinedIcon />
+                          <p>Warning</p>
+                        </ModalHeader>
+                        <ModalBody>
+                          <p>Apakah anda yakin akan menghapus aset ini??</p>
+                          <p className="text-xs first-letter:text-red-500">
+                            * jika menghapus aset ini, maka Riwayat laporan dan laporan perbaikan juga akan
+                            dihapus!!
+                          </p>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button variant="light" onPress={onClose}>
+                            Close
+                          </Button>
+                          <Button
+                            className="bg-red-500 text-white"
+                            onClick={handleClick}
+                            onPress={onClose}
+                          >
+                            Delete
+                          </Button>
+                        </ModalFooter>
+                      </>
+                    )}
+                  </ModalContent>
+                </Modal>
               </li>
             </ul>
           </div>
           <div className="flex w-full flex-row gap-8">
-            <Image
-              alt="Aset"
-              src={
-                data?.Detail_Aset_Images
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Detail_Aset_Images[0]?.link}`
-                  : `${process.env.NEXT_PUBLIC_IMAGE_URL}/${null}`
-              }
-              width={300}
-              height={100}
-              className="rounded-lg object-cover md:w-2/5"
-            />
+            <div className="flex flex-col gap-3">
+              <Image
+                alt="Aset"
+                src={
+                  data?.Detail_Aset_Images
+                    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Detail_Aset_Images[0]?.link}`
+                    : computer
+                }
+                priority
+                width={300}
+                height={300}
+                className="rounded-lg object-cover"
+              />
+            </div>
             <div className="space-y-2">
               <h1 className="text-xl font-bold uppercase">
                 {data?.aset?.nama_barang}
@@ -103,6 +185,24 @@ const page = ({ params }) => {
                 <p className="text-gray-400">{data?.status}</p>
               </div>
             </div>
+          </div>
+
+          <div className="flex gap-3 mt-4 w-full">
+            {data?.Detail_Aset_Images?.length > 1 ? (
+              data?.Detail_Aset_Images?.map((image) => {
+                return (
+                  <Image
+                    alt="Aset"
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image.link}`}
+                    priority
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover"
+                    key={image.id}
+                  />
+                )
+              })
+            ) : null}
           </div>
           <div className="mt-4 flex flex-row justify-between">
             <div className="w-[50%] space-y-2">

@@ -20,6 +20,10 @@ const {
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
 const { uploadImage } = require("../middleware/uploadGambar");
+const {
+  PrismaClientUnknownRequestError,
+  PrismaClientValidationError,
+} = require("@prisma/client/runtime/library");
 
 const router = express.Router();
 
@@ -67,6 +71,7 @@ router.post("/", uploadAssetImage, async (req, res) => {
     const asset = await createAsset(newAssetData);
     response(200, asset, "Berhasil menambahkan data", res);
   } catch (error) {
+    console.log(error.message);
     responseError(400, error.message, res);
   }
 });
@@ -97,7 +102,11 @@ router.patch("/:id", uploadAssetImage, async (req, res) => {
 router.get("/:id/detail-aset", getListDetailAset);
 router.get("/:id/detail-aset/:idDetail", getDetailDetailAset);
 router.post("/:id/detail-aset", uploadDetailAssetImage, postDetailAset);
-router.patch("/:id/detail-aset/:idDetail", uploadDetailAssetImage, updateDetailAset);
+router.patch(
+  "/:id/detail-aset/:idDetail",
+  uploadDetailAssetImage,
+  updateDetailAset
+);
 router.delete("/:id/detail-aset/:idDetail", removeDetailAset);
 router.post("/:id/detail-aset/:idDetail/image", deleteDetailImage);
 

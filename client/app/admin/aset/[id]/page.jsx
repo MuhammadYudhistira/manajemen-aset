@@ -17,6 +17,8 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
+  Breadcrumbs,
+  BreadcrumbItem,
 } from "@nextui-org/react";
 import Image from "next/legacy/image";
 import computer from "@/public/computer.jpg";
@@ -53,6 +55,15 @@ const page = ({ params }) => {
   return (
     <>
       <div className="mt-8 hidden items-center justify-end gap-5 sm:flex md:flex-row">
+        <div className="mr-auto hidden rounded-md bg-white font-medium md:block">
+          <Breadcrumbs variant="bordered" radius="sm">
+            <BreadcrumbItem href="/admin">Home</BreadcrumbItem>
+            <BreadcrumbItem href="/admin/aset">List Aset</BreadcrumbItem>
+            <BreadcrumbItem href={`/admin/aset/${params.id}`}>
+              Aset
+            </BreadcrumbItem>
+          </Breadcrumbs>
+        </div>
         <Link
           href={`/admin/aset/${params.id}/create`}
           className="btn bg-white text-black"

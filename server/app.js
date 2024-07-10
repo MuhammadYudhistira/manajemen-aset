@@ -11,18 +11,6 @@ const laporanKerusakanController = require("./src/damage_report/damage.controlle
 const UserController = require("./src/user/user.controller");
 const { authMiddleware } = require("./src/middleware/authMiddleware");
 
-const { Storage } = require("@google-cloud/storage");
-const Multer = require("multer");
-const path = require("path");
-const { UploadGambar } = require("./src/middleware/uploadGambar");
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fieldSize: 10 * 1024 * 1024,
-  },
-});
-
 const app = express();
 const port = process.env.PORT;
 

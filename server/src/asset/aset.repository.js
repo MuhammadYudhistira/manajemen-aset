@@ -96,7 +96,7 @@ const countAsset = async () => {
 const countAssetStatus = async (status) => {
   const assets = await prisma.detail_Aset.count({
     where: {
-      status: status
+      status: status,
     },
   });
   return assets;

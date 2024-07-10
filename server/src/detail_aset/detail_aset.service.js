@@ -16,6 +16,7 @@ const {
   findAllDetailAset,
   deleteDetailAsetImageById,
   findDetailAsetImageById,
+  findDetailAsetImageByIdDetailAset,
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
@@ -73,6 +74,26 @@ const editDetailAset = async (id, newDetailAsetData) => {
 
 const deleteDetailAset = async (id) => {
   await getDetailAset(id);
+  const oldData = await findDetailAsetImageByIdDetailAset(id);
+
+  oldData.forEach((gbr) => {
+    const namaFile = gbr.link.split("/")[1];
+
+    deleteImage(gbr.link)
+      .then(async (result) => {
+        if (result.success) {
+          console.log(`File berhasil dihapus: ${namaFile}`);
+        } else {
+          console.error(`Gagal menghapus file: ${namaFile}, sebab: ${result}`);
+        }
+      })
+      .catch((error) => {
+        console.error(
+          `Gagal menghapus file: ${namaFile}, sebab: ${error.message}`
+        );
+      });
+  });
+
   const detailAset = await deleteDetailAsetById(id);
   return detailAset;
 };

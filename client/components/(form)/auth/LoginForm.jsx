@@ -7,11 +7,12 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/libs/axios";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { redirect } from "next/navigation";
 
 const LoginForm = () => {
   const [hidden, setHidden] = useState(true);
 
-  const { mutate: login } = useMutation({
+  const { mutate: login, isSuccess } = useMutation({
     mutationFn: async (body) => {
       const response = await axios.post("/auth/login", {
         nip: body.nip,
@@ -20,9 +21,8 @@ const LoginForm = () => {
       return response;
     },
     onSuccess: (response) => {
-      console.log(response.data.payload);
       toast.success("Berhasil Login");
-      Cookies.set("token", response.data.payload.token);
+      Cookies.set("token", response.data.payload.token, { expires: 1 });
     },
     onError: (error) => {
       console.log(error);
@@ -49,6 +49,10 @@ const LoginForm = () => {
   const handleEyeClick = () => {
     setHidden(!hidden);
   };
+
+  if (isSuccess) {
+    redirect("/")
+  }
 
   return (
     <form

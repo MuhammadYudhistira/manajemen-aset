@@ -21,7 +21,7 @@ const login = async (request) => {
     id: user.id,
     nip: user.nip,
     nama: user.nama,
-    profile: user.profile,
+    profile: user.image,
     role: user.role,
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderTitle from "./HeaderTitle";
 import Link from "next/link";
+import HeaderAvatar from "./HeaderAvatar";
 
 const Header = () => {
   return (
@@ -28,34 +28,7 @@ const Header = () => {
         <div className="flex-1">
           <h2 className="btn btn-ghost text-xl">SIMAS</h2>
         </div>
-        <div className="flex-none gap-2">
-          <p className="font-medium">Admin</p>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="avatar btn btn-circle btn-ghost"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
-            >
-              <li>
-                <Link href={"/profile"}>Profile</Link>
-              </li>
-              <li>
-                <Link href={"/login"}>Logout</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <HeaderAvatar />
       </div>
     </header>
   );

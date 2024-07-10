@@ -61,13 +61,14 @@ const CreateAsetForm = () => {
     mutate: createProduct,
     isSuccess,
     isPending,
+    isError
   } = useCreateAset({
     onSuccess: () => {
       toast.success("berhasil menambahkan aset");
     },
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      toast.error("Tahun perolehan harus ditambahkan");
     },
   });
 
@@ -77,45 +78,87 @@ const CreateAsetForm = () => {
 
   return (
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Nama Barang</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Nama Barang"
-          name="nama_barang"
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Merk</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Merk"
-          name="merk"
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Deskripsi</span>
-        </div>
-        <textarea
-          type="text"
-          placeholder="Deskripsi"
-          name="deskripsi"
-          onChange={handleFormInput}
-          className="input textarea bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Nama Barang</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Nama Barang"
+            name="nama_barang"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Merk</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Merk"
+            name="merk"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Deskripsi</span>
+          </div>
+          <textarea
+            type="text"
+            placeholder="Deskripsi"
+            name="deskripsi"
+            onChange={handleFormInput}
+            className="input textarea bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Ukuran</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Ukuran"
+            name="ukuran"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Harga Satuan</span>
+          </div>
+          <input
+            type="number"
+            placeholder="harga_satuan"
+            name="harga_satuan"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Jumlah Barang</span>
+          </div>
+          <input
+            type="number"
+            placeholder="Jumlah Barang"
+            name="jumlah_barang"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+      </div>
       <DatePicker
         maxValue={today}
         name="tahun_perolehan"
@@ -124,47 +167,8 @@ const CreateAsetForm = () => {
         labelPlacement="outside"
         showMonthAndYearPickers
         label="Tahun perolehan"
-        color="primary"
+        color={isError ? "danger" : "primary"}
       />
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Ukuran</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Ukuran"
-          name="ukuran"
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Harga Satuan</span>
-        </div>
-        <input
-          type="number"
-          placeholder="harga_satuan"
-          name="harga_satuan"
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Jumlah Barang</span>
-        </div>
-        <input
-          type="number"
-          placeholder="Jumlah Barang"
-          name="jumlah_barang"
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
       <div className="label">
         <span className="label-text">Gambar Barang</span>
       </div>

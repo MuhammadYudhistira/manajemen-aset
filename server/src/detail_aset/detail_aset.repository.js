@@ -197,6 +197,15 @@ const findDetailAsetImageById = async (id) => {
   return DAImage;
 };
 
+const findDetailAsetImageByIdDetailAset = async (id) => {
+  const DAImage = prisma.detail_Aset_Images.findMany({
+    where: {
+      id_detail_aset: id,
+    },
+  });
+  return DAImage;
+};
+
 module.exports = {
   findDetailAset,
   findDetailAsetById,
@@ -208,4 +217,5 @@ module.exports = {
   findAllDetailAset,
   deleteDetailAsetImageById,
   findDetailAsetImageById,
+  findDetailAsetImageByIdDetailAset,
 };

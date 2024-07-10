@@ -2,6 +2,7 @@
 import Dropzone from "@/components/(input)/Dropzone";
 import { useFetchRuangan } from "@/hooks/ruangan/useFetchRuangan";
 import axios from "@/libs/axios";
+import { Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { redirect } from "next/navigation";
@@ -208,7 +209,7 @@ const CreateDetailAsetForm = ({ id }) => {
           type="submit"
           className="btn mt-4 bg-black text-white hover:border-black hover:bg-white hover:text-black"
         >
-          Tambah Aset
+          {isPending ? <Spinner /> : "Tambah Aset"}
         </button>
       </div>
     </form>
