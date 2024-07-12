@@ -2,8 +2,8 @@ import React from "react";
 import background from "@/public/background.png";
 import LoginForm from "@/components/(form)/auth/LoginForm";
 
-const page = () => {
-  
+const page = (params) => {
+
   return (
     <section
       className="flex h-screen items-center justify-center bg-white p-2 lg:p-0"
@@ -31,7 +31,7 @@ const page = () => {
         <p className="mt-4 text-center leading-relaxed text-gray-500">
           Masukkan informasi detail untuk masuk ke dalam sistem
         </p>
-        <LoginForm />
+        <LoginForm callbackUrl={params.searchParams.callbackUrl} />
       </div>
     </section>
   );

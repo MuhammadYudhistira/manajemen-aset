@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
+import withAuth from "./middleware/withAuth";
 
-export function middleware(request) {
-  let cookie = request.cookies.get("token");
-  if (!cookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  return NextResponse.next();
+export async function mainMiddleware(request) {
+  const res = NextResponse.next();
+  return res;
 }
 
 export const config = {
   matcher: ["/", "/admin/:path*", "/head", "/staff"],
 };
+
+export default withAuth(mainMiddleware);

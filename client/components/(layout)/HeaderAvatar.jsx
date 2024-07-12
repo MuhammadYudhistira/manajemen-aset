@@ -3,13 +3,28 @@ import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { redirect } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 
 const HeaderAvatar = () => {
+    const [token, setToken] = useState("")
+    const [user, setUser] = useState(null)
 
-    const token = Cookies.get("token")
-    const user = jwtDecode(token)
+    useEffect(() => {
+        const cookieToken = Cookies.get("token")
+        if (cookieToken) {
+            setToken(cookieToken)
+            try {
+                const decoded = jwtDecode(cookieToken)
+                setUser(decoded)
+            } catch (error) {
+                console.error("Failed to decode token:", error)
+            }
+        }
+
+    }, [])
+
     const handleOnclick = () => {
         Cookies.remove("token")
         toast.success("Berhasil Logout")
@@ -17,7 +32,7 @@ const HeaderAvatar = () => {
 
     return (
         <div className="flex-none gap-2">
-            <p className="font-medium hidden md:block">{user.nama}</p>
+            <p className="font-medium hidden md:block">{user?.nama}</p>
             <div className="dropdown dropdown-end">
                 <div
                     tabIndex={0}
@@ -27,7 +42,7 @@ const HeaderAvatar = () => {
                     <div className="w-10 rounded-full">
                         <Image
                             alt="Tailwind CSS Navbar component"
-                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.profile}`}
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${user?.profile}`}
                             width={40}
                             height={40}
                         />

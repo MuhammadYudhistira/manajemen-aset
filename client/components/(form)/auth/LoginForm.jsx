@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import Cookies from "js-cookie";
 import { redirect } from "next/navigation";
 
-const LoginForm = () => {
+const LoginForm = ({ callbackUrl }) => {
   const [hidden, setHidden] = useState(true);
 
   const { mutate: login, isSuccess } = useMutation({
@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   if (isSuccess) {
-    redirect("/")
+    redirect(callbackUrl || "/")
   }
 
   return (

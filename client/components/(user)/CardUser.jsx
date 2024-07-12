@@ -20,6 +20,7 @@ const CardUser = ({
         width={500}
         height={500}
         alt={nama}
+        priority
         className="mx-auto size-[100px] rounded-full object-cover object-center xl:size-[150px]"
       />
       <div className="flex flex-col items-center space-y-2 p-5">
