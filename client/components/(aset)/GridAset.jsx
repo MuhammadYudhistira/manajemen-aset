@@ -28,7 +28,7 @@ const GridAset = () => {
 
   return (
     <>
-      {asets.listAssets?.map((aset) => {
+      {asets?.listAssets?.map((aset) => {
         return (
           <CardAset
             deskripsi={aset.deskripsi}
@@ -37,6 +37,7 @@ const GridAset = () => {
             nama={aset.nama_barang}
             ukuran={aset.ukuran}
             key={aset.id}
+            role={"admin"}
           />
         );
       })}

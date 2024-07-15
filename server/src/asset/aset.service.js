@@ -1,4 +1,5 @@
 const { deleteImage } = require("../middleware/uploadGambar");
+const { getDetailUser } = require("../user/user.service");
 const {
   findAssets,
   findAssetsById,
@@ -7,6 +8,7 @@ const {
   editAsset,
   countAssetStatus,
   countAsset,
+  findAssetsByUser,
 } = require("./aset.repository");
 
 const getAllAssets = async () => {
@@ -105,9 +107,16 @@ const countAset = async () => {
   return count;
 };
 
+const getAssetByUser = async (id) => {
+  await getDetailUser(id);
+  const asset = await findAssetsByUser(id);
+  return asset;
+};
+
 module.exports = {
   getAllAssets,
   getAssetByid,
+  getAssetByUser,
   createAsset,
   editAsetById,
   deleteAssetById,

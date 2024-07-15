@@ -2,11 +2,11 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 
-const CardAset = ({ id, image, nama, deskripsi, ukuran }) => {
+const CardAset = ({ id, image, nama, deskripsi, ukuran, role }) => {
   return (
     <Link
       key={id}
-      href={`/admin/aset/${id}`}
+      href={`/${role}/aset/${id}`}
       className="group rounded-lg border bg-white"
     >
       <div className="relative h-56 w-full">

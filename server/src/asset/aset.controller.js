@@ -7,6 +7,7 @@ const {
   deleteAssetById,
   editAsetById,
   countAset,
+  getAssetByUser,
 } = require("./aset.service");
 const {
   getListDetailAset,
@@ -24,6 +25,7 @@ const {
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
 } = require("@prisma/client/runtime/library");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -50,6 +52,17 @@ router.get("/", async (req, res) => {
     response(200, data, "Berhasil mengambil data", res);
   } catch (error) {
     responseError(500, error.message, res);
+  }
+});
+
+router.get("/penanggung-jawab", authMiddleware, async (req, res) => {
+  try {
+    const user = req.user;
+    const asset = await getAssetByUser(user.id);
+    response(200, asset, "Berhasil mengambil data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(404, error.message, res);
   }
 });
 

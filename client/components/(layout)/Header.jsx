@@ -1,8 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import HeaderAvatar from "./HeaderAvatar";
 
-const Header = () => {
+const Header = ({ role }) => {
   return (
     <header className="sticky top-0 z-10 mx-auto mt-2 w-[95%] rounded-xl border bg-white">
       <div className="navbar rounded-xl bg-white">
@@ -28,7 +27,7 @@ const Header = () => {
         <div className="flex-1">
           <h2 className="btn btn-ghost text-xl">SIMAS</h2>
         </div>
-        <HeaderAvatar />
+        <HeaderAvatar role={role} />
       </div>
     </header>
   );

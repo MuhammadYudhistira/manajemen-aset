@@ -81,7 +81,7 @@ const LoginForm = ({ callbackUrl }) => {
         </label>
       </div>
       <div className="w-full">
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -102,11 +102,12 @@ const LoginForm = ({ callbackUrl }) => {
             onChange={handleFormInput}
           />
           <RemoveRedEyeOutlinedIcon
-            className="cursor-pointer"
+            className="cursor-pointer absolute right-2"
             onClick={handleEyeClick}
           />
         </label>
       </div>
+
 
       <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
         <button

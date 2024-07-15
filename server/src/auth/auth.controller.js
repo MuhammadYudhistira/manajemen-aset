@@ -3,6 +3,7 @@ const { login } = require("./auth.service");
 const { response } = require("../response/response");
 const { authMiddleware } = require("../middleware/authMiddleware");
 const { responseError } = require("../response/responseError");
+const { getDetailUser } = require("../user/user.service");
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post("/login", async (req, res) => {
     const data = await login(request);
     response(200, data, "Berhasil Login", res);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     responseError(400, error.message, res);
   }
 });
@@ -20,7 +21,17 @@ router.post("/login", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    response(200, user, "Berhasil mengambil data", res);
+    const userData = await getDetailUser(user.id);
+
+    const {
+      password,
+      createdAt,
+      updatedAt,
+      Penanggung_Jawab,
+      ...userWithoutSensitiveInfo
+    } = userData;
+
+    response(200, userWithoutSensitiveInfo, "Berhasil mengambil data", res);
   } catch (error) {
     responseError(401, "Unauthorized", res);
   }

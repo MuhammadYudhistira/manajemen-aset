@@ -39,6 +39,37 @@ const findAssetsById = async (id) => {
   return asset;
 };
 
+const findAssetsByUser = async (id) => {
+  const assets = await prisma.detail_Aset.findMany({
+    where: {
+      Penanggung_Jawab: {
+        some: {
+          id_user: id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      kode_barang: true,
+      keterangan: true,
+      aset: {
+        select: {
+          nama_barang: true,
+          deskripsi: true,
+          ukuran: true,
+        },
+      },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
+    },
+  });
+
+  return assets;
+};
+
 const insertAsset = async (assetData) => {
   const asset = await prisma.aset.create({
     data: {
@@ -105,6 +136,7 @@ const countAssetStatus = async (status) => {
 module.exports = {
   findAssets,
   findAssetsById,
+  findAssetsByUser,
   insertAsset,
   deleteAsset,
   editAsset,

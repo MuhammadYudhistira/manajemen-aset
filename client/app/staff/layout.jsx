@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "@/components/(layout)/Header";
-import Sidebar from "@/components/(layout)/Sidebar";
+import SidebarStaff from "@/components/(layout)/staff/SidebarStaff";
 
 const layout = ({ children }) => {
   return (
@@ -12,7 +12,7 @@ const layout = ({ children }) => {
           {children}
         </main>
       </div>
-      <Sidebar />
+      <SidebarStaff />
     </div>
   );
 };

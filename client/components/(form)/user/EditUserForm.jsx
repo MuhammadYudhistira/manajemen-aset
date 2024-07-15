@@ -2,9 +2,7 @@
 import Dropzone from "@/components/(input)/Dropzone";
 import { useEditUser } from "@/hooks/user/useEditUser";
 import { useFetchDetailUser } from "@/hooks/user/useFetchDetailUser";
-import axios from "@/libs/axios";
 import { Spinner } from "@nextui-org/react";
-import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { redirect } from "next/navigation";
