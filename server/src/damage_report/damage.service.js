@@ -1,3 +1,4 @@
+const { deleteImage } = require("../middleware/uploadGambar");
 const {
   findAllDamage,
   findDamageById,
@@ -29,7 +30,29 @@ const createDemage = async (newDamageData) => {
 };
 
 const editDamage = async (id, newDamageData) => {
-  await getDetailDamage(id);
+  console.log("🚀 ~ editDamage ~ newDamageData:", newDamageData);
+  const oldData = await getDetailDamage(id);
+
+  if (newDamageData.image.length >= 1) {
+    newDamageData.image = newDamageData.image[0];
+    const url = oldData.image;
+    console.log({ url });
+    deleteImage(url)
+      .then(async (result) => {
+        console.log(result);
+        if (result.success) {
+          console.log(`File berhasil dihapus`);
+        } else {
+          console.error(`Gagal menghapus file, sebab: ${result}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Gagal menghapus file, sebab: ${error.message}`);
+      });
+  } else {
+    newDamageData.image = undefined;
+  }
+
   const damage = await editDamegeById(id, newDamageData);
   return damage;
 };

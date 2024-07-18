@@ -10,6 +10,28 @@ const findDamageById = async (id) => {
     where: {
       id: id,
     },
+    include: {
+      detail_aset: {
+        select: {
+          kode_barang: true,
+          aset: {
+            select: {
+              nama_barang: true,
+            },
+          },
+          ruangan: {
+            select: {
+              nama_ruangan: true,
+            },
+          },
+        },
+      },
+      user: {
+        select: {
+          nama: true,
+        },
+      },
+    },
   });
   return damage;
 };
@@ -73,8 +95,9 @@ const editDamegeById = async (id, newDamageData) => {
       id: id,
     },
     data: {
+      perihal: newDamageData.perihal,
       deskripsi: newDamageData.deskripsi,
-      bukti_kerusakan: newDamageData.bukti_kerusakan,
+      image: newDamageData.image,
       approved_by: newDamageData.approved_by,
       approved_date: newDamageData.approved_date,
       status: newDamageData.status,

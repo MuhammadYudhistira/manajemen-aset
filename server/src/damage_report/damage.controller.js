@@ -57,13 +57,14 @@ router.post("/", uploadDamageImage, async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", uploadDamageImage, async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
     const damage = await editDamage(id, data);
     response(200, damage, "Berhasil mengupdate data laporan kerusakan", res);
   } catch (error) {
+    console.log(error);
     responseError(500, error.message, res);
   }
 });

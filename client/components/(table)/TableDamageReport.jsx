@@ -3,12 +3,27 @@ import React from "react";
 import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
-import { createColumnHelper } from "@tanstack/react-table";
 import { useFetchDRByUser } from "@/hooks/damage/useFetchDRByUser";
+import { useRouter } from "next/navigation";
+import { useDeleteDamageReport } from "@/hooks/damage/useDeleteDamageReport";
+import { toast } from "sonner";
 
 const TableDamageReport = () => {
 
-    const { data, isLoading } = useFetchDRByUser()
+    const { data, isLoading, refetch } = useFetchDRByUser()
+
+    const { mutate: deleteDamageReport, isPending } = useDeleteDamageReport({
+        onError: (error) => {
+            console.log(error)
+            toast.error(error.response.data.message)
+        },
+        onSuccess: () => {
+            toast.info("Berhasil menghapus data laporan kerusakan")
+            refetch()
+        }
+    })
+
+    const router = useRouter();
 
     const columns = [
         {
@@ -84,17 +99,24 @@ const TableDamageReport = () => {
         const confirmation = confirm(
             "Apakah anda yakin akan menghapus data laporan ini?",
         );
+        if (confirmation) {
+            deleteDamageReport(id)
+        }
     };
 
     const handleEditClick = (id) => {
-        alert(`test ${id}`)
+        router.push(`/staff/laporan/${id}/edit`);
+
     };
+
     const handleNewItemClick = (id) => {
-        alert(`Item baru dengan ID ${id}`);
+        router.push(`/staff/laporan/${id}`);
     };
 
     if (isLoading) {
-        return <Spinner />
+        return <div className="flex justify-center items-center">
+            <Spinner />
+        </div>
     }
 
     return (
