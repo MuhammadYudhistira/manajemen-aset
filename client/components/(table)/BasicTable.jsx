@@ -27,8 +27,9 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import PlagiarismOutlinedIcon from '@mui/icons-material/PlagiarismOutlined';
 
-const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
+const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleNewItemClick }) => {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
 
@@ -125,6 +126,15 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
                         variant="faded"
                         aria-label="Dropdown menu with icons"
                       >
+                        {handleNewItemClick && (
+                          <DropdownItem
+                            key="new-item"
+                            startContent={<PlagiarismOutlinedIcon />}
+                            onPress={() => handleNewItemClick(row.original.id)}
+                          >
+                            Detail data
+                          </DropdownItem>
+                        )}
                         <DropdownItem
                           key="edit"
                           startContent={<ModeEditOutlineOutlinedIcon />}
@@ -164,9 +174,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.setPageIndex(0)}
-              className={`h-8 items-center justify-center rounded border border-gray-100 px-3 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`h-8 items-center justify-center rounded border border-gray-100 px-3 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               {" "}
               <FirstPageOutlinedIcon className="text-sm" />
@@ -176,9 +185,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               <NavigateBeforeOutlinedIcon className="text-sm" />
             </button>
@@ -202,9 +210,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${
-                !table.getCanNextPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 ${!table.getCanNextPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               <NavigateNextOutlinedIcon className="text-sm" />
             </button>
@@ -213,9 +220,8 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick }) => {
             <button
               disabled={!table.getCanNextPage()}
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              className={`h-8 items-center justify-center rounded border border-gray-100 px-3 ${
-                !table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
-              }`}
+              className={`h-8 items-center justify-center rounded border border-gray-100 px-3 ${!table.getCanPreviousPage() ? "bg-gray-100" : "bg-white"
+                }`}
             >
               {" "}
               <LastPageOutlinedIcon className="text-sm" />

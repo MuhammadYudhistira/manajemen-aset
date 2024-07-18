@@ -1,5 +1,6 @@
 "use client"
 import { useFetchMe } from '@/hooks/auth/useFetchMe'
+import { Spinner } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,7 +9,7 @@ import { toast } from 'sonner'
 
 const HeaderAvatar = ({ role }) => {
 
-    const { data: user } = useFetchMe({
+    const { data: user, isLoading } = useFetchMe({
         throwOnError: (error) => {
             console.log(error);
             toast.error(error.response.data.message)
@@ -18,6 +19,10 @@ const HeaderAvatar = ({ role }) => {
     const handleOnclick = () => {
         Cookies.remove("token")
         toast.success("Berhasil Logout")
+    }
+
+    if (isLoading) {
+        return <div className="skeleton size-10 shrink-0 rounded-full"></div>
     }
 
     return (

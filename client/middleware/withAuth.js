@@ -20,17 +20,19 @@ export default function withAuth(middleware) {
       return NextResponse.redirect(url);
     }
 
-    try {
-      const decoded = jwtDecode(token?.value);
+    if (token) {
+      try {
+        const decoded = jwtDecode(token?.value);
 
-      if (decoded.role !== "ADMIN" && isAdminPage) {
-        return NextResponse.redirect(new URL("/", req.url));
+        if (decoded.role !== "ADMIN" && isAdminPage) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+        if (decoded.role !== "STAFF" && isStaffPage) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+      } catch (error) {
+        console.log(error);
       }
-      if (decoded.role !== "STAFF" && isStaffPage) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
-    } catch (error) {
-      console.log(error);
     }
 
     return middleware(req, next);

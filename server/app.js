@@ -9,6 +9,7 @@ const ruanganController = require("./src/ruangan/ruangan.controller");
 const penanggungJawabController = require("./src/custodian/custodian.controller");
 const laporanKerusakanController = require("./src/damage_report/damage.controller");
 const UserController = require("./src/user/user.controller");
+const detailAsetController = require("./src/detail_aset/detail_aset.router");
 const { authMiddleware } = require("./src/middleware/authMiddleware");
 
 const app = express();
@@ -33,8 +34,9 @@ app.use("/api/auth", authController);
 app.use("/api/aset", asetController);
 app.use("/api/ruangan", ruanganController);
 app.use("/api/penanggung-jawab", penanggungJawabController);
-app.use("/api/laporan-kerusakan", laporanKerusakanController);
+app.use("/api/laporan-kerusakan", authMiddleware, laporanKerusakanController);
 app.use("/api/user", UserController);
+app.use("/api/detail-aset", detailAsetController);
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
