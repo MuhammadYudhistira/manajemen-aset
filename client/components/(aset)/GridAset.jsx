@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import computer from "@/public/computer.jpg";
 
 const GridAset = () => {
-  const { data: asets, isLoading, isError } = useFetchAset();
+  const { data: asets, isLoading, isError, error } = useFetchAset();
 
   const cards = Array.from({ length: 8 });
 

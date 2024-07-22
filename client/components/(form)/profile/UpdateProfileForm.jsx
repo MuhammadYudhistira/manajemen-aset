@@ -155,7 +155,7 @@ const UpdateProfileForm = () => {
                     type="submit"
                     className="btn mt-4 bg-black text-white hover:border-black hover:bg-white hover:text-black"
                 >
-                    {isPending ? <Spinner /> : "Edit User"}
+                    {isPending ? <Spinner /> : "Edit Data"}
                 </button>
             </div>
         </form>

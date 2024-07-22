@@ -7,7 +7,14 @@ export async function mainMiddleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/admin/:path*", "/head", "/staff", "/login"],
+  matcher: [
+    "/",
+    "/admin/:path*",
+    "/head",
+    "/staff/:path*",
+    "/login",
+    "/laporan/:path*",
+  ],
 };
 
 export default withAuth(mainMiddleware);

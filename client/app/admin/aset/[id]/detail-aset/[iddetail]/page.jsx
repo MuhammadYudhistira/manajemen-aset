@@ -24,13 +24,27 @@ import {
 } from "@nextui-org/react";
 import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import moment from "moment";
 
 const page = ({ params }) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data, isLoading } = useFetchDA(params.id, params.iddetail);
+  const { data, isLoading, isError, error } = useFetchDA(params.id, params.iddetail);
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    if (error.response?.data?.status === 404) {
+      console.log(error);
+      notFound();
+    } else {
+      return <div>Error: {error.message}</div>
+    }
+  }
+
 
   const { mutate: deleteDA, isSuccess } = useDeleteDA({
     onError: (error) => {
@@ -49,10 +63,6 @@ const page = ({ params }) => {
 
   if (isSuccess) {
     redirect(`/admin/aset/${params.id}`)
-  }
-
-  if (isLoading) {
-    return <Spinner />;
   }
 
   return (
@@ -304,7 +314,7 @@ const page = ({ params }) => {
                     </div>
                     <div>
                       <Link
-                        href={`/staff/laporan/${laporan.id}`}
+                        href={`/laporan/${laporan.id}`}
                         className="btn btn-sm bg-white"
                       >
                         View

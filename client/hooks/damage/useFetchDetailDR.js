@@ -8,5 +8,6 @@ export const useFetchDetailDR = (id) => {
       const response = await axiosPrivate.get(`/laporan-kerusakan/${id}`);
       return response.data.payload;
     },
+    retry: false,
   });
 };

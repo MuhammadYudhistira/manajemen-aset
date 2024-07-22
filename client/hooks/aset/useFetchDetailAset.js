@@ -9,5 +9,6 @@ export const useFetchDetailAset = (id) => {
     },
     queryKey: ["aset"],
     initialData: "aset",
+    retry: false,
   });
 };

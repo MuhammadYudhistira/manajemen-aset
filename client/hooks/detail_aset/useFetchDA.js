@@ -9,5 +9,6 @@ export const useFetchDA = (id, iddetail) => {
     },
     queryKey: ["detail-aset"],
     initialData: ["detail-aset"],
+    retry: false,
   });
 };

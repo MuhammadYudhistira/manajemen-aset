@@ -23,12 +23,20 @@ import {
 import Image from "next/legacy/image";
 import computer from "@/public/computer.jpg";
 import { useDeleteAset } from "@/hooks/aset/useDeleteAset";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { toast } from "sonner";
 
 const page = ({ params }) => {
-  const { data, isLoading } = useFetchDetailAset(params.id);
+  const { data, isLoading, isError, error } = useFetchDetailAset(params.id);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+
+  if (isError) {
+    if (error.response.data.status === 404) {
+      console.log(error)
+      notFound()
+    }
+  }
 
   const handleClick = () => {
     deleteAset(params.id);
