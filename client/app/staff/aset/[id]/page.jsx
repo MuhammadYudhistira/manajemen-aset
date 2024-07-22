@@ -14,6 +14,7 @@ import {
     Tooltip
 } from "@nextui-org/react";
 import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
+import moment from "moment";
 
 const page = ({ params }) => {
 
@@ -169,7 +170,7 @@ const page = ({ params }) => {
                             <div className=" flex gap-2 mt-4">
                                 {data?.Penanggung_Jawab?.map((pj, index) => {
                                     return (
-                                        <Tooltip showArrow placement="bottom" key={index}
+                                        <Tooltip showArrow placement="bottom" key={index} delay={1000}
                                             content={
                                                 <div className="space-y-2 p-5 min-h-[121px] w-[360px]">
                                                     <div className="avatar">
@@ -194,72 +195,34 @@ const page = ({ params }) => {
                                     )
                                 })}
                             </div>
-                            // <>
-                            //     <div className="size-20">
-                            //         <Image
-                            //             src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Penanggung_Jawab[0]?.image}`}
-                            //             alt="profile"
-                            //             width={500}
-                            //             height={500}
-                            //             className="rounded-full object-cover object-center"
-                            //         />
-                            //         <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" size="lg" />
-                            //     </div>
-                            //     <div className="w-full space-y-2">
-                            //         <h2 className="text-lg font-medium">
-                            //             {data?.Penanggung_Jawab[0]?.nama}
-                            //         </h2>
-                            //         <p className="flex items-center justify-between text-sm font-medium">
-                            //             <span>NIP</span> {data?.Penanggung_Jawab[0]?.nip}{" "}
-                            //         </p>
-                            //         <p className="flex items-center justify-between text-sm font-medium">
-                            //             <span>Role</span> {data?.Penanggung_Jawab[0]?.role}{" "}
-                            //         </p>
-                            //         <p className="flex items-center justify-between text-sm font-medium">
-                            //             <span>No Hp</span> {data?.Penanggung_Jawab[0]?.no_hp}{" "}
-                            //         </p>
-                            //         <p className="flex justify-between text-sm font-medium">
-                            //             Alamat{" "}
-                            //             <span className="ml-10 flex-grow text-right">
-                            //                 {data?.Penanggung_Jawab[0]?.alamat}{" "}
-                            //             </span>
-                            //         </p>
-                            //     </div>
-                            // </>
                         ) : (
                             <p>Belum ada Penanggung Jawab</p>
                         )}
                     </div>
                     <div className="space-y-2 rounded-xl bg-white p-5">
                         <h2 className="text-lg font-medium">Riwayat Laporan kerusakan</h2>
-                        <div className="flex justify-between">
-                            <div>
-                                <p className="text-sm text-gray-500">SSD Rusak</p>
-                                <p className="text-sm text-gray-500">12/01/2024</p>
-                            </div>
-                            <div>
-                                <Link
-                                    href={"/admin/laporan_kerusakan/123"}
-                                    className="btn btn-sm bg-white"
-                                >
-                                    View
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div>
-                                <p className="text-sm text-gray-500">SSD Rusak</p>
-                                <p className="text-sm text-gray-500">12/01/2024</p>
-                            </div>
-                            <div>
-                                <Link
-                                    href={"/admin/laporan_kerusakan/123"}
-                                    className="btn btn-sm bg-white"
-                                >
-                                    View
-                                </Link>
-                            </div>
-                        </div>
+                        {data?.Penanggung_Jawab?.length > 0 ? (
+
+                            data?.Laporan_Kerusakan?.map((laporan) => {
+                                return (
+                                    <div className="flex justify-between" key={laporan.id}>
+                                        <div>
+                                            <p className="text-sm text-gray-500">{laporan.perihal}</p>
+                                            <p className="text-sm text-gray-500">{moment(laporan.createdAt).format("DD-MM-YYYY")}</p>
+                                        </div>
+                                        <div>
+                                            <Link
+                                                href={`/staff/laporan/${laporan.id}`}
+                                                className="btn btn-sm bg-white"
+                                            >
+                                                View
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                            })) : (<p>Belum ada Laporan kerusakan</p>)
+                        }
+
                     </div>
                     <div className="space-y-2 rounded-xl bg-white p-5">
                         <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>

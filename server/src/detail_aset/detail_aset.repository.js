@@ -87,6 +87,11 @@ const findDetailAsetById = async (idDetail) => {
           },
         },
       },
+      Laporan_Kerusakan: {
+        include: {
+          Perbaikan: true,
+        },
+      },
     },
   });
   const result = {

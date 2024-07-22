@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    response(200, "test", "Berhasil mendapatkan data", res);
+    response(200, "HALO", "Berhasil mendapatkan data", res);
   } catch (error) {
     responseError(404, error.message, res);
   }
@@ -19,6 +19,7 @@ router.get("/:id", async (req, res) => {
     const data = await getDetailAset(id);
     response(200, data, "Berhasil mendapatkan data", res);
   } catch (error) {
+    console.log(error);
     responseError(404, error.message, res);
   }
 });

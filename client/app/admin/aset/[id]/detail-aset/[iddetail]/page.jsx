@@ -19,11 +19,13 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  BreadcrumbItem, Breadcrumbs, Spinner
+  BreadcrumbItem, Breadcrumbs, Spinner,
+  Tooltip
 } from "@nextui-org/react";
 import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import moment from "moment";
 
 const page = ({ params }) => {
 
@@ -254,71 +256,64 @@ const page = ({ params }) => {
           </p>
         </div>
         <div className="space-y-5">
-          <div className="flex flex-col gap-5 rounded-xl bg-white p-5 md:flex-row">
+          <div className="rounded-xl bg-white p-5">
+            <h2 className="text-lg font-medium">Penanggung Jawab</h2>
             {data?.Penanggung_Jawab?.length > 0 ? (
-              <>
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Penanggung_Jawab[0]?.image}`}
-                  alt="profile"
-                  width={200}
-                  height={200}
-                  className="w-full rounded-lg object-cover object-center"
-                />
-                <div className="w-full space-y-2">
-                  <h2 className="text-lg font-medium">
-                    {data?.Penanggung_Jawab[0]?.nama}
-                  </h2>
-                  <p className="flex items-center justify-between text-sm font-medium">
-                    <span>NIP</span> {data?.Penanggung_Jawab[0]?.nip}{" "}
-                  </p>
-                  <p className="flex items-center justify-between text-sm font-medium">
-                    <span>Role</span> {data?.Penanggung_Jawab[0]?.role}{" "}
-                  </p>
-                  <p className="flex items-center justify-between text-sm font-medium">
-                    <span>No Hp</span> {data?.Penanggung_Jawab[0]?.no_hp}{" "}
-                  </p>
-                  <p className="flex justify-between text-sm font-medium">
-                    Alamat{" "}
-                    <span className="ml-10 flex-grow text-right">
-                      {data?.Penanggung_Jawab[0]?.alamat}{" "}
-                    </span>
-                  </p>
-                </div>
-              </>
+              <div className=" flex gap-2 mt-4">
+                {data?.Penanggung_Jawab?.map((pj, index) => {
+                  return (
+                    <Tooltip showArrow placement="bottom" key={index} delay={1000}
+                      content={
+                        <div className="space-y-2 p-5 min-h-[121px] w-[360px]">
+                          <div className="avatar">
+                            <div className="w-16 rounded-full">
+                              <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.image}`} />
+                            </div>
+                          </div>
+                          <p className="text-md font-semibold">{pj.nama}</p>
+                          <p className="text-xs font-medium text-gray-500">{pj.nip}</p>
+                          <p className="text-xs font-medium text-gray-500">{pj.role}</p>
+                          <p className="text-xs font-medium text-gray-500">{pj.no_hp}</p>
+                          <p className="text-xs font-medium text-gray-500">{pj.alamat}</p>
+                        </div>
+                      }
+                    >
+                      <div className="avatar">
+                        <div className="w-16 rounded-full">
+                          <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.image}`} />
+                        </div>
+                      </div>
+                    </Tooltip>
+                  )
+                })}
+              </div>
             ) : (
               <p>Belum ada Penanggung Jawab</p>
             )}
           </div>
           <div className="space-y-2 rounded-xl bg-white p-5">
             <h2 className="text-lg font-medium">Riwayat Laporan kerusakan</h2>
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500">SSD Rusak</p>
-                <p className="text-sm text-gray-500">12/01/2024</p>
-              </div>
-              <div>
-                <Link
-                  href={"/admin/laporan_kerusakan/123"}
-                  className="btn btn-sm bg-white"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500">SSD Rusak</p>
-                <p className="text-sm text-gray-500">12/01/2024</p>
-              </div>
-              <div>
-                <Link
-                  href={"/admin/laporan_kerusakan/123"}
-                  className="btn btn-sm bg-white"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
+            {data?.Penanggung_Jawab?.length > 0 ? (
+
+              data?.Laporan_Kerusakan?.map((laporan) => {
+                return (
+                  <div className="flex justify-between" key={laporan.id}>
+                    <div>
+                      <p className="text-sm text-gray-500">{laporan.perihal}</p>
+                      <p className="text-sm text-gray-500">{moment(laporan.createdAt).format("DD-MM-YYYY")}</p>
+                    </div>
+                    <div>
+                      <Link
+                        href={`/staff/laporan/${laporan.id}`}
+                        className="btn btn-sm bg-white"
+                      >
+                        View
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })) : (<p>Belum ada Laporan kerusakan</p>)
+            }
           </div>
           <div className="space-y-2 rounded-xl bg-white p-5">
             <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>

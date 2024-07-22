@@ -1,28 +1,42 @@
 "use client"
-import { useFetchMe } from '@/hooks/auth/useFetchMe'
-import { Spinner } from '@nextui-org/react'
-import Cookies from 'js-cookie'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import { toast } from 'sonner'
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { toast } from 'sonner';
+import { useFetchMe } from '@/hooks/auth/useFetchMe';
 
 const HeaderAvatar = ({ role }) => {
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const { data: user, isLoading } = useFetchMe({
+    const { data: fetchedUser, isLoading: fetchLoading, error } = useFetchMe({
         throwOnError: (error) => {
             console.log(error);
-            toast.error(error.response.data.message)
+            toast.error(error.response.data.message);
         },
-    })
+    });
 
-    const handleOnclick = () => {
-        Cookies.remove("token")
-        toast.success("Berhasil Logout")
+    useEffect(() => {
+        if (fetchedUser) {
+            setUser(fetchedUser);
+            setIsLoading(false);
+        }
+    }, [fetchedUser]);
+
+    if (error) {
+        toast.error(error.response.data.message);
+        setIsLoading(false);
     }
 
-    if (isLoading) {
-        return <div className="skeleton size-10 shrink-0 rounded-full"></div>
+    const handleOnclick = () => {
+        Cookies.remove("token");
+        toast.success("Berhasil Logout");
+    };
+
+    if (isLoading || fetchLoading) {
+        return <div className="skeleton size-10 shrink-0 rounded-full"></div>;
     }
 
     return (
@@ -56,7 +70,7 @@ const HeaderAvatar = ({ role }) => {
                 </ul>
             </div>
         </div>
-    )
+    );
 }
 
-export default HeaderAvatar
+export default HeaderAvatar;
