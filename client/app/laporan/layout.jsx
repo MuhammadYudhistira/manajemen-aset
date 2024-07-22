@@ -4,6 +4,7 @@ import SidebarStaff from "@/components/(layout)/staff/SidebarStaff";
 import Sidebar from "@/components/(layout)/Sidebar";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
+import SidebarHead from "@/components/(layout)/head/SidebarHead";
 
 const layout = ({ children }) => {
 
@@ -21,6 +22,7 @@ const layout = ({ children }) => {
             </div>
             {role === "ADMIN" && <Sidebar />}
             {role === "STAFF" && <SidebarStaff />}
+            {role === "KEPALA_BAGIAN" && <SidebarHead />}
         </div>
     );
 };

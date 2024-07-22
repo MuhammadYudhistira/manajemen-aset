@@ -14,6 +14,7 @@ export const config = {
     "/staff/:path*",
     "/login",
     "/laporan/:path*",
+    "/head/:path*",
   ],
 };
 

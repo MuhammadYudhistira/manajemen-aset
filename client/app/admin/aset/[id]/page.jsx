@@ -262,9 +262,6 @@ const page = ({ params }) => {
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                           <div className="avatar">
-                            {/* <div className="w-10 rounded-full">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                        </div> */}
                             <p>
                               {detail.Penanggung_Jawab.length !== 0
                                 ? detail?.Penanggung_Jawab[0]?.user?.nama

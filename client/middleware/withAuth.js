@@ -9,6 +9,7 @@ export default function withAuth(middleware) {
     const isAdminPage = pathname.includes("/admin");
     const isStaffPage = pathname.includes("/staff");
     const isLoginPage = pathname.includes("/login");
+    const isHeadPage = pathname.includes("/head");
 
     if (token && isLoginPage) {
       return NextResponse.redirect(new URL("/", req.url));
@@ -28,6 +29,9 @@ export default function withAuth(middleware) {
           return NextResponse.redirect(new URL("/", req.url));
         }
         if (decoded.role !== "STAFF" && isStaffPage) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+        if (decoded.role !== "KEPALA_BAGIAN" && isStaffPage) {
           return NextResponse.redirect(new URL("/", req.url));
         }
       } catch (error) {

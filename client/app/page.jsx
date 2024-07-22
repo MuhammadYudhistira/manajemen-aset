@@ -1,33 +1,20 @@
-"use client"
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 export default function Home(params) {
 
-  const token = Cookies.get("token");
-
-  if (!token) {
-    redirect("/login");
-    return null; // Return null to avoid rendering the component
-  }
-
-  let decoded;
-  try {
-    decoded = jwtDecode(token)
-  } catch (error) {
-    console.error("Invalid token:", error);
-    redirect("/login");
-    return null; // Return null to avoid rendering the component
-  }
-
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')
+  const decoded = jwtDecode(token.value)
   const role = decoded.role
+
 
   if (role) {
     switch (role) {
-      case "USER":
-        redirect("/user");
+      case "KEPALA_BAGIAN":
+        redirect("/head");
       case "ADMIN":
         redirect("/admin");
       case "STAFF":
