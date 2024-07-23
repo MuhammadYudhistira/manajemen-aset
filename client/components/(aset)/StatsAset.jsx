@@ -13,7 +13,7 @@ const StatsAset = () => {
 
   if (isLoading) {
     return (
-      <div className="mb-7 grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+      <div className="mb-7 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
         <div className="flex w-full items-center gap-3 rounded-xl border bg-white p-6">
           <div>
             <Skeleton className="flex h-12 w-12 rounded-full" />
@@ -87,9 +87,9 @@ const StatsAset = () => {
 
         <div>
           <p className="text-2xl font-medium text-gray-900">
-            {aset?.count.inactive}
+            {aset?.count.damaged}
           </p>
-          <p className="text-sm text-gray-500">Tidak Aktif</p>
+          <p className="text-sm text-gray-500">Rusak</p>
         </div>
       </article>
       <article className="flex items-center gap-4 rounded-xl border bg-white p-6">

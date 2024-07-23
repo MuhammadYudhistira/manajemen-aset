@@ -29,9 +29,10 @@ export default function withAuth(middleware) {
           return NextResponse.redirect(new URL("/", req.url));
         }
         if (decoded.role !== "STAFF" && isStaffPage) {
+          console.log("test");
           return NextResponse.redirect(new URL("/", req.url));
         }
-        if (decoded.role !== "KEPALA_BAGIAN" && isStaffPage) {
+        if (decoded.role !== "KEPALA_BAGIAN" && isHeadPage) {
           return NextResponse.redirect(new URL("/", req.url));
         }
       } catch (error) {

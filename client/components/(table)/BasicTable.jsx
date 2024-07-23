@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
-  Image,
   Input,
 } from "@nextui-org/react";
 
@@ -62,7 +61,7 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleN
           onChange={(e) => setFiltering(e.target.value)}
           onClear={() => setFiltering("")}
         />
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-xs md:text-sm">
           <thead className="table-auto text-left">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -135,26 +134,30 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleN
                             Detail data
                           </DropdownItem>
                         )}
-                        <DropdownItem
-                          key="edit"
-                          startContent={<ModeEditOutlineOutlinedIcon />}
-                          onPress={() => handleEditClick(row.original.id)}
-                        >
-                          Edit data
-                        </DropdownItem>
-                        <DropdownItem
-                          key="delete"
-                          className="bg-red-50 text-red-500"
-                          color="danger"
-                          startContent={
-                            <DeleteOutlineOutlinedIcon
-                              className={"text-red-500"}
-                            />
-                          }
-                          onPress={() => handleDeleteClick(row.original.id)}
-                        >
-                          Delete data
-                        </DropdownItem>
+                        {handleEditClick && (
+                          <DropdownItem
+                            key="edit"
+                            startContent={<ModeEditOutlineOutlinedIcon />}
+                            onPress={() => handleEditClick(row.original.id)}
+                          >
+                            Edit data
+                          </DropdownItem>
+                        )}
+                        {handleDeleteClick && (
+                          <DropdownItem
+                            key="delete"
+                            className="bg-red-50 text-red-500"
+                            color="danger"
+                            startContent={
+                              <DeleteOutlineOutlinedIcon
+                                className={"text-red-500"}
+                              />
+                            }
+                            onPress={() => handleDeleteClick(row.original.id)}
+                          >
+                            Delete data
+                          </DropdownItem>
+                        )}
                       </DropdownMenu>
                     </Dropdown>
                   </td>

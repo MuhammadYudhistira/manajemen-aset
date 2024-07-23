@@ -25,7 +25,7 @@ const SidebarHead = () => {
                 </li>
                 <div className="divider mt-0"></div>
                 <li>
-                    <Link href="/admin">
+                    <Link href="/head">
                         <AutoAwesomeMosaicOutlinedIcon />
                         Dashboard
                     </Link>
@@ -43,16 +43,16 @@ const SidebarHead = () => {
                         </summary>
                         <ul className="rounded-xl bg-slate-50">
                             <li>
-                                <Link href="/admin/laporan_perbaikan" className="">
-                                    <HomeRepairServiceOutlinedIcon />
-                                    Perbaikan
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/admin/rekap_aset" className="group">
+                                <Link href="/head/laporan_kerusakan" className="group">
                                     {" "}
                                     <BuildOutlinedIcon />
                                     Kerusakan
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/head/laporan_perbaikan" className="">
+                                    <HomeRepairServiceOutlinedIcon />
+                                    Perbaikan
                                 </Link>
                             </li>
                         </ul>

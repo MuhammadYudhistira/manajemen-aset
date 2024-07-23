@@ -179,7 +179,7 @@ const page = ({ params }) => {
                 className="max-h-[450px] rounded-lg object-cover"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 col-span-2">
               <h1 className="text-xl font-bold uppercase lg:text-3xl">
                 {data.nama_barang}
               </h1>
