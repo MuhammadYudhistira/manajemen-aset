@@ -112,6 +112,7 @@ model Detail_Aset {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   Laporan_Kerusakan  Laporan_Kerusakan[]
+  Perbaikan          Perbaikan[]
 
   @@map("detail_aset")
 }
@@ -155,7 +156,6 @@ model Laporan_Kerusakan {
   detail_aset    Detail_Aset    @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  Perbaikan      Perbaikan[]
 
   @@map("laporan_kerusakan")
 }
@@ -171,7 +171,8 @@ model Perbaikan {
   berita_acara         String?
   status               Status_perbaikan
   keterangan           String?            @db.LongText
-  laporan_kerusakan    Laporan_Kerusakan  @relation(fields: [id_laporan_kerusakan], references: [id])
+  id_detail_aset       String
+  detail_aset          Detail_Aset        @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_laporan_kerusakan String
   Perbaikan_Images     Perbaikan_Images[]
   createdAt            DateTime           @default(now())

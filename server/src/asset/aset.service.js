@@ -95,13 +95,13 @@ const deleteAssetById = async (id) => {
 const countAset = async () => {
   const all = await countAsset();
   const available = await countAssetStatus("Available");
-  const inactive = await countAssetStatus("Inactive");
+  const damaged = await countAssetStatus("Damaged");
   const repairing = await countAssetStatus("Under_Maintenance");
 
   const count = {
     all,
     available,
-    inactive,
+    damaged,
     repairing,
   };
   return count;

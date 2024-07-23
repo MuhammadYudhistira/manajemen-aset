@@ -52,6 +52,7 @@ const findAssetsByUser = async (id) => {
       id: true,
       kode_barang: true,
       keterangan: true,
+      createdAt: true,
       aset: {
         select: {
           nama_barang: true,

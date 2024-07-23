@@ -1,7 +1,35 @@
 const prisma = require("../../db/index");
 
 const findAllDamage = async () => {
-  const damage = await prisma.laporan_Kerusakan.findMany();
+  const damage = await prisma.laporan_Kerusakan.findMany({
+    select: {
+      id: true,
+      perihal: true,
+      status: true,
+      createdAt: true,
+      user: {
+        select: {
+          nama: true,
+          image: true,
+        },
+      },
+      detail_aset: {
+        select: {
+          kode_barang: true,
+          aset: {
+            select: {
+              nama_barang: true,
+            },
+          },
+          ruangan: {
+            select: {
+              nama_ruangan: true,
+            },
+          },
+        },
+      },
+    },
+  });
   return damage;
 };
 

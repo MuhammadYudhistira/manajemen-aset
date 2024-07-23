@@ -1,3 +1,5 @@
+const { editDetailAsetById } = require("../detail_aset/detail_aset.repository");
+const { getDetailAset } = require("../detail_aset/detail_aset.service");
 const { deleteImage } = require("../middleware/uploadGambar");
 const {
   findAllDamage,
@@ -25,6 +27,13 @@ const createDemage = async (newDamageData) => {
   } else {
     newDamageData.image = "";
   }
+
+  const newData = {
+    status: "Damaged",
+  };
+
+  await editDetailAsetById(newDamageData.id_detail_aset, newData);
+
   const damage = await insertDamage(newDamageData);
   return damage;
 };
@@ -58,6 +67,21 @@ const editDamage = async (id, newDamageData) => {
 };
 
 const deleteDamage = async (id) => {
+  const oldData = await getDetailDamage(id);
+  const url = oldData.image;
+  console.log({ url });
+  deleteImage(url)
+    .then(async (result) => {
+      console.log(result);
+      if (result.success) {
+        console.log(`File berhasil dihapus`);
+      } else {
+        console.error(`Gagal menghapus file, sebab: ${result}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Gagal menghapus file, sebab: ${error.message}`);
+    });
   const damage = await deleteDamageById(id);
   return damage;
 };

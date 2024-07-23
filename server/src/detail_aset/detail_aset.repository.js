@@ -87,11 +87,7 @@ const findDetailAsetById = async (idDetail) => {
           },
         },
       },
-      Laporan_Kerusakan: {
-        include: {
-          Perbaikan: true,
-        },
-      },
+      Laporan_Kerusakan: {},
     },
   });
   const result = {
@@ -129,6 +125,10 @@ const insertDetailAset = async (newDetailAsetData) => {
 };
 
 const editDetailAsetById = async (id, newDetailAsetData) => {
+  console.log(
+    "🚀 ~ editDetailAsetById ~ newDetailAsetData:",
+    newDetailAsetData
+  );
   const detailAset = prisma.detail_Aset.update({
     where: {
       id: id,
@@ -142,6 +142,7 @@ const editDetailAsetById = async (id, newDetailAsetData) => {
       id_aset: newDetailAsetData.id_aset,
       id_ruangan: newDetailAsetData.id_ruangan,
       keterangan: newDetailAsetData.keterangan,
+      status: newDetailAsetData.status,
     },
   });
 
