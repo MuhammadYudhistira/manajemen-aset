@@ -1,5 +1,6 @@
 import React from "react";
 import HeaderAvatar from "./HeaderAvatar";
+import QRScanner from "../(global)/Scanner";
 
 const Header = ({ role }) => {
   return (
@@ -24,8 +25,9 @@ const Header = ({ role }) => {
           </svg>
         </label>
         {/* <HeaderTitle /> */}
-        <div className="flex-1">
+        <div className="flex-1 space-x-2">
           <h2 className="btn btn-ghost text-xl">SIMAS</h2>
+          <QRScanner />
         </div>
         <HeaderAvatar role={role} />
       </div>

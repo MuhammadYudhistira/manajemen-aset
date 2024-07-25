@@ -7,7 +7,6 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import computer from "@/public/computer.jpg"
 
-import qrcode from "@/public/qrcode.png";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useFetchDA } from "@/hooks/detail_aset/useFetchDA";
@@ -19,15 +18,17 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  BreadcrumbItem, Breadcrumbs, Spinner,
+  BreadcrumbItem, Breadcrumbs,
   Tooltip
 } from "@nextui-org/react";
 import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
 import { toast } from "sonner";
-import { notFound, redirect } from "next/navigation";
+import { notFound, redirect, usePathname } from "next/navigation";
 import moment from "moment";
 
 const page = ({ params }) => {
+
+  const pathname = usePathname()
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data, isLoading, isError, error } = useFetchDA(params.id, params.iddetail);
@@ -110,9 +111,12 @@ const page = ({ params }) => {
                 </button>
               </li>
               <li>
-                <button className="btn bg-white text-black">
+                <Link
+                  href={`/admin/aset/${params.id}/detail-aset/${params.iddetail}/edit`}
+                  className="btn bg-white text-black"
+                >
                   <EditOutlinedIcon /> Edit Detail Aset
-                </button>
+                </Link>
               </li>
               <li>
                 <Button
@@ -161,7 +165,7 @@ const page = ({ params }) => {
               </li>
             </ul>
           </div>
-          <div className="flex w-full flex-row gap-8">
+          <div className="flex w-full flex-col md:flex-row gap-8">
             <div className="flex flex-col gap-3">
               <Image
                 alt="Aset"
@@ -216,7 +220,7 @@ const page = ({ params }) => {
               })
             ) : null}
           </div>
-          <div className="mt-4 flex flex-row justify-between">
+          <div className="mt-4 flex flex-col md:flex-row justify-between">
             <div className="w-[50%] space-y-2">
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Nomor Rangka</h3>
@@ -251,12 +255,11 @@ const page = ({ params }) => {
                 )}
               </div>
             </div>
-            <div className="w-[50%]">
-              <Image
+            <div className="w-[50%] mt-4">
+              <img
                 alt="qrcode"
-                src={qrcode}
-                className="w-full rounded-lg object-cover"
-                priority
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://2jlx9pkt-3000.asse.devtunnels.ms${pathname}`}
+                className="rounded-lg object-cover"
               />
             </div>
           </div>
