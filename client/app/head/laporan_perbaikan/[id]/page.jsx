@@ -24,28 +24,15 @@ const page = ({ params }) => {
 
     return (
         <>
-            <div className="rounded-md font-medium max-w-max bg-white">
-                <Breadcrumbs variant="bordered" radius="sm">
-                    <BreadcrumbItem href="/head">Home</BreadcrumbItem>
-                    <BreadcrumbItem href="/head/laporan_perbaikan">Laporan Perbaikan</BreadcrumbItem>
-                    <BreadcrumbItem>Detail Laporan Perbaikan</BreadcrumbItem>
-                </Breadcrumbs>
-            </div>
-
-            <NotaDinas
-                hal={repair.hal}
-                perihal={repair.laporan_kerusakan.perihal}
-                deskripsi_kerusakan={repair.laporan_kerusakan.deskripsi}
-                biaya_perbaikan={repair.biaya_perbaikan}
-                no_rekening={repair.nomor_rekening}
-                createdAt={repair.createdAt}
-                tanggal_laporan={repair.laporan_kerusakan.createdAt}
-                nama={session?.nama}
-                nip={session?.nip}
-            />
-
-            {/* <div className="rounded-xl bg-white p-5">
-                <div className="flex justify-end gap-3 items-center">
+            <div className="flex items-center justify-between ">
+                <div className="rounded-md font-medium max-w-max bg-white">
+                    <Breadcrumbs variant="bordered" radius="sm">
+                        <BreadcrumbItem href="/head">Home</BreadcrumbItem>
+                        <BreadcrumbItem href="/head/laporan_perbaikan">Laporan Perbaikan</BreadcrumbItem>
+                        <BreadcrumbItem>Detail Laporan Perbaikan</BreadcrumbItem>
+                    </Breadcrumbs>
+                </div>
+                <div className="flex justify-end gap-3 items-center bg-white py-2 px-4 rounded-lg border">
                     <p className="text-sm">Di Buat Tanggal: {moment(repair.createdAt).format("DD-MM-YYYY")}</p>
                     {repair.status === "Reported" && (
                         <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
@@ -65,102 +52,19 @@ const page = ({ params }) => {
                         </span>
                     )}
                 </div>
-                <div className="w-full space-y-2">
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text">Nama Aset</span>
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Nama Aset"
-                            name="nama"
-                            className="input bg-blue-50 text-sm text-black"
-                            value={`${repair?.detail_aset?.aset?.nama_barang} (${repair?.detail_aset?.kode_barang})`}
-                            disabled
-                        />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text">Laporan Kerusakan</span>
-                        </div>
-                        <textarea
-                            type="text"
-                            placeholder="Perihal"
-                            name="perihal"
-                            value={repair.laporan_kerusakan?.perihal}
-                            className="input textarea bg-blue-50 text-sm text-black"
-                            disabled
-                        />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text">Hal</span>
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Nama Aset"
-                            name="nama"
-                            className="input bg-blue-50 text-sm text-black"
-                            value={repair.hal}
-                            disabled
-                        />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text">Biaya Perbaikan</span>
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Biaya Perbaikan"
-                            className="input bg-blue-50 text-sm text-black"
-                            value={formatRupiah(repair.biaya_perbaikan)}
-                            disabled
-                        />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text">Nomor Rekening</span>
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Nomor Rekening"
-                            className="input bg-blue-50 text-sm text-black"
-                            value={repair.nomor_rekening}
-                            disabled
-                        />
-                    </label>
-                    {repair.status === "Approved" && (
-                        <>
-                            <label className="form-control w-full">
-                                <div className="label">
-                                    <span className="label-text">Disetujui Oleh</span>
-                                </div>
-                                <input
-                                    type="text"
-                                    placeholder="Disetujui Oleh"
-                                    name="nama"
-                                    className="input bg-blue-50 text-sm text-black"
-                                    value={repair.approved_by}
-                                    disabled
-                                />
-                            </label>
-                            <label className="form-control w-full">
-                                <div className="label">
-                                    <span className="label-text">Disetujui Tanggal</span>
-                                </div>
-                                <input
-                                    type="text"
-                                    placeholder="Disetujui Oleh"
-                                    name="nama"
-                                    className="input bg-blue-50 text-sm text-black"
-                                    value={moment(repair.approved_date).format("DD-MM-YYYY")}
-                                    disabled
-                                />
-                            </label>
-                        </>
-                    )}
-                </div>
-            </div> */}
+            </div>
+
+            <NotaDinas
+                hal={repair.hal}
+                perihal={repair.laporan_kerusakan?.perihal}
+                deskripsi_kerusakan={repair.laporan_kerusakan?.deskripsi}
+                biaya_perbaikan={repair.biaya_perbaikan}
+                no_rekening={repair.nomor_rekening}
+                createdAt={repair.createdAt}
+                tanggal_laporan={repair.laporan_kerusakan?.createdAt}
+                nama={session?.nama}
+                nip={session?.nip}
+            />
 
             {repair.status === "Rejected" && (
                 <div className="bg-white rounded-xl p-5 space-y-4">

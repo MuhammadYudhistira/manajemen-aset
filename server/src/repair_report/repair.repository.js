@@ -65,6 +65,29 @@ const insertRepair = async (newRepairData) => {
   return repair;
 };
 
+const updateRepairById = async (id, newRepairData) => {
+  const repair = await prisma.perbaikan.update({
+    where: {
+      id: id,
+    },
+    data: {
+      id_laporan_kerusakan: newRepairData.id_laporan_kerusakan,
+      id_detail_aset: newRepairData.id_detail_aset,
+      hal: newRepairData.hal,
+      biaya_perbaikan: newRepairData.biaya_perbaikan,
+      nomor_rekening: newRepairData.nomor_rekening,
+      approved_by: newRepairData.approved_by,
+      approved_date: newRepairData.approved_date,
+      keterangan: newRepairData.keterangan,
+      status: newRepairData.status,
+      berita_acara: newRepairData.berita_acara,
+      faktur: newRepairData.faktur,
+      kuitansi: newRepairData.kuitansi,
+    },
+  });
+  return repair;
+};
+
 const deleteRepairById = async (id) => {
   const repair = await prisma.perbaikan.delete({
     where: {
@@ -80,4 +103,5 @@ module.exports = {
   findRepairById,
   insertRepair,
   deleteRepairById,
+  updateRepairById,
 };

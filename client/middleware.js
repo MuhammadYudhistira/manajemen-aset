@@ -14,7 +14,9 @@ export const config = {
     "/staff/:path*",
     "/login",
     "/laporan/:path*",
+    "/detail_aset/:path*",
     "/head/:path*",
+    "/sekwan/:path*",
   ],
 };
 

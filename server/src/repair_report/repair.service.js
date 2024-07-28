@@ -4,6 +4,7 @@ const {
   findRepairById,
   insertRepair,
   deleteRepairById,
+  updateRepairById,
 } = require("./repair.repository");
 
 const getAllRepairs = async () => {
@@ -31,4 +32,19 @@ const deleteRepair = async (id) => {
   return repair;
 };
 
-module.exports = { getAllRepairs, getDetailRepair, createRepair, deleteRepair };
+const editRepair = async (id, newRepairData) => {
+  await getDetailRepair(id);
+  const damage = await getDetailDamage(newRepairData.id_laporan_kerusakan);
+  newRepairData.biaya_perbaikan = parseInt(newRepairData.biaya_perbaikan);
+  newRepairData.id_detail_aset = damage.id_detail_aset;
+  const repair = await updateRepairById(id, newRepairData);
+  return repair;
+};
+
+module.exports = {
+  getAllRepairs,
+  getDetailRepair,
+  createRepair,
+  deleteRepair,
+  editRepair,
+};

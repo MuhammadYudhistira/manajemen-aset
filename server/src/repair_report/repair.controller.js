@@ -8,6 +8,7 @@ const {
   getDetailRepair,
   createRepair,
   deleteRepair,
+  editRepair,
 } = require("./repair.service");
 
 const router = express.Router();
@@ -49,6 +50,18 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     await deleteRepair(id);
     response(200, null, "Berhasil menghapus data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.patch("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const repair = await editRepair(id, body);
+    response(200, repair, "Berhasil mengedit data", res);
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);

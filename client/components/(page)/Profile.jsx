@@ -33,7 +33,7 @@ const Profile = () => {
                 </div>
                 <div className='text-center pb-5'>
                     <p className='text-xl font-bold'>{user?.nama}</p>
-                    <p className='text-gray-400'>{user?.role}</p>
+                    <p className='text-gray-400'>{user?.role === "KEPALA_BAGIAN" ? "KEPALA BAGIAN" : user?.role}</p>
                 </div>
             </div>
             <UpdateProfileForm />

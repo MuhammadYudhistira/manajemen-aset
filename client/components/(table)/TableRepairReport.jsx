@@ -4,7 +4,7 @@ import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useFetchRepair } from "@/hooks/repair/useFetchRepiar";
+import { useFetchRepair } from "@/hooks/repair/useFetchRepair";
 import { useDeleteRepair } from "@/hooks/repair/useDeleteRepair";
 import { toast } from "sonner";
 
@@ -47,7 +47,7 @@ const TableRepairReport = () => {
             accessorKey: "hal",
             cell: (info) => {
                 const text = info.getValue();
-                const maxLength = 20; // Tentukan panjang maksimum yang diinginkan
+                const maxLength = 30; // Tentukan panjang maksimum yang diinginkan
                 const truncatedText = text?.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
                 return <p className="">{truncatedText}</p>;
@@ -58,7 +58,7 @@ const TableRepairReport = () => {
             accessorKey: "laporan_kerusakan.perihal",
             cell: (info) => {
                 const text = info.getValue();
-                const maxLength = 20; // Tentukan panjang maksimum yang diinginkan
+                const maxLength = 30; // Tentukan panjang maksimum yang diinginkan
                 const truncatedText = text?.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
                 return <p className="">{truncatedText}</p>;

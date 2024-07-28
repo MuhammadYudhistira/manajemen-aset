@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useFetchDetailRepair = (id) => {
   return useQuery({
-    queryKey: ["laporan-kerusakan"],
+    queryKey: ["laporan-perbaikan"],
     queryFn: async () => {
       const response = await axiosPrivate.get(`/laporan-perbaikan/${id}`);
       return response.data.payload;

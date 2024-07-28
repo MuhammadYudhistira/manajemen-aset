@@ -19,6 +19,8 @@ export default function Home() {
         redirect("/admin");
       case "STAFF":
         redirect("/staff");
+      case "SEKWAN":
+        redirect("/sekwan");
       default:
         redirect("not-found");
     }

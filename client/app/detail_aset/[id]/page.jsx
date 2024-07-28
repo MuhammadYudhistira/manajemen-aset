@@ -1,45 +1,54 @@
-"use client";
+"use client"
 import React from "react";
 import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import computer from "@/public/computer.jpg"
-
+import ReportOutlinedIcon from '@mui/icons-material/ReportOutlined';
 import qrcode from "@/public/qrcode.png";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { useFetchDA } from "@/hooks/detail_aset/useFetchDA";
 import {
     Button,
-    useDisclosure,
+    BreadcrumbItem, Breadcrumbs, Spinner,
     Tooltip
 } from "@nextui-org/react";
-import { notFound } from "next/navigation";
+import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
 import moment from "moment";
+import useSession from "@/hooks/session/useSession";
+import { usePathname } from "next/navigation";
 
-const DetailAsetIdDetail = ({ id, iddetail }) => {
+const page = ({ params }) => {
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { data, isLoading, isError, error } = useFetchDA(id, iddetail);
+    const { data, isLoading } = useFetchDetailDA(params.id)
+    const { session } = useSession()
+    const pathname = usePathname()
+
 
     if (isLoading) {
-        return <div>Loading...</div>
-    }
-
-    if (isError) {
-        if (error.response?.data?.status === 404) {
-            console.log(error);
-            notFound();
-        } else {
-            return <div>Error: {error.message}</div>
-        }
+        return (
+            <div className="flex justify-center items-center">
+                <Spinner />
+            </div>
+        )
     }
 
     return (
         <>
             <div className="mt-8 hidden items-center justify-end gap-5 sm:flex md:flex-row">
+                <div className="mr-auto hidden rounded-md bg-white font-medium md:block">
+                    <Breadcrumbs variant="bordered" radius="sm">
+                        <BreadcrumbItem href="/">Home</BreadcrumbItem>
+                        <BreadcrumbItem>Detail Aset</BreadcrumbItem>
+                    </Breadcrumbs>
+                </div>
                 <Button className="btn bg-white text-black">
                     <LocalPrintshopOutlinedIcon /> Cetak QR Code
                 </Button>
+                {session?.role === "STAFF" &&
+                    <Link href={`/staff/laporan/aset/${params.id}`} className="btn bg-white text-black">
+                        <ReportOutlinedIcon /> Laporkan kerusakan
+                    </Link>
+                }
             </div>
             <div className="mt-7 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
                 <div className="w-full rounded-xl bg-white p-5">
@@ -55,6 +64,8 @@ const DetailAsetIdDetail = ({ id, iddetail }) => {
                                 <button className="btn bg-white text-black">
                                     <LocalPrintshopOutlinedIcon /> Cetak QR Code
                                 </button>
+                            </li>
+                            <li>
                             </li>
                         </ul>
                     </div>
@@ -149,11 +160,10 @@ const DetailAsetIdDetail = ({ id, iddetail }) => {
                             </div>
                         </div>
                         <div className="w-[50%]">
-                            <Image
+                            <img
                                 alt="qrcode"
-                                src={qrcode}
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://localhost:3000${pathname}`}
                                 className="w-full rounded-lg object-cover"
-                                priority
                             />
                         </div>
                     </div>
@@ -221,6 +231,7 @@ const DetailAsetIdDetail = ({ id, iddetail }) => {
                                 )
                             })) : (<p>Belum ada Laporan kerusakan</p>)
                         }
+
                     </div>
                     <div className="space-y-2 rounded-xl bg-white p-5">
                         <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>
@@ -274,7 +285,7 @@ const DetailAsetIdDetail = ({ id, iddetail }) => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default DetailAsetIdDetail;
+export default page

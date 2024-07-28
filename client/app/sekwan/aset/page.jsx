@@ -1,11 +1,11 @@
 import StatsAset from "@/components/(aset)/StatsAset";
-import HeadGridAset from "./HeadGridAset";
+import SekwanGridAset from "./SekwanGridAset";
 
 const page = () => {
     return (
         <>
             <StatsAset />
-            <HeadGridAset />
+            <SekwanGridAset />
         </>
     );
 };
