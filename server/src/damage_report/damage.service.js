@@ -39,7 +39,6 @@ const createDemage = async (newDamageData) => {
 };
 
 const editDamage = async (id, newDamageData) => {
-  console.log("🚀 ~ editDamage ~ newDamageData:", newDamageData);
   const oldData = await getDetailDamage(id);
 
   if (newDamageData.image.length >= 1) {
@@ -91,6 +90,32 @@ const getDamageByIdUser = async (id) => {
   return damages;
 };
 
+const acceptDamage = async (id, user) => {
+  await getDetailDamage(id);
+
+  const data = {
+    approved_by: user.nama,
+    approved_date: new Date(),
+    status: "Approved",
+  };
+  const damage = await editDamegeById(id, data);
+
+  return damage;
+};
+
+const rejectDamage = async (id, rejectMessage) => {
+  console.log("🚀 ~ rejectDamage ~ rejectMessage:", rejectMessage);
+  await getDetailDamage(id);
+
+  const data = {
+    keterangan: rejectMessage,
+    status: "Rejected",
+  };
+  const damage = await editDamegeById(id, data);
+
+  return damage;
+};
+
 module.exports = {
   getAllDamage,
   getDamageByIdUser,
@@ -98,4 +123,6 @@ module.exports = {
   createDemage,
   editDamage,
   deleteDamage,
+  acceptDamage,
+  rejectDamage,
 };

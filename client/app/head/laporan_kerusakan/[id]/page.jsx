@@ -5,7 +5,6 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-
 import { useFetchDetailDR } from "@/hooks/damage/useFetchDetailDR";
 import {
     Button,
@@ -19,15 +18,52 @@ import {
 } from "@nextui-org/react";
 import moment from "moment";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import { useFormik } from "formik";
+import { useRejectDamageReport } from "@/hooks/damage/useRejectDamageReport";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
+import { useAcceptDamageReport } from "@/hooks/damage/useAcceptDamageReport";
 
 const page = ({ params }) => {
 
     const { data: damage, isLoading } = useFetchDetailDR(params.id)
 
+
+    const { mutate: acceptDamage, isSuccess: acceptSuccess } = useAcceptDamageReport({
+        onError: (error) => {
+            console.log(error)
+        },
+        onSuccess: () => {
+            toast.success("Berhasil menyetujui laporan")
+        }
+    })
+
+    const { mutate: rejectDamage, isSuccess: rejectSuccess } = useRejectDamageReport({
+        onError: (error) => {
+            console.log(error)
+        },
+        onSuccess: () => {
+            toast.success("Berhasil menolak laporan")
+        }
+    })
+
     const { isOpen: isOpen1, onOpen: onOpen1, onOpenChange: onOpenChange1 } = useDisclosure();
     const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure();
+
+    const formik = useFormik({
+        initialValues: {
+            keterangan: "",
+        },
+        onSubmit: () => {
+            const { keterangan } = formik.values;
+            rejectDamage({ id: params.id, keterangan })
+        },
+    });
+
+    const handleAcceptClick = () => {
+        acceptDamage(params.id)
+    }
 
     if (isLoading) {
         return (
@@ -36,6 +72,14 @@ const page = ({ params }) => {
             </div>
         )
     }
+
+    if (rejectSuccess || acceptSuccess) {
+        redirect("/head/laporan_kerusakan")
+    }
+
+    const handleFormInput = (event) => {
+        formik.setFieldValue(event.target.name, event.target.value);
+    };
 
     return (
         <>
@@ -62,8 +106,7 @@ const page = ({ params }) => {
                                 </Button>
                                 <Button
                                     className="bg-blue-500 text-white"
-                                    // onClick={handleClick}
-                                    onPress={onClose}
+                                    onPress={handleAcceptClick}
                                 >
                                     Setuju
                                 </Button>
@@ -81,14 +124,19 @@ const page = ({ params }) => {
             >
                 <ModalContent className="p-5">
                     {(onClose) => (
-                        <>
+                        <form onSubmit={formik.handleSubmit}>
                             <ModalHeader className="flex flex-row gap-1 text-red-500">
                                 <WarningAmberOutlinedIcon />
                                 <p>Warning</p>
                             </ModalHeader>
                             <ModalBody>
                                 <p>Berikan keterangan kenapa anda menolak laporan ini!</p>
-                                <textarea type="text" placeholder="Type here" className="input textarea input-bordered w-full min-h-20" />
+                                <textarea
+                                    type="text"
+                                    placeholder="Type here"
+                                    name="keterangan"
+                                    onChange={handleFormInput}
+                                    className="input textarea input-bordered w-full min-h-20" required />
                             </ModalBody>
                             <ModalFooter>
                                 <Button variant="light" onPress={onClose}>
@@ -96,31 +144,36 @@ const page = ({ params }) => {
                                 </Button>
                                 <Button
                                     className="bg-red-500 text-white"
-                                    // onClick={handleClick}
+                                    type="submit"
                                     onPress={onClose}
                                 >
                                     Tolak
                                 </Button>
                             </ModalFooter>
-                        </>
+                        </form>
                     )}
                 </ModalContent>
             </Modal>
-            <div className="mt-8 hidden items-center justify-end gap-5 sm:flex md:flex-row">
-                <Button className="btn bg-white text-black border border-black">
+            <div className="mt-8 items-center justify-end gap-3 flex flex-col md:flex-row">
+                <Button className="btn bg-white text-black border border-black w-full md:w-auto">
                     <LocalPrintshopOutlinedIcon /> Cetak Laporan
                 </Button>
-                <Button onPress={onOpen1} className="btn bg-white text-black border border-black">
+                {/* {damage.status === "Reported" && (
+                    <>
+                    </>
+                )} */}
+                <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
                     <CheckOutlinedIcon /> Setuju
                 </Button>
-                <Button onPress={onOpen2} className="btn bg-white text-black border border-black">
+                <Button onPress={onOpen2} className="btn bg-white text-black border border-black w-full md:w-auto">
                     <CloseOutlinedIcon /> Tolak
                 </Button>
+
             </div>
             <div className="rounded-xl bg-white p-5">
                 <div className="flex justify-end gap-3 items-center">
-                    <p className="text-sm">Di Buat Tanggal: {moment(damage.createdAt).format("DD-MM-YYYY")}</p>
-                    {damage.status === "Reported" && (
+                    <p className="text-sm">Di Buat Tanggal: {moment(damage?.createdAt).format("DD-MM-YYYY")}</p>
+                    {damage?.status === "Reported" && (
                         <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
                             <p className="whitespace-nowrap text-sm">{damage.status}</p>
                         </span>
@@ -148,7 +201,7 @@ const page = ({ params }) => {
                             placeholder="Nama Aset"
                             name="nama"
                             className="input bg-blue-50 text-sm text-black"
-                            value={damage?.user.nama}
+                            value={damage?.user?.nama}
                             disabled
                         />
                     </label>
@@ -242,7 +295,7 @@ const page = ({ params }) => {
                 <div className="bg-white rounded-xl p-5 space-y-4">
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text text-red-500 font-semibold">Keterangan Ditolak</span>
+                            <span className="label-text text-red-500 font-semibold">Keterangan</span>
                         </div>
                         <input
                             type="text"
@@ -253,11 +306,6 @@ const page = ({ params }) => {
                             readOnly
                         />
                     </label>
-                    <div className="flex justify-end">
-                        <Link
-                            href={`/staff/laporan/${params.id}/edit`}
-                            className="btn bg-white text-black border-black hover:bg-black hover:text-white">Perbaiki Laporan</Link>
-                    </div>
                 </div>
             )}
         </>

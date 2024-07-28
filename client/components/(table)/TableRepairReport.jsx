@@ -3,29 +3,12 @@ import React from "react";
 import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
-import { useFetchDRByUser } from "@/hooks/damage/useFetchDRByUser";
 import { useRouter } from "next/navigation";
-import { useDeleteDamageReport } from "@/hooks/damage/useDeleteDamageReport";
-import { toast } from "sonner";
+import { useFetchDamage } from "@/hooks/damage/useFetchDamage";
 
-const TableDamageReport = () => {
+const TableRepairReport = () => {
 
-    const { data, isLoading, refetch } = useFetchDRByUser()
-
-    const findDataById = (id) => {
-        return data.find(item => item.id === id);
-    };
-
-    const { mutate: deleteDamageReport, isPending } = useDeleteDamageReport({
-        onError: (error) => {
-            console.log(error)
-            toast.error(error.response.data.message)
-        },
-        onSuccess: () => {
-            toast.info("Berhasil menghapus data laporan kerusakan")
-            refetch()
-        }
-    })
+    const { data, isLoading } = useFetchDamage()
 
     const router = useRouter();
 
@@ -39,6 +22,18 @@ const TableDamageReport = () => {
                 return (
                     <p>
                         {info.getValue()} ({kode})
+                    </p>
+                );
+            },
+        },
+        {
+            header: "Pelapor",
+            accessorKey: "user.nama",
+            cell: (info) => {
+                const row = info.row.original;
+                return (
+                    <p>
+                        {info.getValue()}
                     </p>
                 );
             },
@@ -99,31 +94,8 @@ const TableDamageReport = () => {
         },
     ];
 
-    const handleDeleteClik = (id) => {
-        const laporan = findDataById(id)
-        if (laporan.status !== "Approved") {
-            const confirmation = confirm(
-                "Apakah anda yakin akan menghapus data laporan ini?",
-            );
-            if (confirmation) {
-                deleteDamageReport(id)
-            }
-        } else {
-            toast.info("Laporan sudah disetujui tidak bisa menghapus laporan")
-        }
-    };
-
-    const handleEditClick = (id) => {
-        const laporan = findDataById(id)
-        if (laporan.status !== "Approved") {
-            router.push(`/staff/laporan/${id}/edit`);
-        } else {
-            toast.info("Laporan sudah disetujui tidak bsa mengedit laporan")
-        }
-    };
-
     const handleNewItemClick = (id) => {
-        router.push(`/staff/laporan/${id}`);
+        router.push(`/head/laporan_kerusakan/${id}`);
     };
 
     if (isLoading) {
@@ -137,12 +109,10 @@ const TableDamageReport = () => {
             <BasicTable
                 data={data}
                 columns={columns}
-                handleDeleteClick={handleDeleteClik}
-                handleEditClick={handleEditClick}
                 handleNewItemClick={handleNewItemClick}
             />
         </>
     );
 };
 
-export default TableDamageReport;
+export default TableRepairReport;

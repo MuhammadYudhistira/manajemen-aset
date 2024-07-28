@@ -15,6 +15,7 @@ const findAllDamage = async () => {
       },
       detail_aset: {
         select: {
+          id: true,
           kode_barang: true,
           aset: {
             select: {

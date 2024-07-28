@@ -6,6 +6,8 @@ const {
   deleteDamage,
   editDamage,
   getDamageByIdUser,
+  acceptDamage,
+  rejectDamage,
 } = require("./damage.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -39,6 +41,28 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const data = await getDetailDamage(id);
     response(200, data, "Berhasil mendapatkan data", res);
+  } catch (error) {
+    responseError(404, error.message, res);
+  }
+});
+
+router.post("/:id/accept", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user;
+    const accept = await acceptDamage(id, user);
+    response(200, accept, "Berhasil Menyetujui laporan", res);
+  } catch (error) {
+    responseError(404, error.message, res);
+  }
+});
+
+router.post("/:id/reject", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { keterangan } = req.body;
+    const reject = await rejectDamage(id, keterangan);
+    response(200, reject, "Berhasil menolak laporan", res);
   } catch (error) {
     responseError(404, error.message, res);
   }

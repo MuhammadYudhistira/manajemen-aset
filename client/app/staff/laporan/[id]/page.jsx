@@ -84,7 +84,7 @@ const page = ({ params }) => {
                             placeholder="Deskripsi Kerusakan"
                             name="deskripsi"
                             value={damage.deskripsi}
-                            className="input textarea bg-blue-50 text-sm text-black"
+                            className="input textarea bg-blue-50 text-sm text-black min-h-32"
                             disabled
                         />
                     </label>
