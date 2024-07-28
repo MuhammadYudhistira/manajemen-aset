@@ -4,13 +4,29 @@ import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useFetchDamage } from "@/hooks/damage/useFetchDamage";
+import { useFetchRepair } from "@/hooks/repair/useFetchRepiar";
+import { useDeleteRepair } from "@/hooks/repair/useDeleteRepair";
+import { toast } from "sonner";
 
 const TableRepairReport = () => {
 
-    const { data, isLoading } = useFetchDamage()
-
+    const { data, isLoading, refetch } = useFetchRepair()
     const router = useRouter();
+
+    const { mutate: deleteRepair } = useDeleteRepair({
+        onSuccess: () => {
+            toast.info("Berhasil menghapus laporan perbaikan")
+            refetch()
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error(error.response.data.message)
+        }
+    })
+
+    const findDataById = (id) => {
+        return data.find(item => item.id === id);
+    };
 
     const columns = [
         {
@@ -27,31 +43,26 @@ const TableRepairReport = () => {
             },
         },
         {
-            header: "Pelapor",
-            accessorKey: "user.nama",
-            cell: (info) => {
-                const row = info.row.original;
-                return (
-                    <p>
-                        {info.getValue()}
-                    </p>
-                );
-            },
-        },
-        {
-            header: "Perihal",
-            accessorKey: "perihal",
+            header: "Hal",
+            accessorKey: "hal",
             cell: (info) => {
                 const text = info.getValue();
-                const maxLength = 50; // Tentukan panjang maksimum yang diinginkan
-                const truncatedText = text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+                const maxLength = 20; // Tentukan panjang maksimum yang diinginkan
+                const truncatedText = text?.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
                 return <p className="">{truncatedText}</p>;
             },
         },
         {
-            header: "Ruangan",
-            accessorKey: "detail_aset.ruangan.nama_ruangan",
+            header: "Kerusakan",
+            accessorKey: "laporan_kerusakan.perihal",
+            cell: (info) => {
+                const text = info.getValue();
+                const maxLength = 20; // Tentukan panjang maksimum yang diinginkan
+                const truncatedText = text?.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+
+                return <p className="">{truncatedText}</p>;
+            },
         },
         {
             header: "Status",
@@ -95,7 +106,29 @@ const TableRepairReport = () => {
     ];
 
     const handleNewItemClick = (id) => {
-        router.push(`/head/laporan_kerusakan/${id}`);
+        router.push(`/head/laporan_perbaikan/${id}`);
+    };
+    const handleDeleteClik = (id) => {
+        const laporan = findDataById(id)
+        if (laporan.status !== "Approved") {
+            const confirmation = confirm(
+                "Apakah anda yakin akan menghapus data laporan ini?",
+            );
+            if (confirmation) {
+                deleteRepair(id)
+            }
+        } else {
+            toast.info("Laporan sudah disetujui tidak bisa menghapus laporan")
+        }
+    };
+
+    const handleEditClick = (id) => {
+        const laporan = findDataById(id)
+        if (laporan.status !== "Approved") {
+            router.push(`/head/laporan_perbaikan/${id}/edit`);
+        } else {
+            toast.info("Laporan sudah disetujui tidak bsa mengedit laporan")
+        }
     };
 
     if (isLoading) {
@@ -110,6 +143,8 @@ const TableRepairReport = () => {
                 data={data}
                 columns={columns}
                 handleNewItemClick={handleNewItemClick}
+                handleDeleteClick={handleDeleteClik}
+                handleEditClick={handleEditClick}
             />
         </>
     );

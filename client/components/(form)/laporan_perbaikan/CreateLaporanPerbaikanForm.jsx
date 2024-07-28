@@ -1,29 +1,36 @@
 "use client";
-import Dropzone from "@/components/(input)/Dropzone";
-import { useCreateDamageReport } from "@/hooks/damage/useCreateDamageReport";
 import { useFetchDamage } from "@/hooks/damage/useFetchDamage";
-import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
+import { useCreateRepair } from "@/hooks/repair/useCreateRepair";
 import { Spinner } from "@nextui-org/react";
 import { useFormik } from "formik";
-import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import React from "react";
 import { toast } from "sonner";
 
 const CreateLaporanPerbaikanForm = () => {
 
-    const { data: damages } = useFetchDamage()
+    const router = useRouter()
 
-    const approvedDamages = damages?.filter(damage => damage.status === 'Approved');
 
-    // const { mutate: createDamageReport, isPending, isError, isSuccess } = useCreateDamageReport({
-    //     onSuccess: () => {
-    //         toast.success("Berhasil menambahkan laporan kerusakan")
-    //     },
-    //     onError: (error) => {
-    //         console.log(error)
-    //         toast.error(error.response.data.message)
-    //     }
-    // })
+    const { data: damages, isLoading } = useFetchDamage()
+    const approvedAndUnrepairedDamages = damages?.filter(damage =>
+        damage.status === 'Approved' && damage.Perbaikan === null
+    );
+
+    if (approvedAndUnrepairedDamages?.length === 0) {
+        toast.info("Tidak ada laporan kerusakan")
+        router.push("/head/laporan_perbaikan")
+    }
+
+    const { mutate: createRepair, isPending, isSuccess } = useCreateRepair({
+        onSuccess: () => {
+            toast.success("Berhasil menambahkan laporan kerusakan")
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error(error.response.data.message)
+        }
+    })
 
     const formik = useFormik({
         initialValues: {
@@ -33,9 +40,7 @@ const CreateLaporanPerbaikanForm = () => {
             nomor_rekening: "",
         },
         onSubmit: () => {
-            const { id_laporan_keruskan, biaya_perbaikan, hal, nomor_rekening } = formik.values
-
-            // createDamageReport(formData)
+            createRepair(formik.values)
         },
     });
 
@@ -43,15 +48,15 @@ const CreateLaporanPerbaikanForm = () => {
         formik.setFieldValue(event.target.name, event.target.value);
     };
 
-    // if (isLoading) {
-    //     return <div className="flex justify-center">
-    //         <Spinner />
-    //     </div>
-    // }
+    if (isLoading) {
+        return <div className="flex justify-center">
+            <Spinner />
+        </div>
+    }
 
-    // if (isSuccess) {
-    //     redirect("/head/laporan_perbaikan")
-    // }
+    if (isSuccess) {
+        redirect("/head/laporan_perbaikan")
+    }
 
     return (
         <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
@@ -63,11 +68,12 @@ const CreateLaporanPerbaikanForm = () => {
                     className="select bg-blue-50 text-sm"
                     name="id_laporan_kerusakan"
                     onChange={handleFormInput}
+                    required
                 >
                     <option defaultValue={""} hidden>
                         Pilih Laporan Kerusakan
                     </option>
-                    {approvedDamages?.map((damage) => {
+                    {approvedAndUnrepairedDamages?.map((damage) => {
                         return (
                             <option value={damage.id} key={damage.id}>
                                 {damage.perihal} ({damage.detail_aset.aset.nama_barang} - {damage.detail_aset.kode_barang})
@@ -120,8 +126,7 @@ const CreateLaporanPerbaikanForm = () => {
                     type="submit"
                     className="btn mt-4 bg-black text-white hover:border-black hover:bg-white hover:text-black"
                 >
-                    {/* {isPending ? <Spinner /> : "Buat Laporan Kerusakan"} */}
-                    Buat Laporan Perbaikan
+                    {isPending ? <Spinner /> : "Buat Laporan Kerusakan"}
                 </button>
             </div>
         </form>

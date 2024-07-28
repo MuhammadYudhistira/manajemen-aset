@@ -29,6 +29,11 @@ const findAllDamage = async () => {
           },
         },
       },
+      Perbaikan: {
+        select: {
+          _count: true,
+        },
+      },
     },
   });
   return damage;

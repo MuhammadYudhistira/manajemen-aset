@@ -8,6 +8,7 @@ const asetController = require("./src/asset/aset.controller");
 const ruanganController = require("./src/ruangan/ruangan.controller");
 const penanggungJawabController = require("./src/custodian/custodian.controller");
 const laporanKerusakanController = require("./src/damage_report/damage.controller");
+const laporanPerbaikanController = require("./src/repair_report/repair.controller");
 const UserController = require("./src/user/user.controller");
 const detailAsetController = require("./src/detail_aset/detail_aset.router");
 const { authMiddleware } = require("./src/middleware/authMiddleware");
@@ -35,6 +36,7 @@ app.use("/api/aset", asetController);
 app.use("/api/ruangan", ruanganController);
 app.use("/api/penanggung-jawab", penanggungJawabController);
 app.use("/api/laporan-kerusakan", authMiddleware, laporanKerusakanController);
+app.use("/api/laporan-perbaikan", authMiddleware, laporanPerbaikanController);
 app.use("/api/user", UserController);
 app.use("/api/detail-aset", detailAsetController);
 
