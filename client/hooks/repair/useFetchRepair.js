@@ -8,6 +8,7 @@ export const useFetchRepair = () => {
       const response = await axiosPrivate.get(`/laporan-perbaikan`);
       return response.data.payload;
     },
+    refetchOnWindowFocus: true,
     retry: false,
   });
 };

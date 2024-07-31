@@ -52,7 +52,13 @@ const SidebarHead = () => {
                             <li>
                                 <Link href="/head/laporan_perbaikan" className="">
                                     <HomeRepairServiceOutlinedIcon />
-                                    Perbaikan
+                                    Permintaan Perbaikan
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/head/laporan_perbaikan" className="">
+                                    <HomeRepairServiceOutlinedIcon />
+                                    Laporan Perbaikan
                                 </Link>
                             </li>
                         </ul>

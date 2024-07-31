@@ -40,12 +40,21 @@ const EditLaporanPerbaikanForm = ({ id }) => {
             hal: repair?.hal || "",
             biaya_perbaikan: repair?.biaya_perbaikan || "",
             nomor_rekening: repair?.nomor_rekening || "",
+            status: repair?.status || ""
         },
         enableReinitialize: true,
         onSubmit: () => {
-            editRepair({ id: id, body: formik.values })
+            let valuesToSubmit = { ...formik.values };
+
+            if (repair.status === "Rejected") {
+                valuesToSubmit.status = "Reported";
+            }
+
+            console.log(valuesToSubmit);
+            editRepair({ id: id, body: valuesToSubmit });
         },
     });
+
 
     const handleFormInput = (event) => {
         formik.setFieldValue(event.target.name, event.target.value);

@@ -41,10 +41,37 @@ const editRepair = async (id, newRepairData) => {
   return repair;
 };
 
+const acceptRepair = async (id, user) => {
+  await getDetailRepair(id);
+
+  const data = {
+    approved_by: user.nama,
+    approved_date: new Date(),
+    status: "Approved",
+  };
+  const repair = await updateRepairById(id, data);
+
+  return repair;
+};
+
+const rejectRepair = async (id, rejectMessage) => {
+  await getDetailRepair(id);
+
+  const data = {
+    keterangan: rejectMessage,
+    status: "Rejected",
+  };
+  const repair = await updateRepairById(id, data);
+
+  return repair;
+};
+
 module.exports = {
   getAllRepairs,
   getDetailRepair,
   createRepair,
   deleteRepair,
   editRepair,
+  acceptRepair,
+  rejectRepair,
 };

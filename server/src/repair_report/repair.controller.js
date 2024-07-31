@@ -9,6 +9,8 @@ const {
   createRepair,
   deleteRepair,
   editRepair,
+  acceptRepair,
+  rejectRepair,
 } = require("./repair.service");
 
 const router = express.Router();
@@ -31,6 +33,28 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);
+  }
+});
+
+router.post("/:id/accept", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user;
+    const accept = await acceptRepair(id, user);
+    response(200, accept, "Berhasil Menyetujui laporan", res);
+  } catch (error) {
+    responseError(404, error.message, res);
+  }
+});
+
+router.post("/:id/reject", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { keterangan } = req.body;
+    const reject = await rejectRepair(id, keterangan);
+    response(200, reject, "Berhasil menolak laporan", res);
+  } catch (error) {
+    responseError(404, error.message, res);
   }
 });
 

@@ -2,17 +2,14 @@
 import NotaDinas from "@/components/(reports)/NotaDinas";
 import { useFetchDetailRepair } from "@/hooks/repair/useFetchDetailRepair";
 import useSession from "@/hooks/session/useSession";
-import { formatRupiah } from "@/libs/formatRupiah";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
 import moment from "moment";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const page = ({ params }) => {
 
     const { data: repair, isLoading } = useFetchDetailRepair(params.id)
-    const { session, loading } = useSession()
+    const { session } = useSession()
 
     if (isLoading) {
         return (
@@ -27,8 +24,8 @@ const page = ({ params }) => {
             <div className="flex items-center justify-between ">
                 <div className="rounded-md font-medium max-w-max bg-white">
                     <Breadcrumbs variant="bordered" radius="sm">
-                        <BreadcrumbItem href="/head">Home</BreadcrumbItem>
-                        <BreadcrumbItem href="/head/laporan_perbaikan">Laporan Perbaikan</BreadcrumbItem>
+                        <BreadcrumbItem href="/sekwan">Home</BreadcrumbItem>
+                        <BreadcrumbItem href="/sekwan/laporan_perbaikan">Laporan Perbaikan</BreadcrumbItem>
                         <BreadcrumbItem>Detail Laporan Perbaikan</BreadcrumbItem>
                     </Breadcrumbs>
                 </div>
@@ -55,6 +52,7 @@ const page = ({ params }) => {
             </div>
 
             <NotaDinas
+                id={repair.id}
                 hal={repair.hal}
                 perihal={repair.laporan_kerusakan?.perihal}
                 deskripsi_kerusakan={repair.laporan_kerusakan?.deskripsi}
@@ -81,11 +79,6 @@ const page = ({ params }) => {
                             readOnly
                         />
                     </label>
-                    <div className="flex justify-end">
-                        <Link
-                            href={`/head/laporan_perbaikan/${params.id}/edit`}
-                            className="btn bg-white text-black border-black hover:bg-black hover:text-white">Perbaiki Laporan</Link>
-                    </div>
                 </div>
             )}
         </>

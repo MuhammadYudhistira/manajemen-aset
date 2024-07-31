@@ -46,13 +46,13 @@ const SidebarSekwan = () => {
                                 <Link href="/sekwan/laporan_perbaikan" className="group">
                                     {" "}
                                     <HomeRepairServiceOutlinedIcon />
-                                    Perbaikan
+                                    Permintaan Perbaikan
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/sekwan/laporan_aset" className="">
                                     <LaptopOutlinedIcon />
-                                    Perbaikan
+                                    Rekap Aset
                                 </Link>
                             </li>
                         </ul>
