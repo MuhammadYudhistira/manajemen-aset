@@ -106,7 +106,7 @@ const TableRepairReport = () => {
     ];
 
     const handleNewItemClick = (id) => {
-        router.push(`/head/laporan_perbaikan/${id}`);
+        router.push(`/head/permintaan_perbaikan/${id}`);
     };
     const handleDeleteClik = (id) => {
         const laporan = findDataById(id)
@@ -125,7 +125,7 @@ const TableRepairReport = () => {
     const handleEditClick = (id) => {
         const laporan = findDataById(id)
         if (laporan.status !== "Approved") {
-            router.push(`/head/laporan_perbaikan/${id}/edit`);
+            router.push(`/head/permintaan_perbaikan/${id}/edit`);
         } else {
             toast.info("Laporan sudah disetujui tidak bsa mengedit laporan")
         }

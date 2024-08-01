@@ -11,6 +11,7 @@ const {
   editRepair,
   acceptRepair,
   rejectRepair,
+  getAllAcceptedRepairs,
 } = require("./repair.service");
 
 const router = express.Router();
@@ -18,6 +19,16 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const repairs = await getAllRepairs();
+    response(200, repairs, "Berhasil mendapatkan data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error, res);
+  }
+});
+
+router.get("/accepted", async (req, res) => {
+  try {
+    const repairs = await getAllAcceptedRepairs();
     response(200, repairs, "Berhasil mendapatkan data", res);
   } catch (error) {
     console.log(error);

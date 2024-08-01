@@ -16,6 +16,7 @@ import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
 import moment from "moment";
 import useSession from "@/hooks/session/useSession";
 import { usePathname } from "next/navigation";
+import QrCode from "@/components/(reports)/QrCode";
 
 const page = ({ params }) => {
 
@@ -41,9 +42,13 @@ const page = ({ params }) => {
                         <BreadcrumbItem>Detail Aset</BreadcrumbItem>
                     </Breadcrumbs>
                 </div>
-                <Button className="btn bg-white text-black">
-                    <LocalPrintshopOutlinedIcon /> Cetak QR Code
-                </Button>
+                <QrCode
+                    aset={`${data?.aset?.nama_barang} ${data?.aset?.merk}`}
+                    id={params.id}
+                    kode_barang={data?.kode_barang}
+                    ruangan={data?.ruangan?.nama_ruangan}
+                    tahun={moment(data?.createdAt).format("YYYY")}
+                />
                 {session?.role === "STAFF" &&
                     <Link href={`/staff/laporan/aset/${params.id}`} className="btn bg-white text-black">
                         <ReportOutlinedIcon /> Laporkan kerusakan
@@ -159,10 +164,10 @@ const page = ({ params }) => {
                                 )}
                             </div>
                         </div>
-                        <div className="w-[50%]">
+                        <div className="w-2/5">
                             <img
                                 alt="qrcode"
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://localhost:3000${pathname}`}
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=http://localhost:3000${pathname}`}
                                 className="w-full rounded-lg object-cover"
                             />
                         </div>

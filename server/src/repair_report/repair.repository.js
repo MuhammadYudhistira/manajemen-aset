@@ -51,6 +51,35 @@ const findRepairById = async (id) => {
   return repair;
 };
 
+const findRepairsByStatus = async (status) => {
+  const repairs = await prisma.perbaikan.findMany({
+    where: {
+      status: status,
+    },
+    include: {
+      laporan_kerusakan: {
+        select: {
+          perihal: true,
+          deskripsi: true,
+          createdAt: true,
+        },
+      },
+      detail_aset: {
+        select: {
+          kode_barang: true,
+          aset: {
+            select: {
+              nama_barang: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return repairs;
+};
+
 const insertRepair = async (newRepairData) => {
   const repair = await prisma.perbaikan.create({
     data: {
@@ -101,6 +130,7 @@ const deleteRepairById = async (id) => {
 module.exports = {
   findAllRepair,
   findRepairById,
+  findRepairsByStatus,
   insertRepair,
   deleteRepairById,
   updateRepairById,

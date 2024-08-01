@@ -5,10 +5,16 @@ const {
   insertRepair,
   deleteRepairById,
   updateRepairById,
+  findRepairsByStatus,
 } = require("./repair.repository");
 
 const getAllRepairs = async () => {
   const repairs = await findAllRepair();
+  return repairs;
+};
+
+const getAllAcceptedRepairs = async () => {
+  const repairs = await findRepairsByStatus("Approved");
   return repairs;
 };
 
@@ -68,6 +74,7 @@ const rejectRepair = async (id, rejectMessage) => {
 
 module.exports = {
   getAllRepairs,
+  getAllAcceptedRepairs,
   getDetailRepair,
   createRepair,
   deleteRepair,

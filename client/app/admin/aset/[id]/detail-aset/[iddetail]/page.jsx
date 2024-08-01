@@ -25,6 +25,7 @@ import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
 import { toast } from "sonner";
 import { notFound, redirect, usePathname } from "next/navigation";
 import moment from "moment";
+import QrCode from "@/components/(reports)/QrCode";
 
 const page = ({ params }) => {
 
@@ -79,9 +80,13 @@ const page = ({ params }) => {
             <BreadcrumbItem>Detail Aset</BreadcrumbItem>
           </Breadcrumbs>
         </div>
-        <Button className="btn bg-white text-black">
-          <LocalPrintshopOutlinedIcon /> Cetak QR Code
-        </Button>
+        <QrCode
+          aset={`${data?.aset?.nama_barang} ${data?.aset?.merk}`}
+          id={params.iddetail}
+          kode_barang={data?.kode_barang}
+          ruangan={data?.ruangan?.nama_ruangan}
+          tahun={moment(data?.createdAt).format("YYYY")}
+        />
         <Link
           href={`/admin/aset/${params.id}/detail-aset/${params.iddetail}/edit`}
           className="btn bg-white text-black"
@@ -106,9 +111,9 @@ const page = ({ params }) => {
               className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
             >
               <li>
-                <button className="btn bg-white text-black">
+                <Link href={`/qr_code/${params.iddetail}`} className="btn bg-white text-black">
                   <LocalPrintshopOutlinedIcon /> Cetak QR Code
-                </button>
+                </Link>
               </li>
               <li>
                 <Link
@@ -258,7 +263,7 @@ const page = ({ params }) => {
             <div className="w-[50%] mt-4">
               <img
                 alt="qrcode"
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://2jlx9pkt-3000.asse.devtunnels.ms${pathname}`}
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://localhost:3000/detail-aset/${params.iddetail}`}
                 className="rounded-lg object-cover"
               />
             </div>
@@ -304,10 +309,9 @@ const page = ({ params }) => {
               <p>Belum ada Penanggung Jawab</p>
             )}
           </div>
-          <div className="space-y-2 rounded-xl bg-white p-5">
+          <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
             <h2 className="text-lg font-medium">Riwayat Laporan kerusakan</h2>
-            {data?.Penanggung_Jawab?.length > 0 ? (
-
+            {data?.Laporan_Kerusakan?.length > 0 ? (
               data?.Laporan_Kerusakan?.map((laporan) => {
                 return (
                   <div className="flex justify-between" key={laporan.id}>
@@ -328,54 +332,28 @@ const page = ({ params }) => {
               })) : (<p>Belum ada Laporan kerusakan</p>)
             }
           </div>
-          <div className="space-y-2 rounded-xl bg-white p-5">
+          <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
             <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500">SSD Rusak</p>
-                <p className="text-sm text-gray-500">12/01/2024</p>
-              </div>
-              <div>
-                <Link
-                  href={"/admin/laporan_perbaikan/123"}
-                  className="btn btn-sm bg-white"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500">
-                  Kipas rusak, ganti thermal paste, dan pembersihan motherboard
-                </p>
-                <p className="text-sm text-gray-500">12/01/2024</p>
-              </div>
-              <div>
-                <Link
-                  href={"/admin/laporan_perbaikan/123"}
-                  className="btn btn-sm bg-white"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500">
-                  Kipas rusak, ganti thermal paste, dan pembersihan motherboard
-                </p>
-                <p className="text-sm text-gray-500">12/01/2024</p>
-              </div>
-              <div>
-                <Link
-                  href={"/admin/laporan_perbaikan/123"}
-                  className="btn btn-sm bg-white"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
+            {data?.Perbaikan?.length > 0 ? (
+              data?.Perbaikan?.map((perbaikan) => {
+                return (
+                  <div className="flex justify-between" key={perbaikan.id}>
+                    <div>
+                      <p className="text-sm text-gray-500">{perbaikan.hal}</p>
+                      <p className="text-sm text-gray-500">{moment(perbaikan.createdAt).format("DD-MM-YYYY")}</p>
+                    </div>
+                    <div>
+                      <Link
+                        href={`/perbaikan/${perbaikan.id}`}
+                        className="btn btn-sm bg-white"
+                      >
+                        View
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })) : (<p>Belum ada Laporan kerusakan</p>)
+            }
           </div>
         </div>
       </div>
