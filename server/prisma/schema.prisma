@@ -62,6 +62,7 @@ model User {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   Laporan_Kerusakan Laporan_Kerusakan[]
+  Perbaikan         Perbaikan[]
 
   @@map("users")
 }
@@ -166,6 +167,7 @@ model Perbaikan {
   hal                  String             @db.LongText
   biaya_perbaikan      Int
   nomor_rekening       String             @db.VarChar(100)
+  id_requested_by      String
   approved_by          String?            @db.VarChar(100)
   approved_date        DateTime?
   faktur               String?
@@ -178,6 +180,7 @@ model Perbaikan {
   id_laporan_kerusakan String             @unique
   laporan_kerusakan    Laporan_Kerusakan  @relation(fields: [id_laporan_kerusakan], references: [id])
   Perbaikan_Images     Perbaikan_Images[]
+  user                 User               @relation(fields: [id_requested_by], references: [id])
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 

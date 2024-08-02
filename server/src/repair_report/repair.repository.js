@@ -46,6 +46,12 @@ const findRepairById = async (id) => {
           },
         },
       },
+      user: {
+        select: {
+          nama: true,
+          nip: true,
+        },
+      },
     },
   });
   return repair;
@@ -85,6 +91,7 @@ const insertRepair = async (newRepairData) => {
     data: {
       id_laporan_kerusakan: newRepairData.id_laporan_kerusakan,
       id_detail_aset: newRepairData.id_detail_aset,
+      id_requested_by: newRepairData.id_requested_by,
       hal: newRepairData.hal,
       biaya_perbaikan: newRepairData.biaya_perbaikan,
       nomor_rekening: newRepairData.nomor_rekening,

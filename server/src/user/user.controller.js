@@ -8,7 +8,6 @@ const {
   editUser,
 } = require("./user.service");
 const { responseError } = require("../response/responseError");
-const { authMiddleware } = require("../middleware/authMiddleware");
 const { uploadImage } = require("../middleware/uploadGambar");
 
 const router = express.Router();

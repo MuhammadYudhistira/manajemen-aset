@@ -81,6 +81,10 @@ const TableRepairReport = () => {
                         bgColor = "bg-green-100";
                         textColor = "text-green-700";
                         break;
+                    case "Completed":
+                        bgColor = "bg-green-100";
+                        textColor = "text-green-700";
+                        break;
                     case "Rejected":
                         bgColor = "bg-red-100";
                         textColor = "text-red-700";
@@ -106,11 +110,11 @@ const TableRepairReport = () => {
     ];
 
     const handleNewItemClick = (id) => {
-        router.push(`/head/permintaan_perbaikan/${id}`);
+        router.push(`/head/laporan_perbaikan/${id}`);
     };
     const handleDeleteClik = (id) => {
         const laporan = findDataById(id)
-        if (laporan.status !== "Approved") {
+        if (laporan.status !== "Approved" && laporan.status !== "Completed") {
             const confirmation = confirm(
                 "Apakah anda yakin akan menghapus data laporan ini?",
             );
@@ -124,8 +128,8 @@ const TableRepairReport = () => {
 
     const handleEditClick = (id) => {
         const laporan = findDataById(id)
-        if (laporan.status !== "Approved") {
-            router.push(`/head/permintaan_perbaikan/${id}/edit`);
+        if (laporan.status !== "Approved" && laporan.status !== "Completed") {
+            router.push(`/head/laporan_perbaikan/${id}/edit`);
         } else {
             toast.info("Laporan sudah disetujui tidak bsa mengedit laporan")
         }

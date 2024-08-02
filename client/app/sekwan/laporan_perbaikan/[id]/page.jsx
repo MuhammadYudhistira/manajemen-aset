@@ -60,8 +60,8 @@ const page = ({ params }) => {
                 no_rekening={repair.nomor_rekening}
                 createdAt={repair.createdAt}
                 tanggal_laporan={repair.laporan_kerusakan?.createdAt}
-                nama={session?.nama}
-                nip={session?.nip}
+                nama={repair.user?.nama}
+                nip={repair.user?.nip}
             />
 
             {repair.status === "Rejected" && (

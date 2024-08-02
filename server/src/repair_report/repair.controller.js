@@ -12,9 +12,29 @@ const {
   acceptRepair,
   rejectRepair,
   getAllAcceptedRepairs,
+  inputLaporan,
 } = require("./repair.service");
+const { uploadFiles } = require("../middleware/uploadFile");
 
 const router = express.Router();
+
+const fileConfigs = [
+  {
+    fieldName: "faktur",
+    maxFileSize: 1024 * 1024 * 5, // 5MB
+    allowedMimeTypes: ["application/pdf"],
+  },
+  {
+    fieldName: "kuitansi",
+    maxFileSize: 1024 * 1024 * 5, // 5MB
+    allowedMimeTypes: ["application/pdf"],
+  },
+  {
+    fieldName: "berita_acara",
+    maxFileSize: 1024 * 1024 * 5, // 5MB
+    allowedMimeTypes: ["application/pdf"],
+  },
+];
 
 router.get("/", async (req, res) => {
   try {
@@ -47,6 +67,34 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const user = req.user;
+    const data = req.body;
+    data.id_requested_by = user.id;
+    const repair = await createRepair(data);
+    response(200, repair, "Berhasil menambahkan data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(400, error.message, res);
+  }
+});
+
+router.post("/:id/laporan", uploadFiles(fileConfigs), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const faktur = req.body.faktur[0];
+    const kuitansi = req.body.kuitansi[0];
+    const berita_acara = req.body.berita_acara[0];
+    const data = { faktur, kuitansi, berita_acara };
+    const laporan = await inputLaporan(id, data);
+    response(200, laporan, "Berhasil menambahkan data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(400, error.message, res);
+  }
+});
+
 router.post("/:id/accept", async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,17 +114,6 @@ router.post("/:id/reject", async (req, res) => {
     response(200, reject, "Berhasil menolak laporan", res);
   } catch (error) {
     responseError(404, error.message, res);
-  }
-});
-
-router.post("/", async (req, res) => {
-  try {
-    const request = req.body;
-    const repair = await createRepair(request);
-    response(200, repair, "Berhasil menambahkan data", res);
-  } catch (error) {
-    console.log(error);
-    responseError(400, error.message, res);
   }
 });
 

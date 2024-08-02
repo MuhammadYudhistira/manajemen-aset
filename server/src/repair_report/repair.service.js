@@ -72,6 +72,20 @@ const rejectRepair = async (id, rejectMessage) => {
   return repair;
 };
 
+const inputLaporan = async (id, newRepairData) => {
+  await getDetailRepair(id);
+
+  const data = {
+    faktur: newRepairData.faktur,
+    kuitansi: newRepairData.kuitansi,
+    berita_acara: newRepairData.berita_acara,
+    status: "Completed",
+  };
+
+  const repair = await updateRepairById(id, data);
+  return repair;
+};
+
 module.exports = {
   getAllRepairs,
   getAllAcceptedRepairs,
@@ -81,4 +95,5 @@ module.exports = {
   editRepair,
   acceptRepair,
   rejectRepair,
+  inputLaporan,
 };

@@ -46,7 +46,7 @@ const SidebarSekwan = () => {
                                 <Link href="/sekwan/laporan_perbaikan" className="group">
                                     {" "}
                                     <HomeRepairServiceOutlinedIcon />
-                                    Permintaan Perbaikan
+                                    Laporan Perbaikan
                                 </Link>
                             </li>
                             <li>

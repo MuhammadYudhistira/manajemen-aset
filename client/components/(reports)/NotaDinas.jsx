@@ -12,6 +12,7 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
@@ -24,8 +25,9 @@ import { useAcceptRepair } from "@/hooks/repair/useAcceptRepair";
 import { useRejectRepair } from "@/hooks/repair/useRejectRepair";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
-const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal, createdAt, hal, tanggal_laporan, nama, nip, id }) => {
+const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal, createdAt, hal, tanggal_laporan, nama, nip, id, status }) => {
     const contentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => contentRef.current,
@@ -173,7 +175,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                 <Button className="btn bg-white text-black border border-black w-full md:w-auto" onClick={handlePrint}>
                     <PictureAsPdfOutlinedIcon /> Export PDF
                 </Button>
-                {session?.role === "SEKWAN" && (
+                {session?.role === "SEKWAN" ? (
                     <>
                         <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
                             <CheckOutlinedIcon /> Setuju
@@ -182,6 +184,12 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                             <CloseOutlinedIcon /> Tolak
                         </Button>
                     </>
+                ) : (
+                    status === "Approved" && (
+                        <Link href={`/head/laporan_perbaikan/${id}/create`} className="btn bg-white text-black border border-black w-full md:w-auto">
+                            <AddCircleOutlineOutlinedIcon /> Buat Laporan Perbaikan
+                        </Link>
+                    )
                 )}
             </div>
             <div className='rounded-xl bg-white p-5 mt-5 border'>

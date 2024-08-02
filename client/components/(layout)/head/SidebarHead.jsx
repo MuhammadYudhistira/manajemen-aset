@@ -50,12 +50,7 @@ const SidebarHead = () => {
                                     Kerusakan
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/head/permintaan_perbaikan" className="">
-                                    <HomeRepairServiceOutlinedIcon />
-                                    Permintaan Perbaikan
-                                </Link>
-                            </li>
+
                             <li>
                                 <Link href="/head/laporan_perbaikan" className="">
                                     <BookOutlinedIcon />
