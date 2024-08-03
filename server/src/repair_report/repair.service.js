@@ -1,4 +1,5 @@
 const { getDetailDamage } = require("../damage_report/damage.service");
+const { editDetailAsetById } = require("../detail_aset/detail_aset.repository");
 const {
   findAllRepair,
   findRepairById,
@@ -73,7 +74,7 @@ const rejectRepair = async (id, rejectMessage) => {
 };
 
 const inputLaporan = async (id, newRepairData) => {
-  await getDetailRepair(id);
+  const oldData = await getDetailRepair(id);
 
   const data = {
     faktur: newRepairData.faktur,
@@ -81,6 +82,12 @@ const inputLaporan = async (id, newRepairData) => {
     berita_acara: newRepairData.berita_acara,
     status: "Completed",
   };
+
+  const newData = {
+    status: "Available",
+  };
+
+  await editDetailAsetById(oldData.id_detail_aset, newData);
 
   const repair = await updateRepairById(id, data);
   return repair;

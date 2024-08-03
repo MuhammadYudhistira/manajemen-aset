@@ -52,6 +52,12 @@ const findRepairById = async (id) => {
           nip: true,
         },
       },
+      Perbaikan_Images: {
+        select: {
+          id: true,
+          link: true,
+        },
+      },
     },
   });
   return repair;

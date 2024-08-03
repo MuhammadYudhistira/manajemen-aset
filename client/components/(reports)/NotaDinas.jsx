@@ -173,9 +173,9 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
             </Modal>
             <div className="mt-8 items-center justify-end gap-3 flex flex-col md:flex-row">
                 <Button className="btn bg-white text-black border border-black w-full md:w-auto" onClick={handlePrint}>
-                    <PictureAsPdfOutlinedIcon /> Export PDF
+                    <PictureAsPdfOutlinedIcon /> Download Nota Dinas
                 </Button>
-                {session?.role === "SEKWAN" ? (
+                {session?.role === "SEKWAN" && status !== "Completed" ? (
                     <>
                         <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
                             <CheckOutlinedIcon /> Setuju
@@ -187,7 +187,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                 ) : (
                     status === "Approved" && (
                         <Link href={`/head/laporan_perbaikan/${id}/create`} className="btn bg-white text-black border border-black w-full md:w-auto">
-                            <AddCircleOutlineOutlinedIcon /> Buat Laporan Perbaikan
+                            <AddCircleOutlineOutlinedIcon /> Tambah Laporan Perbaikan
                         </Link>
                     )
                 )}

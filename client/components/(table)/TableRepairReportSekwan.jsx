@@ -64,6 +64,10 @@ const TableRepairReportSekwan = () => {
                         bgColor = "bg-green-100";
                         textColor = "text-green-700";
                         break;
+                    case "Completed":
+                        bgColor = "bg-green-100";
+                        textColor = "text-green-700";
+                        break;
                     case "Rejected":
                         bgColor = "bg-red-100";
                         textColor = "text-red-700";

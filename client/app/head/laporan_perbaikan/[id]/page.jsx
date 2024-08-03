@@ -1,18 +1,16 @@
 "use client"
+
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import NotaDinas from "@/components/(reports)/NotaDinas";
 import { useFetchDetailRepair } from "@/hooks/repair/useFetchDetailRepair";
-import useSession from "@/hooks/session/useSession";
-import { formatRupiah } from "@/libs/formatRupiah";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
 import moment from "moment";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const page = ({ params }) => {
 
     const { data: repair, isLoading } = useFetchDetailRepair(params.id)
-    const { session, loading } = useSession()
 
     if (isLoading) {
         return (
@@ -73,6 +71,41 @@ const page = ({ params }) => {
                 nip={repair.user?.nip}
                 status={repair.status}
             />
+
+            {repair.status === "Completed" && (
+                <div className="rounded-md w-full p-5 bg-white">
+                    {repair.faktur && (
+                        <label className="form-control w-full">
+                            <div className="label">
+                                <span className="label-text">Faktur</span>
+                            </div>
+                            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${repair.faktur}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black">
+                                {repair.faktur} <PictureAsPdfOutlinedIcon className='ml-5' />
+                            </Link>
+                        </label>
+                    )}
+                    {repair.kuitansi && (
+                        <label className="form-control w-full">
+                            <div className="label">
+                                <span className="label-text">Kuitansi</span>
+                            </div>
+                            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${repair.kuitansi}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black">
+                                {repair.kuitansi} <PictureAsPdfOutlinedIcon className='ml-5' />
+                            </Link>
+                        </label>
+                    )}
+                    {repair.berita_acara && (
+                        <label className="form-control w-full">
+                            <div className="label">
+                                <span className="label-text">Berita Acara</span>
+                            </div>
+                            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${repair.berita_acara}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black">
+                                {repair.berita_acara} <PictureAsPdfOutlinedIcon className='ml-5' />
+                            </Link>
+                        </label>
+                    )}
+                </div>
+            )}
 
             {repair.status === "Rejected" && (
                 <div className="bg-white rounded-xl p-5 space-y-4">
