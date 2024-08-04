@@ -200,7 +200,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                             <tr>
                                 <td className='w-[10%]'>Kepada</td>
                                 <td className='w-[3%] pl-2'>:</td>
-                                <td className='w-[88%]'>Yth. Bapaka Sekretaris DPRD Provinsi Sumatera Barat</td>
+                                <td className='w-[88%]'>Yth. Bapak Sekretaris DPRD Provinsi Sumatera Barat</td>
                             </tr>
                             <tr>
                                 <td className='w-[10%]'>Dari</td>
@@ -220,12 +220,13 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                         </tbody>
                     </table>
                     <p>Dengan Hormat,</p>
-                    <ol className='pl-10 list-decimal list-outside space-y-4'>
+                    <ol className='pl-10 list-decimal list-outside space-y-4 break-words overflow-x-auto max-w-full'>
                         <li>Dengan ini disampaikan kepada Bapak, bahwa sesuai dengan laporan staf subbag rumah tangga Sekretariat DPRD Prov. Sumbar tanggal {moment(tanggal_laporan).format("DD MMMM YYYY")} Perihal {perihal}</li>
                         <li>{deskripsi_kerusakan} dengan biaya yang dibutuhkan sebesar <strong>{formatRupiah(biaya_perbaikan)}</strong></li>
                         <li>Untuk biaya diatas dibebankan pada kegiatan Penyediaan jasa penunjang Urusan Pemerintah Provinsi, dengan No Rekening <strong>{no_rekening}</strong></li>
                         <li>Demikian disampaikan dan selanjutnya mohon persetujuan Bapak, terimakasih.</li>
                     </ol>
+
                     <div className='flex justify-end uppercase'>
                         <div>
                             <h4 className='text-center'>Kepala bagian umum dan keuangan</h4>

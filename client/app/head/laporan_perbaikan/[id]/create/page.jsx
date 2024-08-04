@@ -5,7 +5,7 @@ const page = ({ params }) => {
     return (
         <>
             <div className="rounded-xl bg-white p-5">
-                <InputLaporanPerbaikanForm />
+                <InputLaporanPerbaikanForm id={params.id} />
             </div>
         </>
     )

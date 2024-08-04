@@ -31,7 +31,8 @@ const findAllDamage = async () => {
       },
       Perbaikan: {
         select: {
-          _count: true,
+          id: true,
+          status: true,
         },
       },
     },

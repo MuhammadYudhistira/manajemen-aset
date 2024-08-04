@@ -1,28 +1,15 @@
 "use client";
-import { useFetchDamage } from "@/hooks/damage/useFetchDamage";
 import { useEditRepair } from "@/hooks/repair/useEditRepair";
 import { useFetchDetailRepair } from "@/hooks/repair/useFetchDetailRepair";
 import { Spinner } from "@nextui-org/react";
 import { useFormik } from "formik";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
 const EditLaporanPerbaikanForm = ({ id }) => {
 
-    const router = useRouter()
-
-    const { data: damages, isLoading: damageLoading } = useFetchDamage()
     const { data: repair, isLoading: repairLoading } = useFetchDetailRepair(id)
-
-    const approvedAndUnrepairedDamages = damages?.filter(damage =>
-        damage.status === 'Approved' && damage.Perbaikan === null
-    );
-
-    if (approvedAndUnrepairedDamages?.length === 0) {
-        toast.info("Tidak ada laporan kerusakan")
-        router.push("/head/laporan_perbaikan")
-    }
 
     const { mutate: editRepair, isPending, isSuccess } = useEditRepair({
         onSuccess: () => {
@@ -60,7 +47,7 @@ const EditLaporanPerbaikanForm = ({ id }) => {
         formik.setFieldValue(event.target.name, event.target.value);
     };
 
-    if (damageLoading || repairLoading) {
+    if (repairLoading) {
         return <div className="flex justify-center">
             <Spinner />
         </div>

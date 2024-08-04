@@ -6,7 +6,7 @@ const { createRepairingImages } = require("./repairing_image.service");
 
 const router = express.Router();
 
-const uploadUserImage = uploadImage(
+const uploadRepair = uploadImage(
   "laporan-perbaikan/perbaikan-images", // nama folder di bucket
   1024 * 1024 * 5, // maksimal ukuran file, kalau ini brrti 5MB
   ["image/png", "image/jpg", "image/jpeg", "image/webp"] //jenis file yang diterima
@@ -20,12 +20,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", uploadUserImage, async (req, res) => {
+router.post("/", uploadRepair, async (req, res) => {
   try {
     const body = req.body;
     const repair = await createRepairingImages(body);
     response(200, repair, "Berhasil menambahkan data", res);
   } catch (error) {
+    console.log(error);
     responseError(500, error.message, res);
   }
 });

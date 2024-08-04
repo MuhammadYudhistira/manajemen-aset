@@ -183,6 +183,12 @@ const findAllDetailAset = async () => {
       aset: {
         select: {
           nama_barang: true,
+          tahun_perolehan: true,
+          merk: true,
+          ukuran: true,
+          harga_satuan: true,
+          jumlah_barang: true,
+          nilai_perolehan: true,
         },
       },
     },

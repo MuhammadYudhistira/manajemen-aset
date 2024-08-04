@@ -50,9 +50,9 @@ const SidebarSekwan = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/sekwan/laporan_aset" className="">
+                                <Link href="/sekwan/kib" className="">
                                     <LaptopOutlinedIcon />
-                                    Rekap Aset
+                                    Kartu Inventaris Barang
                                 </Link>
                             </li>
                         </ul>

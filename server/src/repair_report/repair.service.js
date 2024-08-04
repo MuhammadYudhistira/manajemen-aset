@@ -1,5 +1,6 @@
 const { getDetailDamage } = require("../damage_report/damage.service");
 const { editDetailAsetById } = require("../detail_aset/detail_aset.repository");
+const { deleteImage } = require("../middleware/uploadGambar");
 const {
   findAllRepair,
   findRepairById,
@@ -34,9 +35,32 @@ const createRepair = async (newRepairData) => {
 };
 
 const deleteRepair = async (id) => {
-  await getDetailRepair(id);
-  const repair = await deleteRepairById(id);
-  return repair;
+  try {
+    const oldData = await getDetailRepair(id);
+    const { faktur, berita_acara, kuitansi } = oldData;
+
+    const deleteFiles = async (files) => {
+      const deletePromises = files.map(deleteImage);
+      const results = await Promise.all(deletePromises);
+      results.forEach((result, index) => {
+        if (result.success) {
+          console.log(`File ${files[index]} berhasil dihapus`);
+        } else {
+          console.error(
+            `Gagal menghapus file ${files[index]}, sebab: ${result}`
+          );
+        }
+      });
+    };
+
+    await deleteFiles([faktur, berita_acara, kuitansi]);
+
+    const repair = await deleteRepairById(id);
+    return repair;
+  } catch (error) {
+    console.error(`Gagal menghapus repair, sebab: ${error.message}`);
+    throw error;
+  }
 };
 
 const editRepair = async (id, newRepairData) => {
