@@ -6,6 +6,9 @@ const {
   findUserByNip,
   deleteUserById,
   editUserById,
+  countAllUser,
+  countUserByGender,
+  countUserByPJ,
 } = require("./user.repository");
 
 const bcrypt = require("bcrypt");
@@ -13,6 +16,20 @@ const bcrypt = require("bcrypt");
 const getUser = async () => {
   const users = await findUser();
   return users;
+};
+
+const countUserStats = async () => {
+  const all = await countAllUser();
+  const wanita = await countUserByGender("Wanita");
+  const pria = await countUserByGender("Pria");
+  const pj = await countUserByPJ();
+
+  return {
+    allUser: all,
+    Wanita: wanita,
+    Pria: pria,
+    Pj: pj,
+  };
 };
 
 const getDetailUser = async (id) => {
@@ -90,4 +107,11 @@ const editUser = async (id, newUserData) => {
   return user;
 };
 
-module.exports = { getUser, getDetailUser, createUser, deleteUser, editUser };
+module.exports = {
+  getUser,
+  getDetailUser,
+  createUser,
+  deleteUser,
+  editUser,
+  countUserStats,
+};

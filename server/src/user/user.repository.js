@@ -78,6 +78,31 @@ const editUserById = async (id, newUserData) => {
   return result;
 };
 
+const countAllUser = async () => {
+  const user = await prisma.user.count();
+  return user;
+};
+
+const countUserByPJ = async () => {
+  const userCount = await prisma.user.count({
+    where: {
+      Penanggung_Jawab: {
+        some: {},
+      },
+    },
+  });
+  return userCount;
+};
+
+const countUserByGender = async (gender) => {
+  const user = await prisma.user.count({
+    where: {
+      jenis_kelamin: gender,
+    },
+  });
+  return user;
+};
+
 module.exports = {
   findUser,
   findUserById,
@@ -85,4 +110,7 @@ module.exports = {
   insertUser,
   deleteUserById,
   editUserById,
+  countAllUser,
+  countUserByGender,
+  countUserByPJ,
 };

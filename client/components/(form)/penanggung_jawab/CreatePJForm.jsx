@@ -20,9 +20,13 @@ import { useCreateCustodian } from "@/hooks/penanggung_jawab/useCreateCustodian"
 
 const CreatePJForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data: users } = useFetchUser();
+  const { data } = useFetchUser();
   const { data: asets } = useFetchListDA();
   const { refetch } = useFetchCustodian();
+
+  const staffUsers = data?.users?.filter(user =>
+    user.role === 'STAFF'
+  );
 
   const { mutate: createCustodian, isPending } = useCreateCustodian({
     onSuccess: () => {
@@ -81,7 +85,7 @@ const CreatePJForm = () => {
                       <option defaultValue={""} hidden>
                         Nama Pengguna
                       </option>
-                      {users.map((user) => {
+                      {staffUsers.map((user) => {
                         return (
                           <option value={user.id} key={user.id}>
                             {user.nama}

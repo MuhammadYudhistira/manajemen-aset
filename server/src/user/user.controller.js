@@ -6,6 +6,7 @@ const {
   createUser,
   deleteUser,
   editUser,
+  countUserStats,
 } = require("./user.service");
 const { responseError } = require("../response/responseError");
 const { uploadImage } = require("../middleware/uploadGambar");
@@ -21,8 +22,14 @@ const uploadUserImage = uploadImage(
 router.get("/", async (req, res) => {
   try {
     const users = await getUser();
-    response(200, users, "Berhasil mengambil data", res);
+    const countUser = await countUserStats();
+    const data = {
+      count: countUser,
+      users,
+    };
+    response(200, data, "Berhasil mengambil data", res);
   } catch (error) {
+    console.log(error);
     responseError(500, error.message, res);
   }
 });

@@ -30,13 +30,13 @@ const EditUserForm = ({ id }) => {
 
   const formik = useFormik({
     initialValues: {
-      nama: user.nama || "",
-      nip: user.nip || "",
-      password: user.password || "",
-      alamat: user.alamat || "",
-      jenis_kelamin: user.jenis_kelamin || "",
-      no_hp: user.no_hp || "",
-      role: user.role || "",
+      nama: user?.nama || "",
+      nip: user?.nip || "",
+      password: user?.password || "",
+      alamat: user?.alamat || "",
+      jenis_kelamin: user?.jenis_kelamin || "",
+      no_hp: user?.no_hp || "",
+      role: user?.role || "",
     },
     enableReinitialize: true,
     onSubmit: () => {

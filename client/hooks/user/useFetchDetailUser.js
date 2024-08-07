@@ -8,6 +8,5 @@ export const useFetchDetailUser = (id) => {
       return response.data.payload;
     },
     queryKey: ["user"],
-    initialData: ["user"],
   });
 };

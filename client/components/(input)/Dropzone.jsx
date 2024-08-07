@@ -46,21 +46,23 @@ const Dropzone = ({
 
   return (
     <>
-      <div
-        {...getRootProps()}
-        className="mt-10 cursor-pointer rounded-lg border-3 border-dashed border-blue-400 bg-blue-50 p-10 text-sm text-blue-400"
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <div className="flex flex-col items-center justify-normal">
-            <AddPhotoAlternateOutlinedIcon className="mb-3 size-14" />
-            <p className="font-semibold">Select an image or file to upload</p>
-            <p className="text-xs">or drag and drop it here</p>
-          </div>
-        )}
-      </div>
+      {files?.length < maxFiles && (
+        <div
+          {...getRootProps()}
+          className="mt-10 cursor-pointer rounded-lg border-3 border-dashed border-blue-400 bg-blue-50 p-10 text-sm text-blue-400"
+        >
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <div className="flex flex-col items-center justify-normal">
+              <AddPhotoAlternateOutlinedIcon className="mb-3 size-14" />
+              <p className="font-semibold">Select an image or file to upload</p>
+              <p className="text-xs">or drag and drop it here</p>
+            </div>
+          )}
+        </div>
+      )}
       {files?.length ? <h1>Accepted Files</h1> : null}
       <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
         {files?.map((file, index) => (

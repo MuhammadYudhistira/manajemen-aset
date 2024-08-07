@@ -45,12 +45,6 @@ const GridAset = () => {
 
   const filteredAssets = filterAndSearchAssets(asets?.listAssets, filter, search);
 
-  // if (isLoading) {
-  //   return (
-
-  //   );
-  // }
-
   if (isError) {
     toast.error("Server Error Coba lagi nanti");
   }

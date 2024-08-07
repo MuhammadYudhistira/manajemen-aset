@@ -4,8 +4,7 @@ import CardUser from "./CardUser";
 import SkeletonLoading from "../(global)/SkeletonLoading";
 import { useFetchUser } from "@/hooks/user/useFetchUser";
 
-const GridUser = () => {
-  const { data: users, isLoading } = useFetchUser();
+const GridUser = ({ data, isLoading }) => {
 
   if (isLoading) {
     return (
@@ -20,7 +19,7 @@ const GridUser = () => {
 
   return (
     <>
-      {users?.map((user) => {
+      {data.map((user) => {
         return (
           <CardUser
             key={user.id}

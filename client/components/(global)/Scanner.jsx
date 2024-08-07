@@ -43,7 +43,10 @@ const QRScanner = () => {
             <Modal isOpen={isOpen} onClose={handleClose} size="xl" placement="auto">
                 <ModalContent>
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Scan QR Code</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">
+                            <p>Scan QR Code</p>
+                            <p className='text-xs font-normal text-red-400'>Izinkan Kamera untuk menggunakan fitur Scan QR Code</p>
+                        </ModalHeader>
                         <ModalBody>
                             <Scanner
                                 onScan={handleScan}

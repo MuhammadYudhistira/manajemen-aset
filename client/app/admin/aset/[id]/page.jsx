@@ -56,10 +56,6 @@ const page = ({ params }) => {
     redirect("/admin/aset");
   }
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   return (
     <>
       <div className="mt-8 hidden items-center justify-end gap-5 sm:flex md:flex-row">
@@ -72,7 +68,7 @@ const page = ({ params }) => {
             </BreadcrumbItem>
           </Breadcrumbs>
         </div>
-        {data?.Detail_Aset?.length !== data.jumlah_barang && (
+        {data?.Detail_Aset?.length !== data?.jumlah_barang && (
           <Link
             href={`/admin/aset/${params.id}/create`}
             className="btn bg-white text-black"
@@ -139,7 +135,7 @@ const page = ({ params }) => {
           className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
         >
           <li>
-            {data?.Detail_Aset?.length !== data.jumlah_barang && (
+            {data?.Detail_Aset?.length !== data?.jumlah_barang && (
               <Link
                 href={`/admin/aset/${params.id}/create`}
                 className="btn bg-white text-black"
@@ -167,51 +163,62 @@ const page = ({ params }) => {
         </ul>
       </div>
       <div className="mt-4 grid grid-cols-1 gap-4 rounded-xl bg-white p-5 lg:grid-cols-3 lg:gap-8">
-        <div className="w-full">
-          <Image
-            alt={data?.nama_barang || "Aset"}
-            src={data?.image || computer}
-            priority
-            width={600}
-            height={450}
-            className="max-h-[450px] rounded-lg object-cover"
-          />
-        </div>
-        <div className="space-y-2 col-span-2">
-          <h1 className="text-xl font-bold uppercase lg:text-3xl">
-            {data.nama_barang}
-          </h1>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Merk</h3>
-            <p className="text-gray-400">{data.merk}</p>
+        {isLoading ? (
+          <div className="flex w-full h-full flex-col gap-4">
+            <div className="skeleton h-96 w-full"></div>
+            <div className="skeleton h-4 w-28"></div>
+            <div className="skeleton h-4 w-full"></div>
+            <div className="skeleton h-4 w-full"></div>
           </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Deskripsi</h3>
-            <p className="text-gray-400">{data.deskripsi}</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Tahun Perolehan</h3>
-            <p className="text-gray-400">
-              {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Harga Satuan</h3>
-            <p className="text-gray-400">{data.harga_satuan}</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Jumlah Barang</h3>
-            <p className="text-gray-400">{data.jumlah_barang}</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Nilai Perolehan</h3>
-            <p className="text-gray-400">{data?.nilai_perolehan}</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-medium">Ukuran</h3>
-            <p className="text-gray-400">{data?.ukuran}</p>
-          </div>
-        </div>
+        ) : (
+          <>
+            <div className="w-full">
+              <Image
+                alt={data?.nama_barang || "Aset"}
+                src={data?.image || computer}
+                priority
+                width={600}
+                height={450}
+                className="max-h-[450px] rounded-lg object-cover"
+              />
+            </div>
+            <div className="space-y-2 col-span-2">
+              <h1 className="text-xl font-bold uppercase lg:text-3xl">
+                {data.nama_barang}
+              </h1>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Merk</h3>
+                <p className="text-gray-400">{data.merk}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Deskripsi</h3>
+                <p className="text-gray-400">{data.deskripsi}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Tahun Perolehan</h3>
+                <p className="text-gray-400">
+                  {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Harga Satuan</h3>
+                <p className="text-gray-400">{data.harga_satuan}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Jumlah Barang</h3>
+                <p className="text-gray-400">{data.jumlah_barang}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Nilai Perolehan</h3>
+                <p className="text-gray-400">{data?.nilai_perolehan}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium">Ukuran</h3>
+                <p className="text-gray-400">{data?.ukuran}</p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div className="mt-4 rounded-xl bg-white p-5">
         <h1>Detail Aset</h1>
