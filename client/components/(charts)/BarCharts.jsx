@@ -1,53 +1,28 @@
 "use client";
 import React from "react";
-import { BarChart } from "@tremor/react";
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const BarCharts = () => {
-  const chartdata = [
-    {
-      name: "2018",
-      "Total Aset": 1000,
-    },
-    {
-      name: "2019",
-      "Total Aset": 2488,
-    },
-    {
-      name: "2020",
-      "Total Aset": 1445,
-    },
-    {
-      name: "2021",
-      "Total Aset": 743,
-    },
-    {
-      name: "2022",
-      "Total Aset": 281,
-    },
-    {
-      name: "2023",
-      "Total Aset": 500,
-    },
-    {
-      name: "2024",
-      "Total Aset": 900,
-    },
-  ];
-
-  const dataFormatter = (number) =>
-    Intl.NumberFormat("us").format(number).toString();
+const BarCharts = ({ data, xAxis, yAxis }) => {
 
   return (
-    <BarChart
-      className="h-56"
-      data={chartdata}
-      index="name"
-      categories={["Total Aset"]}
-      colors={["blue"]}
-      valueFormatter={dataFormatter}
-      yAxisWidth={48}
-      onValueChange={(v) => console.log(v)}
-    />
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        data={data}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey={xAxis} className="text-xs" />
+        <YAxis dataKey={yAxis} className="text-xs" />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey={yAxis} fill="#000000" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 

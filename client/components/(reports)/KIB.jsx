@@ -8,11 +8,11 @@ import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import moment from "moment";
+import { Spinner } from "@nextui-org/react";
 
 const KIB = () => {
 
     const { data, isLoading } = useFetchListDA();
-    console.log("🚀 ~ KIB ~ data:", data)
 
     const contentRef = useRef();
     const handlePrint = useReactToPrint({
@@ -39,6 +39,10 @@ const KIB = () => {
             document.head.appendChild(style);
         }
     });
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <div>
@@ -122,7 +126,7 @@ const KIB = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.map((aset, index) => {
+                            {data?.length > 0 && data?.map((aset, index) => {
                                 return (
                                     <tr className={`px-4 text-xs text-left ${index % 2 !== 0 ? 'bg-gray-300' : ''}`} key={aset.id}>
                                         <td className="border border-black text-center whitespace-nowrap">{index + 1}</td>

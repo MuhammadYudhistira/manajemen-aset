@@ -31,8 +31,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
     const contentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => contentRef.current,
-        documentTitle: 'Nota Dinas',
-        //add custom styles for printing
+        documentTitle: `Nota Dinas ${perihal}`,
         onBeforeGetContent: () => {
             const style = document.createElement('style');
             style.innerHTML = `

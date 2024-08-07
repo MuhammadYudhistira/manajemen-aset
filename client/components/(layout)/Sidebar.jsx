@@ -67,10 +67,10 @@ const Layout = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/admin/rekap_aset" className="group">
+                <Link href="/admin/kib" className="group">
                   {" "}
                   <LaptopOutlinedIcon />
-                  Rekap Aset
+                  Kartu Inventaris Barang
                 </Link>
               </li>
             </ul>

@@ -72,12 +72,14 @@ const page = ({ params }) => {
             </BreadcrumbItem>
           </Breadcrumbs>
         </div>
-        <Link
-          href={`/admin/aset/${params.id}/create`}
-          className="btn bg-white text-black"
-        >
-          <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-        </Link>
+        {data?.Detail_Aset?.length !== data.jumlah_barang && (
+          <Link
+            href={`/admin/aset/${params.id}/create`}
+            className="btn bg-white text-black"
+          >
+            <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
+          </Link>
+        )}
         <Link
           href={`/admin/aset/${params.id}/edit`}
           className="btn bg-white text-black"
@@ -128,94 +130,88 @@ const page = ({ params }) => {
           </ModalContent>
         </Modal>
       </div>
-      <div className="mt-4 grid grid-cols-1 gap-4 rounded-xl bg-white p-5 lg:grid-cols-3 lg:gap-8">
-        {isLoading ? (
-          <div className="col-span-3 mx-auto mt-8">
-            <Spinner size="lg" />
-          </div>
-        ) : (
-          <>
-            <div className="dropdown sm:hidden">
-              <div tabIndex={0} role="button">
-                <MoreHorizIcon />
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
+      <div className="dropdown rounded-xl bg-white p-2 border sm:hidden">
+        <div tabIndex={0} role="button">
+          <MoreHorizIcon />
+        </div>
+        <ul
+          tabIndex={0}
+          className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
+        >
+          <li>
+            {data?.Detail_Aset?.length !== data.jumlah_barang && (
+              <Link
+                href={`/admin/aset/${params.id}/create`}
+                className="btn bg-white text-black"
               >
-                <li>
-                  <Link
-                    href={`/admin/aset/${params.id}/create`}
-                    className="btn bg-white text-black"
-                  >
-                    <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/admin/aset/${params.id}/edit`}
-                    className="btn bg-white text-black"
-                  >
-                    <EditOutlinedIcon /> Edit Aset
-                  </Link>
-                </li>
-                <li>
-                  <Button
-                    onPress={onOpen}
-                    className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
-                  >
-                    <DeleteOutlineOutlinedIcon /> Delete Aset
-                  </Button>
-                </li>
-              </ul>
-            </div>
-            <div className="w-full">
-              <Image
-                alt={data?.nama_barang || "Aset"}
-                src={data?.image || computer}
-                priority
-                width={600}
-                height={450}
-                className="max-h-[450px] rounded-lg object-cover"
-              />
-            </div>
-            <div className="space-y-2 col-span-2">
-              <h1 className="text-xl font-bold uppercase lg:text-3xl">
-                {data.nama_barang}
-              </h1>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Merk</h3>
-                <p className="text-gray-400">{data.merk}</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Deskripsi</h3>
-                <p className="text-gray-400">{data.deskripsi}</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Tahun Perolehan</h3>
-                <p className="text-gray-400">
-                  {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Harga Satuan</h3>
-                <p className="text-gray-400">{data.harga_satuan}</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Jumlah Barang</h3>
-                <p className="text-gray-400">{data.jumlah_barang}</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Nilai Perolehan</h3>
-                <p className="text-gray-400">{data?.nilai_perolehan}</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Ukuran</h3>
-                <p className="text-gray-400">{data?.ukuran}</p>
-              </div>
-            </div>
-          </>
-        )}
+                <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
+              </Link>
+            )}
+          </li>
+          <li>
+            <Link
+              href={`/admin/aset/${params.id}/edit`}
+              className="btn bg-white text-black"
+            >
+              <EditOutlinedIcon /> Edit Aset
+            </Link>
+          </li>
+          <li>
+            <Button
+              onPress={onOpen}
+              className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
+            >
+              <DeleteOutlineOutlinedIcon /> Delete Aset
+            </Button>
+          </li>
+        </ul>
+      </div>
+      <div className="mt-4 grid grid-cols-1 gap-4 rounded-xl bg-white p-5 lg:grid-cols-3 lg:gap-8">
+        <div className="w-full">
+          <Image
+            alt={data?.nama_barang || "Aset"}
+            src={data?.image || computer}
+            priority
+            width={600}
+            height={450}
+            className="max-h-[450px] rounded-lg object-cover"
+          />
+        </div>
+        <div className="space-y-2 col-span-2">
+          <h1 className="text-xl font-bold uppercase lg:text-3xl">
+            {data.nama_barang}
+          </h1>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Merk</h3>
+            <p className="text-gray-400">{data.merk}</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Deskripsi</h3>
+            <p className="text-gray-400">{data.deskripsi}</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Tahun Perolehan</h3>
+            <p className="text-gray-400">
+              {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
+            </p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Harga Satuan</h3>
+            <p className="text-gray-400">{data.harga_satuan}</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Jumlah Barang</h3>
+            <p className="text-gray-400">{data.jumlah_barang}</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Nilai Perolehan</h3>
+            <p className="text-gray-400">{data?.nilai_perolehan}</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-medium">Ukuran</h3>
+            <p className="text-gray-400">{data?.ukuran}</p>
+          </div>
+        </div>
       </div>
       <div className="mt-4 rounded-xl bg-white p-5">
         <h1>Detail Aset</h1>
@@ -258,7 +254,7 @@ const page = ({ params }) => {
                           {detail.ruangan.nama_ruangan}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                          {detail.createdAt}
+                          {moment(detail.createdAt).format("DD-MM-YYYY")}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                           <div className="avatar">

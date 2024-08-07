@@ -30,13 +30,6 @@ const LaporanPerbaikan = ({ id }) => {
     return (
         <>
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="rounded-md font-medium w-full md:max-w-max bg-white">
-                    <Breadcrumbs variant="bordered" radius="sm">
-                        <BreadcrumbItem href="/head">Home</BreadcrumbItem>
-                        <BreadcrumbItem href="/head/laporan_perbaikan">Laporan Perbaikan</BreadcrumbItem>
-                        <BreadcrumbItem>Detail Laporan Perbaikan</BreadcrumbItem>
-                    </Breadcrumbs>
-                </div>
                 <div className="flex justify-end gap-3 items-center bg-white py-2 px-4 rounded-lg border border-black w-full md:max-w-max">
                     <p className="text-sm">Di Buat Tanggal: {moment(repair?.createdAt).format("DD-MM-YYYY")}</p>
                     {repair.status === "Reported" && (

@@ -1,11 +1,28 @@
+"use client"
 import AreaCharts from "@/components/(charts)/AreaChart";
 import BarCharts from "@/components/(charts)/BarCharts";
+import { useFetchDashboardAdmin } from "@/hooks/dashboard/useFetchDashboardAdmin";
+import { formatRupiah } from "@/libs/formatRupiah";
+import { Spinner } from "@nextui-org/react";
+import moment from "moment";
+import "moment/locale/id"
+import Image from "next/image";
 
 const page = () => {
+
+  const { data, isLoading } = useFetchDashboardAdmin()
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spinner />
+      </div>
+    )
+  }
   return (
     <>
       <section className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <article className="flex items-center gap-4 rounded-xl border bg-white p-6">
+        <article className="flex items-center gap-4 rounded-xl border bg-white p-6 overflow-hidden">
           <span className="rounded-full bg-blue-50 p-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -23,8 +40,8 @@ const page = () => {
             </svg>
           </span>
           <div>
-            <p className="text-2xl font-medium text-gray-900">
-              Rp 50.000.000.000
+            <p className="text-xl font-medium text-gray-900 truncate">
+              {formatRupiah(data?.count.totalNilaiAset)}
             </p>
             <p className="text-sm text-gray-500">Nilai Aset</p>
           </div>
@@ -48,7 +65,7 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-2xl font-medium text-gray-900">3.000</p>
+            <p className="text-xl font-medium text-gray-900">{data?.count.totalAset}</p>
 
             <p className="text-sm text-gray-500">Total Aset</p>
           </div>
@@ -72,143 +89,66 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-2xl font-medium text-gray-900">130</p>
+            <p className="text-xl font-medium text-gray-900">{data?.count.totalUser}</p>
 
             <p className="text-sm text-gray-500">Total User</p>
           </div>
         </article>
       </section>
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2">
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5">
           <h3 className="font-bold">Nilai Aset</h3>
-          <AreaCharts />
+          <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
         </div>
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
-          <h3>Aset Terbaru</h3>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
+          <h3 className="font-bold">Aset Terbaru</h3>
+          {data.listAset.map((aset) => {
+            return (
+              <div className="flex items-center gap-4">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.aset.image}`}
+                  alt="profil"
+                  width={500} height={500}
+                  className="size-12 rounded-full object-cover"
+                />
 
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Macbook Pro 14" 2024
-              </h3>
-              <p className="mt-0.5 text-gray-400">12 Januari 2024</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Macbook Pro 14" 2024
-              </h3>
-              <p className="mt-0.5 text-gray-400">12 Januari 2024</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Macbook Pro 14" 2024
-              </h3>
-              <p className="mt-0.5 text-gray-400">12 Januari 2024</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Macbook Pro 14" 2024
-              </h3>
-              <p className="mt-0.5 text-gray-400">12 Januari 2024</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Macbook Pro 14" 2024
-              </h3>
-              <p className="mt-0.5 text-gray-400">12 Januari 2024</p>
-            </div>
-          </div>
+                <div>
+                  <h3 className="text-lg/tight font-medium text-gray-900">
+                    {aset.aset.nama_barang}
+                  </h3>
+                  <p className="mt-0.5 text-gray-400">{moment(aset.createdAt).format("DD MMMM YYYY")}</p>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
-          <h3>User Terbaru</h3>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
+          <h3 className="font-bold">User Terbaru</h3>
+          {data.listUsers.map((user) => {
+            return (
+              <div className="flex items-center gap-4">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`}
+                  alt="profil"
+                  width={500} height={500}
+                  className="size-12 rounded-full object-cover"
+                />
+                <div>
+                  <h3 className="text-lg/tight font-medium text-gray-900">
+                    {user.nama}
+                  </h3>
 
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Daniel
-              </h3>
-
-              <p className="mt-0.5 text-gray-700">Sekretaris</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Daniel
-              </h3>
-
-              <p className="mt-0.5 text-gray-700">Sekretaris</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="size-12 rounded-full object-cover"
-            />
-
-            <div>
-              <h3 className="text-lg/tight font-medium text-gray-900">
-                Daniel
-              </h3>
-
-              <p className="mt-0.5 text-gray-700">Sekretaris</p>
-            </div>
-          </div>
+                  <p className="mt-0.5 text-gray-700 lowercase first-letter:uppercase">{user.role === "KEPALA_BAGIAN" ? "Kepala Bagian" : user.role}</p>
+                </div>
+              </div>
+            )
+          })}
         </div>
-        <div className="w-full rounded-xl border bg-white p-5 lg:col-span-2">
-          <h3 className="mb-0 p-0 font-bold">Jumlah Aset</h3>
-          <BarCharts />
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5 min-h-64">
+          <h3 className="font-bold">Jumlah Aset</h3>
+          <BarCharts data={data?.totalAset} xAxis={"tahun"} yAxis={"totalAset"} />
         </div>
       </section>
     </>

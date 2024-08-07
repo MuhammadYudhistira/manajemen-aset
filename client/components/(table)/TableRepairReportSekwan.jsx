@@ -93,7 +93,7 @@ const TableRepairReportSekwan = () => {
     ];
 
     const handleNewItemClick = (id) => {
-        router.push(`/sekwan/laporan_perbaikan/${id}`);
+        router.push(`/perbaikan/${id}`);
     };
 
     if (isLoading) {

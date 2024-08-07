@@ -1,70 +1,37 @@
 "use client";
-import { AreaChart } from "@tremor/react";
 
-export default function AreaCharts() {
-  const data = [
-    {
-      date: "Jan",
-      Value: 232000000,
-    },
-    {
-      date: "Feb",
-      Value: 242000000,
-    },
-    {
-      date: "Mar",
-      Value: 245000000,
-    },
-    {
-      date: "Apr",
-      Value: 255000000,
-    },
-    {
-      date: "May",
-      Value: 265000000,
-    },
-    {
-      date: "Jun",
-      Value: 275000000,
-    },
-    {
-      date: "Jul",
-      Value: 285000000,
-    },
-    {
-      date: "Aug",
-      Value: 350000000,
-    },
-    {
-      date: "Sep",
-      Value: 380000000,
-    },
-    {
-      date: "Oct",
-      Value: 390000000,
-    },
-    {
-      date: "Nov",
-      Value: 450000000,
-    },
-    {
-      date: "Dec",
-      Value: 550000000,
-    },
-  ];
+import { useEffect, useState } from "react";
+import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
+
+export default function AreaCharts({ data, xAxis, yAxis }) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const valueFormatter = (number) =>
     `${Intl.NumberFormat("us").format(number).toString()}`;
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <AreaChart
-      className="h-80"
-      data={data}
-      index="date"
-      categories={["Value"]}
-      colors={["black"]}
-      valueFormatter={valueFormatter}
-      yAxisWidth={90}
-      onValueChange={(v) => console.log(v)}
-    />
+    <ResponsiveContainer width="100%" height={300}>
+      <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#000000" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#000000" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <XAxis dataKey={xAxis} className="text-xs" />
+        <YAxis tickFormatter={valueFormatter} width={120} className="text-xs" />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip formatter={valueFormatter} className="text-sm" />
+        <Area type="monotone" dataKey={yAxis} stroke="#000000" fillOpacity={1} fill="url(#colorUv)" />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
