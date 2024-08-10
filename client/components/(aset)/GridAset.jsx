@@ -6,7 +6,7 @@ import SkeletonLoading from "../(global)/SkeletonLoading";
 import { useFetchAset } from "@/hooks/aset/useFetchAset";
 import { toast } from "sonner";
 import computer from "@/public/computer.jpg";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 
 const GridAset = () => {
   const [filter, setFilter] = useState('latest');

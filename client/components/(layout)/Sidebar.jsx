@@ -7,7 +7,7 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import Image from "next/legacy/image";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 import logo from "../../app/icon.svg";
 
 const Layout = () => {

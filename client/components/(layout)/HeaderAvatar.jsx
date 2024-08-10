@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions'
 import React from 'react';
 import { toast } from 'sonner';
 import { useFetchMe } from '@/hooks/auth/useFetchMe';

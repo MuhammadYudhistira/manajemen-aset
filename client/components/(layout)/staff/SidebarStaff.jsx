@@ -1,7 +1,7 @@
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import Image from "next/legacy/image";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 import logo from "@/app/icon.svg";
 
 const SidebarStaff = () => {

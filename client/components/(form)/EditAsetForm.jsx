@@ -28,7 +28,7 @@ const EditAsetForm = ({ id }) => {
     },
   });
 
-  const dateString = new Date(aset.tahun_perolehan);
+  const dateString = new Date(aset?.tahun_perolehan);
   const dateObject = moment(dateString).format("MM-DD-YYYY");
 
   const [image, setImage] = useState([]);
@@ -43,12 +43,12 @@ const EditAsetForm = ({ id }) => {
 
   const formik = useFormik({
     initialValues: {
-      nama_barang: aset.nama_barang || "",
-      merk: aset.merk || "",
-      deskripsi: aset.deskripsi || "",
-      ukuran: aset.ukuran || "",
-      harga_satuan: aset.harga_satuan || "",
-      jumlah_barang: aset.jumlah_barang || "",
+      nama_barang: aset?.nama_barang || "",
+      merk: aset?.merk || "",
+      deskripsi: aset?.deskripsi || "",
+      ukuran: aset?.ukuran || "",
+      harga_satuan: aset?.harga_satuan || "",
+      jumlah_barang: aset?.jumlah_barang || "",
     },
     enableReinitialize: true,
     onSubmit: () => {
@@ -188,7 +188,7 @@ const EditAsetForm = ({ id }) => {
       </label>
       <div className="flex flex-col gap-3">
         <span className="label-text">Gambar Barang</span>
-        {aset.image ? (
+        {aset?.image ? (
           <div className="relative mb-2 w-[150px] rounded-md shadow-lg">
             <Image
               alt={aset?.nama_barang || "aset"}

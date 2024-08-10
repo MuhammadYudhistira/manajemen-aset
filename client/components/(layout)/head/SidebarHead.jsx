@@ -1,11 +1,10 @@
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
-import HomeRepairServiceOutlinedIcon from "@mui/icons-material/HomeRepairServiceOutlined";
 import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
 import Image from "next/legacy/image";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 import logo from "@/app/icon.svg";
 
 const SidebarHead = () => {

@@ -4,7 +4,7 @@ import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import HomeRepairServiceOutlinedIcon from "@mui/icons-material/HomeRepairServiceOutlined";
 import LaptopOutlinedIcon from "@mui/icons-material/LaptopOutlined";
 import Image from "next/legacy/image";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 import logo from "@/app/icon.svg";
 
 const SidebarSekwan = () => {

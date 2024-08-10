@@ -7,7 +7,7 @@ import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import "moment/locale/id"
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 
 const page = () => {
 

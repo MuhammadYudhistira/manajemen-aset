@@ -4,7 +4,7 @@ import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useFetchDRByUser } from "@/hooks/damage/useFetchDRByUser";
-import { useRouter } from "next/navigation";
+import { useTransitionRouter } from 'next-view-transitions'
 import { useDeleteDamageReport } from "@/hooks/damage/useDeleteDamageReport";
 import { toast } from "sonner";
 
@@ -27,7 +27,7 @@ const TableDamageReport = () => {
         }
     })
 
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     const columns = [
         {

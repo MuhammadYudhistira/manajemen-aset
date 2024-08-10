@@ -5,7 +5,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import React from "react";
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 import moment from "moment";
 import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
 import {
@@ -25,6 +25,7 @@ import computer from "@/public/computer.jpg";
 import { useDeleteAset } from "@/hooks/aset/useDeleteAset";
 import { notFound, redirect } from "next/navigation";
 import { toast } from "sonner";
+import { formatRupiah } from "@/libs/formatRupiah";
 
 const page = ({ params }) => {
   const { data, isLoading, isError, error } = useFetchDetailAset(params.id);
@@ -202,7 +203,7 @@ const page = ({ params }) => {
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Harga Satuan</h3>
-                <p className="text-gray-400">{data.harga_satuan}</p>
+                <p className="text-gray-400">{formatRupiah(data.harga_satuan)}</p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-medium">Jumlah Barang</h3>
