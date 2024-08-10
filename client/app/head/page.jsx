@@ -4,6 +4,8 @@ import BarCharts from "@/components/(charts)/BarCharts";
 import { useFetchDashboardAdmin } from "@/hooks/dashboard/useFetchDashboardAdmin";
 import { useFetchDashboardHead } from "@/hooks/dashboard/useFetchDashboardHead";
 import { Spinner } from "@nextui-org/react";
+import moment from "moment";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
@@ -93,14 +95,48 @@ const page = () => {
           </div>
         </article>
       </section>
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5">
-          <h3 className="font-bold">Nilai Aset</h3>
-          <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
-        </div>
-        <div className="flex w-full flex-col rounded-xl border bg-white p-5 gap-5 min-h-64">
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-8">
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-3 gap-5 min-h-64">
           <h3 className="font-bold">Jumlah Aset</h3>
           <BarCharts data={data?.totalAset} xAxis={"tahun"} yAxis={"totalAset"} />
+        </div>
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5 min-h-64">
+          <div>
+            <h3 className="font-bold">Laporan Kerusakan Terbaru</h3>
+          </div>
+          {dataHead?.listDamages?.map((damage) => {
+            return (
+              <Link href={`/head/laporan_kerusakan/${damage.id}`} key={damage.id}>
+                <p className="text-sm font-medium capitalize">{damage?.perihal}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-gray-400 font-medium">{moment(damage?.createdAt).format("DD-MM-YYYY")}</p>
+                  {damage.status === "Reported" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                      <p className="whitespace-nowrap text-xs">{damage.status}</p>
+                    </span>
+                  )}
+
+                  {damage.status === "Approved" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                      <p className="whitespace-nowrap text-xs">{damage.status}</p>
+                    </span>
+                  )}
+
+                  {damage.status === "Rejected" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700">
+                      <p className="whitespace-nowrap text-xs">{damage.status}</p>
+                    </span>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+      <section className="grid grid-cols-1">
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5">
+          <h3 className="font-bold">Nilai Aset</h3>
+          <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
         </div>
       </section>
     </>

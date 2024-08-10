@@ -2,13 +2,16 @@
 import AreaCharts from "@/components/(charts)/AreaChart";
 import BarCharts from "@/components/(charts)/BarCharts";
 import { useFetchDashboardAdmin } from "@/hooks/dashboard/useFetchDashboardAdmin";
-import { useFetchDashboardHead } from "@/hooks/dashboard/useFetchDashboardHead";
+import { useFetchDashboardSekwan } from "@/hooks/dashboard/useFetchDashboardSekwan";
 import { Spinner } from "@nextui-org/react";
+import moment from "moment";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
 
-  const { data: dataHead, isLoading } = useFetchDashboardHead()
+  const { data: dataSekwan, isLoading } = useFetchDashboardSekwan()
+  console.log("🚀 ~ page ~ dataSekwan:", dataSekwan)
   const { data } = useFetchDashboardAdmin()
 
   if (isLoading) {
@@ -39,7 +42,7 @@ const page = () => {
           </span>
           <div>
             <p className="text-xl font-medium text-gray-900 truncate">
-              {dataHead?.count.totalAset}
+              {dataSekwan?.count.totalAset}
             </p>
             <p className="text-sm text-gray-500">Total Aset</p>
           </div>
@@ -63,7 +66,7 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-xl font-medium text-gray-900">{dataHead?.count.total}</p>
+            <p className="text-xl font-medium text-gray-900">{dataSekwan?.count.total}</p>
 
             <p className="text-sm text-gray-500">Laporan Kerusakan</p>
           </div>
@@ -87,20 +90,60 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-xl font-medium text-gray-900">{dataHead?.count.reported}</p>
+            <p className="text-xl font-medium text-gray-900">{dataSekwan?.count.reported}</p>
 
             <p className="text-sm text-gray-500">Belum diulas</p>
           </div>
         </article>
       </section>
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5">
-          <h3 className="font-bold">Nilai Aset</h3>
-          <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
-        </div>
-        <div className="flex w-full flex-col rounded-xl border bg-white p-5 gap-5 min-h-64">
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-8">
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-3 gap-5 min-h-64">
           <h3 className="font-bold">Jumlah Aset</h3>
           <BarCharts data={data?.totalAset} xAxis={"tahun"} yAxis={"totalAset"} />
+        </div>
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5 min-h-64">
+          <div>
+            <h3 className="font-bold">Laporan Perbaikan Terbaru</h3>
+          </div>
+          {dataSekwan?.listRepairs?.map((repair) => {
+            return (
+              <Link href={`/sekwan/laporan_perbaikan/${repair.id}`} key={repair.id}>
+                <p className="text-sm font-medium capitalize">{repair?.hal}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-gray-400 font-medium">{moment(repair?.createdAt).format("DD-MM-YYYY")}</p>
+                  {repair.status === "Reported" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                      <p className="whitespace-nowrap text-xs">{repair.status}</p>
+                    </span>
+                  )}
+
+                  {repair.status === "Approved" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                      <p className="whitespace-nowrap text-xs">{repair.status}</p>
+                    </span>
+                  )}
+
+                  {repair.status === "Rejected" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700">
+                      <p className="whitespace-nowrap text-xs">{repair.status}</p>
+                    </span>
+                  )}
+
+                  {repair.status === "Completed" && (
+                    <span className="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                      <p className="whitespace-nowrap text-xs">{repair.status}</p>
+                    </span>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+      <section className="grid grid-cols-1">
+        <div className="flex w-full flex-col rounded-xl border bg-white p-5">
+          <h3 className="font-bold">Nilai Aset</h3>
+          <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
         </div>
       </section>
     </>

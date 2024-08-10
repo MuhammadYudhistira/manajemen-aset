@@ -49,10 +49,12 @@ const listAset = async () => {
   const asets = await prisma.detail_Aset.findMany({
     take: 5,
     select: {
+      id: true,
       kode_barang: true,
       createdAt: true,
       aset: {
         select: {
+          id: true,
           nama_barang: true,
           image: true,
         },
@@ -100,6 +102,39 @@ const countDashboardHead = async () => {
   });
 };
 
+const countDashboardSekwan = async () => {
+  const reported = await prisma.perbaikan.count({
+    where: {
+      status: "Reported",
+    },
+  });
+
+  const totalAsets = await totalAset();
+  const total = await prisma.perbaikan.count();
+
+  return (count = {
+    total,
+    reported: reported,
+    totalAset: totalAsets._sum.jumlah_barang,
+  });
+};
+
+const listDamges = async () => {
+  const damages = await prisma.laporan_Kerusakan.findMany({
+    take: 5,
+  });
+
+  return damages;
+};
+
+const listPerbaikan = async () => {
+  const repairs = await prisma.perbaikan.findMany({
+    take: 5,
+  });
+
+  return repairs;
+};
+
 module.exports = {
   nilaiAset,
   jumlahAset,
@@ -107,4 +142,7 @@ module.exports = {
   listUsers,
   listAset,
   countDashboardHead,
+  listDamges,
+  countDashboardSekwan,
+  listPerbaikan,
 };

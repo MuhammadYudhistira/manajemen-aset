@@ -7,6 +7,7 @@ import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import "moment/locale/id"
 import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
 
@@ -104,7 +105,7 @@ const page = () => {
           <h3 className="font-bold">Aset Terbaru</h3>
           {data.listAset.map((aset) => {
             return (
-              <div className="flex items-center gap-4">
+              <Link href={`/admin/aset/${aset.aset.id}/detail-aset/${aset.id}`} className="flex items-center gap-4">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.aset.image}`}
                   alt="profil"
@@ -118,7 +119,7 @@ const page = () => {
                   </h3>
                   <p className="mt-0.5 text-gray-400">{moment(aset.createdAt).format("DD MMMM YYYY")}</p>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>

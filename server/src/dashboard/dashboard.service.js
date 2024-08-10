@@ -5,6 +5,9 @@ const {
   listUsers: getlistUsers,
   listAset: getListAset,
   countDashboardHead,
+  listDamges,
+  countDashboardSekwan,
+  listPerbaikan,
 } = require("./dashboard.repository");
 
 const dashboardAdmin = async () => {
@@ -27,11 +30,24 @@ const dashboardAdmin = async () => {
 
 const dashboardHead = async () => {
   const count = await countDashboardHead();
+  const listDamages = await listDamges();
   const data = {
     count,
+    listDamages,
   };
 
   return data;
 };
 
-module.exports = { dashboardAdmin, dashboardHead };
+const dashboardSekwan = async () => {
+  const count = await countDashboardSekwan();
+  const listRepairs = await listPerbaikan();
+  const data = {
+    count,
+    listRepairs,
+  };
+
+  return data;
+};
+
+module.exports = { dashboardAdmin, dashboardHead, dashboardSekwan };
