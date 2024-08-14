@@ -9,7 +9,8 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import Link from "next/link";
 import GridUser from "@/components/(user)/GridUser";
 import { useFetchUser } from "@/hooks/user/useFetchUser";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { Spinner } from "@nextui-org/react";
 
 const page = () => {
   const { data, isLoading } = useFetchUser();
@@ -138,7 +139,9 @@ const page = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 pb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:gap-4 xl:grid-cols-4">
-        <GridUser data={filteredUsers} isLoading={isLoading} />
+        <Suspense fallback={<Spinner />}>
+          <GridUser data={filteredUsers} isLoading={isLoading} />
+        </Suspense>
       </div>
     </>
   );

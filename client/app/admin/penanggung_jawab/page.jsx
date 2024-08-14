@@ -1,6 +1,7 @@
 import TablePJ from "@/components/(table)/TablePJ";
-import React from "react";
+import React, { Suspense } from "react";
 import CreatePJForm from "@/components/(form)/penanggung_jawab/CreatePJForm";
+import { Spinner } from "@nextui-org/react";
 
 const page = () => {
   return (
@@ -11,7 +12,9 @@ const page = () => {
         </div>
       </div>
       <div className="mt-4 rounded-xl border bg-white p-5">
-        <TablePJ />
+        <Suspense fallback={<Spinner />}>
+          <TablePJ />
+        </Suspense>
       </div>
     </>
   );

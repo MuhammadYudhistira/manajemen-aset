@@ -1,6 +1,7 @@
 import CreateRuanganForm from "@/components/(form)/Ruangan/CreateRuanganForm";
 import TableRuangan from "@/components/(table)/TableRuangan";
-import React from "react";
+import { Spinner } from "@nextui-org/react";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
@@ -12,7 +13,9 @@ const page = () => {
       </div>
 
       <div className="mt-4 rounded-xl border bg-white p-5">
-        <TableRuangan />
+        <Suspense fallback={<Spinner />}>
+          <TableRuangan />
+        </Suspense>
       </div>
     </>
   );

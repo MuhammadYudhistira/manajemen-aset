@@ -1,8 +1,9 @@
 import TableKIB from "@/components/(table)/TableKIB";
-import React from "react";
+import React, { Suspense } from "react";
 import logo from "@/public/logo.png"
 import Image from "next/image";
 import KIB from "@/components/(reports)/KIB";
+import { Spinner } from "@nextui-org/react";
 
 const page = () => {
   return (
@@ -16,7 +17,9 @@ const page = () => {
             <h2 className="text-center text-xl font-bold uppercase">KIB B (Peralatan dan Mesin)</h2>
           </div>
         </div>
-        <TableKIB />
+        <Suspense fallback={<Spinner />}>
+          <TableKIB />
+        </Suspense>
       </div>
     </>
   );
