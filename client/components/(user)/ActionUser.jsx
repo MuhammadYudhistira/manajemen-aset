@@ -19,7 +19,7 @@ import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import { useDeleteUser } from "@/hooks/user/useDeleteUser";
 
-const ActionUser = ({ id }) => {
+const ActionUser = ({ id, role }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleClick = () => {
@@ -60,14 +60,16 @@ const ActionUser = ({ id }) => {
             <EditOutlinedIcon /> Edit Detail User
           </Link>
         </li>
-        <li>
-          <Button
-            onPress={onOpen}
-            className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
-          >
-            <DeleteOutlineOutlinedIcon /> Delete User
-          </Button>
-        </li>
+        {role !== "ADMIN" && (
+          <li>
+            <Button
+              onPress={onOpen}
+              className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
+            >
+              <DeleteOutlineOutlinedIcon /> Delete User
+            </Button>
+          </li>
+        )}
       </ul>
 
       <Modal

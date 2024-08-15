@@ -29,7 +29,6 @@ const CreateAsetForm = () => {
       jumlah_barang: "",
     },
     onSubmit: () => {
-      console.log(formik.values);
       const {
         nama_barang,
         deskripsi,
@@ -138,7 +137,7 @@ const CreateAsetForm = () => {
           </div>
           <input
             type="number"
-            placeholder="harga_satuan"
+            placeholder="Harga Satuan"
             name="harga_satuan"
             onChange={handleFormInput}
             className="input bg-blue-50 text-sm text-black"

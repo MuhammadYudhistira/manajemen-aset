@@ -117,9 +117,9 @@ const LoginForm = ({ callbackUrl }) => {
           Login
         </button>
       </div>
-      <Link href={"/forget-password"} className="text-sm font-semibold">
+      {/* <Link href={"/forget-password"} className="text-sm font-semibold">
         Forget Password?
-      </Link>
+      </Link> */}
     </form>
   );
 };

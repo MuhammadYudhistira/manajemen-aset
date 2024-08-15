@@ -14,7 +14,7 @@ const CardUser = ({
 }) => {
   return (
     <div className="group rounded-lg border bg-white">
-      <ActionUser id={id} />
+      <ActionUser id={id} role={role} />
       <Image
         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${profile}`}
         width={500}
@@ -28,7 +28,7 @@ const CardUser = ({
           {nama}
         </h3>
         <span className="whitespace-nowrap rounded-full bg-gray-100 px-10 py-0.5 text-center text-xs text-black">
-          {role}
+          {role === "KEPALA_BAGIAN" ? "KEPALA BAGIAN" : role}
         </span>
         <p className="flex w-full justify-between text-xs font-medium">
           NIP <span>{nip}</span>

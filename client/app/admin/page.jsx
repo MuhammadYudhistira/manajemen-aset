@@ -103,7 +103,7 @@ const page = () => {
         </div>
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
           <h3 className="font-bold">Aset Terbaru</h3>
-          {data.listAset.map((aset) => {
+          {data?.listAset.map((aset) => {
             return (
               <Link href={`/admin/aset/${aset.aset.id}/detail-aset/${aset.id}`} className="flex items-center gap-4">
                 <Image
@@ -127,7 +127,7 @@ const page = () => {
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
           <h3 className="font-bold">User Terbaru</h3>
-          {data.listUsers.map((user) => {
+          {data?.listUsers.map((user) => {
             return (
               <div className="flex items-center gap-4">
                 <Image

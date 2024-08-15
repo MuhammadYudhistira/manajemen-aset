@@ -6,6 +6,9 @@ const nilaiAset = async () => {
     _sum: {
       nilai_perolehan: true,
     },
+    orderBy: {
+      tahun_perolehan: "asc",
+    },
   });
 
   return result.map((item) => ({
@@ -19,6 +22,9 @@ const jumlahAset = async () => {
     by: ["tahun_perolehan"],
     _sum: {
       jumlah_barang: true,
+    },
+    orderBy: {
+      tahun_perolehan: "asc",
     },
   });
 
@@ -48,6 +54,9 @@ const listUsers = async () => {
 const listAset = async () => {
   const asets = await prisma.detail_Aset.findMany({
     take: 5,
+    orderBy: {
+      createdAt: "desc",
+    },
     select: {
       id: true,
       kode_barang: true,
