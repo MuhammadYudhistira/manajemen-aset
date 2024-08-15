@@ -57,125 +57,136 @@ const page = ({ params }) => {
             </div>
             <div className="mt-7 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
                 <div className="w-full rounded-xl bg-white p-5">
-                    <div className="dropdown mb-2 sm:hidden">
-                        <div tabIndex={0} role="button">
-                            <MoreHorizIcon />
+                    {isLoading ? (
+                        <div className="flex w-full h-full flex-col gap-4">
+                            <div className="skeleton h-96 w-full"></div>
+                            <div className="skeleton h-4 w-28"></div>
+                            <div className="skeleton h-4 w-full"></div>
+                            <div className="skeleton h-4 w-full"></div>
                         </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
-                        >
-                            <li>
-                                <button className="btn bg-white text-black">
-                                    <LocalPrintshopOutlinedIcon /> Cetak QR Code
-                                </button>
-                            </li>
-                            <li>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="flex w-full flex-row gap-8">
-                        <div className="flex flex-col gap-3">
-                            <Image
-                                alt="Aset"
-                                src={
-                                    data?.Detail_Aset_Images
-                                        ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Detail_Aset_Images[0]?.link}`
-                                        : computer
-                                }
-                                priority
-                                width={300}
-                                height={300}
-                                className="rounded-lg object-cover"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <h1 className="text-xl font-bold uppercase">
-                                {data?.aset?.nama_barang}
-                            </h1>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Merk</h3>
-                                <p className="text-gray-400">{data?.aset?.merk}</p>
+                    ) : (
+                        <>
+                            <div className="dropdown mb-2 sm:hidden">
+                                <div tabIndex={0} role="button">
+                                    <MoreHorizIcon />
+                                </div>
+                                <ul
+                                    tabIndex={0}
+                                    className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
+                                >
+                                    <li>
+                                        <button className="btn bg-white text-black">
+                                            <LocalPrintshopOutlinedIcon /> Cetak QR Code
+                                        </button>
+                                    </li>
+                                    <li>
+                                    </li>
+                                </ul>
                             </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Kode Barang</h3>
-                                <p className="text-gray-400">{data?.kode_barang}</p>
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Ruangan</h3>
-                                <p className="text-gray-400">{data?.ruangan?.nama_ruangan}</p>
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Status</h3>
-                                <p className="text-gray-400">{data?.status}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex gap-3 mt-4 w-full">
-                        {data?.Detail_Aset_Images?.length > 1 ? (
-                            data?.Detail_Aset_Images?.map((image) => {
-                                return (
+                            <div className="flex w-full flex-row gap-8">
+                                <div className="flex flex-col gap-3">
                                     <Image
                                         alt="Aset"
-                                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image.link}`}
+                                        src={
+                                            data?.Detail_Aset_Images
+                                                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.Detail_Aset_Images[0]?.link}`
+                                                : computer
+                                        }
                                         priority
-                                        width={100}
-                                        height={100}
+                                        width={300}
+                                        height={300}
                                         className="rounded-lg object-cover"
-                                        key={image.id}
                                     />
-                                )
-                            })
-                        ) : null}
-                    </div>
-                    <div className="mt-4 flex flex-row justify-between">
-                        <div className="w-[50%] space-y-2">
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Nomor Rangka</h3>
-                                {data?.nomor_rangka ? (
-                                    <p className="text-gray-400">{data?.nomor_rangka}</p>
-                                ) : (
-                                    "-"
-                                )}
+                                </div>
+                                <div className="space-y-2">
+                                    <h1 className="text-xl font-bold uppercase">
+                                        {data?.aset?.nama_barang}
+                                    </h1>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Merk</h3>
+                                        <p className="text-gray-400">{data?.aset?.merk}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Kode Barang</h3>
+                                        <p className="text-gray-400">{data?.kode_barang}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Ruangan</h3>
+                                        <p className="text-gray-400">{data?.ruangan?.nama_ruangan}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Status</h3>
+                                        <p className="text-gray-400">{data?.status}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Nomor Mesin</h3>
-                                {data?.nomor_mesin ? (
-                                    <p className="text-gray-400">{data?.nomor_mesin}</p>
-                                ) : (
-                                    "-"
-                                )}
+                            <div className="flex gap-3 mt-4 w-full">
+                                {data?.Detail_Aset_Images?.length > 1 ? (
+                                    data?.Detail_Aset_Images?.map((image) => {
+                                        return (
+                                            <Image
+                                                alt="Aset"
+                                                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image.link}`}
+                                                priority
+                                                width={100}
+                                                height={100}
+                                                className="rounded-lg object-cover"
+                                                key={image.id}
+                                            />
+                                        )
+                                    })
+                                ) : null}
                             </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Nomor Polisi</h3>
-                                {data?.nomor_polisi ? (
-                                    <p className="text-gray-400">{data?.nomor_polisi}</p>
-                                ) : (
-                                    "-"
-                                )}
+                            <div className="mt-4 flex flex-row justify-between">
+                                <div className="w-[50%] space-y-2">
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Nomor Rangka</h3>
+                                        {data?.nomor_rangka ? (
+                                            <p className="text-gray-400">{data?.nomor_rangka}</p>
+                                        ) : (
+                                            "-"
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Nomor Mesin</h3>
+                                        {data?.nomor_mesin ? (
+                                            <p className="text-gray-400">{data?.nomor_mesin}</p>
+                                        ) : (
+                                            "-"
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Nomor Polisi</h3>
+                                        {data?.nomor_polisi ? (
+                                            <p className="text-gray-400">{data?.nomor_polisi}</p>
+                                        ) : (
+                                            "-"
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-medium">Nomor bpkb</h3>
+                                        {data?.nomor_bpkb ? (
+                                            <p className="text-gray-400">{data?.nomor_bpkb}</p>
+                                        ) : (
+                                            "-"
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="w-2/5">
+                                    <img
+                                        alt="qrcode"
+                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=http://localhost:3000${pathname}`}
+                                        className="w-full rounded-lg object-cover"
+                                    />
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <h3 className="text-lg font-medium">Nomor bpkb</h3>
-                                {data?.nomor_bpkb ? (
-                                    <p className="text-gray-400">{data?.nomor_bpkb}</p>
-                                ) : (
-                                    "-"
-                                )}
-                            </div>
-                        </div>
-                        <div className="w-2/5">
-                            <img
-                                alt="qrcode"
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=http://localhost:3000${pathname}`}
-                                className="w-full rounded-lg object-cover"
-                            />
-                        </div>
-                    </div>
-                    <h3 className="mt-4 text-lg font-medium">Keterangan</h3>
-                    <p className="text-gray-400">
-                        {data?.keterangan ? data?.keterangan : "-"}
-                    </p>
+                            <h3 className="mt-4 text-lg font-medium">Keterangan</h3>
+                            <p className="text-gray-400">
+                                {data?.keterangan ? data?.keterangan : "-"}
+                            </p>
+                        </>
+                    )
+                    }
                 </div>
                 <div className="space-y-5">
                     <div className="rounded-xl bg-white p-5">
