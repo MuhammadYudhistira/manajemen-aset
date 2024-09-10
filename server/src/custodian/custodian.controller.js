@@ -5,6 +5,7 @@ const {
   createCustodian,
   updateCustodian,
   deleteCustodian,
+  getAllUserWhoseCustodian,
 } = require("./custodian.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -16,10 +17,25 @@ router.get("/", async (req, res) => {
   response(200, data, "Berhasil Mengambil data", res);
 });
 
+router.get("/users", async (req, res) => {
+  try {
+    const data = await getAllUserWhoseCustodian();
+    response(200, data, "Berhasil Mengambil data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const data = await getDetailCustodian(id);
-  response(200, data, "berhasil mengambil data", res);
+  try {
+    const { id } = req.params;
+    const data = await getDetailCustodian(id);
+    response(200, data, "berhasil mengambil data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
 });
 
 router.post("/", async (req, res) => {

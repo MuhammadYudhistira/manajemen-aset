@@ -41,7 +41,7 @@ const page = () => {
             </svg>
           </span>
           <div>
-            <p className="text-xl font-medium text-gray-900 truncate">
+            <p className="text-sm md:text-medium font-semibold text-gray-900 truncate">
               {formatRupiah(data?.count.totalNilaiAset)}
             </p>
             <p className="text-sm text-gray-500">Nilai Aset</p>
@@ -66,7 +66,7 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-xl font-medium text-gray-900">{data?.count.totalAset}</p>
+            <p className="text-sm md:text-medium font-semibold text-gray-900">{data?.count.totalAset}</p>
 
             <p className="text-sm text-gray-500">Total Aset</p>
           </div>
@@ -90,7 +90,7 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-xl font-medium text-gray-900">{data?.count.totalUser}</p>
+            <p className="text-sm md:text-medium font-semibold text-gray-900">{data?.count.totalUser}</p>
 
             <p className="text-sm text-gray-500">Total User</p>
           </div>
@@ -98,11 +98,11 @@ const page = () => {
       </section>
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5">
-          <h3 className="font-bold">Nilai Aset</h3>
+          <h3 className="text-sm/tight sm:text-medium font-semibold">Nilai Aset</h3>
           <AreaCharts data={data?.nilaiAset} xAxis={"tahun"} yAxis={"nilaiAset"} />
         </div>
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
-          <h3 className="font-bold">Aset Terbaru</h3>
+          <h3 className="text-sm/tight sm:text-medium font-semibold">Aset Terbaru</h3>
           {data?.listAset.map((aset) => {
             return (
               <Link href={`/admin/aset/${aset.aset.id}/detail-aset/${aset.id}`} className="flex items-center gap-4">
@@ -110,14 +110,14 @@ const page = () => {
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.aset.image}`}
                   alt="profil"
                   width={500} height={500}
-                  className="size-12 rounded-full object-cover"
+                  className="size-10 rounded-full object-cover"
                 />
 
                 <div>
-                  <h3 className="text-lg/tight font-medium text-gray-900">
+                  <h3 className="text-sm/tight sm:text-medium font-medium text-gray-900">
                     {aset.aset.nama_barang}
                   </h3>
-                  <p className="mt-0.5 text-gray-400">{moment(aset.createdAt).format("DD MMMM YYYY")}</p>
+                  <p className="mt-0.5 text-sm/tight text-gray-400">{moment(aset.createdAt).format("DD MMMM YYYY")}</p>
                 </div>
               </Link>
             )
@@ -126,7 +126,7 @@ const page = () => {
       </section>
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <div className="w-full space-y-5 rounded-xl border bg-white p-5">
-          <h3 className="font-bold">User Terbaru</h3>
+          <h3 className="text-sm/tight sm:text-medium font-semibold">User Terbaru</h3>
           {data?.listUsers.map((user) => {
             return (
               <div className="flex items-center gap-4">
@@ -134,21 +134,21 @@ const page = () => {
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`}
                   alt="profil"
                   width={500} height={500}
-                  className="size-12 rounded-full object-cover"
+                  className="size-10 rounded-full object-cover"
                 />
                 <div>
-                  <h3 className="text-lg/tight font-medium text-gray-900">
+                  <h3 className="text-sm/tight sm:text-medium font-medium text-gray-900">
                     {user.nama}
                   </h3>
 
-                  <p className="mt-0.5 text-gray-700 lowercase first-letter:uppercase">{user.role === "KEPALA_BAGIAN" ? "Kepala Bagian" : user.role}</p>
+                  <p className="mt-0.5 text-sm/tight text-gray-700 lowercase first-letter:uppercase">{user.role === "KEPALA_BAGIAN" ? "Kepala Bagian" : user.role}</p>
                 </div>
               </div>
             )
           })}
         </div>
         <div className="flex w-full flex-col rounded-xl border bg-white p-5 lg:col-span-2 gap-5 min-h-64">
-          <h3 className="font-bold">Jumlah Aset</h3>
+          <h3 className="text-sm/tight sm:text-medium font-semibold">Jumlah Aset</h3>
           <BarCharts data={data?.totalAset} xAxis={"tahun"} yAxis={"totalAset"} />
         </div>
       </section>

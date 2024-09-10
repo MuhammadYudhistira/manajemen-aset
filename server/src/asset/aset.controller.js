@@ -21,12 +21,7 @@ const {
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
 const { uploadImage } = require("../middleware/uploadGambar");
-const {
-  PrismaClientUnknownRequestError,
-  PrismaClientValidationError,
-} = require("@prisma/client/runtime/library");
 const { authMiddleware } = require("../middleware/authMiddleware");
-
 const router = express.Router();
 
 const uploadAssetImage = uploadImage(

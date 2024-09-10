@@ -5,6 +5,7 @@ const {
   insertCustodian,
   editCustodianById,
   deleteCustodianById,
+  findAllUsersWhoCustodian,
 } = require("./custodian.repository");
 
 const getAllCustodian = async () => {
@@ -43,10 +44,16 @@ const deleteCustodian = async (id) => {
   return custodian;
 };
 
+const getAllUserWhoseCustodian = async () => {
+  const listUsers = await findAllUsersWhoCustodian();
+  return listUsers;
+};
+
 module.exports = {
   getAllCustodian,
   getDetailCustodian,
   createCustodian,
   updateCustodian,
   deleteCustodian,
+  getAllUserWhoseCustodian,
 };

@@ -44,8 +44,8 @@ const ActionUser = ({ id, role }) => {
   }
 
   return (
-    <div className="dropdown flex justify-end px-2">
-      <div tabIndex={0} role="button">
+    <div className="dropdown flex justify-end px-2" aria-label="detail">
+      <div tabIndex={0} role="button" aria-label="detail">
         <MoreHorizIcon />
       </div>
       <ul

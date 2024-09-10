@@ -1,5 +1,4 @@
 "use client"
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import Face3OutlinedIcon from "@mui/icons-material/Face3Outlined";
@@ -116,6 +115,7 @@ const page = () => {
           <select
             value={filterRole}
             onChange={handleFilterRoleChange}
+            aria-label="role"
             className="select select-bordered w-full lg:max-w-xs">
             <option value={""}>All</option>
             <option value={"ADMIN"}>Admin</option>
@@ -126,19 +126,17 @@ const page = () => {
           <select
             value={filter}
             onChange={handleFilterChange}
+            aria-label="order"
             className="select select-bordered w-full lg:max-w-xs">
             <option value="latest">Terbaru</option>
             <option value="oldest">Terlama</option>
           </select>
-          <button className="btn btn-neutral bg-black text-white">
-            <SearchOutlinedIcon />
-          </button>
           <Link href={"/admin/user/create"} className="btn bg-white text-black">
             <AddCircleOutlineOutlinedIcon /> Tambah User
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 pb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:gap-4 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 pb-10 sm:grid-cols-2 md:grid-cols-3 lg:gap-4 xl:grid-cols-4">
         <Suspense fallback={<Spinner />}>
           <GridUser data={filteredUsers} isLoading={isLoading} />
         </Suspense>

@@ -159,7 +159,7 @@ const TablePJ = () => {
                       <option defaultValue={selectedPJ?.user?.id} hidden>
                         {selectedPJ?.user?.nama}
                       </option>
-                      {users.map((user) => {
+                      {users.users?.map((user) => {
                         return (
                           <option value={user.id} key={user.id}>
                             {user.nama}

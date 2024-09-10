@@ -37,7 +37,7 @@ const QRScanner = () => {
 
     return (
         <>
-            <Button onPress={handleOpen} isIconOnly variant="bordered">
+            <Button onPress={handleOpen} isIconOnly variant="bordered" aria-label='Aria Scan QR Code'>
                 <QrCodeScannerOutlinedIcon />
             </Button>
             <Modal isOpen={isOpen} onClose={handleClose} size="xl" placement="auto">

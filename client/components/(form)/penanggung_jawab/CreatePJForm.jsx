@@ -17,12 +17,13 @@ import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import { toast } from "sonner";
 import { useFetchCustodian } from "@/hooks/penanggung_jawab/useFetchCustodian";
 import { useCreateCustodian } from "@/hooks/penanggung_jawab/useCreateCustodian";
+import { useFetchUserWhoseCustodian } from "@/hooks/penanggung_jawab/useFetchUserWhoseCustodian";
 
 const CreatePJForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data } = useFetchUser();
   const { data: asets } = useFetchListDA();
-  const { refetch } = useFetchCustodian();
+  const { refetch } = useFetchUserWhoseCustodian();
 
   const staffUsers = data?.users?.filter(user =>
     user.role === 'STAFF'

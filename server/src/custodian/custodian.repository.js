@@ -98,6 +98,47 @@ const deleteCustodianById = async (id) => {
   return custodian;
 };
 
+const findAllUsersWhoCustodian = async () => {
+  const listUsers = await prisma.user.findMany({
+    where: {
+      Penanggung_Jawab: {
+        some: {},
+      },
+    },
+    select: {
+      id: true,
+      nama: true,
+      nip: true,
+      image: true,
+      Penanggung_Jawab: {
+        select: {
+          id: true,
+          detail_aset: {
+            select: {
+              aset: {
+                select: {
+                  nama_barang: true,
+                  merk: true,
+                },
+              },
+              kode_barang: true,
+              ruangan: {
+                select: {
+                  nama_ruangan: true,
+                },
+              },
+              Detail_Aset_Images: {
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  return listUsers;
+};
+
 module.exports = {
   findCustodians,
   findCustodiansById,
@@ -105,4 +146,5 @@ module.exports = {
   insertCustodian,
   editCustodianById,
   deleteCustodianById,
+  findAllUsersWhoCustodian,
 };
