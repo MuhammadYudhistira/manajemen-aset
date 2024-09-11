@@ -42,7 +42,7 @@ const StaffGridAset = () => {
         return filteredAssets;
     };
 
-    const filteredAssets = filterAndSearchAssets(asets, filter, search);
+    const filteredAssets = filterAndSearchAssets(asets?.listAssets, filter, search);
 
     if (isLoading) {
         return (

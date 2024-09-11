@@ -22,7 +22,6 @@ const CreateDetailAsetForm = ({ id }) => {
   } = useMutation({
     mutationFn: async ({ id, body }) => {
       const response = await axios.post(`/aset/${id}/detail-aset`, body);
-      console.log(response);
       return response;
     },
     onSuccess: () => {
@@ -54,7 +53,6 @@ const CreateDetailAsetForm = ({ id }) => {
         nomor_mesin,
         nomor_polisi,
         nomor_rangka,
-        keterangan,
       } = formik.values;
       const formData = new FormData();
       formData.append("id_aset", id_aset);
@@ -64,7 +62,6 @@ const CreateDetailAsetForm = ({ id }) => {
       formData.append("nomor_mesin", nomor_mesin);
       formData.append("nomor_polisi", nomor_polisi);
       formData.append("nomor_rangka", nomor_rangka);
-      formData.append("keterangan", keterangan);
       for (let i = 0; i < image.length; i++) {
         formData.append(`image`, image[i]);
       }
@@ -183,18 +180,6 @@ const CreateDetailAsetForm = ({ id }) => {
           </select>
         </label>
       </div>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Keterangan</span>
-        </div>
-        <textarea
-          type="text"
-          placeholder="Keterangan"
-          name="keterangan"
-          onChange={handleFormInput}
-          className="input textarea bg-blue-50 text-sm text-black"
-        />
-      </label>
       <div className="label">
         <span className="label-text">Gambar Barang</span>
       </div>

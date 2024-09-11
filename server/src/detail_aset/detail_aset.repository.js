@@ -132,10 +132,6 @@ const insertDetailAset = async (newDetailAsetData) => {
 };
 
 const editDetailAsetById = async (id, newDetailAsetData) => {
-  console.log(
-    "🚀 ~ editDetailAsetById ~ newDetailAsetData:",
-    newDetailAsetData
-  );
   const detailAset = prisma.detail_Aset.update({
     where: {
       id: id,
@@ -154,6 +150,19 @@ const editDetailAsetById = async (id, newDetailAsetData) => {
   });
 
   return detailAset;
+};
+
+const updateAssetStatus = async (id, status, keterangan) => {
+  const asset = await prisma.detail_Aset.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
+      keterangan: keterangan,
+    },
+  });
+  return asset;
 };
 
 const deleteDetailAsetById = async (id) => {
@@ -237,4 +246,5 @@ module.exports = {
   deleteDetailAsetImageById,
   findDetailAsetImageById,
   findDetailAsetImageByIdDetailAset,
+  updateAssetStatus,
 };

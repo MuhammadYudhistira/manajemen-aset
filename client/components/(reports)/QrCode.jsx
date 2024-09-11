@@ -35,7 +35,7 @@ const QrCode = ({ ruangan, id, aset, kode_barang, tahun }) => {
 
     return (
         <div>
-            <button onClick={handlePrint} className="btn bg-white text-black">
+            <button onClick={handlePrint} className="btn bg-white text-black overflow-hidden">
                 <LocalPrintshopOutlinedIcon /> Cetak QR Code
             </button>
             <div className="bg-white w-0 h-0 overflow-hidden">

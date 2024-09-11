@@ -1,5 +1,9 @@
 const express = require("express");
-const { getDetailAset } = require("./detail_aset.service");
+const {
+  getDetailAset,
+  unarchiveAsset,
+  archiveAsset,
+} = require("./detail_aset.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
 
@@ -21,6 +25,25 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     console.log(error);
     responseError(404, error.message, res);
+  }
+});
+
+router.post("/:id/archive", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { keterangan, action } = req.body;
+
+    let detailAset;
+    if (action === "unarchive") {
+      detailAset = await unarchiveAsset(id, keterangan);
+    } else {
+      detailAset = await archiveAsset(id, keterangan);
+    }
+
+    response(200, detailAset, "Berhasil memperbarui status aset", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
   }
 });
 

@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
+import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import computer from "@/public/computer.jpg"
 
 import Image from "next/legacy/image";
@@ -23,14 +24,17 @@ import {
 } from "@nextui-org/react";
 import { useDeleteDA } from "@/hooks/detail_aset/useDeleteDA";
 import { toast } from "sonner";
-import { notFound, redirect, usePathname } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import moment from "moment";
 import QrCode from "@/components/(reports)/QrCode";
+import { useArchiveDA } from "@/hooks/detail_aset/useArchiveDA";
 
 const page = ({ params }) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data, isLoading, isError, error } = useFetchDA(params.id, params.iddetail);
+  const { isOpen: arsipIsOpen, onOpen: arsipOnOpen, onOpenChange: arsipOnOpenChange } = useDisclosure();
+  const { data, isLoading, isError, error, refetch } = useFetchDA(params.id, params.iddetail);
+  const [keterangan, setKeterangan] = useState(null)
 
   if (isError) {
     if (error.response?.data?.status === 404) {
@@ -52,9 +56,28 @@ const page = ({ params }) => {
     }
   })
 
+  const { mutate: archiveDA } = useArchiveDA({
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.response.data.message)
+    },
+    onSuccess: () => {
+      toast.info("Berhasil mengarsipkan aset")
+      refetch()
+    }
+  })
+
 
   const handleClick = () => {
     deleteDA({ id: params.id, iddetail: params.iddetail })
+  }
+
+  const handleArchiveClick = () => {
+    const body = {
+      keterangan: keterangan,
+      action: data.status === "Inactive" ? "unarchive" : "archive",
+    };
+    archiveDA({ id: params.iddetail, body })
   }
 
   if (isSuccess) {
@@ -64,7 +87,7 @@ const page = ({ params }) => {
   return (
     <>
       <div className="mt-8 hidden items-center justify-end gap-5 sm:flex md:flex-row">
-        <div className="mr-auto hidden rounded-md bg-white font-medium md:block">
+        <div className="mr-auto hidden rounded-md bg-white font-medium xl:block">
           <Breadcrumbs variant="bordered" radius="sm">
             <BreadcrumbItem href="/admin">Home</BreadcrumbItem>
             <BreadcrumbItem href="/admin/aset">List Aset</BreadcrumbItem>
@@ -92,6 +115,12 @@ const page = ({ params }) => {
           className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
         >
           <DeleteOutlineOutlinedIcon /> Delete Aset
+        </Button>
+        <Button
+          onPress={arsipOnOpen}
+          className="btn bg-white text-blue-500 hover:border-blue-300 hover:bg-blue-50"
+        >
+          <ArchiveOutlinedIcon /> {data?.status === "Inactive" ? "Unarchive Aset" : "Arsipkan Aset"}
         </Button>
       </div>
       <div className="mt-7 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
@@ -133,6 +162,12 @@ const page = ({ params }) => {
                     >
                       <DeleteOutlineOutlinedIcon /> Delete Aset
                     </Button>
+                    <Button
+                      onPress={arsipOnOpen}
+                      className="btn bg-white text-blue-500 hover:border-blue-300 hover:bg-blue-50"
+                    >
+                      <ArchiveOutlinedIcon /> Arsipkan aset
+                    </Button>
                     <Modal
                       isOpen={isOpen}
                       onOpenChange={onOpenChange}
@@ -148,7 +183,7 @@ const page = ({ params }) => {
                               <p>Warning</p>
                             </ModalHeader>
                             <ModalBody>
-                              <p>Apakah anda yakin akan menghapus aset ini??</p>
+                              <p>Apakah anda yakin akan menghapus aset ini?</p>
                               <p className="text-xs first-letter:text-red-500">
                                 * jika menghapus aset ini, maka Riwayat laporan dan laporan perbaikan juga akan
                                 dihapus!!
@@ -261,6 +296,12 @@ const page = ({ params }) => {
                       "-"
                     )}
                   </div>
+                  {data?.status === "Inactive" &&
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-medium">keterangan</h3>
+                      <p className="text-gray-400">{data?.keterangan}</p>
+                    </div>
+                  }
                 </div>
                 <div className="w-[50%] mt-4">
                   <img
@@ -270,10 +311,6 @@ const page = ({ params }) => {
                   />
                 </div>
               </div>
-              <h3 className="mt-4 text-lg font-medium">Keterangan</h3>
-              <p className="text-gray-400">
-                {data?.keterangan ? data?.keterangan : "-"}
-              </p>
             </>
           )}
         </div>
@@ -373,6 +410,53 @@ const page = ({ params }) => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={arsipIsOpen}
+        onOpenChange={arsipOnOpenChange}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+        size="xl"
+      >
+        <ModalContent className="p-5">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-row gap-1 text-blue-500">
+                <WarningAmberOutlinedIcon />
+                <p>Info</p>
+              </ModalHeader>
+              <ModalBody>
+                {data?.status === "Inactive" ? (
+                  <p className="text-sm">Apakah anda yakin akan membatalkan arsip aset ini?</p>
+                ) : (
+                  <>
+                    <p className="text-sm">Berikan keterangan kenapa anda mengarsipkan aset ini</p>
+                    <textarea
+                      type="text"
+                      placeholder="Type here"
+                      name="keterangan"
+                      onChange={(e) => setKeterangan(e.target.value)}
+                      className="input textarea input-bordered w-full min-h-20" required
+                    />
+                  </>
+                )}
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  className="bg-blue-500 text-white"
+                  onClick={handleArchiveClick}
+                  onPress={onClose}
+                >
+                  {data?.status === "Inactive" ? "Unarchive" : "Arsipkan"}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 };

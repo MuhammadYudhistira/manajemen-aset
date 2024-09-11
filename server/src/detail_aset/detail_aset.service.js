@@ -17,6 +17,7 @@ const {
   deleteDetailAsetImageById,
   findDetailAsetImageById,
   findDetailAsetImageByIdDetailAset,
+  updateAssetStatus,
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
@@ -69,6 +70,18 @@ const editDetailAset = async (id, newDetailAsetData) => {
 
   await insertDetailAsetImage(imageData);
 
+  return detailAset;
+};
+
+const archiveAsset = async (id, keterangan) => {
+  await getDetailAset(id);
+  const detailAset = await updateAssetStatus(id, "Inactive", keterangan);
+  return detailAset;
+};
+
+const unarchiveAsset = async (id, keterangan) => {
+  await getDetailAset(id);
+  const detailAset = await updateAssetStatus(id, "Available", keterangan);
   return detailAset;
 };
 
@@ -137,4 +150,6 @@ module.exports = {
   deleteDetailAset,
   listDetailAset,
   deleteDetailAsetImage,
+  archiveAsset,
+  unarchiveAsset,
 };

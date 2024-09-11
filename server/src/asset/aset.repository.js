@@ -53,6 +53,7 @@ const findAssetsByUser = async (id) => {
       kode_barang: true,
       keterangan: true,
       createdAt: true,
+      status: true,
       aset: {
         select: {
           nama_barang: true,
@@ -68,7 +69,19 @@ const findAssetsByUser = async (id) => {
     },
   });
 
-  return assets;
+  // Menghitung jumlah aset berdasarkan status
+  const count = {
+    all: assets.length,
+    available: assets.filter((asset) => asset.status === "Available").length,
+    damaged: assets.filter((asset) => asset.status === "Damaged").length,
+    repairing: assets.filter((asset) => asset.status === "Under_Maintenance")
+      .length,
+  };
+
+  return {
+    count,
+    listAssets: assets,
+  };
 };
 
 const insertAsset = async (assetData) => {

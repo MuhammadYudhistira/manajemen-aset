@@ -1,11 +1,10 @@
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import StatsAsetStaff from "@/components/(aset)/StatsAsetStaff";
 import GridAsetStaff from "./GridAsetStaff";
-import StatsAset from "@/components/(aset)/StatsAset";
 
 const page = () => {
   return (
     <>
-      <StatsAset />
+      <StatsAsetStaff />
       <GridAsetStaff />
     </>
   );

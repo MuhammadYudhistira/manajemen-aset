@@ -99,9 +99,9 @@ const StatsAset = () => {
 
         <div>
           <p className="text-2xl font-medium text-gray-900">
-            {aset?.count.repairing}
+            {aset?.count.inactive}
           </p>
-          <p className="text-sm text-gray-500">Sedang Diperbaiki</p>
+          <p className="text-sm text-gray-500">Tidak Aktif</p>
         </div>
       </article>
     </div>

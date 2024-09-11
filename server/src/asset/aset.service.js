@@ -96,13 +96,13 @@ const countAset = async () => {
   const all = await countAsset();
   const available = await countAssetStatus("Available");
   const damaged = await countAssetStatus("Damaged");
-  const repairing = await countAssetStatus("Under_Maintenance");
+  const inactive = await countAssetStatus("Inactive");
 
   const count = {
     all,
     available,
     damaged,
-    repairing,
+    inactive,
   };
   return count;
 };
