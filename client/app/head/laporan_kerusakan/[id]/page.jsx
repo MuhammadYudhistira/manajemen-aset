@@ -31,7 +31,7 @@ const page = ({ params }) => {
 
     const contentRef = useRef();
 
-    const { data: damage, isLoading } = useFetchDetailDR(params.id)
+    const { data: damage, isLoading, refetch } = useFetchDetailDR(params.id)
 
 
     const { mutate: acceptDamage, isSuccess: acceptSuccess } = useAcceptDamageReport({
@@ -78,7 +78,7 @@ const page = ({ params }) => {
     }
 
     if (rejectSuccess || acceptSuccess) {
-        redirect("/head/laporan_kerusakan")
+        refetch()
     }
 
     const handleFormInput = (event) => {
@@ -111,6 +111,7 @@ const page = ({ params }) => {
                                 <Button
                                     className="bg-blue-500 text-white"
                                     onPress={handleAcceptClick}
+                                    onClick={onClose}
                                 >
                                     Setuju
                                 </Button>
@@ -188,12 +189,26 @@ const page = ({ params }) => {
                 </div>
             </div>
             <div className="mt-8 items-center justify-end gap-3 flex flex-col md:flex-row">
-                <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
-                    <CheckOutlinedIcon /> Setuju
-                </Button>
-                <Button onPress={onOpen2} className="btn bg-white text-black border border-black w-full md:w-auto">
-                    <CloseOutlinedIcon /> Tolak
-                </Button>
+                {damage.status === "Rejected" && (
+                    <Button onPress={onOpen1} className="btn bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-500 hover:text-white w-full md:w-auto">
+                        <CheckOutlinedIcon /> Setuju
+                    </Button>
+                )}
+                {damage.status === "Approved" && (
+                    <Button onPress={onOpen2} className="btn bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white w-full md:w-auto">
+                        <CloseOutlinedIcon /> Tolak
+                    </Button>
+                )}
+                {damage.status === "Reported" && (
+                    <>
+                        <Button onPress={onOpen1} className="btn bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-500 hover:text-white w-full md:w-auto">
+                            <CheckOutlinedIcon /> Setuju
+                        </Button>
+                        <Button onPress={onOpen2} className="btn bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white w-full md:w-auto">
+                            <CloseOutlinedIcon /> Tolak
+                        </Button>
+                    </>
+                )}
                 <ButtonLaporan contentRef={contentRef} nama_barang={damage?.detail_aset?.aset?.nama_barang} />
             </div>
             <DamageReport

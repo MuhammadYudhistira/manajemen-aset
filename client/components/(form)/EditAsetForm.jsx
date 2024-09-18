@@ -30,13 +30,16 @@ const EditAsetForm = ({ id }) => {
 
   const dateString = new Date(aset?.tahun_perolehan);
   const dateObject = moment(dateString).format("MM-DD-YYYY");
+  const defaultDate = moment(dateString).format("YYYY-MM-DD");
 
   const [image, setImage] = useState([]);
-  const [date, setDate] = useState(dateObject || null);
+  const [date, setDate] = useState(null);
   const today = parseDate(new Date().toISOString().split("T")[0]);
+
   const fileAccept = { "image/png": [], "image/jpg": [], "image/jpeg": [] };
 
   const handleChangeDate = (newDate) => {
+    console.log(newDate)
     const formatDate = new Date(newDate);
     setDate(formatDate);
   };
@@ -68,15 +71,17 @@ const EditAsetForm = ({ id }) => {
       formData.append("harga_satuan", harga_satuan);
       formData.append("jumlah_barang", jumlah_barang);
       formData.append("ukuran", ukuran);
-      formData.append("tahun_perolehan", date);
+      if (date) {
+        formData.append("tahun_perolehan", date);
+      }
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
       }
-      // let object = {};
-      // formData.forEach(function (value, key) {
-      //     object[key] = value;
-      // });
-      // console.log(object);
+      let object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      console.log(object);
 
       editAset({ id, body: formData });
     },
@@ -88,6 +93,10 @@ const EditAsetForm = ({ id }) => {
 
   if (isSuccess) {
     redirect(`/admin/aset/${id}`);
+  }
+
+  if (isLoading) {
+    return <Spinner />
   }
 
   return (
@@ -136,12 +145,13 @@ const EditAsetForm = ({ id }) => {
       </label>
       <DatePicker
         maxValue={today}
+        defaultValue={parseDate(defaultDate)}
         name="tahun_perolehan"
         onChange={handleChangeDate}
         className="z-0"
         labelPlacement="outside"
         showMonthAndYearPickers
-        label={`Tahun perolehan : ${dateObject}`}
+        label={`Tahun perolehan`}
         color="primary"
       />
       <label className="form-control w-full">
