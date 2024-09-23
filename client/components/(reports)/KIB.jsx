@@ -3,16 +3,15 @@
 import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlined";
 import Image from "next/image";
 import logo from "@/public/logo.png"
-
 import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
-import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import moment from "moment";
 import { Spinner } from "@nextui-org/react";
+import { useFetchActiveDA } from "@/hooks/detail_aset/useFetchActiveDA";
 
 const KIB = () => {
 
-    const { data, isLoading } = useFetchListDA();
+    const { data, isLoading } = useFetchActiveDA();
 
     const contentRef = useRef();
     const handlePrint = useReactToPrint({

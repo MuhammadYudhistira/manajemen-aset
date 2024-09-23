@@ -105,6 +105,33 @@ const findDetailAsetById = async (idDetail) => {
   return result;
 };
 
+const findDetailAsetByStatusNotInactive = async () => {
+  const detailAset = await prisma.detail_Aset.findMany({
+    where: {
+      status: {
+        not: "Inactive", // mencari status selain 'inactive'
+      },
+    },
+    orderBy: {
+      kode_barang: "asc",
+    },
+    include: {
+      aset: {
+        select: {
+          nama_barang: true,
+          tahun_perolehan: true,
+          merk: true,
+          ukuran: true,
+          harga_satuan: true,
+          jumlah_barang: true,
+          nilai_perolehan: true,
+        },
+      },
+    },
+  });
+  return detailAset;
+};
+
 const findDetailAsetByKodeBarang = async (kode_barang) => {
   const detail_Aset = prisma.detail_Aset.count({
     where: {
@@ -247,4 +274,5 @@ module.exports = {
   findDetailAsetImageById,
   findDetailAsetImageByIdDetailAset,
   updateAssetStatus,
+  findDetailAsetByStatusNotInactive,
 };

@@ -3,6 +3,7 @@ const {
   getDetailAset,
   unarchiveAsset,
   archiveAsset,
+  listActiveDetailAset,
 } = require("./detail_aset.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -13,6 +14,16 @@ router.get("/", async (req, res) => {
   try {
     response(200, "HALO", "Berhasil mendapatkan data", res);
   } catch (error) {
+    responseError(404, error.message, res);
+  }
+});
+
+router.get("/active", async (req, res) => {
+  try {
+    const data = await listActiveDetailAset();
+    response(200, data, "Berhasil mendapatkan data", res);
+  } catch (error) {
+    console.log(error);
     responseError(404, error.message, res);
   }
 });

@@ -4,11 +4,11 @@ import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import BasicTable from "./BasicTable";
-import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import { formatRupiah } from "@/libs/formatRupiah";
+import { useFetchActiveDA } from "@/hooks/detail_aset/useFetchActiveDA";
 
 const TableKIB = () => {
-    const { data, isLoading } = useFetchListDA();
+    const { data, isLoading } = useFetchActiveDA();
     const router = useRouter();
 
     const columns = [

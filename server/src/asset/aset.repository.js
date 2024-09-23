@@ -47,6 +47,9 @@ const findAssetsByUser = async (id) => {
           id_user: id,
         },
       },
+      status: {
+        not: "Inactive",
+      },
     },
     select: {
       id: true,

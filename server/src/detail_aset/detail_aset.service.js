@@ -18,6 +18,8 @@ const {
   findDetailAsetImageById,
   findDetailAsetImageByIdDetailAset,
   updateAssetStatus,
+  findDetailAsetByStatus,
+  findDetailAsetByStatusNotInactive,
 } = require("./detail_aset.repository");
 
 const getAllDetailAset = async (id) => {
@@ -116,6 +118,11 @@ const listDetailAset = async () => {
   return detailAset;
 };
 
+const listActiveDetailAset = async () => {
+  const detailAset = await findDetailAsetByStatusNotInactive();
+  return detailAset;
+};
+
 const getDetailAsetImage = async (id) => {
   const idInt = parseInt(id);
   const exist = await findDetailAsetImageById(idInt);
@@ -152,4 +159,5 @@ module.exports = {
   deleteDetailAsetImage,
   archiveAsset,
   unarchiveAsset,
+  listActiveDetailAset,
 };

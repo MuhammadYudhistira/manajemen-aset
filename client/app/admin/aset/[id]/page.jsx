@@ -253,6 +253,9 @@ const page = ({ params }) => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                           PJ
                         </th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                          Status
+                        </th>
                         <th className="px-4 py-2"></th>
                       </tr>
                     </thead>
@@ -278,6 +281,9 @@ const page = ({ params }) => {
                                     : "Belum ada penanggung jawab"}
                                 </p>
                               </div>
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                              {detail.status}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2">
                               <div className="lg:tooltip" data-tip="Detail">

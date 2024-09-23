@@ -241,7 +241,7 @@ const page = ({ params }) => {
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Status</h3>
-                    <p className="text-gray-400">{data?.status}</p>
+                    <p className={data.status === "Inactive" ? `text-red-500 font-semibold uppercase ` : `text-gray-400`}>{data?.status}</p>
                   </div>
                 </div>
               </div>
@@ -299,7 +299,7 @@ const page = ({ params }) => {
                   {data?.status === "Inactive" &&
                     <div className="space-y-2">
                       <h3 className="text-lg font-medium">keterangan</h3>
-                      <p className="text-gray-400">{data?.keterangan}</p>
+                      <p className="text-gray-400">{data?.keterangan !== "" ? data?.keterangan : "-"}</p>
                     </div>
                   }
                 </div>
