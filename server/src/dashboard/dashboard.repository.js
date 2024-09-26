@@ -79,6 +79,15 @@ const totalAset = async () => {
       nilai_perolehan: true,
       jumlah_barang: true,
     },
+    where: {
+      Detail_Aset: {
+        some: {
+          status: {
+            not: "Inactive",
+          },
+        },
+      },
+    },
   });
   return total;
 };

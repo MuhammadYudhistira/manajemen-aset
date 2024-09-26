@@ -8,10 +8,15 @@ import { useReactToPrint } from 'react-to-print';
 import moment from "moment";
 import { Spinner } from "@nextui-org/react";
 import { useFetchActiveDA } from "@/hooks/detail_aset/useFetchActiveDA";
+import { formatRupiah } from "@/libs/formatRupiah";
 
 const KIB = () => {
 
     const { data, isLoading } = useFetchActiveDA();
+
+    const totalNilaiPerolehan = data?.reduce((total, item) => {
+        return total + item.aset.nilai_perolehan;
+    }, 0);
 
     const contentRef = useRef();
     const handlePrint = useReactToPrint({
@@ -49,15 +54,15 @@ const KIB = () => {
                 <LocalPrintshopOutlinedIcon /> Cetak KIB
             </button>
             <div className="bg-white w-0 h-0 overflow-hidden">
-                <div ref={contentRef} className='p-1 space-y-3 print-container'>
-                    <div className="grid grid-cols-3">
+                <div ref={contentRef} className='p-1 print-container'>
+                    <div className="grid grid-cols-3 mt-3">
                         <Image src={logo} width={60} height={60} />
                         <div>
                             <h1 className="text-center text-[1.2rem] font-bold uppercase">Kartu Inventaris Barang</h1>
                             <h2 className="text-center text-[1.2rem] font-bold uppercase">KIB B (Peralatan dan Mesin)</h2>
                         </div>
                     </div>
-                    <div className="uppercase font-bold text-sm">
+                    <div className="uppercase font-bold text-sm mt-3">
                         <table>
                             <tbody>
                                 <tr>
@@ -80,7 +85,7 @@ const KIB = () => {
                     <div className="flex justify-end items-end uppercase font-bold text-sm">
                         <p>KODE LOKASI : 11.01.13.00.400021.00000.00000.XXXX</p>
                     </div>
-                    <table className="table-auto border border-black w-full text-sm font-semibold uppercase">
+                    <table className="table-auto border border-black w-full text-sm font-semibold uppercase mt-3">
                         <thead>
                             <tr className="px-4 text-xs">
                                 <th className="uppercase font-medium border border-black px-4">
@@ -146,6 +151,28 @@ const KIB = () => {
                             })}
                         </tbody>
                     </table>
+                    <div className="mt-6">
+                        <table>
+                            <tr className="text-blue-500 px-4 text-xs">
+                                <td className=" border-black font-bold border text-xs text-left py-1 pr-[58px] pl-2">NILAI PEROLEHAN</td>
+                                <td className=" border-black font-bold border text-xs text-right py-1 pl-10 pr-2">{formatRupiah(totalNilaiPerolehan)}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div className="flex justify-around items-center font-bold mt-12">
+                        <div className="text-center">
+                            <h3>MENGETAHUI</h3>
+                            <p>Sekretaris DPRD Provinsi Sumatera Barat</p>
+                            <p className="mt-16">( H. RAFLIS, SH, MM ) </p>
+                            <p>NIP. 19640930 198602 1 002</p>
+                        </div>
+                        <div className="text-center">
+                            <h3>Padang, {moment(new Date()).format("DD MMMM YYYY")}</h3>
+                            <p>PENGURUS BARANG</p>
+                            <p className="mt-16">( NEFRIANDI, SH, MM ) </p>
+                            <p>NIP. 19781122 201001 1 004</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
