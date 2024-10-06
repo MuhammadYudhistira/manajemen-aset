@@ -13,6 +13,7 @@ const perbaikanImagesController = require("./src/repairing_image/repairing_image
 const UserController = require("./src/user/user.controller");
 const detailAsetController = require("./src/detail_aset/detail_aset.router");
 const dashboardController = require("./src/dashboard/dahsboard.controller");
+const deletionController = require("./src/asset_deletion/deletion.controller");
 const { authMiddleware } = require("./src/middleware/authMiddleware");
 
 const app = express();
@@ -43,6 +44,7 @@ app.use("/api/perbaikan-images", authMiddleware, perbaikanImagesController);
 app.use("/api/user", UserController);
 app.use("/api/detail-aset", detailAsetController);
 app.use("/api/dashboard", dashboardController);
+app.use("/api/deletion", deletionController);
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
