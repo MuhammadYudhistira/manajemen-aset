@@ -3,6 +3,8 @@ const {
   getAllDeletion,
   createDeletion,
   getDetailDetaletion,
+  confirmationDeletion,
+  rejectionDeletion,
 } = require("./deletion.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -35,6 +37,30 @@ router.post("/", async (req, res) => {
     const newDeletionData = req.body;
     const deletion = createDeletion(newDeletionData);
     response(200, deletion, "Berhasil menambahkan data", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.post("/:id/confirmation", async (req, res) => {
+  try {
+    const newDeletionData = req.body;
+    const { id } = req.params;
+    const deletion = confirmationDeletion(id, newDeletionData);
+    response(200, deletion, "Berhasil Menyetujui Usulan", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.post("/:id/rejection", async (req, res) => {
+  try {
+    const newDeletionData = req.body;
+    const { id } = req.params;
+    const deletion = rejectionDeletion(id, newDeletionData);
+    response(200, deletion, "Berhasil Menolak Usulan", res);
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);

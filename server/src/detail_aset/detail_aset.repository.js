@@ -109,7 +109,7 @@ const findDetailAsetByStatusNotInactive = async () => {
   const detailAset = await prisma.detail_Aset.findMany({
     where: {
       status: {
-        not: "Inactive", // mencari status selain 'inactive'
+        notIn: ["Inactive", "Deletion_Accepted"],
       },
     },
     orderBy: {

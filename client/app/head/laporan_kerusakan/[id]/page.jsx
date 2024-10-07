@@ -22,7 +22,6 @@ import React, { useRef } from "react";
 import { useFormik } from "formik";
 import { useRejectDamageReport } from "@/hooks/damage/useRejectDamageReport";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
 import { useAcceptDamageReport } from "@/hooks/damage/useAcceptDamageReport";
 import DamageReport from "@/components/(reports)/DamageReport";
 import ButtonLaporan from "@/components/(button)/ButtonLaporan";

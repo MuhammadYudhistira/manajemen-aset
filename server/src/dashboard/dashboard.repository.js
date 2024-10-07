@@ -83,7 +83,7 @@ const totalAset = async () => {
       Detail_Aset: {
         some: {
           status: {
-            not: "Inactive",
+            notIn: ["Inactive", "Deletion_Accepted"],
           },
         },
       },

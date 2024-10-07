@@ -54,7 +54,7 @@ const insertDeletion = async (newDeletionData) => {
     data: {
       title: newDeletionData.title,
       alasan_penghapusan: newDeletionData.alasan_penghapusan,
-      Pengajuan_Penghapusan_Detail_Aset: {
+      Detail_Penghapusan_Nilai_Aset: {
         create: newDeletionData.id_detail_aset.map((idAset) => ({
           detail_aset: { connect: { id: idAset } }, // Menghubungkan ke tabel Detail_Aset
         })),
@@ -65,8 +65,22 @@ const insertDeletion = async (newDeletionData) => {
   return deletion;
 };
 
+const updateDeletionStatus = async (id, status, keterangan) => {
+  const deletion = await prisma.penghapusan_Nilai_aset.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
+      keterangan: keterangan,
+    },
+  });
+  return deletion;
+};
+
 module.exports = {
   insertDeletion,
   findAllDeletion,
   findDeletionById,
+  updateDeletionStatus,
 };

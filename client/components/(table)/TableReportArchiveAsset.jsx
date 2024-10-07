@@ -36,15 +36,11 @@ const TableReportArchiveAsset = () => {
                 let textColor = "";
 
                 switch (status) {
-                    case "Reported":
-                        bgColor = "bg-amber-100";
-                        textColor = "text-amber-700";
+                    case "Pending":
+                        bgColor = "bg-black";
+                        textColor = "text-white";
                         break;
-                    case "Approved":
-                        bgColor = "bg-green-100";
-                        textColor = "text-green-700";
-                        break;
-                    case "Completed":
+                    case "Accepted":
                         bgColor = "bg-green-100";
                         textColor = "text-green-700";
                         break;

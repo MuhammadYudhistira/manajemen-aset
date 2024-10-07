@@ -19,6 +19,7 @@ import moment from "moment";
 const page = ({ params }) => {
 
     const { data, isLoading } = useFetchDetailDA(params.id)
+    console.log("🚀 ~ page ~ data:", data)
 
     if (isLoading) {
         return <Spinner />
@@ -199,10 +200,9 @@ const page = ({ params }) => {
                             <p>Belum ada Penanggung Jawab</p>
                         )}
                     </div>
-                    <div className="space-y-2 rounded-xl bg-white p-5">
+                    <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
                         <h2 className="text-lg font-medium">Riwayat Laporan kerusakan</h2>
-                        {data?.Penanggung_Jawab?.length > 0 ? (
-
+                        {data?.Laporan_Kerusakan?.length > 0 ? (
                             data?.Laporan_Kerusakan?.map((laporan) => {
                                 return (
                                     <div className="flex justify-between" key={laporan.id}>
@@ -212,7 +212,7 @@ const page = ({ params }) => {
                                         </div>
                                         <div>
                                             <Link
-                                                href={`/staff/laporan/${laporan.id}`}
+                                                href={`/laporan/${laporan.id}`}
                                                 className="btn btn-sm bg-white"
                                             >
                                                 View
@@ -222,56 +222,29 @@ const page = ({ params }) => {
                                 )
                             })) : (<p>Belum ada Laporan kerusakan</p>)
                         }
-
                     </div>
-                    <div className="space-y-2 rounded-xl bg-white p-5">
+                    <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
                         <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>
-                        <div className="flex justify-between">
-                            <div>
-                                <p className="text-sm text-gray-500">SSD Rusak</p>
-                                <p className="text-sm text-gray-500">12/01/2024</p>
-                            </div>
-                            <div>
-                                <Link
-                                    href={"/admin/laporan_perbaikan/123"}
-                                    className="btn btn-sm bg-white"
-                                >
-                                    View
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div>
-                                <p className="text-sm text-gray-500">
-                                    Kipas rusak, ganti thermal paste, dan pembersihan motherboard
-                                </p>
-                                <p className="text-sm text-gray-500">12/01/2024</p>
-                            </div>
-                            <div>
-                                <Link
-                                    href={"/admin/laporan_perbaikan/123"}
-                                    className="btn btn-sm bg-white"
-                                >
-                                    View
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div>
-                                <p className="text-sm text-gray-500">
-                                    Kipas rusak, ganti thermal paste, dan pembersihan motherboard
-                                </p>
-                                <p className="text-sm text-gray-500">12/01/2024</p>
-                            </div>
-                            <div>
-                                <Link
-                                    href={"/admin/laporan_perbaikan/123"}
-                                    className="btn btn-sm bg-white"
-                                >
-                                    View
-                                </Link>
-                            </div>
-                        </div>
+                        {data?.Perbaikan?.length > 0 ? (
+                            data?.Perbaikan?.map((perbaikan) => {
+                                return (
+                                    <div className="flex justify-between" key={perbaikan.id}>
+                                        <div>
+                                            <p className="text-sm text-gray-500">{perbaikan.hal}</p>
+                                            <p className="text-sm text-gray-500">{moment(perbaikan.createdAt).format("DD-MM-YYYY")}</p>
+                                        </div>
+                                        <div>
+                                            <Link
+                                                href={`/perbaikan/${perbaikan.id}`}
+                                                className="btn btn-sm bg-white"
+                                            >
+                                                View
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                            })) : (<p>Belum ada Laporan kerusakan</p>)
+                        }
                     </div>
                 </div>
             </div>

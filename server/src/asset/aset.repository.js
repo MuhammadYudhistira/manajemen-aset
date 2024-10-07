@@ -48,7 +48,7 @@ const findAssetsByUser = async (id) => {
         },
       },
       status: {
-        not: "Inactive",
+        notIn: ["Inactive", "Deletion_Accepted"],
       },
     },
     select: {
@@ -144,7 +144,7 @@ const countAsset = async () => {
 const countAssetStatus = async (status) => {
   const assets = await prisma.detail_Aset.count({
     where: {
-      status: status,
+      status: Array.isArray(status) ? { in: status } : status,
     },
   });
   return assets;

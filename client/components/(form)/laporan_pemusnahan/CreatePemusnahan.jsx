@@ -14,6 +14,8 @@ const CreatePemusnahan = () => {
 
     const { data: asets, isLoading } = useFetchListDA()
 
+    const filteredAssets = asets?.filter(asset => asset.status !== 'Request_Deletion' && asset.status !== 'Deletion_Accepted');
+
     const [selectedKeys, setSelectedKeys] = React.useState(new Set());
 
     // Memetakan selectedKeys (ID aset) ke format nama_barang (kode_barang)
@@ -38,10 +40,11 @@ const CreatePemusnahan = () => {
             const body = {
                 title,
                 alasan_penghapusan,
-                asets: selectedKeysArray,
+                id_detail_aset: selectedKeysArray,
             };
 
-            console.log(body);
+            createDeletionRequest(body)
+
         },
 
     });
@@ -51,17 +54,16 @@ const CreatePemusnahan = () => {
     };
 
     const {
-        mutate: createUser,
+        mutate: createDeletionRequest,
         isPending,
         isSuccess,
     } = useMutation({
         mutationFn: async (body) => {
-            const response = await axios.post("/user", body);
-
+            const response = await axios.post("/deletion", body);
             return response;
         },
         onSuccess: () => {
-            toast.success("Berhasil menambahkan User");
+            toast.success("Berhasil menambahkan Usulan Pemusnahan");
         },
         onError: (error) => {
             console.log(error.response);
@@ -69,12 +71,8 @@ const CreatePemusnahan = () => {
         },
     });
 
-    if (isLoading) {
-        return <Spinner />
-    }
-
     if (isSuccess) {
-        redirect("/admin/user");
+        redirect("/admin/laporan_pemusnahan_aset");
     }
 
     return (
@@ -106,7 +104,7 @@ const CreatePemusnahan = () => {
                 />
             </label>
             <label className="form-control w-full">
-                <div className="label mb-2">
+                <div className="label">
                     <span className="label-text">Pilih Aset</span>
                 </div>
                 <div className="space-y-4">
@@ -118,7 +116,6 @@ const CreatePemusnahan = () => {
                         ))}
                     </p>
 
-
                     <Listbox
                         className="border-small px-1 py-2 rounded-small max-h-[300px] overflow-y-auto"
                         aria-label="Multiple selection Assets"
@@ -128,7 +125,7 @@ const CreatePemusnahan = () => {
                         selectedKeys={selectedKeys}
                         onSelectionChange={setSelectedKeys}
                     >
-                        {asets.map((aset) => (
+                        {filteredAssets?.map((aset) => (
                             <ListboxItem key={aset.id} textValue={`${aset.aset.nama_barang} (${aset.kode_barang})`}>
                                 {`${aset.aset.nama_barang} (${aset.kode_barang})`}
                             </ListboxItem>
