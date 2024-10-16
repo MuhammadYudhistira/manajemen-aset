@@ -5,9 +5,9 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 const page = () => {
   return (
     <>
-      <button className="btn mt-6 bg-white text-black">
+      {/* <button className="btn mt-6 bg-white text-black">
         <LocalPrintshopOutlinedIcon /> Cetak Laporan perbaikan
-      </button>
+      </button> */}
       <div className="rounded-xl bg-white p-5">
         <div className="flex items-center justify-end gap-4">
           <p className="text-sm text-gray-400">ID Laporan : 1.22.12.211.1</p>

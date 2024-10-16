@@ -7,6 +7,6 @@ export const useFetchDetailUser = (id) => {
       const response = await axios.get(`/user/${id}`);
       return response.data.payload;
     },
-    queryKey: ["user"],
+    queryKey: ["detailUser"],
   });
 };

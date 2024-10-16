@@ -1,4 +1,5 @@
 "use client"
+import PemusnahanAset from "@/components/(reports)/PemusnahanAset";
 import { useConfirmDeletion } from "@/hooks/penghapusan_aset/useConfirmDeletion";
 import { useFetchDetailDeletion } from "@/hooks/penghapusan_aset/useFetchDetailDeletion";
 import { useRejectDeletion } from "@/hooks/penghapusan_aset/useRejectDeletion";
@@ -22,7 +23,7 @@ const page = ({ params }) => {
             console.log(error)
         },
         onSuccess: () => {
-            toast.success("Berhasil Menyetujui Usulan")
+            toast.success("Berhasil Menyetujui Pengajuan")
             refetch()
         }
     })
@@ -32,7 +33,7 @@ const page = ({ params }) => {
             console.log(error)
         },
         onSuccess: () => {
-            toast.success("Berhasil Menolak Usulan")
+            toast.success("Berhasil Menolak Pengajuan")
             refetch()
         }
     })
@@ -79,12 +80,17 @@ const page = ({ params }) => {
             <div className="mr-auto hidden rounded-md font-medium md:block">
                 <Breadcrumbs variant="bordered" radius="sm" classNames={{ list: "bg-white", }}>
                     <BreadcrumbItem href="/admin">Home</BreadcrumbItem>
-                    <BreadcrumbItem href="/admin/laporan_pemusnahan_aset">List Usulan Pemusnahan</BreadcrumbItem>
-                    <BreadcrumbItem >Detail Usulan Pemusnahan</BreadcrumbItem>
+                    <BreadcrumbItem href="/admin/laporan_pemusnahan_aset">List Pengajuan Pemusnahan</BreadcrumbItem>
+                    <BreadcrumbItem >Detail Pengajuan Pemusnahan</BreadcrumbItem>
                 </Breadcrumbs>
+                <PemusnahanAset
+                    title={data.title}
+                    createdAt={data.createdAt}
+                    asets={data?.Detail_Penghapusan_Nilai_Aset}
+                />
             </div>
             <div className="rounded-xl bg-white p-5">
-                <h1 className="text-2xl font-bold">Detail Usulan Pemusnahan Aset</h1>
+                <h1 className="text-2xl font-bold">Detail Pengajuan Pemusnahan Aset</h1>
                 <div className="grid grid-cols-3">
                     <div className="col-span-2">
                         <div className="mt-4">
@@ -92,13 +98,13 @@ const page = ({ params }) => {
                             <p className="font-bold">{data.title}</p>
                         </div>
                         <div className="mt-4">
-                            <p className="text-sm text-gray-500 font-medium">Alasan Pengusulan</p>
+                            <p className="text-sm text-gray-500 font-medium">Alasan Pengajuan</p>
                             <p className="font-bold">{data.alasan_penghapusan}</p>
                         </div>
                     </div>
                     <div>
                         <div className="mt-4">
-                            <p className="text-sm text-gray-500 font-medium">Tanggal Usulan</p>
+                            <p className="text-sm text-gray-500 font-medium">Tanggal Pengajuan</p>
                             <p className="font-bold">{moment(data.createdAt).format("DD-MM-YYYY")}</p>
                         </div>
                         <div>
