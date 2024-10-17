@@ -112,6 +112,7 @@ const TableRepairReport = () => {
     const handleNewItemClick = (id) => {
         router.push(`/head/laporan_perbaikan/${id}`);
     };
+    
     const handleDeleteClik = (id) => {
         const laporan = findDataById(id)
         if (laporan.status !== "Approved" && laporan.status !== "Completed") {

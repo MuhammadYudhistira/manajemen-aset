@@ -5,11 +5,28 @@ import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useFetchListDeletion } from "@/hooks/penghapusan_aset/useFetchListDeletion";
+import { useDeleteDeletion } from "@/hooks/penghapusan_aset/useDeleteDeletion";
+import { toast } from "sonner";
 
 const TableReportArchiveAsset = () => {
 
-    const { data, isLoading } = useFetchListDeletion()
+    const { data, isLoading, refetch } = useFetchListDeletion()
     const router = useRouter();
+
+    const { mutate: deleteDeletion } = useDeleteDeletion({
+        onSuccess: () => {
+            toast.info("Berhasil menghapus data")
+            refetch()
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error(error.response.data.message)
+        }
+    })
+
+    const findDataById = (id) => {
+        return data.find(item => item.id === id);
+    };
 
     const columns = [
         {
@@ -72,6 +89,20 @@ const TableReportArchiveAsset = () => {
         router.push(`/admin/laporan_pemusnahan_aset/${id}`);
     };
 
+    const handleDeleteClik = (id) => {
+        const deletion = findDataById(id)
+        if (deletion.status !== "Accepted" && deletion.status !== "Rejected") {
+            const confirmation = confirm(
+                "Apakah anda yakin akan menghapus data laporan ini?",
+            );
+            if (confirmation) {
+                deleteDeletion(id)
+            }
+        } else {
+            toast.info("Laporan sudah direview tidak bisa menghapus laporan")
+        }
+    };
+
     if (isLoading) {
         return <div className="flex justify-center items-center">
             <Spinner />
@@ -84,6 +115,7 @@ const TableReportArchiveAsset = () => {
                 data={data}
                 columns={columns}
                 handleNewItemClick={handleNewItemClick}
+                handleDeleteClick={handleDeleteClik}
             />
         </>
     );

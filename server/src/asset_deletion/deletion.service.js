@@ -4,6 +4,7 @@ const {
   insertDeletion,
   findDeletionById,
   updateDeletionStatus,
+  deleteDeleteionById,
 } = require("./deletion.repository");
 
 const getAllDeletion = async () => {
@@ -13,6 +14,7 @@ const getAllDeletion = async () => {
 
 const getDetailDetaletion = async (id) => {
   const deletion = await findDeletionById(id);
+  if (!deletion) throw new Error("Data tidak ditemukan");
   return deletion;
 };
 
@@ -29,6 +31,7 @@ const createDeletion = async (data) => {
 };
 
 const confirmationDeletion = async (id, data) => {
+  await getDetailDetaletion(id);
   const { keterangan } = data;
   const deletion = await updateDeletionStatus(id, "Accepted", keterangan);
   data.id_detail_aset.forEach((id) => {
@@ -42,11 +45,18 @@ const confirmationDeletion = async (id, data) => {
 };
 
 const rejectionDeletion = async (id, data) => {
+  await getDetailDetaletion(id);
   const { keterangan } = data;
   const deletion = await updateDeletionStatus(id, "Rejected", keterangan);
   data.id_detail_aset.forEach((id) => {
     updateAssetStatus(id, "Available", "Aset tersedia");
   });
+  return deletion;
+};
+
+const deleteDeletion = async (id) => {
+  await getDetailDetaletion(id);
+  const deletion = await deleteDeleteionById(id);
   return deletion;
 };
 
@@ -56,4 +66,5 @@ module.exports = {
   getDetailDetaletion,
   confirmationDeletion,
   rejectionDeletion,
+  deleteDeletion,
 };

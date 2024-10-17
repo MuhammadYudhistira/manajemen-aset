@@ -78,9 +78,20 @@ const updateDeletionStatus = async (id, status, keterangan) => {
   return deletion;
 };
 
+const deleteDeleteionById = async (id) => {
+  const deletion = await prisma.penghapusan_Nilai_aset.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return deletion;
+};
+
 module.exports = {
   insertDeletion,
   findAllDeletion,
   findDeletionById,
   updateDeletionStatus,
+  deleteDeleteionById,
 };

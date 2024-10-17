@@ -34,7 +34,6 @@ const page = ({ params }) => {
 
   if (isError) {
     if (error.response.data.status === 404) {
-      console.log(error)
       notFound()
     }
   }

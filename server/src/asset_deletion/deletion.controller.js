@@ -5,6 +5,7 @@ const {
   getDetailDetaletion,
   confirmationDeletion,
   rejectionDeletion,
+  deleteDeletion,
 } = require("./deletion.service");
 const { response } = require("../response/response");
 const { responseError } = require("../response/responseError");
@@ -35,7 +36,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newDeletionData = req.body;
-    const deletion = createDeletion(newDeletionData);
+    const deletion = await createDeletion(newDeletionData);
     response(200, deletion, "Berhasil menambahkan data", res);
   } catch (error) {
     console.log(error);
@@ -47,7 +48,7 @@ router.post("/:id/confirmation", async (req, res) => {
   try {
     const newDeletionData = req.body;
     const { id } = req.params;
-    const deletion = confirmationDeletion(id, newDeletionData);
+    const deletion = await confirmationDeletion(id, newDeletionData);
     response(200, deletion, "Berhasil Menyetujui Usulan", res);
   } catch (error) {
     console.log(error);
@@ -59,8 +60,19 @@ router.post("/:id/rejection", async (req, res) => {
   try {
     const newDeletionData = req.body;
     const { id } = req.params;
-    const deletion = rejectionDeletion(id, newDeletionData);
+    const deletion = await rejectionDeletion(id, newDeletionData);
     response(200, deletion, "Berhasil Menolak Usulan", res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletion = await deleteDeletion(id);
+    response(200, deletion, "Berhasil menghapus data", res);
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);

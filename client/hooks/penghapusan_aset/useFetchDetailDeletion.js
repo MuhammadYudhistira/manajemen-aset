@@ -8,5 +8,6 @@ export const useFetchDetailDeletion = (id) => {
       return response.data.payload;
     },
     queryKey: ["detailDeletion"],
+    retry: false,
   });
 };

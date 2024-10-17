@@ -6,12 +6,13 @@ import { useRejectDeletion } from "@/hooks/penghapusan_aset/useRejectDeletion";
 import { formatRupiah } from "@/libs/formatRupiah";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
 import moment from "moment";
+import { notFound } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
 const page = ({ params }) => {
 
-    const { data, isLoading, refetch } = useFetchDetailDeletion(params.id)
+    const { data, isLoading, refetch, isError, error } = useFetchDetailDeletion(params.id)
 
     const [keterangan, setKeterangan] = useState(null)
     const [showForm, setShowForm] = useState(null);
@@ -73,6 +74,12 @@ const page = ({ params }) => {
                 <Spinner />
             </div>
         )
+    }
+
+    if (isError) {
+        if (error.response.data.message === "Data tidak ditemukan") {
+            notFound()
+        }
     }
 
     return (
