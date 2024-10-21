@@ -7,10 +7,11 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/libs/axios";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation'
 
 const LoginForm = ({ callbackUrl }) => {
   const [hidden, setHidden] = useState(true);
+  const router = useRouter();
 
   const { mutate: login, isSuccess } = useMutation({
     mutationFn: async (body) => {
@@ -23,6 +24,7 @@ const LoginForm = ({ callbackUrl }) => {
     onSuccess: (response) => {
       toast.success("Berhasil Login");
       Cookies.set("token", response.data.payload.token, { expires: 1 });
+      router.push(callbackUrl || "/");
     },
     onError: (error) => {
       console.log(error);
@@ -36,7 +38,6 @@ const LoginForm = ({ callbackUrl }) => {
       password: "",
     },
     onSubmit: () => {
-      console.log(formik.values);
       const { nip, password } = formik.values;
       login(formik.values);
     },
@@ -49,10 +50,6 @@ const LoginForm = ({ callbackUrl }) => {
   const handleEyeClick = () => {
     setHidden(!hidden);
   };
-
-  if (isSuccess) {
-    redirect(callbackUrl || "/")
-  }
 
   return (
     <form

@@ -33,6 +33,7 @@ const HeaderAvatar = ({ role }) => {
     const handleOnclick = () => {
         Cookies.remove("token");
         toast.success("Berhasil Logout");
+        window.location.href = '/login';
     };
 
     if (isLoading || fetchLoading) {
@@ -65,7 +66,7 @@ const HeaderAvatar = ({ role }) => {
                         <Link href={`/${role}/profile`}>Profile</Link>
                     </li>
                     <li>
-                        <Link href={"/login"} onClick={handleOnclick} className='text-red-500 bg-red-50 hover:bg-red-500 hover:text-red-50'>Logout</Link>
+                        <button onClick={handleOnclick} className='text-red-500 bg-red-50 hover:bg-red-500 hover:text-red-50'>Logout</button>
                     </li>
                 </ul>
             </div>
