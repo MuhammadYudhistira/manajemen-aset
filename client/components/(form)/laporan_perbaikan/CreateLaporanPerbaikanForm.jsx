@@ -34,7 +34,7 @@ const CreateLaporanPerbaikanForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            id_laporan_kerusakan: "",
+            id: "",
             hal: "",
             biaya_perbaikan: "",
             nomor_rekening: "",
@@ -66,7 +66,7 @@ const CreateLaporanPerbaikanForm = () => {
                 </div>
                 <select
                     className="select bg-blue-50 text-sm"
-                    name="id_laporan_kerusakan"
+                    name="id"
                     onChange={handleFormInput}
                     required
                 >

@@ -67,7 +67,7 @@ const EditLaporanPerbaikanForm = ({ id }) => {
                     className="input bg-blue-50 text-sm disabled:text-black"
                     name="id_laporan_kerusakan"
                     onChange={handleFormInput}
-                    value={`${repair.laporan_kerusakan?.perihal} (${repair.laporan_kerusakan.detail_aset?.aset?.nama_barang} - ${repair.laporan_kerusakan.detail_aset?.kode_barang})`}
+                    value={`${repair.laporan_kerusakan?.perihal} (${repair?.laporan_kerusakan?.detail_aset?.aset?.nama_barang} - ${repair?.laporan_kerusakan?.detail_aset?.kode_barang})`}
                     disabled
                 />
             </label>
