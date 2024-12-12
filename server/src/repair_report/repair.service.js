@@ -27,9 +27,7 @@ const getDetailRepair = async (id) => {
 };
 
 const createRepair = async (newRepairData) => {
-  const damage = await getDetailDamage(newRepairData.id_laporan_kerusakan);
   newRepairData.biaya_perbaikan = parseInt(newRepairData.biaya_perbaikan);
-  newRepairData.id_detail_aset = damage.id_detail_aset;
   const repair = await insertRepair(newRepairData);
   return repair;
 };
@@ -65,9 +63,7 @@ const deleteRepair = async (id) => {
 
 const editRepair = async (id, newRepairData) => {
   await getDetailRepair(id);
-  const damage = await getDetailDamage(newRepairData.id_laporan_kerusakan);
   newRepairData.biaya_perbaikan = parseInt(newRepairData.biaya_perbaikan);
-  newRepairData.id_detail_aset = damage.id_detail_aset;
   const repair = await updateRepairById(id, newRepairData);
   return repair;
 };

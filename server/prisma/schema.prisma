@@ -114,7 +114,6 @@ model Detail_Aset {
   createdAt                         DateTime                        @default(now())
   updatedAt                         DateTime                        @updatedAt
   Laporan_Kerusakan                 Laporan_Kerusakan[]
-  Perbaikan                         Perbaikan[]
   Pengajuan_Penghapusan_Detail_Aset Detail_Penghapusan_Nilai_Aset[]
 
   @@map("detail_aset")
@@ -165,26 +164,23 @@ model Laporan_Kerusakan {
 }
 
 model Perbaikan {
-  id                   String             @id @default(uuid())
-  hal                  String             @db.LongText
-  biaya_perbaikan      Int
-  nomor_rekening       String             @db.VarChar(100)
-  id_requested_by      String
-  approved_by          String?            @db.VarChar(100)
-  approved_date        DateTime?
-  faktur               String?
-  kuitansi             String?
-  berita_acara         String?
-  status               Status_perbaikan   @default(Reported)
-  keterangan           String?            @db.LongText
-  id_detail_aset       String
-  detail_aset          Detail_Aset        @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_laporan_kerusakan String             @unique
-  laporan_kerusakan    Laporan_Kerusakan  @relation(fields: [id_laporan_kerusakan], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Perbaikan_Images     Perbaikan_Images[]
-  user                 User               @relation(fields: [id_requested_by], references: [id])
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
+  id                String             @unique
+  id_requested_by   String
+  hal               String             @db.LongText
+  biaya_perbaikan   Int
+  nomor_rekening    String             @db.VarChar(100)
+  approved_by       String?            @db.VarChar(100)
+  approved_date     DateTime?
+  faktur            String?
+  kuitansi          String?
+  berita_acara      String?
+  status            Status_perbaikan   @default(Reported)
+  keterangan        String?            @db.LongText
+  laporan_kerusakan Laporan_Kerusakan  @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Perbaikan_Images  Perbaikan_Images[]
+  user              User               @relation(fields: [id_requested_by], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   @@map("perbaikan")
 }
