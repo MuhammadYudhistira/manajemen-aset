@@ -387,25 +387,29 @@ const page = ({ params }) => {
           </div>
           <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
             <h2 className="text-lg font-medium">Riwayat Laporan Perbaikan</h2>
-            {data?.Perbaikan?.length > 0 ? (
-              data?.Perbaikan?.map((perbaikan) => {
+            {data?.Laporan_Kerusakan?.length > 0 && (
+              data?.Laporan_Kerusakan?.map((perbaikan) => {
                 return (
-                  <div className="flex justify-between" key={perbaikan.id}>
-                    <div>
-                      <p className="text-sm text-gray-500">{perbaikan.hal}</p>
-                      <p className="text-sm text-gray-500">{moment(perbaikan.createdAt).format("DD-MM-YYYY")}</p>
+                  perbaikan.Perbaikan !== null ? (
+                    <div className="flex justify-between" key={perbaikan.Perbaikan.id}>
+                      <div>
+                        <p className="text-sm text-gray-500">{perbaikan.Perbaikan.hal}</p>
+                        <p className="text-sm text-gray-500">{moment(perbaikan.Perbaikan.createdAt).format("DD-MM-YYYY")}</p>
+                      </div>
+                      <div>
+                        <Link
+                          href={`/perbaikan/${perbaikan.id}`}
+                          className="btn btn-sm bg-white"
+                        >
+                          View
+                        </Link>
+                      </div>
                     </div>
-                    <div>
-                      <Link
-                        href={`/perbaikan/${perbaikan.id}`}
-                        className="btn btn-sm bg-white"
-                      >
-                        View
-                      </Link>
-                    </div>
-                  </div>
+                  ) : (
+                    <p>Belum Ada Laporan Perbaikan</p>
+                  )
                 )
-              })) : (<p>Belum ada Laporan kerusakan</p>)
+              }))
             }
           </div>
         </div>

@@ -33,7 +33,6 @@ const getDetailDetailAset = async (req, res) => {
 const postDetailAset = async (req, res) => {
   try {
     const data = req.body;
-
     const detailAsset = await createDetailAset(data);
     response(200, detailAsset, "Berhasil Menambahkan Data Detail Aset", res);
   } catch (error) {
