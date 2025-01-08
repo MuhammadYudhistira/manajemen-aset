@@ -10,7 +10,6 @@ export default function Home() {
   const decoded = jwtDecode(token.value)
   const role = decoded.role
 
-
   if (role) {
     switch (role) {
       case "KEPALA_BAGIAN":

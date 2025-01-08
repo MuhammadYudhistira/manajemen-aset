@@ -1,6 +1,9 @@
 import React from "react";
 import HeaderAvatar from "./HeaderAvatar";
 import QRScanner from "../(global)/Scanner";
+import { Link } from "next-view-transitions";
+import Search from "./Search";
+
 
 const Header = ({ role }) => {
   return (
@@ -24,10 +27,10 @@ const Header = ({ role }) => {
             ></path>
           </svg>
         </label>
-        {/* <HeaderTitle /> */}
         <div className="flex-1 space-x-2">
-          <h2 className="btn btn-ghost text-xl">SIMAS</h2>
+          <Link href={"/"} className="btn btn-ghost text-xl">SIMAS</Link>
           <QRScanner />
+          {role !== "staff" && <Search />}
         </div>
         <HeaderAvatar role={role} />
       </div>

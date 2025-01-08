@@ -1,10 +1,10 @@
-const { getAssetByid } = require("../asset/aset.service");
-const { deleteImage } = require("../middleware/uploadGambar");
+const { getAssetByid } = require('../asset/aset.service');
+const { deleteImage } = require('../middleware/uploadGambar');
 const {
   createDetailAsetValidation,
   UpdateDetailAsetValidation,
-} = require("../validation/detail-aset-validation");
-const { validate } = require("../validation/validation");
+} = require('../validation/detail-aset-validation');
+const { validate } = require('../validation/validation');
 const {
   findDetailAset,
   findDetailAsetById,
@@ -18,9 +18,9 @@ const {
   findDetailAsetImageById,
   findDetailAsetImageByIdDetailAset,
   updateAssetStatus,
-  findDetailAsetByStatus,
   findDetailAsetByStatusNotInactive,
-} = require("./detail_aset.repository");
+  searchDetailAset,
+} = require('./detail_aset.repository');
 
 const getAllDetailAset = async (id) => {
   await getAssetByid(id);
@@ -30,13 +30,20 @@ const getAllDetailAset = async (id) => {
 
 const getDetailAset = async (id) => {
   const detailAset = await findDetailAsetById(id);
-  if (!detailAset) throw new Error("Detail Aset tidak ditemukan");
+  if (!detailAset) throw new Error('Detail Aset tidak ditemukan');
   return detailAset;
+};
+
+const getSearchDetailAset = async (search) => {
+  const data = await searchDetailAset(search);
+  if (!data) throw new Error('Data tidak ditemukan');
+
+  return data;
 };
 
 const countDetailAset = async (kode_barang) => {
   const countDetailAset = await findDetailAsetByKodeBarang(kode_barang);
-  if (countDetailAset === 1) throw new Error("Kode Barang Sudah ada");
+  if (countDetailAset === 1) throw new Error('Kode Barang Sudah ada');
   return countDetailAset;
 };
 
@@ -77,13 +84,13 @@ const editDetailAset = async (id, newDetailAsetData) => {
 
 const archiveAsset = async (id, keterangan) => {
   await getDetailAset(id);
-  const detailAset = await updateAssetStatus(id, "Inactive", keterangan);
+  const detailAset = await updateAssetStatus(id, 'Inactive', keterangan);
   return detailAset;
 };
 
 const unarchiveAsset = async (id, keterangan) => {
   await getDetailAset(id);
-  const detailAset = await updateAssetStatus(id, "Available", keterangan);
+  const detailAset = await updateAssetStatus(id, 'Available', keterangan);
   return detailAset;
 };
 
@@ -92,7 +99,7 @@ const deleteDetailAset = async (id) => {
   const oldData = await findDetailAsetImageByIdDetailAset(id);
 
   oldData.forEach((gbr) => {
-    const namaFile = gbr.link.split("/")[1];
+    const namaFile = gbr.link.split('/')[1];
 
     deleteImage(gbr.link)
       .then(async (result) => {
@@ -127,13 +134,13 @@ const getDetailAsetImage = async (id) => {
   const idInt = parseInt(id);
   const exist = await findDetailAsetImageById(idInt);
   if (!exist) {
-    throw new Error("Tidak ada gambar yang dicari");
+    throw new Error('Tidak ada gambar yang dicari');
   }
   return exist;
 };
 
 const deleteDetailAsetImage = async (data) => {
-  if (!data.id || data.id === "") throw new Error("Id kosong");
+  if (!data.id || data.id === '') throw new Error('Id kosong');
 
   await getDetailAsetImage(data.id);
 
@@ -160,4 +167,5 @@ module.exports = {
   archiveAsset,
   unarchiveAsset,
   listActiveDetailAset,
+  getSearchDetailAset,
 };

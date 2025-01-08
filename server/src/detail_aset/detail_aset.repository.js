@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findDetailAset = async (id) => {
   const detailAset = await prisma.detail_Aset.findMany({
@@ -113,11 +113,11 @@ const findDetailAsetByStatusNotInactive = async () => {
   const detailAset = await prisma.detail_Aset.findMany({
     where: {
       status: {
-        notIn: ["Inactive", "Deletion_Accepted"],
+        notIn: ['Inactive', 'Deletion_Accepted'],
       },
     },
     orderBy: {
-      kode_barang: "asc",
+      kode_barang: 'asc',
     },
     include: {
       aset: {
@@ -137,12 +137,49 @@ const findDetailAsetByStatusNotInactive = async () => {
 };
 
 const findDetailAsetByKodeBarang = async (kode_barang) => {
-  const detail_Aset = prisma.detail_Aset.count({
+  const detail_Aset = await prisma.detail_Aset.count({
     where: {
       kode_barang: kode_barang,
     },
   });
   return detail_Aset;
+};
+
+const searchDetailAset = async (search) => {
+  const detailAset = await prisma.detail_Aset.findMany({
+    where: {
+      OR: [
+        {
+          kode_barang: {
+            contains: search,
+          },
+        },
+        {
+          aset: {
+            nama_barang: {
+              contains: search,
+            },
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      kode_barang: true,
+      aset: {
+        select: {
+          nama_barang: true,
+        },
+      },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
+    },
+  });
+
+  return detailAset;
 };
 
 const insertDetailAset = async (newDetailAsetData) => {
@@ -217,7 +254,7 @@ const insertDetailAsetImage = async (data) => {
 const findAllDetailAset = async () => {
   const detailAset = await prisma.detail_Aset.findMany({
     orderBy: {
-      kode_barang: "asc",
+      kode_barang: 'asc',
     },
     include: {
       aset: {
@@ -279,4 +316,5 @@ module.exports = {
   findDetailAsetImageByIdDetailAset,
   updateAssetStatus,
   findDetailAsetByStatusNotInactive,
+  searchDetailAset,
 };
