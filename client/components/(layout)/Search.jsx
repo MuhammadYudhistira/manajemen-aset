@@ -2,20 +2,13 @@
 import { useSearchDA } from '@/hooks/detail_aset/useSearchDA';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { Avatar } from '@nextui-org/react';
+import { Avatar, Spinner } from '@nextui-org/react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 const Search = () => {
   const [search, setSearch] = useState('');
-  const { data: asets } = useSearchDA(search);
-
-  useEffect(() => {
-    const savedSearch = localStorage.getItem('searchValue');
-    if (savedSearch) {
-      setSearch(savedSearch);
-    }
-  }, []);
+  const { data: asets, isLoading } = useSearchDA(search);
 
   const onSearchChange = (e) => {
     const newSearch = e.target.value;
@@ -25,7 +18,6 @@ const Search = () => {
 
   const onRemove = () => {
     setSearch('');
-    localStorage.setItem('searchValue', '');
   }
 
 
@@ -39,7 +31,7 @@ const Search = () => {
         <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-64 overflow-y-auto p-2 shadow mt-3">
           {asets?.map((aset) => {
             return (
-              <Link href={`/detail_aset/${aset.id}`} onClick={onRemove} key={aset.id}>
+              <Link href={`/detail_aset/${aset.id}`} key={aset.id}>
                 <li>
                   <div className="flex gap-2 items-center">
                     <Avatar alt={aset.aset.nama_barang} className="flex-shrink-0" size="sm" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset?.Detail_Aset_Images[0]?.link}`} />
@@ -54,8 +46,10 @@ const Search = () => {
           })}
 
           {asets?.length === 0 && (
-            <li className="text-center">Aset yang dicari tidak ditemukan</li>
+            <li className="text-center text-xs text-gray-500">Aset yang dicari tidak ditemukan</li>
           )}
+
+          {isLoading && <Spinner className='text-center' />}
         </ul>
       </div>
     </>
