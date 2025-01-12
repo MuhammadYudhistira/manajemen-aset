@@ -1,6 +1,6 @@
-const { getDetailDamage } = require("../damage_report/damage.service");
-const { editDetailAsetById } = require("../detail_aset/detail_aset.repository");
-const { deleteImage } = require("../middleware/uploadGambar");
+const { getDetailDamage } = require('../damage_report/damage.service');
+const { editDetailAsetById } = require('../detail_aset/detail_aset.repository');
+const { deleteImage } = require('../middleware/uploadGambar');
 const {
   findAllRepair,
   findRepairById,
@@ -8,7 +8,7 @@ const {
   deleteRepairById,
   updateRepairById,
   findRepairsByStatus,
-} = require("./repair.repository");
+} = require('./repair.repository');
 
 const getAllRepairs = async () => {
   const repairs = await findAllRepair();
@@ -16,13 +16,13 @@ const getAllRepairs = async () => {
 };
 
 const getAllAcceptedRepairs = async () => {
-  const repairs = await findRepairsByStatus("Approved");
+  const repairs = await findRepairsByStatus('Approved');
   return repairs;
 };
 
 const getDetailRepair = async (id) => {
   const repair = await findRepairById(id);
-  if (!repair) throw new Error("Laporan perbaikan tidak ditemukan");
+  if (!repair) throw new Error('Laporan perbaikan tidak ditemukan');
   return repair;
 };
 
@@ -74,7 +74,7 @@ const acceptRepair = async (id, user) => {
   const data = {
     approved_by: user.nama,
     approved_date: new Date(),
-    status: "Approved",
+    status: 'Approved',
   };
   const repair = await updateRepairById(id, data);
 
@@ -86,7 +86,7 @@ const rejectRepair = async (id, rejectMessage) => {
 
   const data = {
     keterangan: rejectMessage,
-    status: "Rejected",
+    status: 'Rejected',
   };
   const repair = await updateRepairById(id, data);
 
@@ -100,14 +100,14 @@ const inputLaporan = async (id, newRepairData) => {
     faktur: newRepairData.faktur,
     kuitansi: newRepairData.kuitansi,
     berita_acara: newRepairData.berita_acara,
-    status: "Completed",
+    status: 'Completed',
   };
 
   const newData = {
-    status: "Available",
+    status: 'Available',
   };
 
-  await editDetailAsetById(oldData.id_detail_aset, newData);
+  await editDetailAsetById(oldData.laporan_kerusakan.detail_aset.id, newData);
 
   const repair = await updateRepairById(id, data);
   return repair;

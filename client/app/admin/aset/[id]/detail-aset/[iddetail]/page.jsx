@@ -143,9 +143,13 @@ const page = ({ params }) => {
                   className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
                 >
                   <li>
-                    <Link href={`/qr_code/${params.iddetail}`} className="btn bg-white text-black">
-                      <LocalPrintshopOutlinedIcon /> Cetak QR Code
-                    </Link>
+                    <QrCode
+                      aset={`${data?.aset?.nama_barang} ${data?.aset?.merk}`}
+                      id={params.iddetail}
+                      kode_barang={data?.kode_barang}
+                      ruangan={data?.ruangan?.nama_ruangan}
+                      tahun={moment(data?.createdAt).format("YYYY")}
+                    />
                   </li>
                   <li>
                     <Link
@@ -162,50 +166,54 @@ const page = ({ params }) => {
                     >
                       <DeleteOutlineOutlinedIcon /> Delete Aset
                     </Button>
+                  </li>
+
+                  <li>
+
                     <Button
                       onPress={arsipOnOpen}
                       className="btn bg-white text-blue-500 hover:border-blue-300 hover:bg-blue-50"
                     >
                       <ArchiveOutlinedIcon /> Arsipkan aset
                     </Button>
-                    <Modal
-                      isOpen={isOpen}
-                      onOpenChange={onOpenChange}
-                      isDismissable={false}
-                      isKeyboardDismissDisabled={true}
-                      size="xl"
-                    >
-                      <ModalContent className="p-5">
-                        {(onClose) => (
-                          <>
-                            <ModalHeader className="flex flex-row gap-1 text-red-500">
-                              <WarningAmberOutlinedIcon />
-                              <p>Warning</p>
-                            </ModalHeader>
-                            <ModalBody>
-                              <p>Apakah anda yakin akan menghapus aset ini?</p>
-                              <p className="text-xs first-letter:text-red-500">
-                                * jika menghapus aset ini, maka Riwayat laporan dan laporan perbaikan juga akan
-                                dihapus!!
-                              </p>
-                            </ModalBody>
-                            <ModalFooter>
-                              <Button variant="light" onPress={onClose}>
-                                Close
-                              </Button>
-                              <Button
-                                className="bg-red-500 text-white"
-                                onClick={handleClick}
-                                onPress={onClose}
-                              >
-                                Delete
-                              </Button>
-                            </ModalFooter>
-                          </>
-                        )}
-                      </ModalContent>
-                    </Modal>
                   </li>
+                  <Modal
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    isDismissable={false}
+                    isKeyboardDismissDisabled={true}
+                    size="xl"
+                  >
+                    <ModalContent className="p-5">
+                      {(onClose) => (
+                        <>
+                          <ModalHeader className="flex flex-row gap-1 text-red-500">
+                            <WarningAmberOutlinedIcon />
+                            <p>Warning</p>
+                          </ModalHeader>
+                          <ModalBody>
+                            <p>Apakah anda yakin akan menghapus aset ini?</p>
+                            <p className="text-xs first-letter:text-red-500">
+                              * jika menghapus aset ini, maka Riwayat laporan dan laporan perbaikan juga akan
+                              dihapus!!
+                            </p>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button variant="light" onPress={onClose}>
+                              Close
+                            </Button>
+                            <Button
+                              className="bg-red-500 text-white"
+                              onClick={handleClick}
+                              onPress={onClose}
+                            >
+                              Delete
+                            </Button>
+                          </ModalFooter>
+                        </>
+                      )}
+                    </ModalContent>
+                  </Modal>
                 </ul>
               </div>
               <div className="flex w-full flex-col md:flex-row gap-8">
@@ -306,7 +314,7 @@ const page = ({ params }) => {
                 <div className="w-[50%] mt-4">
                   <img
                     alt="qrcode"
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://localhost:3000/detail-aset/${params.iddetail}`}
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${[process.env.NEXT_PUBLIC_QR_URL]}${params.iddetail}`}
                     className="rounded-lg object-cover"
                   />
                 </div>

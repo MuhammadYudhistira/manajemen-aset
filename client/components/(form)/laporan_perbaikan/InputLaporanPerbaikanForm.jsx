@@ -39,13 +39,6 @@ const InputLaporanPerbaikanForm = ({ id }) => {
 
     const formik = useFormik({
         initialValues: {
-            nama: "",
-            nip: "",
-            password: "",
-            alamat: "",
-            jenis_kelamin: "",
-            no_hp: "",
-            role: "",
         },
         onSubmit: () => {
             // FormData untuk CreateRepairReport

@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findAllRepair = async () => {
   const repairs = await prisma.perbaikan.findMany({
@@ -36,6 +36,7 @@ const findRepairById = async (id) => {
           createdAt: true,
           detail_aset: {
             select: {
+              id: true,
               kode_barang: true,
               aset: {
                 select: {

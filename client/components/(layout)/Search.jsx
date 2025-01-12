@@ -23,7 +23,7 @@ const Search = () => {
 
   return (
     <>
-      <div className="dropdown">
+      <div className="dropdown hidden md:block">
         <label tabIndex={0} role="button" className="input input-sm outline-none border-none ring-0 flex items-center gap-2 bg-slate-100">
           <input type="text" className="grow" placeholder="Search" onChange={onSearchChange} value={search} />
           {search ? (<CloseOutlinedIcon onClick={onRemove} />) : (<SearchOutlinedIcon />)}

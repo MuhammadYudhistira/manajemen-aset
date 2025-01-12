@@ -4,22 +4,20 @@ import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlin
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import computer from "@/public/computer.jpg"
 import ReportOutlinedIcon from '@mui/icons-material/ReportOutlined';
-import qrcode from "@/public/qrcode.png";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import {
     Button,
     BreadcrumbItem, Breadcrumbs, Spinner,
-    Avatar,
     Tooltip
 } from "@nextui-org/react";
 import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
 import moment from "moment";
+import QrCode from "@/components/(reports)/QrCode";
 
 const page = ({ params }) => {
 
     const { data, isLoading } = useFetchDetailDA(params.id)
-    console.log("🚀 ~ page ~ data:", data)
 
     if (isLoading) {
         return <Spinner />
@@ -34,9 +32,13 @@ const page = ({ params }) => {
                         <BreadcrumbItem>Detail Aset</BreadcrumbItem>
                     </Breadcrumbs>
                 </div>
-                <Button className="btn bg-white text-black">
-                    <LocalPrintshopOutlinedIcon /> Cetak QR Code
-                </Button>
+                <QrCode
+                    aset={`${data?.aset?.nama_barang} ${data?.aset?.merk}`}
+                    id={params.id}
+                    kode_barang={data?.kode_barang}
+                    ruangan={data?.ruangan?.nama_ruangan}
+                    tahun={moment(data?.createdAt).format("YYYY")}
+                />
                 <Link href={`/staff/laporan/aset/${params.id}`} className="btn bg-white text-black">
                     <ReportOutlinedIcon /> Laporkan kerusakan
                 </Link>
@@ -150,12 +152,11 @@ const page = ({ params }) => {
                                 )}
                             </div>
                         </div>
-                        <div className="w-[50%]">
-                            <Image
+                        <div className="w-[50%] mt-4">
+                            <img
                                 alt="qrcode"
-                                src={qrcode}
-                                className="w-full rounded-lg object-cover"
-                                priority
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${[process.env.NEXT_PUBLIC_QR_URL]}${params.id}`}
+                                className="rounded-lg object-cover"
                             />
                         </div>
                     </div>

@@ -35,7 +35,7 @@ const QrCode = ({ ruangan, id, aset, kode_barang, tahun }) => {
 
     return (
         <div>
-            <button onClick={handlePrint} className="btn bg-white text-black overflow-hidden">
+            <button onClick={handlePrint} className=" btn bg-white text-black overflow-hidden">
                 <LocalPrintshopOutlinedIcon /> Cetak QR Code
             </button>
             <div className="bg-white w-0 h-0 overflow-hidden">
@@ -76,7 +76,7 @@ const QrCode = ({ ruangan, id, aset, kode_barang, tahun }) => {
                                 <td className="border border-black p-4">
                                     <img
                                         alt="qrcode"
-                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=http://localhost:3000/detail-aset/${id}`}
+                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${[process.env.NEXT_PUBLIC_QR_URL]}${id}`}
                                         className="rounded-lg object-cover"
                                     />
                                 </td>

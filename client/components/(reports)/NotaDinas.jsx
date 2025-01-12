@@ -97,6 +97,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
         redirect("/sekwan/laporan_perbaikan")
     }
 
+
     return (
         <>
             <Modal
@@ -184,7 +185,7 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                         </Button>
                     </>
                 ) : (
-                    status === "Approved" && (
+                    session?.role === "KEPALA_BAGIAN" && status === "Approved" && (
                         <Link href={`/head/laporan_perbaikan/${id}/create`} className="btn bg-white text-black border border-black w-full md:w-auto">
                             <AddCircleOutlineOutlinedIcon /> Tambah Laporan Perbaikan
                         </Link>
