@@ -18,7 +18,6 @@ const login = async (request) => {
     throw new Error("Nip atau password yang anda masukkan salah");
 
   const payload = {
-    id: user.id,
     nip: user.nip,
     nama: user.nama,
     profile: user.image,

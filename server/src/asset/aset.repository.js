@@ -90,14 +90,9 @@ const findAssetsByUser = async (id) => {
 const insertAsset = async (assetData) => {
   const asset = await prisma.aset.create({
     data: {
+      kode_barang: assetData.kode_barang,
       nama_barang: assetData.nama_barang,
-      deskripsi: assetData.deskripsi,
-      merk: assetData.merk,
-      tahun_perolehan: assetData.tahun_perolehan,
-      ukuran: assetData.ukuran,
-      harga_satuan: assetData.harga_satuan,
-      jumlah_barang: assetData.jumlah_barang,
-      nilai_perolehan: assetData.nilai_perolehan,
+      jenis_barang: assetData.jenis_barang,
       image: assetData.image,
     },
   });

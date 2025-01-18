@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    const userData = await getDetailUser(user.id);
+    const userData = await getDetailUser(user.nip);
 
     const {
       password,

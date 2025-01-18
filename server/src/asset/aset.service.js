@@ -31,18 +31,18 @@ const getAssetByid = async (id) => {
 };
 
 const createAsset = async (newAssetData) => {
-  newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
-  newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
-  newAssetData.nilai_perolehan = parseInt(
-    newAssetData.jumlah_barang * newAssetData.harga_satuan
-  );
+  // newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
+  // newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
+  // newAssetData.nilai_perolehan = parseInt(
+  //   newAssetData.jumlah_barang * newAssetData.harga_satuan
+  // );
   if (newAssetData.image.length >= 1) {
     newAssetData.image = newAssetData.image[0];
   } else {
     newAssetData.image = null;
   }
 
-  newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
+  // newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
   const asset = await insertAsset(newAssetData);
   return asset;
 };

@@ -34,10 +34,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:nip", async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await getDetailUser(id);
+    const { nip } = req.params;
+    const user = await getDetailUser(nip);
     response(200, user, "berhasil mengambil data user", res);
   } catch (error) {
     responseError(404, error.message, res);
@@ -55,10 +55,10 @@ router.post("/", uploadUserImage, async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:nip", async (req, res) => {
   try {
-    const { id } = req.params;
-    await deleteUser(id);
+    const { nip } = req.params;
+    await deleteUser(nip);
     response(200, null, "Berhasil menghapus Data user", res);
   } catch (error) {
     console.log(error);
@@ -66,11 +66,11 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", uploadUserImage, async (req, res) => {
+router.patch("/:nip", uploadUserImage, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { nip } = req.params;
     const data = req.body;
-    const user = await editUser(id, data);
+    const user = await editUser(nip, data);
     response(200, user, "Berhasil mengupdata Data", res);
   } catch (error) {
     console.log(error);

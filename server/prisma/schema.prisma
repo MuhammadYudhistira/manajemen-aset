@@ -21,6 +21,11 @@ enum Role {
   GUEST
 }
 
+enum Jenis_Aset {
+  Peralatan
+  Kendaraan
+}
+
 enum Status_Aset {
   Available
   Inactive
@@ -50,8 +55,7 @@ enum Jenis_Kelamin {
 }
 
 model User {
-  id                String              @id @default(uuid())
-  nip               String              @unique @db.VarChar(18)
+  nip               String              @id @db.VarChar(18)
   nama              String              @db.VarChar(100)
   password          String
   image             String?
@@ -68,97 +72,124 @@ model User {
   @@map("users")
 }
 
-model Ruangan {
-  id           String        @id @default(uuid())
-  nama_ruangan String        @db.VarChar(100)
-  Detail_Aset  Detail_Aset[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+model Lokasi {
+  id          String        @id @default(uuid())
+  nama_lokasi String        @db.VarChar(100)
+  Detail_Aset Detail_Aset[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  @@map("ruangan")
+  @@map("lokasi")
 }
 
 model Aset {
-  id              String        @id @default(uuid())
-  nama_barang     String        @db.VarChar(100)
-  deskripsi       String        @db.LongText
-  merk            String?       @db.VarChar(100)
-  tahun_perolehan DateTime
-  ukuran          String?       @db.LongText
-  harga_satuan    Int
-  jumlah_barang   Int
-  nilai_perolehan Int
-  image           String?
-  Detail_Aset     Detail_Aset[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  kode_barang      String             @id @db.VarChar(20)
+  nama_barang      String             @unique @db.VarChar(100)
+  jenis_barang     Jenis_Aset         @default(Peralatan)
+  image            String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Detail_Aset      Detail_Aset[]
+  Detail_Pengadaan Detail_Pengadaan[]
 
   @@map("asets")
 }
 
+model Pengadaan {
+  nomor_pengadaan   String             @id @db.VarChar(30)
+  nama_vendor       String
+  tanggal_pengadaan DateTime
+  dokumen_pengadaan String
+  Detail_Pengadaan  Detail_Pengadaan[]
+  Detail_Aset       Detail_Aset[]
+
+  @@map("pengadaan")
+}
+
+model Detail_Pengadaan {
+  id_detail_pengadaan String    @id
+  kode_barang         String    @db.VarChar(20)
+  nomor_pengadaan     String    @db.VarChar(30)
+  aset                Aset      @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
+  pengadaan           Pengadaan @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
+  jumlah_barang       Int
+  total_harga         Int
+
+  @@map("detail_pengadaan")
+}
+
 model Detail_Aset {
-  id                                String                          @id @default(uuid())
-  kode_barang                       String                          @unique @db.VarChar(100)
-  nomor_rangka                      String?                         @db.VarChar(100)
-  nomor_mesin                       String?                         @db.VarChar(100)
-  nomor_polisi                      String?                         @db.VarChar(100)
-  nomor_bpkb                        String?                         @db.VarChar(100)
-  status                            Status_Aset                     @default(Available)
-  keterangan                        String?                         @db.LongText
-  id_aset                           String
-  id_ruangan                        String
-  aset                              Aset                            @relation(fields: [id_aset], references: [id], onDelete: Cascade)
-  ruangan                           Ruangan                         @relation(fields: [id_ruangan], references: [id], onUpdate: Cascade)
-  Penanggung_Jawab                  Penanggung_Jawab[]
-  Detail_Aset_Images                Detail_Aset_Images[]
+  kode_detail                       String                          @id @db.VarChar(25)
+  kode_barang                       String                          @db.VarChar(20)
+  nomor_pengadaan                   String                          @db.VarChar(30)
+  id_lokasi                         String
+  merk                              String?                         @db.VarChar(50)
+  ukuran                            String?                         @db.VarChar(50)
+  harga_satuan                      Int
+  status                            Status_Aset
   createdAt                         DateTime                        @default(now())
   updatedAt                         DateTime                        @updatedAt
+  aset                              Aset                            @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
+  pengadaan                         Pengadaan                       @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
+  lokasi                            Lokasi                          @relation(references: [id], fields: [id_lokasi], onDelete: Cascade, onUpdate: Cascade)
+  Penanggung_Jawab                  Penanggung_Jawab[]
+  Detail_Aset_Images                Detail_Aset_Images[]
   Laporan_Kerusakan                 Laporan_Kerusakan[]
   Pengajuan_Penghapusan_Detail_Aset Detail_Penghapusan_Nilai_Aset[]
+  Aset_Kendaraan                    Aset_Kendaraan[]
 
   @@map("detail_aset")
 }
 
+model Aset_Kendaraan {
+  kode_detail  String      @unique
+  nomor_rangka String?     @db.VarChar(100)
+  nomor_mesin  String?     @db.VarChar(100)
+  nomor_polisi String?     @db.VarChar(100)
+  nomor_bpkb   String?     @db.VarChar(100)
+  detail_aset  Detail_Aset @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
+}
+
 model Detail_Aset_Images {
-  id             Int         @id @default(autoincrement())
-  link           String
-  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_detail_aset String
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  id          Int         @id @default(autoincrement())
+  link        String
+  kode_detail String
+  detail_aset Detail_Aset @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@map("detail_aset_images")
 }
 
 model Penanggung_Jawab {
-  id             String      @id @default(uuid())
-  id_user        String
-  id_detail_aset String
-  user           User        @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  detail_aset    Detail_Aset @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  id          String      @id @default(uuid())
+  id_user     String
+  kode_detail String
+  user        User        @relation(fields: [id_user], references: [nip], onDelete: Cascade, onUpdate: Cascade)
+  detail_aset Detail_Aset @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
-  @@unique([id_user, id_detail_aset])
+  @@unique([id_user, kode_detail])
   @@map("penanggung_jawab")
 }
 
 model Laporan_Kerusakan {
-  id             String         @id @default(uuid())
-  perihal        String
-  deskripsi      String         @db.LongText
-  image          String
-  approved_by    String?        @db.VarChar(100)
-  approved_date  DateTime?
-  status         Status_laporan @default(Reported)
-  keterangan     String?        @db.LongText
-  id_user        String
-  id_detail_aset String
-  user           User           @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  detail_aset    Detail_Aset    @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  Perbaikan      Perbaikan?
+  id            String         @id @default(uuid())
+  perihal       String
+  deskripsi     String         @db.LongText
+  image         String
+  approved_by   String?        @db.VarChar(100)
+  approved_date DateTime?
+  status        Status_laporan @default(Reported)
+  keterangan    String?        @db.LongText
+  id_user       String
+  kode_detail   String
+  user          User           @relation(fields: [id_user], references: [nip], onDelete: Cascade, onUpdate: Cascade)
+  detail_aset   Detail_Aset    @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Perbaikan     Perbaikan?
 
   @@map("laporan_kerusakan")
 }
@@ -178,7 +209,7 @@ model Perbaikan {
   keterangan        String?            @db.LongText
   laporan_kerusakan Laporan_Kerusakan  @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Perbaikan_Images  Perbaikan_Images[]
-  user              User               @relation(fields: [id_requested_by], references: [id])
+  user              User               @relation(fields: [id_requested_by], references: [nip])
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 
@@ -224,13 +255,13 @@ enum Status_Penghapusan {
 model Detail_Penghapusan_Nilai_Aset {
   id                    String                 @id @default(uuid())
   id_penghapusan        String
-  id_detail_aset        String
+  kode_detail           String
   pengajuan_penghapusan Penghapusan_Nilai_aset @relation(fields: [id_penghapusan], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  detail_aset           Detail_Aset            @relation(fields: [id_detail_aset], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  detail_aset           Detail_Aset            @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
   // status                Status_Penghapusan     @default(Pending)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
 
-  @@unique([id_penghapusan, id_detail_aset])
+  @@unique([id_penghapusan, kode_detail])
   @@map("detail_penghapusan_nilai_aset")
 }

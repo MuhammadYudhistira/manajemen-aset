@@ -10,10 +10,11 @@ const findUser = async () => {
   return user;
 };
 
-const findUserById = async (id) => {
+
+const findUserByNip = async (nip) => {
   const user = await prisma.user.findUnique({
     where: {
-      id: id,
+      nip: nip,
     },
     include: {
       Penanggung_Jawab: {
@@ -25,16 +26,6 @@ const findUserById = async (id) => {
           },
         },
       },
-    },
-  });
-
-  return user;
-};
-
-const findUserByNip = async (nip) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      nip: nip,
     },
   });
 
@@ -56,21 +47,21 @@ const insertUser = async (newUserData) => {
   return result;
 };
 
-const deleteUserById = async (id) => {
+const deleteUserByNip = async (nip) => {
   const user = await prisma.user.delete({
     where: {
-      id: id,
+      nip: nip,
     },
   });
 
   return user;
 };
 
-const editUserById = async (id, newUserData) => {
+const editUserByNip = async (nip, newUserData) => {
   const user = validate(updateUserValidation, newUserData);
   const result = await prisma.user.update({
     where: {
-      id: id,
+      nip: nip,
     },
     data: user,
   });
@@ -105,11 +96,10 @@ const countUserByGender = async (gender) => {
 
 module.exports = {
   findUser,
-  findUserById,
   findUserByNip,
   insertUser,
-  deleteUserById,
-  editUserById,
+  deleteUserByNip,
+  editUserByNip,
   countAllUser,
   countUserByGender,
   countUserByPJ,

@@ -9,6 +9,8 @@ const {
   countAllUser,
   countUserByGender,
   countUserByPJ,
+  deleteUserByNip,
+  editUserByNip,
 } = require("./user.repository");
 
 const bcrypt = require("bcrypt");
@@ -32,8 +34,8 @@ const countUserStats = async () => {
   };
 };
 
-const getDetailUser = async (id) => {
-  const user = await findUserById(id);
+const getDetailUser = async (nip) => {
+  const user = await findUserByNip(nip);
   if (!user) throw new Error("User tidak ditemukan");
   return user;
 };
@@ -56,8 +58,8 @@ const createUser = async (newUserData) => {
   return user;
 };
 
-const deleteUser = async (id) => {
-  const oldData = await getDetailUser(id);
+const deleteUser = async (nip) => {
+  const oldData = await getDetailUser(nip);
   const url = oldData.image;
   console.log({ url });
   deleteImage(url)
@@ -72,12 +74,12 @@ const deleteUser = async (id) => {
     .catch((error) => {
       console.error(`Gagal menghapus file, sebab: ${error.message}`);
     });
-  const user = await deleteUserById(id);
+  const user = await deleteUserByNip(nip);
   return user;
 };
 
-const editUser = async (id, newUserData) => {
-  const oldData = await getDetailUser(id);
+const editUser = async (nip, newUserData) => {
+  const oldData = await getDetailUser(nip);
   if (newUserData.nip !== oldData.nip && newUserData.nip) {
     await countUser(newUserData.nip);
   }
@@ -103,7 +105,7 @@ const editUser = async (id, newUserData) => {
   if (newUserData.password) {
     newUserData.password = await bcrypt.hash(newUserData.password, 10);
   }
-  const user = await editUserById(id, newUserData);
+  const user = await editUserByNip(nip, newUserData);
   return user;
 };
 
