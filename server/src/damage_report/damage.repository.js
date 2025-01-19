@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findAllDamage = async () => {
   const damage = await prisma.laporan_Kerusakan.findMany({
@@ -15,16 +15,15 @@ const findAllDamage = async () => {
       },
       detail_aset: {
         select: {
-          id: true,
-          kode_barang: true,
+          kode_detail: true,
           aset: {
             select: {
               nama_barang: true,
             },
           },
-          ruangan: {
+          lokasi: {
             select: {
-              nama_ruangan: true,
+              nama_lokasi: true,
             },
           },
         },
@@ -48,15 +47,15 @@ const findDamageById = async (id) => {
     include: {
       detail_aset: {
         select: {
-          kode_barang: true,
+          kode_detail: true,
           aset: {
             select: {
               nama_barang: true,
             },
           },
-          ruangan: {
+          lokasi: {
             select: {
-              nama_ruangan: true,
+              nama_lokasi: true,
             },
           },
         },
@@ -77,7 +76,7 @@ const findDamageByIdUser = async (id) => {
       id_user: id,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
     select: {
       id: true,
@@ -86,15 +85,15 @@ const findDamageByIdUser = async (id) => {
       createdAt: true,
       detail_aset: {
         select: {
-          kode_barang: true,
+          kode_detail: true,
           aset: {
             select: {
               nama_barang: true,
             },
           },
-          ruangan: {
+          lokasi: {
             select: {
-              nama_ruangan: true,
+              nama_lokasi: true,
             },
           },
         },
@@ -114,7 +113,7 @@ const insertDamage = async (newDamageData) => {
   const damage = await prisma.laporan_Kerusakan.create({
     data: {
       id_user: newDamageData.id_user,
-      id_detail_aset: newDamageData.id_detail_aset,
+      kode_detail: newDamageData.kode_detail,
       perihal: newDamageData.perihal,
       deskripsi: newDamageData.deskripsi,
       image: newDamageData.image,

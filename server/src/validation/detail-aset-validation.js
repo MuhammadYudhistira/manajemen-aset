@@ -9,6 +9,7 @@ const createDetailAsetValidation = Joi.object({
   ukuran: Joi.string().max(50).required(),
   harga_satuan: Joi.number().required(),
   keterangan: Joi.string().optional().allow('').allow(null),
+  tahun_perolehan: Joi.date().optional().allow(null),
   image: Joi.alternatives().try(
     Joi.array().items(Joi.string()),
     Joi.optional()
@@ -24,6 +25,7 @@ const UpdateDetailAsetValidation = Joi.object({
   ukuran: Joi.string().max(50).required(),
   harga_satuan: Joi.number().required(),
   keterangan: Joi.string().optional().allow('').allow(null),
+  tahun_perolehan: Joi.date().optional().allow(null),
   image: Joi.alternatives().try(
     Joi.array().items(Joi.string()),
     Joi.optional()

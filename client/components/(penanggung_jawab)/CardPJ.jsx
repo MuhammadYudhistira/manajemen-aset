@@ -71,7 +71,7 @@ const CardPJ = ({
                         <div className='flex justify-between gap-3 bg-gray-200 p-2 rounded-lg overflow-auto' key={aset.id}>
                             <div className='flex gap-3'>
                                 <Image
-                                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.detail_aset.Detail_Aset_Images[0].link}`}
+                                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.detail_aset?.Detail_Aset_Images[0]?.link}`}
                                     width={500}
                                     height={500}
                                     alt={aset.detail_aset.aset.nama_barang}

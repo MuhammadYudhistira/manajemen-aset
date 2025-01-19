@@ -1,6 +1,8 @@
-const { editDetailAsetById } = require("../detail_aset/detail_aset.repository");
-const { getDetailAset } = require("../detail_aset/detail_aset.service");
-const { deleteImage } = require("../middleware/uploadGambar");
+const {
+  editDetailAsetByKodeDetail,
+} = require('../detail_aset/detail_aset.repository');
+const { getDetailAset } = require('../detail_aset/detail_aset.service');
+const { deleteImage } = require('../middleware/uploadGambar');
 const {
   findAllDamage,
   findDamageById,
@@ -8,7 +10,7 @@ const {
   editDamegeById,
   deleteDamageById,
   findDamageByIdUser,
-} = require("./damage.repository");
+} = require('./damage.repository');
 
 const getAllDamage = async () => {
   const damage = await findAllDamage();
@@ -17,7 +19,7 @@ const getAllDamage = async () => {
 
 const getDetailDamage = async (id) => {
   const damage = await findDamageById(id);
-  if (!damage) throw new Error("Laporan Kerusakan tidak ditemukan");
+  if (!damage) throw new Error('Laporan Kerusakan tidak ditemukan');
   return damage;
 };
 
@@ -25,14 +27,14 @@ const createDemage = async (newDamageData) => {
   if (newDamageData.image.length >= 1) {
     newDamageData.image = newDamageData.image[0];
   } else {
-    newDamageData.image = "";
+    newDamageData.image = '';
   }
 
   const newData = {
-    status: "Damaged",
+    status: 'Damaged',
   };
 
-  await editDetailAsetById(newDamageData.id_detail_aset, newData);
+  await editDetailAsetByKodeDetail(newDamageData.kode_detail, newData);
 
   const damage = await insertDamage(newDamageData);
   return damage;
@@ -96,7 +98,7 @@ const acceptDamage = async (id, user) => {
   const data = {
     approved_by: user.nama,
     approved_date: new Date(),
-    status: "Approved",
+    status: 'Approved',
   };
   const damage = await editDamegeById(id, data);
 
@@ -104,12 +106,12 @@ const acceptDamage = async (id, user) => {
 };
 
 const rejectDamage = async (id, rejectMessage) => {
-  console.log("🚀 ~ rejectDamage ~ rejectMessage:", rejectMessage);
+  console.log('🚀 ~ rejectDamage ~ rejectMessage:', rejectMessage);
   await getDetailDamage(id);
 
   const data = {
     keterangan: rejectMessage,
-    status: "Rejected",
+    status: 'Rejected',
   };
   const damage = await editDamegeById(id, data);
 

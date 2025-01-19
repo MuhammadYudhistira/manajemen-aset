@@ -8,7 +8,7 @@ const {
   listDamges,
   countDashboardSekwan,
   listPerbaikan,
-} = require("./dashboard.repository");
+} = require('./dashboard.repository');
 
 const dashboardAdmin = async () => {
   const asetNilai = await getNilaiAset();

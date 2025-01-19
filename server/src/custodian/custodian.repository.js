@@ -1,28 +1,33 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findCustodians = async () => {
   const custodians = await prisma.penanggung_Jawab.findMany({
     include: {
       detail_aset: {
         select: {
-          id: true,
-          kode_barang: true,
+          kode_detail: true,
+          merk: true,
+          Detail_Aset_Images: {
+            select: {
+              link: true,
+            },
+          },
           aset: {
             select: {
               nama_barang: true,
-              merk: true,
+              kode_barang: true,
             },
           },
-          ruangan: {
+          lokasi: {
             select: {
-              nama_ruangan: true,
+              nama_lokasi: true,
             },
           },
         },
       },
       user: {
         select: {
-          id: true,
+          nip: true,
           nama: true,
           image: true,
         },
@@ -40,9 +45,9 @@ const findCustodiansById = async (id) => {
     include: {
       detail_aset: {
         include: {
-          ruangan: {
+          lokasi: {
             select: {
-              nama_ruangan: true,
+              nama_lokasi: true,
             },
           },
         },
@@ -57,7 +62,7 @@ const countCustodian = async (custodianData) => {
   const custodian = await prisma.penanggung_Jawab.count({
     where: {
       id_user: custodianData.id_user,
-      id_detail_aset: custodianData.id_detail_aset,
+      kode_detail: custodianData.kode_detail,
     },
   });
 
@@ -67,7 +72,7 @@ const countCustodian = async (custodianData) => {
 const insertCustodian = async (newCustodianData) => {
   const custodian = await prisma.penanggung_Jawab.create({
     data: {
-      id_detail_aset: newCustodianData.id_detail_aset,
+      kode_detail: newCustodianData.kode_detail,
       id_user: newCustodianData.id_user,
     },
   });
@@ -80,7 +85,7 @@ const editCustodianById = async (id, newCustodianData) => {
       id: id,
     },
     data: {
-      id_detail_aset: newCustodianData.id_detail_aset,
+      kode_detail: newCustodianData.kode_detail,
       id_user: newCustodianData.id_user,
     },
   });
@@ -106,7 +111,6 @@ const findAllUsersWhoCustodian = async () => {
       },
     },
     select: {
-      id: true,
       nama: true,
       nip: true,
       image: true,
@@ -115,16 +119,17 @@ const findAllUsersWhoCustodian = async () => {
           id: true,
           detail_aset: {
             select: {
+              kode_detail: true,
+              merk: true,
               aset: {
                 select: {
                   nama_barang: true,
-                  merk: true,
                 },
               },
               kode_barang: true,
-              ruangan: {
+              lokasi: {
                 select: {
-                  nama_ruangan: true,
+                  nama_lokasi: true,
                 },
               },
               Detail_Aset_Images: {

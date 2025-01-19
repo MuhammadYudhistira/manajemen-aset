@@ -14,6 +14,7 @@ const UserController = require('./src/user/user.controller');
 const detailAsetController = require('./src/detail_aset/detail_aset.router');
 const dashboardController = require('./src/dashboard/dahsboard.controller');
 const deletionController = require('./src/asset_deletion/deletion.controller');
+const kendaraanController = require('./src/aset_kendaraan/kendaraan.controller');
 const { authMiddleware } = require('./src/middleware/authMiddleware');
 
 const app = express();
@@ -43,6 +44,7 @@ app.use('/api/laporan-perbaikan', authMiddleware, laporanPerbaikanController);
 app.use('/api/perbaikan-images', authMiddleware, perbaikanImagesController);
 app.use('/api/user', UserController);
 app.use('/api/detail-aset', detailAsetController);
+app.use('/api/aset-kendaraan', kendaraanController);
 app.use('/api/dashboard', dashboardController);
 app.use('/api/deletion', deletionController);
 

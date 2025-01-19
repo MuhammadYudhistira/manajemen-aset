@@ -126,6 +126,7 @@ model Detail_Aset {
   merk                              String?                         @db.VarChar(50)
   ukuran                            String?                         @db.VarChar(50)
   harga_satuan                      Int
+  tahun_perolehan                   DateTime?
   status                            Status_Aset                     @default(Available)
   keterangan                        String?
   createdAt                         DateTime                        @default(now())

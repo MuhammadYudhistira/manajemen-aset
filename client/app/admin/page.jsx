@@ -66,7 +66,7 @@ const page = () => {
           </span>
 
           <div>
-            <p className="text-sm md:text-medium font-semibold text-gray-900">{data?.count.totalAset}</p>
+            <p className="text-sm md:text-medium font-semibold text-gray-900">{data?.count.totalJumlahAset}</p>
 
             <p className="text-sm text-gray-500">Total Aset</p>
           </div>
@@ -117,7 +117,7 @@ const page = () => {
                   <h3 className="text-sm/tight sm:text-medium font-medium text-gray-900">
                     {aset.aset.nama_barang}
                   </h3>
-                  <p className="mt-0.5 text-sm/tight text-gray-400">{moment(aset.createdAt).format("DD MMMM YYYY")}</p>
+                  <p className="mt-0.5 text-sm/tight text-gray-400">{moment(aset.tahun_perolehan).format("DD MMMM YYYY")}</p>
                 </div>
               </Link>
             )
