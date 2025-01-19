@@ -1,12 +1,44 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findAssets = async () => {
   const assets = await prisma.aset.findMany({
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
+    },
+    include: {
+      Detail_Aset: {
+        include: {
+          lokasi: true,
+        },
+      },
     },
   });
   return assets;
+};
+
+const findAssetsByCode = async (code) => {
+  const asset = await prisma.aset.findUnique({
+    where: {
+      kode_barang: code,
+    },
+    include: {
+      Detail_Aset: {
+        include: {
+          lokasi: {
+            select: {
+              nama_lokasi: true,
+            },
+          },
+          Penanggung_Jawab: {
+            select: {
+              user: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return asset;
 };
 
 const findAssetsById = async (id) => {
@@ -48,7 +80,7 @@ const findAssetsByUser = async (id) => {
         },
       },
       status: {
-        notIn: ["Inactive", "Deletion_Accepted"],
+        notIn: ['Inactive', 'Deletion_Accepted'],
       },
     },
     select: {
@@ -75,9 +107,9 @@ const findAssetsByUser = async (id) => {
   // Menghitung jumlah aset berdasarkan status
   const count = {
     all: assets.length,
-    available: assets.filter((asset) => asset.status === "Available").length,
-    damaged: assets.filter((asset) => asset.status === "Damaged").length,
-    repairing: assets.filter((asset) => asset.status === "Under_Maintenance")
+    available: assets.filter((asset) => asset.status === 'Available').length,
+    damaged: assets.filter((asset) => asset.status === 'Damaged').length,
+    repairing: assets.filter((asset) => asset.status === 'Under_Maintenance')
       .length,
   };
 
@@ -100,30 +132,25 @@ const insertAsset = async (assetData) => {
   return asset;
 };
 
-const deleteAsset = async (id) => {
+const deleteAsset = async (code) => {
   const asset = await prisma.aset.delete({
     where: {
-      id: id,
+      kode_barang: code,
     },
   });
 
   return asset;
 };
 
-const editAsset = async (id, assetData) => {
+const editAsset = async (code, assetData) => {
   const asset = await prisma.aset.update({
     where: {
-      id: id,
+      kode_barang: code,
     },
     data: {
       nama_barang: assetData.nama_barang,
-      deskripsi: assetData.deskripsi,
-      merk: assetData.merk,
-      tahun_perolehan: assetData.tahun_perolehan,
-      ukuran: assetData.ukuran,
-      harga_satuan: assetData.harga_satuan,
-      jumlah_barang: assetData.jumlah_barang,
-      nilai_perolehan: assetData.nilai_perolehan,
+      jenis_barang: assetData.jenis_barang,
+      kode_barang: assetData.kode_barang,
       image: assetData.image,
     },
   });
@@ -154,4 +181,5 @@ module.exports = {
   editAsset,
   countAsset,
   countAssetStatus,
+  findAssetsByCode,
 };

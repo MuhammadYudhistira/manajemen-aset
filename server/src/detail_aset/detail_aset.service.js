@@ -1,3 +1,4 @@
+const { string } = require('joi');
 const { getAssetByid } = require('../asset/aset.service');
 const { deleteImage } = require('../middleware/uploadGambar');
 const {
@@ -7,10 +8,7 @@ const {
 const { validate } = require('../validation/validation');
 const {
   findDetailAset,
-  findDetailAsetById,
   insertDetailAset,
-  editDetailAsetById,
-  deleteDetailAsetById,
   findDetailAsetByKodeBarang,
   insertDetailAsetImage,
   findAllDetailAset,
@@ -20,6 +18,9 @@ const {
   updateAssetStatus,
   findDetailAsetByStatusNotInactive,
   searchDetailAset,
+  findDetailAsetByKodeDetail,
+  editDetailAsetByKodeDetail,
+  deleteDetailAsetByKodeDetail,
 } = require('./detail_aset.repository');
 
 const getAllDetailAset = async (id) => {
@@ -28,8 +29,8 @@ const getAllDetailAset = async (id) => {
   return listDetailAset;
 };
 
-const getDetailAset = async (id) => {
-  const detailAset = await findDetailAsetById(id);
+const getDetailAset = async (kode_detail) => {
+  const detailAset = await findDetailAsetByKodeDetail(kode_detail);
   if (!detailAset) throw new Error('Detail Aset tidak ditemukan');
   return detailAset;
 };
@@ -41,36 +42,63 @@ const getSearchDetailAset = async (search) => {
   return data;
 };
 
-const countDetailAset = async (kode_barang) => {
-  const countDetailAset = await findDetailAsetByKodeBarang(kode_barang);
+const countDetailAset = async (kode_detail) => {
+  const countDetailAset = await findDetailAsetByKodeDetail(kode_detail);
   if (countDetailAset === 1) throw new Error('Kode Barang Sudah ada');
   return countDetailAset;
 };
 
-const createDetailAset = async (newDetailAsetData) => {
-  const data = validate(createDetailAsetValidation, newDetailAsetData);
-  await countDetailAset(data.kode_barang);
+const generateKodeDetail = async (kode_barang) => {
+  const details = await findDetailAsetByKodeBarang(kode_barang);
 
-  const detailAset = await insertDetailAset(data);
-
-  const imageData = newDetailAsetData.image.map((img) => ({
-    id_detail_aset: detailAset.id,
-    link: img,
-  }));
-
-  await insertDetailAsetImage(imageData);
-
-  return detailAset;
-};
-
-const editDetailAset = async (id, newDetailAsetData) => {
-  const oldData = await getDetailAset(id);
-  const data = validate(UpdateDetailAsetValidation, newDetailAsetData);
-  console.log(data);
-  if (oldData.kode_barang !== data.kode_barang) {
-    await countDetailAset(data.kode_barang);
+  //finding missing code
+  for (let i = 1; i <= details.length; i++) {
+    const expectedKodeDetail = `${kode_barang}.${String(i).padStart(3, '0')}`;
+    if (!details.find((detail) => detail.kode_detail === expectedKodeDetail)) {
+      return expectedKodeDetail;
+    }
   }
-  const detailAset = await editDetailAsetById(id, data);
+
+  // Jika tidak ada yang hilang, tambahkan di akhir
+  return `${kode_barang}.${String(details.length + 1).padStart(3, '0')}`;
+};
+
+const createDetailAset = async (newDetailAsetData) => {
+  const kode_detail = await generateKodeDetail(newDetailAsetData.kode_barang);
+  const data = {
+    ...newDetailAsetData,
+    kode_detail,
+  };
+  await countDetailAset(data.kode_detail);
+  const body = validate(createDetailAsetValidation, data);
+
+  const detailAset = await insertDetailAset(body);
+
+  const imageData = newDetailAsetData.image.map((img) => ({
+    kode_detail: detailAset.kode_detail,
+    link: img,
+  }));
+
+  await insertDetailAsetImage(imageData);
+
+  return detailAset;
+};
+
+const editDetailAset = async (kode_detail, newDetailAsetData) => {
+  const existingDetailAset = await getDetailAset(kode_detail);
+
+  if (existingDetailAset.kode_barang !== newDetailAsetData.kode_barang) {
+    newDetailAsetData.kode_detail = await generateKodeDetail(
+      newDetailAsetData.kode_barang
+    );
+  } else {
+    // Jika kode_barang tetap sama kode_detail tidak berubah
+    newDetailAsetData.kode_detail = existingDetailAset.kode_detail;
+  }
+
+  const data = validate(UpdateDetailAsetValidation, newDetailAsetData);
+
+  const detailAset = await editDetailAsetByKodeDetail(kode_detail, data);
 
   const imageData = newDetailAsetData.image.map((img) => ({
     id_detail_aset: detailAset.id,
@@ -82,21 +110,29 @@ const editDetailAset = async (id, newDetailAsetData) => {
   return detailAset;
 };
 
-const archiveAsset = async (id, keterangan) => {
-  await getDetailAset(id);
-  const detailAset = await updateAssetStatus(id, 'Inactive', keterangan);
+const archiveAsset = async (kode_detail, keterangan) => {
+  await getDetailAset(kode_detail);
+  const detailAset = await updateAssetStatus(
+    kode_detail,
+    'Inactive',
+    keterangan
+  );
   return detailAset;
 };
 
-const unarchiveAsset = async (id, keterangan) => {
-  await getDetailAset(id);
-  const detailAset = await updateAssetStatus(id, 'Available', keterangan);
+const unarchiveAsset = async (kode_detail, keterangan) => {
+  await getDetailAset(kode_detail);
+  const detailAset = await updateAssetStatus(
+    kode_detail,
+    'Available',
+    keterangan
+  );
   return detailAset;
 };
 
-const deleteDetailAset = async (id) => {
-  await getDetailAset(id);
-  const oldData = await findDetailAsetImageByIdDetailAset(id);
+const deleteDetailAset = async (kode_detail) => {
+  await getDetailAset(kode_detail);
+  const oldData = await findDetailAsetImageByIdDetailAset(kode_detail);
 
   oldData.forEach((gbr) => {
     const namaFile = gbr.link.split('/')[1];
@@ -116,7 +152,7 @@ const deleteDetailAset = async (id) => {
       });
   });
 
-  const detailAset = await deleteDetailAsetById(id);
+  const detailAset = await deleteDetailAsetByKodeDetail(kode_detail);
   return detailAset;
 };
 
@@ -140,8 +176,7 @@ const getDetailAsetImage = async (id) => {
 };
 
 const deleteDetailAsetImage = async (data) => {
-  if (!data.id || data.id === '') throw new Error('Id kosong');
-
+  if (!data.id || data.id === '') throw new Error('Inputan ID tidak ada');
   await getDetailAsetImage(data.id);
 
   const image = deleteDetailAsetImageById(data.id);
@@ -156,6 +191,11 @@ const deleteDetailAsetImage = async (data) => {
   return image;
 };
 
+const getListDetailAset = async () => {
+  const detailAsets = await findAllDetailAset();
+  return detailAsets;
+};
+
 module.exports = {
   getAllDetailAset,
   getDetailAset,
@@ -168,4 +208,5 @@ module.exports = {
   unarchiveAsset,
   listActiveDetailAset,
   getSearchDetailAset,
+  getListDetailAset,
 };

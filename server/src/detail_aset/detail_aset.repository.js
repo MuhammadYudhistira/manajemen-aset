@@ -117,18 +117,14 @@ const findDetailAsetByStatusNotInactive = async () => {
       },
     },
     orderBy: {
-      kode_barang: 'asc',
+      kode_detail: 'asc',
     },
     include: {
       aset: {
         select: {
           nama_barang: true,
-          tahun_perolehan: true,
-          merk: true,
-          ukuran: true,
-          harga_satuan: true,
-          jumlah_barang: true,
-          nilai_perolehan: true,
+          jenis_barang: true,
+          kode_barang: true,
         },
       },
     },
@@ -136,13 +132,47 @@ const findDetailAsetByStatusNotInactive = async () => {
   return detailAset;
 };
 
-const findDetailAsetByKodeBarang = async (kode_barang) => {
-  const detail_Aset = await prisma.detail_Aset.count({
+const findDetailAsetByKodeDetail = async (kode_detail) => {
+  const detail_Aset = await prisma.detail_Aset.findUnique({
     where: {
-      kode_barang: kode_barang,
+      kode_detail: kode_detail,
+    },
+    include: {
+      Penanggung_Jawab: {
+        select: {
+          id_user: true,
+        },
+      },
+      Aset_Kendaraan: true,
+      Laporan_Kerusakan: {
+        include: {
+          Perbaikan: true,
+        },
+      },
+      lokasi: {
+        select: {
+          nama_lokasi: true,
+        },
+      },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
     },
   });
   return detail_Aset;
+};
+
+const findDetailAsetByKodeBarang = async (kode_barang) => {
+  return await prisma.detail_Aset.findMany({
+    where: {
+      kode_barang: kode_barang,
+    },
+    orderBy: {
+      kode_detail: 'asc',
+    },
+  });
 };
 
 const searchDetailAset = async (search) => {
@@ -150,7 +180,7 @@ const searchDetailAset = async (search) => {
     where: {
       OR: [
         {
-          kode_barang: {
+          kode_detail: {
             contains: search,
           },
         },
@@ -164,8 +194,8 @@ const searchDetailAset = async (search) => {
       ],
     },
     select: {
-      id: true,
-      kode_barang: true,
+      kode_detail: true,
+      merk: true,
       aset: {
         select: {
           nama_barang: true,
@@ -185,13 +215,14 @@ const searchDetailAset = async (search) => {
 const insertDetailAset = async (newDetailAsetData) => {
   const detailAset = prisma.detail_Aset.create({
     data: {
+      kode_detail: newDetailAsetData.kode_detail,
       kode_barang: newDetailAsetData.kode_barang,
-      nomor_rangka: newDetailAsetData.nomor_rangka,
-      nomor_bpkb: newDetailAsetData.nomor_bpkb,
-      nomor_mesin: newDetailAsetData.nomor_mesin,
-      nomor_polisi: newDetailAsetData.nomor_polisi,
-      id_aset: newDetailAsetData.id_aset,
-      id_ruangan: newDetailAsetData.id_ruangan,
+      nomor_pengadaan: newDetailAsetData.nomor_pengadaan,
+      id_lokasi: newDetailAsetData.id_lokasi,
+      merk: newDetailAsetData.merk,
+      ukuran: newDetailAsetData.ukuran,
+      harga_satuan: newDetailAsetData.harga_satuan,
+      status: newDetailAsetData.status,
       keterangan: newDetailAsetData.keterangan,
     },
   });
@@ -199,31 +230,31 @@ const insertDetailAset = async (newDetailAsetData) => {
   return detailAset;
 };
 
-const editDetailAsetById = async (id, newDetailAsetData) => {
+const editDetailAsetByKodeDetail = async (kode_detail, newDetailAsetData) => {
   const detailAset = prisma.detail_Aset.update({
     where: {
-      id: id,
+      kode_detail: kode_detail,
     },
     data: {
+      kode_detail: newDetailAsetData.kode_detail,
       kode_barang: newDetailAsetData.kode_barang,
-      nomor_rangka: newDetailAsetData.nomor_rangka,
-      nomor_bpkb: newDetailAsetData.nomor_bpkb,
-      nomor_mesin: newDetailAsetData.nomor_mesin,
-      nomor_polisi: newDetailAsetData.nomor_polisi,
-      id_aset: newDetailAsetData.id_aset,
-      id_ruangan: newDetailAsetData.id_ruangan,
-      keterangan: newDetailAsetData.keterangan,
+      nomor_pengadaan: newDetailAsetData.nomor_pengadaan,
+      id_lokasi: newDetailAsetData.id_lokasi,
+      merk: newDetailAsetData.merk,
+      ukuran: newDetailAsetData.ukuran,
+      harga_satuan: newDetailAsetData.harga_satuan,
       status: newDetailAsetData.status,
+      keterangan: newDetailAsetData.keterangan,
     },
   });
 
   return detailAset;
 };
 
-const updateAssetStatus = async (id, status, keterangan) => {
+const updateAssetStatus = async (kode_detail, status, keterangan) => {
   const asset = await prisma.detail_Aset.update({
     where: {
-      id: id,
+      kode_detail: kode_detail,
     },
     data: {
       status: status,
@@ -233,10 +264,10 @@ const updateAssetStatus = async (id, status, keterangan) => {
   return asset;
 };
 
-const deleteDetailAsetById = async (id) => {
+const deleteDetailAsetByKodeDetail = async (kode_detail) => {
   const detailAset = prisma.detail_Aset.delete({
     where: {
-      id: id,
+      kode_detail: kode_detail,
     },
   });
 
@@ -254,18 +285,26 @@ const insertDetailAsetImage = async (data) => {
 const findAllDetailAset = async () => {
   const detailAset = await prisma.detail_Aset.findMany({
     orderBy: {
-      kode_barang: 'asc',
+      kode_detail: 'asc',
     },
     include: {
       aset: {
         select: {
           nama_barang: true,
-          tahun_perolehan: true,
-          merk: true,
-          ukuran: true,
-          harga_satuan: true,
-          jumlah_barang: true,
-          nilai_perolehan: true,
+          jenis_barang: true,
+        },
+      },
+      Aset_Kendaraan: {
+        select: {
+          nomor_bpkb: true,
+          nomor_mesin: true,
+          nomor_polisi: true,
+          nomor_rangka: true,
+        },
+      },
+      lokasi: {
+        select: {
+          nama_lokasi: true,
         },
       },
     },
@@ -293,10 +332,10 @@ const findDetailAsetImageById = async (id) => {
   return DAImage;
 };
 
-const findDetailAsetImageByIdDetailAset = async (id) => {
+const findDetailAsetImageByIdDetailAset = async (kode_detail) => {
   const DAImage = prisma.detail_Aset_Images.findMany({
     where: {
-      id_detail_aset: id,
+      kode_detail: kode_detail,
     },
   });
   return DAImage;
@@ -306,9 +345,9 @@ module.exports = {
   findDetailAset,
   findDetailAsetById,
   insertDetailAset,
-  editDetailAsetById,
-  deleteDetailAsetById,
-  findDetailAsetByKodeBarang,
+  editDetailAsetByKodeDetail,
+  deleteDetailAsetByKodeDetail,
+  findDetailAsetByKodeDetail,
   insertDetailAsetImage,
   findAllDetailAset,
   deleteDetailAsetImageById,
@@ -317,4 +356,5 @@ module.exports = {
   updateAssetStatus,
   findDetailAsetByStatusNotInactive,
   searchDetailAset,
+  findDetailAsetByKodeBarang,
 };
