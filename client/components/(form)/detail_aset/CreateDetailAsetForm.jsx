@@ -1,27 +1,38 @@
 "use client";
 import Dropzone from "@/components/(input)/Dropzone";
+import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
 import { useFetchRuangan } from "@/hooks/ruangan/useFetchRuangan";
 import axios from "@/libs/axios";
-import { Spinner } from "@nextui-org/react";
+import { parseDate } from "@internationalized/date";
+import { DatePicker, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-const CreateDetailAsetForm = ({ id }) => {
-  const { data: ruangans } = useFetchRuangan();
+const CreateDetailAsetForm = ({ kode }) => {
+  const { data: lokasi } = useFetchRuangan();
+  const { data: aset } = useFetchDetailAset(kode)
 
   const [image, setImage] = useState([]);
   const fileAccept = { "image/png": [], "image/jpg": [], "image/jpeg": [] };
+
+  const [date, setDate] = useState();
+  const today = parseDate(new Date().toISOString().split("T")[0]);
+
+  const handleChangeDate = (newDate) => {
+    const formatDate = new Date(newDate);
+    setDate(formatDate);
+  };
 
   const {
     mutate: createDetailAset,
     isPending,
     isSuccess,
   } = useMutation({
-    mutationFn: async ({ id, body }) => {
-      const response = await axios.post(`/aset/${id}/detail-aset`, body);
+    mutationFn: async ({ kode, body }) => {
+      const response = await axios.post(`/aset/${kode}/detail-aset`, body);
       return response;
     },
     onSuccess: () => {
@@ -35,58 +46,61 @@ const CreateDetailAsetForm = ({ id }) => {
 
   const formik = useFormik({
     initialValues: {
-      kode_barang: "",
+      kode_barang: kode,
+      nomor_pengadaan: "",
       nomor_rangka: "",
       nomor_mesin: "",
       nomor_polisi: "",
       nomor_bpkb: "",
-      keterangan: "",
-      id_ruangan: "",
-      id_aset: id,
+      id_lokasi: "",
     },
     onSubmit: () => {
       const {
-        id_aset,
-        id_ruangan,
         kode_barang,
+        nomor_pengadaan,
         nomor_bpkb,
         nomor_mesin,
         nomor_polisi,
         nomor_rangka,
+        id_lokasi,
+        merk,
+        ukuran,
+        harga_satuan,
       } = formik.values;
       const formData = new FormData();
-      formData.append("id_aset", id_aset);
-      formData.append("id_ruangan", id_ruangan);
       formData.append("kode_barang", kode_barang);
+      formData.append("id_lokasi", id_lokasi);
+      formData.append("merk", merk);
+      formData.append("ukuran", ukuran);
+      formData.append("tahun_perolehan", date);
+      formData.append("harga_satuan", harga_satuan);
       formData.append("nomor_bpkb", nomor_bpkb);
       formData.append("nomor_mesin", nomor_mesin);
       formData.append("nomor_polisi", nomor_polisi);
       formData.append("nomor_rangka", nomor_rangka);
+      formData.append("nomor_pengadaan", "11");
       for (let i = 0; i < image.length; i++) {
         formData.append(`image`, image[i]);
       }
-      createDetailAset({ id, body: formData });
-      //Melihat isi formData
-      // for (let pair of formData.entries()) {
-      //     // Jika pair[1] adalah objek File, tampilkan nama filenya
-      //     if (pair[1] instanceof File) {
-      //         console.log(pair[0] + ': ' + pair[1].name);
-      //     } else {
-      //         console.log(pair[0] + ': ' + pair[1]);
-      //     }
-      // }
+      createDetailAset({ kode, body: formData });
+
+      // Melihat isi formData
+      for (let pair of formData.entries()) {
+        if (pair[1] instanceof File) {
+          console.log(pair[0] + ': ' + pair[1].name);
+        } else {
+          console.log(pair[0] + ': ' + pair[1]);
+        }
+      }
     },
   });
 
   const handleFormInput = (event) => {
     formik.setFieldValue(event.target.name, event.target.value);
-    if (event.target.name === "kode_barang") {
-      formik.setFieldValue(event.target.name, `1.3.2.${event.target.value}`);
-    }
   };
 
   if (isSuccess) {
-    redirect(`/admin/aset/${id}`);
+    redirect(`/admin/aset/${kode}`);
   }
 
   return (
@@ -96,90 +110,151 @@ const CreateDetailAsetForm = ({ id }) => {
           <div className="label">
             <span className="label-text">Kode Barang</span>
           </div>
-          <div className="flex w-full items-center">
-            <div className="rounded-l-lg bg-blue-50 py-4 pl-4 text-center text-sm text-black">
-              1.3.2.
-            </div>
-            <input
-              type="text"
-              placeholder="Kode Barang"
-              name="kode_barang"
-              onChange={handleFormInput}
-              className="w-full rounded-r-lg bg-blue-50 py-4 text-sm text-black focus:outline-none"
-              required
-            />
-          </div>
-        </label>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Nomor Rangka</span>
-          </div>
           <input
             type="text"
-            placeholder="Nomor Rangka"
-            name="nomor_rangka"
-            onChange={handleFormInput}
+            placeholder="Kode Barang"
+            name="kode_barang"
+            value={kode}
             className="input bg-blue-50 text-sm text-black"
+            disabled
           />
         </label>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Nomor Mesin</span>
+            <span className="label-text">Merk</span>
           </div>
           <input
             type="text"
-            placeholder="Nomor Mesin"
-            name="nomor_mesin"
+            placeholder="Merk"
+            name="merk"
             onChange={handleFormInput}
             className="input bg-blue-50 text-sm text-black"
+            required
           />
         </label>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Nomor Polisi</span>
+            <span className="label-text">Ukuran</span>
           </div>
           <input
             type="text"
-            placeholder="Nomor Polisi"
-            name="nomor_polisi"
+            placeholder="Ukuran"
+            name="ukuran"
+            onChange={handleFormInput}
+            className="input bg-blue-50 text-sm text-black"
+            required
+          />
+        </label>
+        {/* <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Nomor Pengadaan</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Nomor Pengadaan"
+            name="nomor_pengadaan"
             onChange={handleFormInput}
             className="input bg-blue-50 text-sm text-black"
           />
-        </label>
+        </label> */}
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Nomor BPKB</span>
+            <span className="label-text">Harga Satuan</span>
           </div>
           <input
-            type="text"
-            placeholder="Nomor BPKB"
-            name="nomor_bpkb"
+            type="number"
+            placeholder="Harga Satuan"
+            name="harga_satuan"
             onChange={handleFormInput}
             className="input bg-blue-50 text-sm text-black"
+            required
           />
         </label>
+        {aset?.jenis_barang === 'Kendaraan' && (
+          <>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Nomor Rangka</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Nomor Rangka"
+                name="nomor_rangka"
+                onChange={handleFormInput}
+                className="input bg-blue-50 text-sm text-black"
+              />
+            </label>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Nomor Mesin</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Nomor Mesin"
+                name="nomor_mesin"
+                onChange={handleFormInput}
+                className="input bg-blue-50 text-sm text-black"
+              />
+            </label>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Nomor Polisi</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Nomor Polisi"
+                name="nomor_polisi"
+                onChange={handleFormInput}
+                className="input bg-blue-50 text-sm text-black"
+              />
+            </label>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Nomor BPKB</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Nomor BPKB"
+                name="nomor_bpkb"
+                onChange={handleFormInput}
+                className="input bg-blue-50 text-sm text-black"
+              />
+            </label>
+          </>
+        )}
+
         <label className="form-control w-full">
           <div className="label">
             <span className="label-text">Ruangan</span>
           </div>
           <select
             className="select bg-blue-50 text-sm"
-            name="id_ruangan"
+            name="id_lokasi"
             onChange={handleFormInput}
           >
             <option defaultValue={""} hidden>
               Ruangan
             </option>
-            {ruangans?.map((ruangan, index) => {
+            {lokasi?.map((lokasi, index) => {
               return (
-                <option value={ruangan.id} key={index}>
-                  {ruangan.nama_ruangan}
+                <option value={lokasi.id} key={index}>
+                  {lokasi.nama_lokasi}
                 </option>
               );
             })}
           </select>
         </label>
       </div>
+      <DatePicker
+        maxValue={today}
+        name="tahun_perolehan"
+        onChange={handleChangeDate}
+        className="text-black"
+        labelPlacement="outside"
+        showMonthAndYearPickers
+        label="Tahun perolehan"
+        color={"primary"}
+      />
       <div className="label">
         <span className="label-text">Gambar Barang</span>
       </div>

@@ -3,14 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useDeleteDAImage = ({ onError, onSuccess }) => {
   return useMutation({
-    mutationFn: async ({ id, iddetail, body }) => {
-      const response = await axios.post(
-        `/aset/${id}/detail-aset/${iddetail}/image`,
-        {
-          id: body.imageId,
-          link: body.link,
-        },
-      );
+    mutationFn: async ({ body }) => {
+      const response = await axios.post(`/detail-aset/image`, {
+        id: body.imageId,
+        link: body.link,
+      });
       return response;
     },
     onSuccess,

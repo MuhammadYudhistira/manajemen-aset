@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useFetchRuangan = () => {
   return useQuery({
     queryFn: async () => {
-      const response = await axios.get("/ruangan");
+      const response = await axios.get("/lokasi");
 
       return response.data.payload;
     },

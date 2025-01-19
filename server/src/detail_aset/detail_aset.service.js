@@ -1,5 +1,4 @@
-const { string } = require('joi');
-const { getAssetByid } = require('../asset/aset.service');
+const { getAssetByid, getAssetByCode } = require('../asset/aset.service');
 const { deleteImage } = require('../middleware/uploadGambar');
 const {
   createDetailAsetValidation,
@@ -22,6 +21,10 @@ const {
   editDetailAsetByKodeDetail,
   deleteDetailAsetByKodeDetail,
 } = require('./detail_aset.repository');
+const {
+  createKendaraan,
+  updateKendaraan,
+} = require('../aset_kendaraan/kendaraan.service');
 
 const getAllDetailAset = async (id) => {
   await getAssetByid(id);
@@ -64,15 +67,24 @@ const generateKodeDetail = async (kode_barang) => {
 };
 
 const createDetailAset = async (newDetailAsetData) => {
+  const aset = await getAssetByCode(newDetailAsetData.kode_barang);
+
   const kode_detail = await generateKodeDetail(newDetailAsetData.kode_barang);
   const data = {
     ...newDetailAsetData,
     kode_detail,
   };
   await countDetailAset(data.kode_detail);
+  console.log(data);
   const body = validate(createDetailAsetValidation, data);
 
   const detailAset = await insertDetailAset(body);
+
+  if (aset.jenis_barang === 'Kendaraan') {
+    newDetailAsetData.kode_detail = detailAset.kode_detail;
+    const kendaraan = await createKendaraan(newDetailAsetData);
+    console.log(kendaraan);
+  }
 
   const imageData = newDetailAsetData.image.map((img) => ({
     kode_detail: detailAset.kode_detail,
@@ -99,6 +111,15 @@ const editDetailAset = async (kode_detail, newDetailAsetData) => {
   const data = validate(UpdateDetailAsetValidation, newDetailAsetData);
 
   const detailAset = await editDetailAsetByKodeDetail(kode_detail, data);
+
+  if (existingDetailAset.aset.jenis_barang === 'Kendaraan') {
+    newDetailAsetData.kode_detail = detailAset.kode_detail;
+    const kendaraan = await updateKendaraan(
+      detailAset.kode_detail,
+      newDetailAsetData
+    );
+    console.log(kendaraan);
+  }
 
   const imageData = newDetailAsetData.image.map((img) => ({
     id_detail_aset: detailAset.id,

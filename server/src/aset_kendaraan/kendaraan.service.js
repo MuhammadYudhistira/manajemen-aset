@@ -1,4 +1,6 @@
-const { getDetailAset } = require('../detail_aset/detail_aset.service');
+const {
+  findDetailAsetByKodeDetail,
+} = require('../detail_aset/detail_aset.repository');
 const {
   findAllKendaraan,
   findKendaraanByKodeDetail,
@@ -18,8 +20,14 @@ const getDetailKendaraan = async (kode_detail) => {
   return kendaraan;
 };
 
+const detailAsetExist = async (kode_detail) => {
+  const detailAset = await findDetailAsetByKodeDetail(kode_detail);
+  if (!detailAset) throw new Error('Detail Aset tidak ditemukan');
+  return detailAset;
+};
+
 const createKendaraan = async (newKendaraanData) => {
-  await getDetailAset(newKendaraanData.kode_detail);
+  await detailAsetExist(newKendaraanData.kode_detail);
   const exist = await findKendaraanByKodeDetail(newKendaraanData.kode_detail);
   if (exist) throw new Error('Detail Kendaraan Sudah Ada');
   const kendaraan = await insertKendaraan(newKendaraanData);

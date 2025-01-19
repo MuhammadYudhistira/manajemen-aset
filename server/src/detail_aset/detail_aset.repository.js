@@ -163,6 +163,7 @@ const findDetailAsetByKodeDetail = async (kode_detail) => {
       },
       Detail_Aset_Images: {
         select: {
+          id: true,
           link: true,
         },
       },

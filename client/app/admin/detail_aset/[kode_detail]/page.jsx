@@ -70,7 +70,7 @@ const page = ({ params }) => {
 
 
   const handleClick = () => {
-    deleteDA({ id: params.id, iddetail: params.iddetail })
+    deleteDA({ kode: params.kode_detail })
   }
 
   const handleArchiveClick = () => {
@@ -82,7 +82,7 @@ const page = ({ params }) => {
   }
 
   if (isSuccess) {
-    redirect(`/admin/aset/${params.id}`)
+    redirect(`/admin/aset/${data.kode_barang}`)
   }
 
   return (
@@ -106,7 +106,7 @@ const page = ({ params }) => {
           tahun={moment(data?.createdAt).format("YYYY")}
         />
         <Link
-          href={`/admin/aset/${params.id}/detail-aset/${params.iddetail}/edit`}
+          href={`/admin/detail_aset/${params.kode_detail}/edit`}
           className="btn bg-white text-black"
         >
           <EditOutlinedIcon /> Edit Detail Aset
@@ -292,32 +292,32 @@ const page = ({ params }) => {
                   {data?.aset?.jenis_barang === 'Kendaraan' && (<>
                     <div className="space-y-2">
                       <h3 className="text-lg font-medium">Nomor Rangka</h3>
-                      {data?.nomor_rangka ? (
-                        <p className="text-gray-400">{data?.nomor_rangka}</p>
+                      {data?.Aset_Kendaraan?.nomor_rangka ? (
+                        <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_rangka}</p>
                       ) : (
                         "-"
                       )}
                     </div>
                     <div className="space-y-2">
                       <h3 className="text-lg font-medium">Nomor Mesin</h3>
-                      {data?.nomor_mesin ? (
-                        <p className="text-gray-400">{data?.nomor_mesin}</p>
+                      {data?.Aset_Kendaraan?.nomor_mesin ? (
+                        <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_mesin}</p>
                       ) : (
                         "-"
                       )}
                     </div>
                     <div className="space-y-2">
                       <h3 className="text-lg font-medium">Nomor Polisi</h3>
-                      {data?.nomor_polisi ? (
-                        <p className="text-gray-400">{data?.nomor_polisi}</p>
+                      {data?.Aset_Kendaraan?.nomor_polisi ? (
+                        <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_polisi}</p>
                       ) : (
                         "-"
                       )}
                     </div>
                     <div className="space-y-2">
                       <h3 className="text-lg font-medium">Nomor BPKB</h3>
-                      {data?.nomor_bpkb ? (
-                        <p className="text-gray-400">{data?.nomor_bpkb}</p>
+                      {data?.Aset_Kendaraan?.nomor_bpkb ? (
+                        <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_bpkb}</p>
                       ) : (
                         "-"
                       )}

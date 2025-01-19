@@ -3,16 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useEditDA = ({ onSuccess, onError }) => {
   return useMutation({
-    mutationFn: async ({ id, iddetail, body }) => {
-      const response = await axios.patch(
-        `/aset/${id}/detail-aset/${iddetail}`,
-        body,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    mutationFn: async ({ kode, body }) => {
+      const response = await axios.patch(`/detail-aset/${kode}`, body, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
       return response;
     },
     onSuccess,

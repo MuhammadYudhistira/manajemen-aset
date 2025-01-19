@@ -47,13 +47,15 @@ const CreateAsetForm = () => {
 
   const handleFormInput = (event) => {
     formik.setFieldValue(event.target.name, event.target.value);
+    if (event.target.name === "kode_barang") {
+      formik.setFieldValue(event.target.name, `1.3.2.${event.target.value}`);
+    }
   };
 
   const {
     mutate: createProduct,
     isSuccess,
     isPending,
-    isError
   } = useCreateAset({
     onSuccess: () => {
       toast.success("berhasil menambahkan aset");
@@ -71,7 +73,6 @@ const CreateAsetForm = () => {
   return (
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 gap-2">
-
         <label className="form-control w-full">
           <div className="label">
             <span className="label-text">Nama Barang</span>
@@ -89,14 +90,19 @@ const CreateAsetForm = () => {
           <div className="label">
             <span className="label-text">Kode Barang</span>
           </div>
-          <input
-            type="text"
-            placeholder="Kode Barang"
-            name="kode_barang"
-            onChange={handleFormInput}
-            className="input bg-blue-50 text-sm text-black"
-            required
-          />
+          <div className="flex w-full items-center">
+            <div className="rounded-l-lg bg-blue-50 py-4 pl-4 text-center text-sm text-black">
+              1.3.2.
+            </div>
+            <input
+              type="text"
+              placeholder="Kode Barang"
+              name="kode_barang"
+              onChange={handleFormInput}
+              className="w-full rounded-r-lg bg-blue-50 py-4 text-sm text-black focus:outline-none"
+              required
+            />
+          </div>
         </label>
         <label className="form-control w-full">
           <div className="label">
