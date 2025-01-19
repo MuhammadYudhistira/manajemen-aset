@@ -91,7 +91,7 @@ const UpdateProfileForm = () => {
                         value={formik.values.nip}
                         onChange={handleFormInput}
                         className="input bg-blue-50 text-sm text-black"
-                        required
+                        disabled
                     />
                 </label>
                 <label className="form-control w-full">

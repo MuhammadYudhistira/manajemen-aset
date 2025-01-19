@@ -4,8 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 export const useCreateRuangan = ({ onError, onSuccess }) => {
   return useMutation({
     mutationFn: async (body) => {
-      const response = await axios.post("/ruangan", {
-        nama_ruangan: body,
+      const response = await axios.post("/lokasi", {
+        nama_lokasi: body,
       });
       console.log(response);
       return response;

@@ -21,17 +21,15 @@ const CreateRuanganForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      nama_ruangan: "",
+      nama_lokasi: "",
     },
     onSubmit: () => {
-      console.log(formik.values);
-      const { nama_ruangan } = formik.values;
-      console.log("🚀 ~ CreateRuanganForm ~ nama_ruangan:", nama_ruangan);
-      createRuangan(nama_ruangan);
+      const { nama_lokasi } = formik.values;
+      createRuangan(nama_lokasi);
     },
   });
 
-  const { mutate: createRuangan, isSuccess } = useCreateRuangan({
+  const { mutate: createRuangan } = useCreateRuangan({
     onSuccess: () => {
       toast.success("Berhasil menambahkan data ruangan");
       refetch();
@@ -62,12 +60,12 @@ const CreateRuanganForm = () => {
                 <ModalBody>
                   <label className="form-control w-full">
                     <div className="label">
-                      <span className="label-text">Nama Ruangan</span>
+                      <span className="label-text">Nama Lokasi</span>
                     </div>
                     <input
                       type="text"
-                      placeholder="Nama Ruangan"
-                      name="nama_ruangan"
+                      placeholder="Nama Lokasi"
+                      name="nama_lokasi"
                       onChange={handleFormInput}
                       className="input bg-blue-50 text-sm text-black"
                       required

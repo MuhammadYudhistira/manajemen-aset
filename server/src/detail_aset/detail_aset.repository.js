@@ -141,6 +141,7 @@ const findDetailAsetByKodeDetail = async (kode_detail) => {
       Penanggung_Jawab: {
         select: {
           id_user: true,
+          user: true,
         },
       },
       aset: {

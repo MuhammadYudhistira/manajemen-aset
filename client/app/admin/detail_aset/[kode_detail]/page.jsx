@@ -364,20 +364,20 @@ const page = ({ params }) => {
                             <div className="space-y-2 p-5 min-h-[121px] w-[360px]">
                               <div className="avatar">
                                 <div className="w-16 rounded-full">
-                                  <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.image}`} />
+                                  <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.user.image}`} />
                                 </div>
                               </div>
                               <p className="text-md font-semibold">{pj.nama}</p>
-                              <p className="text-xs font-medium text-gray-500">{pj.nip}</p>
-                              <p className="text-xs font-medium text-gray-500">{pj.role}</p>
-                              <p className="text-xs font-medium text-gray-500">{pj.no_hp}</p>
-                              <p className="text-xs font-medium text-gray-500">{pj.alamat}</p>
+                              <p className="text-xs font-medium text-gray-500">{pj.user.nip}</p>
+                              <p className="text-xs font-medium text-gray-500">{pj.user.role}</p>
+                              <p className="text-xs font-medium text-gray-500">{pj.user.no_hp}</p>
+                              <p className="text-xs font-medium text-gray-500">{pj.user.alamat}</p>
                             </div>
                           }
                         >
                           <div className="avatar">
                             <div className="w-16 rounded-full">
-                              <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.image}`} />
+                              <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.user.image}`} />
                             </div>
                           </div>
                         </Tooltip>

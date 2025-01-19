@@ -43,11 +43,11 @@ const CreatePJForm = () => {
   const formik = useFormik({
     initialValues: {
       id_user: "",
-      id_detail_aset: "",
+      kode_detail: "",
     },
     onSubmit: () => {
-      const { id_user, id_detail_aset } = formik.values;
-      createCustodian({ id_user, id_detail_aset });
+      const { id_user, kode_detail } = formik.values;
+      createCustodian({ id_user, kode_detail });
     },
   });
 
@@ -88,7 +88,7 @@ const CreatePJForm = () => {
                       </option>
                       {staffUsers.map((user) => {
                         return (
-                          <option value={user.id} key={user.id}>
+                          <option value={user.nip} key={user.nip}>
                             {user.nama}
                           </option>
                         );
@@ -101,7 +101,7 @@ const CreatePJForm = () => {
                     </div>
                     <select
                       className="select bg-blue-50 text-sm"
-                      name="id_detail_aset"
+                      name="kode_detail"
                       onChange={handleFormInput}
                     >
                       <option defaultValue={""} hidden>
@@ -109,8 +109,8 @@ const CreatePJForm = () => {
                       </option>
                       {asets.map((aset) => {
                         return (
-                          <option value={aset.id} key={aset.id}>
-                            {aset.aset.nama_barang} ({aset.kode_barang})
+                          <option value={aset.kode_detail} key={aset.kode_detail}>
+                            {aset.aset.nama_barang} ({aset.kode_detail})
                           </option>
                         );
                       })}

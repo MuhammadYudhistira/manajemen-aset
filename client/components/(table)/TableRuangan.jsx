@@ -53,7 +53,7 @@ const TableRuangan = () => {
   const columns = [
     {
       header: "Nama Ruangan",
-      accessorKey: "nama_ruangan",
+      accessorKey: "nama_lokasi",
     },
     columnHelper.accessor("createdAt", {
       cell: (tanggal) => moment(tanggal.getValue()).format("DD-MM-YYYY"),
@@ -77,18 +77,22 @@ const TableRuangan = () => {
 
   const formik = useFormik({
     initialValues: {
-      nama_ruangan: selectedRuangan?.nama_ruangan || "",
+      nama_lokasi: selectedRuangan?.nama_lokasi || "",
     },
     enableReinitialize: true,
     onSubmit: () => {
-      const { nama_ruangan } = formik.values;
-      editRuangan({ id: selectedId, body: nama_ruangan });
+      const { nama_lokasi } = formik.values;
+      editRuangan({ id: selectedId, body: nama_lokasi });
     },
   });
 
   const handleFormInput = (event) => {
     formik.setFieldValue(event.target.name, event.target.value);
   };
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <>
@@ -113,13 +117,13 @@ const TableRuangan = () => {
                 <ModalBody>
                   <label className="form-control w-full">
                     <div className="label">
-                      <span className="label-text">Nama Ruangan</span>
+                      <span className="label-text">Nama Lokasi</span>
                     </div>
                     <input
                       type="text"
-                      placeholder="Nama Ruangan"
-                      name="nama_ruangan"
-                      value={formik.values.nama_ruangan}
+                      placeholder="Nama Lokasi"
+                      name="nama_lokasi"
+                      value={formik.values.nama_lokasi}
                       onChange={handleFormInput}
                       className="input bg-blue-50 text-sm text-black"
                       required

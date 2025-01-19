@@ -54,7 +54,7 @@ const EditUserForm = ({ id }) => {
         formData.append("image", image[i]);
       }
 
-      editUser({ id, body: formData });
+      editUser({ nip: user.nip, body: formData });
     },
   });
   const handleFormInput = (event) => {

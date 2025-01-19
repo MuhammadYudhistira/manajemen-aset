@@ -54,6 +54,11 @@ const GridPJ = ({ data, isLoading }) => {
                     />
                 );
             })}
+            {data.length === 0 && (
+                <>
+                    <p className="bg-white p-5 text-center">Belum ada data</p>
+                </>
+            )}
         </>
     );
 };
