@@ -105,7 +105,7 @@ const page = () => {
           <h3 className="text-sm/tight sm:text-medium font-semibold">Aset Terbaru</h3>
           {data?.listAset.map((aset) => {
             return (
-              <Link href={`/admin/aset/${aset.aset.id}/detail-aset/${aset.id}`} className="flex items-center gap-4">
+              <Link href={`/admin/detail_aset/${aset.kode_detail}`} className="flex items-center gap-4">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.aset.image}`}
                   alt="profil"

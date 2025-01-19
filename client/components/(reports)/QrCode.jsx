@@ -7,7 +7,7 @@ import logo from "@/public/logo.png"
 import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 
-const QrCode = ({ ruangan, id, aset, kode_barang, tahun }) => {
+const QrCode = ({ ruangan, kode_detail, aset, kode_barang, tahun }) => {
 
     const contentRef = useRef();
     const handlePrint = useReactToPrint({
@@ -76,7 +76,7 @@ const QrCode = ({ ruangan, id, aset, kode_barang, tahun }) => {
                                 <td className="border border-black p-4">
                                     <img
                                         alt="qrcode"
-                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${[process.env.NEXT_PUBLIC_QR_URL]}${id}`}
+                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${[process.env.NEXT_PUBLIC_QR_URL]}${kode_detail}`}
                                         className="rounded-lg object-cover"
                                     />
                                 </td>

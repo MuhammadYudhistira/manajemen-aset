@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useEditAset = ({ onSuccess, onError }) => {
   return useMutation({
-    mutationFn: async ({ id, body }) => {
+    mutationFn: async ({ kode, body }) => {
       try {
-        const response = await axios.patch(`/aset/${id}`, body, {
+        const response = await axios.patch(`/aset/${kode}`, body, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

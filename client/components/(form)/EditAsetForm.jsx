@@ -4,16 +4,14 @@ import { DatePicker, Spinner } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 import Dropzone from "../(input)/Dropzone";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { useFetchDetailAset } from "@/hooks/aset/useFetchDetailAset";
 import Image from "next/legacy/image";
 import { useEditAset } from "@/hooks/aset/useEditAset";
-import moment from "moment";
 
-const EditAsetForm = ({ id }) => {
-  const { data: aset, isLoading } = useFetchDetailAset(id);
+const EditAsetForm = ({ kode }) => {
+  const { data: aset, isLoading } = useFetchDetailAset(kode);
   const {
     mutate: editAset,
     isPending,
@@ -28,52 +26,39 @@ const EditAsetForm = ({ id }) => {
     },
   });
 
-  const dateString = new Date(aset?.tahun_perolehan);
-  const dateObject = moment(dateString).format("MM-DD-YYYY");
-  const defaultDate = moment(dateString).format("YYYY-MM-DD");
+  // const dateString = new Date(aset?.tahun_perolehan);
+  // const dateObject = moment(dateString).format("MM-DD-YYYY");
+  // const defaultDate = moment(dateString).format("YYYY-MM-DD");
 
   const [image, setImage] = useState([]);
-  const [date, setDate] = useState(null);
-  const today = parseDate(new Date().toISOString().split("T")[0]);
+  // const [date, setDate] = useState(null);
+  // const today = parseDate(new Date().toISOString().split("T")[0]);
 
   const fileAccept = { "image/png": [], "image/jpg": [], "image/jpeg": [] };
 
-  const handleChangeDate = (newDate) => {
-    console.log(newDate)
-    const formatDate = new Date(newDate);
-    setDate(formatDate);
-  };
+  // const handleChangeDate = (newDate) => {
+  //   console.log(newDate)
+  //   const formatDate = new Date(newDate);
+  //   setDate(formatDate);
+  // };
 
   const formik = useFormik({
     initialValues: {
       nama_barang: aset?.nama_barang || "",
-      merk: aset?.merk || "",
-      deskripsi: aset?.deskripsi || "",
-      ukuran: aset?.ukuran || "",
-      harga_satuan: aset?.harga_satuan || "",
-      jumlah_barang: aset?.jumlah_barang || "",
+      jenis_barang: aset?.jenis_barang || "",
+      kode_barang: aset?.kode_barang || "",
     },
     enableReinitialize: true,
     onSubmit: () => {
-      console.log(formik.values);
       const {
         nama_barang,
-        deskripsi,
-        merk,
-        harga_satuan,
-        jumlah_barang,
-        ukuran,
+        kode_barang,
+        jenis_barang,
       } = formik.values;
       const formData = new FormData();
       formData.append("nama_barang", nama_barang);
-      formData.append("deskripsi", deskripsi);
-      formData.append("merk", merk);
-      formData.append("harga_satuan", harga_satuan);
-      formData.append("jumlah_barang", jumlah_barang);
-      formData.append("ukuran", ukuran);
-      if (date) {
-        formData.append("tahun_perolehan", date);
-      }
+      formData.append("kode_barang", kode_barang);
+      formData.append("jenis_barang", jenis_barang);
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
       }
@@ -83,7 +68,7 @@ const EditAsetForm = ({ id }) => {
       });
       console.log(object);
 
-      editAset({ id, body: formData });
+      editAset({ kode: aset?.kode_barang, body: formData });
     },
   });
 
@@ -92,7 +77,7 @@ const EditAsetForm = ({ id }) => {
   };
 
   if (isSuccess) {
-    redirect(`/admin/aset/${id}`);
+    redirect(`/admin/aset/${kode}`);
   }
 
   if (isLoading) {
@@ -101,6 +86,21 @@ const EditAsetForm = ({ id }) => {
 
   return (
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
+      <label className="form-control w-full">
+        <div className="label">
+          <span className="label-text">Kode Barang</span>
+        </div>
+        <input
+          type="text"
+          placeholder="Merk"
+          name="kode_barang"
+          value={formik.values.kode_barang}
+          onChange={handleFormInput}
+          className="input bg-blue-50 text-sm text-black"
+          required
+          disabled
+        />
+      </label>
       <label className="form-control w-full">
         <div className="label">
           <span className="label-text">Nama Barang</span>
@@ -117,33 +117,23 @@ const EditAsetForm = ({ id }) => {
       </label>
       <label className="form-control w-full">
         <div className="label">
-          <span className="label-text">Merk</span>
+          <span className="label-text">Jenis Aset</span>
         </div>
-        <input
-          type="text"
-          placeholder="Merk"
-          name="merk"
-          value={formik.values.merk}
+        <select
+          className="select bg-blue-50 text-sm"
+          name="jenis_barang"
+          value={formik.values.jenis_barang}
           onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
           required
-        />
+        >
+          <option defaultValue={""} hidden>
+            Jenis Aset
+          </option>
+          <option value={"Peralatan"}>Peralatan</option>
+          <option value={"Kendaraan"}>Kendaraan</option>
+        </select>
       </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Deskripsi</span>
-        </div>
-        <textarea
-          type="text"
-          placeholder="Deskripsi"
-          name="deskripsi"
-          value={formik.values.deskripsi}
-          onChange={handleFormInput}
-          className="input textarea bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <DatePicker
+      {/* <DatePicker
         maxValue={today}
         defaultValue={parseDate(defaultDate)}
         name="tahun_perolehan"
@@ -153,49 +143,7 @@ const EditAsetForm = ({ id }) => {
         showMonthAndYearPickers
         label={`Tahun perolehan`}
         color="primary"
-      />
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Ukuran</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Ukuran"
-          name="ukuran"
-          value={formik.values.ukuran}
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Harga Satuan</span>
-        </div>
-        <input
-          type="number"
-          placeholder="harga_satuan"
-          name="harga_satuan"
-          value={formik.values.harga_satuan}
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
-      <label className="form-control w-full">
-        <div className="label">
-          <span className="label-text">Jumlah Barang</span>
-        </div>
-        <input
-          type="number"
-          placeholder="Jumlah Barang"
-          name="jumlah_barang"
-          value={formik.values.jumlah_barang}
-          onChange={handleFormInput}
-          className="input bg-blue-50 text-sm text-black"
-          required
-        />
-      </label>
+      /> */}
       <div className="flex flex-col gap-3">
         <span className="label-text">Gambar Barang</span>
         {aset?.image ? (

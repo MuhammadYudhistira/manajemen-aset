@@ -84,11 +84,10 @@ const GridAset = () => {
         )}
         {filteredAssets?.map((aset) => (
           <CardAset
-            deskripsi={aset.deskripsi}
-            id={aset.id}
+            kode={aset.kode_barang}
             image={aset.image ? aset.image : computer}
             nama={aset.nama_barang}
-            ukuran={aset.ukuran}
+            jenis={aset.jenis_barang}
             key={aset.id}
             role="admin"
           />

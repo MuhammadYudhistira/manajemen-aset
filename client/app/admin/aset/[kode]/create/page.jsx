@@ -4,7 +4,7 @@ import React from "react";
 const page = ({ params }) => {
   return (
     <div className="rounded-xl bg-white p-5">
-      <CreateDetailAsetForm id={params.id} />
+      <CreateDetailAsetForm id={params.kode} />
     </div>
   );
 };

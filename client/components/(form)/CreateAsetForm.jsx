@@ -31,20 +31,13 @@ const CreateAsetForm = () => {
     onSubmit: () => {
       const {
         nama_barang,
-        deskripsi,
-        merk,
-        harga_satuan,
-        jumlah_barang,
-        ukuran,
+        kode_barang,
+        jenis_barang,
       } = formik.values;
       const formData = new FormData();
       formData.append("nama_barang", nama_barang);
-      formData.append("deskripsi", deskripsi);
-      formData.append("merk", merk);
-      formData.append("harga_satuan", harga_satuan);
-      formData.append("jumlah_barang", jumlah_barang);
-      formData.append("ukuran", ukuran);
-      formData.append("tahun_perolehan", date);
+      formData.append("kode_barang", kode_barang);
+      formData.append("jenis_barang", jenis_barang);
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
       }
@@ -77,7 +70,7 @@ const CreateAsetForm = () => {
 
   return (
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2">
 
         <label className="form-control w-full">
           <div className="label">
@@ -94,12 +87,12 @@ const CreateAsetForm = () => {
         </label>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Merk</span>
+            <span className="label-text">Kode Barang</span>
           </div>
           <input
             type="text"
-            placeholder="Merk"
-            name="merk"
+            placeholder="Kode Barang"
+            name="kode_barang"
             onChange={handleFormInput}
             className="input bg-blue-50 text-sm text-black"
             required
@@ -107,58 +100,24 @@ const CreateAsetForm = () => {
         </label>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Deskripsi</span>
+            <span className="label-text">Jenis Barang</span>
           </div>
-          <textarea
-            type="text"
-            placeholder="Deskripsi"
-            name="deskripsi"
+          <select
+            className="select bg-blue-50 text-sm"
+            name="jenis_barang"
             onChange={handleFormInput}
-            className="input textarea bg-blue-50 text-sm text-black"
             required
-          />
+          >
+            <option defaultValue={""} hidden>
+              Jenis Barang
+            </option>
+            <option value={"Peralatan"}>Peralatan</option>
+            <option value={"Kendaraan"}>Kendaraan</option>
+          </select>
         </label>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Ukuran</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Ukuran"
-            name="ukuran"
-            onChange={handleFormInput}
-            className="input bg-blue-50 text-sm text-black"
-            required
-          />
-        </label>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Harga Satuan</span>
-          </div>
-          <input
-            type="number"
-            placeholder="Harga Satuan"
-            name="harga_satuan"
-            onChange={handleFormInput}
-            className="input bg-blue-50 text-sm text-black"
-            required
-          />
-        </label>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Jumlah Barang</span>
-          </div>
-          <input
-            type="number"
-            placeholder="Jumlah Barang"
-            name="jumlah_barang"
-            onChange={handleFormInput}
-            className="input bg-blue-50 text-sm text-black"
-            required
-          />
-        </label>
+
       </div>
-      <DatePicker
+      {/* <DatePicker
         maxValue={today}
         name="tahun_perolehan"
         onChange={handleChangeDate}
@@ -167,7 +126,7 @@ const CreateAsetForm = () => {
         showMonthAndYearPickers
         label="Tahun perolehan"
         color={isError ? "danger" : "primary"}
-      />
+      /> */}
       <div className="label">
         <span className="label-text">Gambar Barang</span>
       </div>

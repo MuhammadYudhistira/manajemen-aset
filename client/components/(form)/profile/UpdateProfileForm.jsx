@@ -53,7 +53,7 @@ const UpdateProfileForm = () => {
             for (let i = 0; i < image.length; i++) {
                 formData.append("image", image[i]);
             }
-            editUser({ id: user.id, body: formData });
+            editUser({ nip: user.nip, body: formData });
             setImage([])
 
         },

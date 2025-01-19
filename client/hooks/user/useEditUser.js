@@ -3,8 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useEditUser = ({ onError, onSuccess }) => {
   return useMutation({
-    mutationFn: async ({ id, body }) => {
-      const response = await axios.patch(`/user/${id}`, body, {
+    mutationFn: async ({ nip, body }) => {
+      const response = await axios.patch(`/user/${nip}`, body, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useDeleteAset = ({ onSuccess, onError }) => {
   return useMutation({
-    mutationFn: async (id) => {
+    mutationFn: async (kode) => {
       try {
-        const response = await axios.delete(`/aset/${id}`);
+        const response = await axios.delete(`/aset/${kode}`);
         console.log(response);
         return response;
       } catch (error) {

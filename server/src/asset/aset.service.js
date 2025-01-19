@@ -86,27 +86,30 @@ const editAsetByCode = async (code, newAssetData) => {
 
   if (newAssetData.image.length >= 1) {
     newAssetData.image = newAssetData.image[0];
-    const url = oldData.image;
-    const path = new URL(url).pathname;
-    const results = decodeURIComponent(path.replace('/manajemen-aset/', ''));
-    console.log(results);
-    deleteImage(results)
-      .then(async (result) => {
-        if (result.success) {
-          console.log(`File berhasil dihapus`);
-        } else {
-          console.error(`Gagal menghapus file, sebab: ${result}`);
-        }
-      })
-      .catch((error) => {
-        console.error(`Gagal menghapus file, sebab: ${error.message}`);
-      });
+    if (oldData.image !== null) {
+      const url = oldData.image;
+      const path = new URL(url).pathname;
+      const results = decodeURIComponent(path.replace('/manajemen-aset/', ''));
+      console.log(results);
+      deleteImage(results)
+        .then(async (result) => {
+          if (result.success) {
+            console.log(`File berhasil dihapus`);
+          } else {
+            console.error(`Gagal menghapus file, sebab: ${result}`);
+          }
+        })
+        .catch((error) => {
+          console.error(`Gagal menghapus file, sebab: ${error.message}`);
+        });
+    }
   } else {
     newAssetData.image = undefined;
   }
 
   try {
     const asset = await editAsset(code, newAssetData);
+    console.log('🚀 ~ editAsetByCode ~ newAssetData:', newAssetData);
     return asset;
   } catch (error) {
     // Log error type and details

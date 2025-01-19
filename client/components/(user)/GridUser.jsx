@@ -22,8 +22,8 @@ const GridUser = ({ data, isLoading }) => {
       {data.map((user) => {
         return (
           <CardUser
-            key={user.id}
-            id={user.id}
+            key={user.nip}
+            id={user.nip}
             nama={user.nama}
             profile={user.image}
             alamat={user.alamat}

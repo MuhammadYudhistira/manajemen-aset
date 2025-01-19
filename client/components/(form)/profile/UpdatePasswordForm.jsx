@@ -46,7 +46,7 @@ const UpdatePasswordForm = () => {
 
             const formData = new FormData();
             formData.append("password", password);
-            editUser({ id: user.id, body: formData });
+            editUser({ nip: user.nip, body: formData });
         },
     });
 

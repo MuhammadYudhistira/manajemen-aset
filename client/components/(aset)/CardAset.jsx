@@ -2,11 +2,11 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 
-const CardAset = ({ id, image, nama, deskripsi, ukuran, role }) => {
+const CardAset = ({ kode, image, nama, role, jenis }) => {
   return (
     <Link
-      key={id}
-      href={`/${role}/aset/${id}`}
+      key={kode}
+      href={`/${role}/aset/${kode}`}
       className="group rounded-lg border bg-white"
     >
       <div className="relative h-56 w-full">
@@ -21,10 +21,10 @@ const CardAset = ({ id, image, nama, deskripsi, ukuran, role }) => {
       <div className="p-4">
         <h3 className="text-lg font-medium text-gray-900">{nama}</h3>
         <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-          {deskripsi}
+          {kode}
         </p>
         <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-          {ukuran}
+          {jenis}
         </p>
       </div>
     </Link>

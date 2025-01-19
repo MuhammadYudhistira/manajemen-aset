@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import { formatRupiah } from "@/libs/formatRupiah";
 
 const page = ({ params }) => {
-  const { data, isLoading, isError, error } = useFetchDetailAset(params.id);
+  const { data, isLoading, isError, error } = useFetchDetailAset(params.kode);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
@@ -39,7 +39,7 @@ const page = ({ params }) => {
   }
 
   const handleClick = () => {
-    deleteAset(params.id);
+    deleteAset(data?.kode_barang);
   };
 
   const { mutate: deleteAset, isSuccess } = useDeleteAset({
@@ -63,7 +63,7 @@ const page = ({ params }) => {
           <Breadcrumbs variant="bordered" radius="sm">
             <BreadcrumbItem href="/admin">Home</BreadcrumbItem>
             <BreadcrumbItem href="/admin/aset">List Aset</BreadcrumbItem>
-            <BreadcrumbItem href={`/admin/aset/${params.id}`}>
+            <BreadcrumbItem href={`/admin/aset/${data?.kode_barang}`}>
               Aset
             </BreadcrumbItem>
           </Breadcrumbs>
@@ -72,14 +72,14 @@ const page = ({ params }) => {
           <>
             {data?.Detail_Aset?.length !== data?.jumlah_barang && (
               <Link
-                href={`/admin/aset/${params.id}/create`}
+                href={`/admin/aset/${params.kode}/create`}
                 className="btn bg-white text-black"
               >
                 <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
               </Link>
             )}
             <Link
-              href={`/admin/aset/${params.id}/edit`}
+              href={`/admin/aset/${data?.kode_barang}/edit`}
               className="btn bg-white text-black"
             >
               <EditOutlinedIcon /> Edit Aset
@@ -152,7 +152,7 @@ const page = ({ params }) => {
               </li>
               <li>
                 <Link
-                  href={`/admin/aset/${params.id}/edit`}
+                  href={`/admin/aset/${data?.kode_barang}/edit`}
                   className="btn bg-white text-black"
                 >
                   <EditOutlinedIcon /> Edit Aset
@@ -193,34 +193,16 @@ const page = ({ params }) => {
                     {data.nama_barang}
                   </h1>
                   <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Merk</h3>
-                    <p className="text-gray-400">{data.merk}</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Deskripsi</h3>
-                    <p className="text-gray-400">{data.deskripsi}</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Tahun Perolehan</h3>
-                    <p className="text-gray-400">
-                      {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Harga Satuan</h3>
-                    <p className="text-gray-400">{formatRupiah(data.harga_satuan)}</p>
+                    <h3 className="text-lg font-medium">Kode Barang</h3>
+                    <p className="text-gray-400">{data.kode_barang}</p>
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Jumlah Barang</h3>
-                    <p className="text-gray-400">{data.jumlah_barang}</p>
+                    <p className="text-gray-400">{data?.Detail_Aset?.length}</p>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Nilai Perolehan</h3>
-                    <p className="text-gray-400">{data?.nilai_perolehan}</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Ukuran</h3>
-                    <p className="text-gray-400">{data?.ukuran}</p>
+                    <h3 className="text-lg font-medium">Jenis Aset</h3>
+                    <p className="text-gray-400">{data.jenis_barang}</p>
                   </div>
                 </div>
               </>
@@ -244,10 +226,10 @@ const page = ({ params }) => {
                           Kode Barang
                         </th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                          Ruangan
+                          Lokasi
                         </th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                          Tanggal
+                          Tahun Perolehan
                         </th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                           PJ
@@ -264,13 +246,13 @@ const page = ({ params }) => {
                         return (
                           <tr key={detail.id}>
                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                              {detail.kode_barang}
+                              {detail.kode_detail}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                              {detail.ruangan.nama_ruangan}
+                              {detail.lokasi.nama_lokasi}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                              {moment(detail.createdAt).format("DD-MM-YYYY")}
+                              {moment(detail.tahun_perolehan).format("DD-MM-YYYY")}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                               <div className="avatar">
@@ -287,7 +269,7 @@ const page = ({ params }) => {
                             <td className="whitespace-nowrap px-4 py-2">
                               <div className="lg:tooltip" data-tip="Detail">
                                 <Link
-                                  href={`/admin/aset/${params.id}/detail-aset/${detail.id}`}
+                                  href={`/admin/detail_aset/${detail.kode_detail}`}
                                 >
                                   <MoreHorizIcon />
                                 </Link>

@@ -143,6 +143,13 @@ const findDetailAsetByKodeDetail = async (kode_detail) => {
           id_user: true,
         },
       },
+      aset: {
+        select: {
+          kode_barang: true,
+          nama_barang: true,
+          jenis_barang: true,
+        },
+      },
       Aset_Kendaraan: true,
       Laporan_Kerusakan: {
         include: {
