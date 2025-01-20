@@ -1,5 +1,5 @@
 const { getDetailDamage } = require('../damage_report/damage.service');
-const { editDetailAsetById } = require('../detail_aset/detail_aset.repository');
+const { editDetailAsetById, editDetailAsetByKodeDetail } = require('../detail_aset/detail_aset.repository');
 const { deleteImage } = require('../middleware/uploadGambar');
 const {
   findAllRepair,
@@ -107,7 +107,7 @@ const inputLaporan = async (id, newRepairData) => {
     status: 'Available',
   };
 
-  await editDetailAsetById(oldData.laporan_kerusakan.detail_aset.id, newData);
+  await editDetailAsetByKodeDetail(oldData.laporan_kerusakan.detail_aset.kode_detail, newData);
 
   const repair = await updateRepairById(id, data);
   return repair;

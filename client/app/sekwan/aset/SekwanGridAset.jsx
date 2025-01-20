@@ -80,12 +80,12 @@ const SekwanGridAset = () => {
             <div className="grid grid-cols-1 gap-4 py-10 sm:grid-cols-2 md:grid-cols-3 lg:gap-8 xl:grid-cols-4">
                 {filteredAssets.map((aset) => (
                     <CardAset
-                        deskripsi={aset.deskripsi}
-                        id={aset.id}
+                        id={aset.kode_barang}
                         image={aset.image ? aset.image : computer}
                         nama={aset.nama_barang}
-                        ukuran={aset.ukuran}
-                        key={aset.id}
+                        kode={aset.kode_barang}
+                        ukuran={aset.jenis_barang}
+                        key={aset.kode_barang}
                         role="sekwan"
                     />
                 ))}

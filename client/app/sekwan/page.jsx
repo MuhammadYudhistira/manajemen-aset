@@ -11,7 +11,6 @@ import React from "react";
 const page = () => {
 
   const { data: dataSekwan, isLoading } = useFetchDashboardSekwan()
-  console.log("🚀 ~ page ~ dataSekwan:", dataSekwan)
   const { data } = useFetchDashboardAdmin()
 
   if (isLoading) {

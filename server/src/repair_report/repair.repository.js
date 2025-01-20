@@ -36,7 +36,7 @@ const findRepairById = async (id) => {
           createdAt: true,
           detail_aset: {
             select: {
-              id: true,
+              kode_detail: true,
               kode_barang: true,
               aset: {
                 select: {

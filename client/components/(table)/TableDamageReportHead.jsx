@@ -4,7 +4,6 @@ import BasicTable from "./BasicTable";
 import { Spinner } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { useFetchDamage } from "@/hooks/damage/useFetchDamage";
 
 const TableDamageReportHead = () => {
@@ -19,7 +18,7 @@ const TableDamageReportHead = () => {
             accessorKey: "detail_aset.aset.nama_barang",
             cell: (info) => {
                 const row = info.row.original;
-                const kode = row?.detail_aset?.kode_barang;
+                const kode = row?.detail_aset?.kode_detail;
                 return (
                     <p>
                         {info.getValue()} ({kode})
@@ -51,8 +50,8 @@ const TableDamageReportHead = () => {
             },
         },
         {
-            header: "Ruangan",
-            accessorKey: "detail_aset.ruangan.nama_ruangan",
+            header: "Lokasi",
+            accessorKey: "detail_aset.lokasi.nama_lokasi",
         },
         {
             header: "Status",

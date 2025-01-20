@@ -76,7 +76,7 @@ const CreateLaporanPerbaikanForm = () => {
                     {approvedAndUnrepairedDamages?.map((damage) => {
                         return (
                             <option value={damage.id} key={damage.id}>
-                                {damage.perihal} ({damage.detail_aset.aset.nama_barang} - {damage.detail_aset.kode_barang})
+                                {damage.perihal} ({damage.detail_aset.aset.nama_barang} - {damage.detail_aset.kode_detail})
                             </option>
                         );
                     })}

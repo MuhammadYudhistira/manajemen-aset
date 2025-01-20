@@ -13,7 +13,8 @@ import useSession from '@/hooks/session/useSession';
 
 const LaporanPerbaikan = ({ id }) => {
 
-    const { data: repair, isLoading, error, isError } = useFetchDetailRepair(id)
+    const { data: repair, isLoading, error } = useFetchDetailRepair(id)
+    console.log("🚀 ~ LaporanPerbaikan ~ repair:", repair)
     const { session } = useSession()
 
     if (error?.response.data.message === "Laporan perbaikan tidak ditemukan") {

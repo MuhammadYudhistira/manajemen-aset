@@ -1,10 +1,10 @@
-const { Storage } = require("@google-cloud/storage");
-const multer = require("multer");
-const path = require("path");
-require("dotenv").config();
+const { Storage } = require('@google-cloud/storage');
+const multer = require('multer');
+const path = require('path');
+require('dotenv').config();
 
 const projectId = process.env.PROJECT_ID;
-const serviceKey = path.join(__dirname, "../../config/service-key.json");
+const serviceKey = path.join(__dirname, '../../config/service-key.json');
 const storage = new Storage({
   projectId,
   keyFilename: serviceKey,
@@ -32,8 +32,8 @@ const uploadFiles = (fileConfigs) => {
       } else {
         cb(
           new Error(
-            "Invalid file type. Allowed types are: " +
-              allowedMimeTypes.join(", ")
+            'Invalid file type. Allowed types are: ' +
+              allowedMimeTypes.join(', ')
           ),
           false
         );
@@ -46,11 +46,11 @@ const uploadFiles = (fileConfigs) => {
       if (err instanceof multer.MulterError) {
         return res
           .status(500)
-          .json({ success: false, error: "Multer error", message: err });
+          .json({ success: false, error: 'Multer error', message: err });
       } else if (err) {
         return res.status(400).json({
           success: false,
-          error: "Unknown error",
+          error: 'Unknown error',
           message: err.message,
         });
       }
@@ -70,15 +70,15 @@ const uploadFiles = (fileConfigs) => {
       for (const fieldName in files) {
         const fileArray = files[fieldName];
         for (const file of fileArray) {
-          const fileName = `laporan-perbaikan/file-${fieldName}/${Date.now()}_${
+          const fileName = `laporan/file-${fieldName}/${Date.now()}_${
             file.originalname
           }`;
           const blob = bucket.file(fileName);
           const blobStream = blob.createWriteStream({ resumable: false });
 
           const uploadPromise = new Promise((resolve, reject) => {
-            blobStream.on("error", (err) => reject(err));
-            blobStream.on("finish", () => {
+            blobStream.on('error', (err) => reject(err));
+            blobStream.on('finish', () => {
               req.body[fieldName].push(fileName);
               resolve();
             });

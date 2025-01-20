@@ -99,7 +99,7 @@ model Pengadaan {
   nomor_pengadaan   String             @id @db.VarChar(30)
   nama_vendor       String
   tanggal_pengadaan DateTime
-  dokumen_pengadaan String
+  dokumen_pengadaan String?
   Detail_Pengadaan  Detail_Pengadaan[]
   Detail_Aset       Detail_Aset[]
 
@@ -107,14 +107,15 @@ model Pengadaan {
 }
 
 model Detail_Pengadaan {
-  id_detail_pengadaan String    @id
-  kode_barang         String    @db.VarChar(20)
-  nomor_pengadaan     String    @db.VarChar(30)
-  aset                Aset      @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
-  pengadaan           Pengadaan @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
-  jumlah_barang       Int
-  total_harga         Int
+  kode_barang     String    @db.VarChar(20)
+  nomor_pengadaan String    @db.VarChar(30)
+  aset            Aset      @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
+  pengadaan       Pengadaan @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
+  harga_satuan    Int
+  jumlah_barang   Int
+  total_harga     Int
 
+  @@unique([kode_barang, nomor_pengadaan])
   @@map("detail_pengadaan")
 }
 

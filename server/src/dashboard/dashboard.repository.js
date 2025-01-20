@@ -135,7 +135,7 @@ const countDashboardHead = async () => {
   return (count = {
     total,
     reported: reported,
-    totalAset: totalAsets._sum.jumlah_barang,
+    totalAset: totalAsets.totalJumlahAset,
   });
 };
 
@@ -147,12 +147,13 @@ const countDashboardSekwan = async () => {
   });
 
   const totalAsets = await totalAset();
+  console.log('🚀 ~ countDashboardSekwan ~ totalAsets:', totalAsets);
   const total = await prisma.perbaikan.count();
 
   return (count = {
     total,
     reported: reported,
-    totalAset: totalAsets._sum.jumlah_barang,
+    totalAset: totalAsets.totalJumlahAset,
   });
 };
 

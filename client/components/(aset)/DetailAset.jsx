@@ -32,51 +32,35 @@ const DetailAset = ({ id }) => {
     return (
         <>
             <div className="mt-4 grid grid-cols-1 gap-4 rounded-xl bg-white p-5 lg:grid-cols-3 lg:gap-8">
-                <div className="w-full">
-                    <Image
-                        alt={data?.nama_barang || "Aset"}
-                        src={data?.image}
-                        priority
-                        width={600}
-                        height={450}
-                        className="max-h-[450px] rounded-lg object-cover"
-                    />
-                </div>
-                <div className="space-y-2 col-span-2">
-                    <h1 className="text-xl font-bold uppercase lg:text-3xl">
-                        {data.nama_barang}
-                    </h1>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Merk</h3>
-                        <p className="text-gray-400">{data.merk}</p>
+                <>
+                    <div className="w-full">
+                        <Image
+                            alt={data?.nama_barang || "Aset"}
+                            src={data?.image || computer}
+                            priority
+                            width={600}
+                            height={450}
+                            className="max-h-[450px] rounded-lg object-cover"
+                        />
                     </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Deskripsi</h3>
-                        <p className="text-gray-400">{data.deskripsi}</p>
+                    <div className="space-y-2 col-span-2">
+                        <h1 className="text-xl font-bold uppercase lg:text-3xl">
+                            {data.nama_barang}
+                        </h1>
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-medium">Kode Barang</h3>
+                            <p className="text-gray-400">{data.kode_barang}</p>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-medium">Jumlah Barang</h3>
+                            <p className="text-gray-400">{data?.Detail_Aset?.length}</p>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-medium">Jenis Aset</h3>
+                            <p className="text-gray-400">{data.jenis_barang}</p>
+                        </div>
                     </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Tahun Perolehan</h3>
-                        <p className="text-gray-400">
-                            {moment(data.tahun_perolehan).format("DD-MM-YYYY")}
-                        </p>
-                    </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Harga Satuan</h3>
-                        <p className="text-gray-400">{data.harga_satuan}</p>
-                    </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Jumlah Barang</h3>
-                        <p className="text-gray-400">{data.jumlah_barang}</p>
-                    </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Nilai Perolehan</h3>
-                        <p className="text-gray-400">{data?.nilai_perolehan}</p>
-                    </div>
-                    <div className="space-y-2">
-                        <h3 className="text-lg font-medium">Ukuran</h3>
-                        <p className="text-gray-400">{data?.ukuran}</p>
-                    </div>
-                </div>
+                </>
             </div>
             <div className="mt-4 rounded-xl bg-white p-5">
                 <h1>Detail Aset</h1>
@@ -107,10 +91,10 @@ const DetailAset = ({ id }) => {
                                     return (
                                         <tr key={detail.id}>
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                                {detail.kode_barang}
+                                                {detail.kode_detail}
                                             </td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                                {detail.ruangan.nama_ruangan}
+                                                {detail?.lokasi?.nama_lokasi}
                                             </td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                                 {moment(detail.createdAt).format("DD-MM-YYYY")}
@@ -127,7 +111,7 @@ const DetailAset = ({ id }) => {
                                             <td className="whitespace-nowrap px-4 py-2">
                                                 <div className="lg:tooltip" data-tip="Detail">
                                                     <Link
-                                                        href={`/detail_aset/${detail.id}`}
+                                                        href={`/detail_aset/${detail.kode_detail}`}
                                                     >
                                                         <MoreHorizIcon />
                                                     </Link>
