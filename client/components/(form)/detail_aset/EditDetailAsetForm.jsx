@@ -18,13 +18,12 @@ import moment from "moment";
 const EditDetailAsetForm = ({ kode_detail }) => {
   const { data: lokasi } = useFetchRuangan();
   const { data: aset, refetch, isLoading } = useFetchDA(kode_detail);
-  console.log("🚀 ~ EditDetailAsetForm ~ aset:", aset)
 
-  const [date, setDate] = useState(null);
   const today = parseDate(new Date().toISOString().split("T")[0]);
 
   const dateString = new Date(aset?.tahun_perolehan);
   const defaultDate = moment(dateString).format("YYYY-MM-DD");
+  const [date, setDate] = useState(defaultDate);
 
   const handleChangeDate = (newDate) => {
     const formatDate = new Date(newDate);

@@ -11,7 +11,6 @@ const StaffGridAset = () => {
     const [search, setSearch] = useState('');
     const { data: asets, isLoading, isError } = useFetchAsetByUser();
 
-
     const handleFilterChange = (e) => {
         setFilter(e.target.value);
     };
@@ -84,9 +83,13 @@ const StaffGridAset = () => {
                         deskripsi={aset.deskripsi}
                         id={aset.id}
                         image={aset.Detail_Aset_Images ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.Detail_Aset_Images[0]?.link}` : computer}
-                        nama={`${aset.aset.nama_barang} (${aset.kode_barang})`}
-                        ukuran={aset.keterangan}
+                        nama={`${aset.aset.nama_barang} (${aset.kode_detail})`}
+                        ukuran={aset.ukuran}
+                        kode={aset.kode_detail}
+                        merk={aset.merk}
                         key={aset.id}
+                        jenis={aset.aset.jenis_barang}
+                        keterangan={aset.keterangan}
                         role="staff"
                     />
                 ))}

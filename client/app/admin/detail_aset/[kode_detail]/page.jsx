@@ -78,7 +78,7 @@ const page = ({ params }) => {
       keterangan: keterangan,
       action: data.status === "Inactive" ? "unarchive" : "archive",
     };
-    archiveDA({ id: params.iddetail, body })
+    archiveDA({ kode_detail: params.kode_detail, body })
   }
 
   if (isSuccess) {
@@ -258,7 +258,7 @@ const page = ({ params }) => {
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Status</h3>
-                    <p className={data.status === "Inactive" ? `text-red-500 font-semibold uppercase ` : `text-gray-400`}>{data?.status}</p>
+                    <p className={data.status === "Inactive" ? `text-red-500 font-semibold uppercase ` : `text-blue-400`}>{data?.status}</p>
                   </div>
                 </div>
               </div>

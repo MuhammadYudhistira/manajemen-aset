@@ -127,6 +127,14 @@ const findDetailAsetByStatusNotInactive = async () => {
           kode_barang: true,
         },
       },
+      Aset_Kendaraan: {
+        select: {
+          nomor_bpkb: true,
+          nomor_mesin: true,
+          nomor_polisi: true,
+          nomor_rangka: true,
+        },
+      },
     },
   });
   return detailAset;

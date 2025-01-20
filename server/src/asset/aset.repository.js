@@ -71,29 +71,23 @@ const findAssetsById = async (id) => {
   return asset;
 };
 
-const findAssetsByUser = async (id) => {
+const findAssetsByUser = async (nip) => {
   const assets = await prisma.detail_Aset.findMany({
     where: {
       Penanggung_Jawab: {
         some: {
-          id_user: id,
+          id_user: nip,
         },
       },
       status: {
         notIn: ['Inactive', 'Deletion_Accepted'],
       },
     },
-    select: {
-      id: true,
-      kode_barang: true,
-      keterangan: true,
-      createdAt: true,
-      status: true,
+    include: {
       aset: {
         select: {
           nama_barang: true,
-          deskripsi: true,
-          ukuran: true,
+          jenis_barang: true,
         },
       },
       Detail_Aset_Images: {

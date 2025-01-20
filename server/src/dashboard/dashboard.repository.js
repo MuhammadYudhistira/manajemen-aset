@@ -23,6 +23,11 @@ const jumlahAset = async () => {
       tahun_perolehan: true,
       kode_detail: true,
     },
+    where: {
+      status: {
+        notIn: ['Inactive', 'Deletion_Accepted'], // Filter status
+      },
+    },
   });
 
   // Mengelompokkan berdasarkan tahun
@@ -62,6 +67,11 @@ const listUsers = async () => {
 const listAset = async () => {
   const asets = await prisma.detail_Aset.findMany({
     take: 5,
+    where: {
+      status: {
+        notIn: ['Inactive', 'Deletion_Accepted'], // Filter status
+      },
+    },
     orderBy: {
       tahun_perolehan: 'desc',
     },

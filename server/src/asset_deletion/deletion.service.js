@@ -1,11 +1,11 @@
-const { updateAssetStatus } = require("../detail_aset/detail_aset.repository");
+const { updateAssetStatus } = require('../detail_aset/detail_aset.repository');
 const {
   findAllDeletion,
   insertDeletion,
   findDeletionById,
   updateDeletionStatus,
   deleteDeleteionById,
-} = require("./deletion.repository");
+} = require('./deletion.repository');
 
 const getAllDeletion = async () => {
   const listDeletion = await findAllDeletion();
@@ -14,17 +14,17 @@ const getAllDeletion = async () => {
 
 const getDetailDetaletion = async (id) => {
   const deletion = await findDeletionById(id);
-  if (!deletion) throw new Error("Data tidak ditemukan");
+  if (!deletion) throw new Error('Data tidak ditemukan');
   return deletion;
 };
 
 const createDeletion = async (data) => {
   const deletion = await insertDeletion(data);
-  data.id_detail_aset.forEach((id) => {
+  data.kode_detail.forEach((kode_detail) => {
     updateAssetStatus(
-      id,
-      "Request_Deletion",
-      "Sedang merequest penghapusan nilai aset"
+      kode_detail,
+      'Request_Deletion',
+      'Sedang merequest penghapusan nilai aset'
     );
   });
   return deletion;
@@ -33,12 +33,12 @@ const createDeletion = async (data) => {
 const confirmationDeletion = async (id, data) => {
   await getDetailDetaletion(id);
   const { keterangan } = data;
-  const deletion = await updateDeletionStatus(id, "Accepted", keterangan);
-  data.id_detail_aset.forEach((id) => {
+  const deletion = await updateDeletionStatus(id, 'Accepted', keterangan);
+  data.kode_detail.forEach((id) => {
     updateAssetStatus(
       id,
-      "Deletion_Accepted",
-      "Penghapusan nilai aset disetujui"
+      'Deletion_Accepted',
+      'Penghapusan nilai aset disetujui'
     );
   });
   return deletion;
@@ -47,9 +47,9 @@ const confirmationDeletion = async (id, data) => {
 const rejectionDeletion = async (id, data) => {
   await getDetailDetaletion(id);
   const { keterangan } = data;
-  const deletion = await updateDeletionStatus(id, "Rejected", keterangan);
-  data.id_detail_aset.forEach((id) => {
-    updateAssetStatus(id, "Available", "Aset tersedia");
+  const deletion = await updateDeletionStatus(id, 'Rejected', keterangan);
+  data.kode_detail.forEach((id) => {
+    updateAssetStatus(id, 'Available', 'Aset tersedia');
   });
   return deletion;
 };

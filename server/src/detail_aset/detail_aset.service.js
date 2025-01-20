@@ -122,7 +122,7 @@ const editDetailAset = async (kode_detail, newDetailAsetData) => {
   }
 
   const imageData = newDetailAsetData.image.map((img) => ({
-    id_detail_aset: detailAset.id,
+    kode_detail: detailAset.kode_detail,
     link: img,
   }));
 

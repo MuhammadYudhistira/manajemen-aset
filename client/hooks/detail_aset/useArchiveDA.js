@@ -3,10 +3,10 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useArchiveDA = ({ onError, onSuccess }) => {
   return useMutation({
-    mutationFn: async ({ id, body }) => {
+    mutationFn: async ({ kode_detail, body }) => {
       console.log(body);
       const response = await axiosPrivate.post(
-        `/detail-aset/${id}/archive`,
+        `/detail-aset/${kode_detail}/archive`,
         body,
       );
       console.log(response);

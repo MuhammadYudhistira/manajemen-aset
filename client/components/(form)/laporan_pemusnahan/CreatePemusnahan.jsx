@@ -21,8 +21,8 @@ const CreatePemusnahan = () => {
     // Memetakan selectedKeys (ID aset) ke format nama_barang (kode_barang)
     const selectedValues = React.useMemo(() => {
         return Array.from(selectedKeys).map((key) => {
-            const selectedAset = asets.find(aset => aset.id === key); // Temukan aset berdasarkan ID
-            return selectedAset ? `${selectedAset.aset.nama_barang} (${selectedAset.kode_barang})` : '';
+            const selectedAset = asets.find(aset => aset.kode_detail === key); // Temukan aset berdasarkan ID
+            return selectedAset ? `${selectedAset.aset.nama_barang} (${selectedAset.kode_detail})` : '';
         });
     }, [selectedKeys, asets]);
 
@@ -40,7 +40,7 @@ const CreatePemusnahan = () => {
             const body = {
                 title,
                 alasan_penghapusan,
-                id_detail_aset: selectedKeysArray,
+                kode_detail: selectedKeysArray,
             };
 
             createDeletionRequest(body)
@@ -126,8 +126,8 @@ const CreatePemusnahan = () => {
                         onSelectionChange={setSelectedKeys}
                     >
                         {filteredAssets?.map((aset) => (
-                            <ListboxItem key={aset.id} textValue={`${aset.aset.nama_barang} (${aset.kode_barang})`}>
-                                {`${aset.aset.nama_barang} (${aset.kode_barang})`}
+                            <ListboxItem key={aset.kode_detail} textValue={`${aset.aset.nama_barang} (${aset.kode_detail})`}>
+                                {`${aset.aset.nama_barang} (${aset.kode_detail})`}
                             </ListboxItem>
                         ))}
                     </Listbox>

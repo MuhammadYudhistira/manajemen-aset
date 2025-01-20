@@ -65,11 +65,11 @@ const PemusnahanAset = ({ asets, title, createdAt }) => {
                             <th className="border-collapse border border-black">Harga Perolehan</th>
                         </thead>
                         <tbody className="border-collapse border border-black">
-                            {asets.map((aset) => {
+                            {asets?.map((aset) => {
                                 return (
                                     <tr key={aset.id}>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
-                                            {aset.detail_aset.kode_barang}
+                                            {aset.detail_aset.kode_detail}
                                         </td>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
                                             {aset.detail_aset.aset.nama_barang}
@@ -78,7 +78,7 @@ const PemusnahanAset = ({ asets, title, createdAt }) => {
                                             {moment(aset.detail_aset.aset.tahun_perolehan).format("DD MMMM YYYY")}
                                         </td>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
-                                            {formatRupiah(aset.detail_aset.aset.harga_satuan)}
+                                            {formatRupiah(aset.detail_aset.harga_satuan)}
                                         </td>
                                     </tr>
                                 )

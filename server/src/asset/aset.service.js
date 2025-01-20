@@ -149,9 +149,9 @@ const countAset = async () => {
   return count;
 };
 
-const getAssetByUser = async (id) => {
-  await getDetailUser(id);
-  const asset = await findAssetsByUser(id);
+const getAssetByUser = async (nip) => {
+  await getDetailUser(nip);
+  const asset = await findAssetsByUser(nip);
   return asset;
 };
 

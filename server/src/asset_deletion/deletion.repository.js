@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 
 const findAllDeletion = async () => {
   const listDeletions = await prisma.penghapusan_Nilai_aset.findMany({
@@ -31,13 +31,13 @@ const findDeletionById = async (id) => {
         include: {
           detail_aset: {
             select: {
-              kode_barang: true,
+              kode_detail: true,
+              harga_satuan: true,
+              tahun_perolehan: true,
               aset: {
                 select: {
                   nama_barang: true,
                   image: true,
-                  harga_satuan: true,
-                  tahun_perolehan: true,
                 },
               },
             },
@@ -55,8 +55,8 @@ const insertDeletion = async (newDeletionData) => {
       title: newDeletionData.title,
       alasan_penghapusan: newDeletionData.alasan_penghapusan,
       Detail_Penghapusan_Nilai_Aset: {
-        create: newDeletionData.id_detail_aset.map((idAset) => ({
-          detail_aset: { connect: { id: idAset } }, // Menghubungkan ke tabel Detail_Aset
+        create: newDeletionData.kode_detail.map((kode_detail) => ({
+          detail_aset: { connect: { kode_detail: kode_detail } }, // Menghubungkan ke tabel Detail_Aset
         })),
       },
     },

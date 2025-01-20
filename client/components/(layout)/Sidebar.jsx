@@ -55,6 +55,12 @@ const Layout = () => {
           </Link>
         </li>
         <li>
+          <Link href="/admin/laporan_pemusnahan_aset" className="">
+            <FolderDeleteOutlinedIcon />
+            Pemusnahan Aset
+          </Link>
+        </li>
+        <li>
           <details>
             <summary className="group">
               <FolderOpenOutlinedIcon />
@@ -65,12 +71,6 @@ const Layout = () => {
                 <Link href="/admin/laporan_perbaikan" className="">
                   <HomeRepairServiceOutlinedIcon />
                   Perbaikan
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin/laporan_pemusnahan_aset" className="">
-                  <FolderDeleteOutlinedIcon />
-                  Pemusnahan Aset
                 </Link>
               </li>
               <li>

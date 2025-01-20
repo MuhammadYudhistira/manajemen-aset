@@ -35,7 +35,7 @@ const TableDamageReport = () => {
             accessorKey: "detail_aset.aset.nama_barang",
             cell: (info) => {
                 const row = info.row.original;
-                const kode = row?.detail_aset?.kode_barang;
+                const kode = row?.detail_aset?.kode_detail;
                 return (
                     <p>
                         {info.getValue()} ({kode})
@@ -56,7 +56,7 @@ const TableDamageReport = () => {
         },
         {
             header: "Ruangan",
-            accessorKey: "detail_aset.ruangan.nama_ruangan",
+            accessorKey: "detail_aset.lokasi.nama_lokasi",
         },
         {
             header: "Status",

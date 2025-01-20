@@ -11,7 +11,7 @@ import { toast } from "sonner";
 const CreateLaporanKerusakanForm = ({ id }) => {
 
     const { data: aset, isLoading } = useFetchDetailDA(id)
-    const { mutate: createDamageReport, isPending, isError, isSuccess } = useCreateDamageReport({
+    const { mutate: createDamageReport, isPending, isSuccess } = useCreateDamageReport({
         onSuccess: () => {
             toast.success("Berhasil menambahkan laporan kerusakan")
         },
@@ -27,14 +27,14 @@ const CreateLaporanKerusakanForm = ({ id }) => {
 
     const formik = useFormik({
         initialValues: {
-            id_detail_aset: id,
+            kode_detail: id,
             perihal: "",
             deskripsi: "",
         },
         onSubmit: () => {
-            const { perihal, deskripsi, id_detail_aset } = formik.values
+            const { perihal, deskripsi, kode_detail } = formik.values
             const formData = new FormData();
-            formData.append("id_detail_aset", id_detail_aset);
+            formData.append("kode_detail", kode_detail);
             formData.append("perihal", perihal);
             formData.append("deskripsi", deskripsi);
             for (let i = 0; i < image.length; i++) {
@@ -70,7 +70,7 @@ const CreateLaporanKerusakanForm = ({ id }) => {
                     placeholder="Nama Aset"
                     name="nama"
                     className="input bg-blue-50 text-sm text-black"
-                    value={`${aset?.aset?.nama_barang} (${aset?.kode_barang})`}
+                    value={`${aset?.aset?.nama_barang} (${aset?.kode_detail})`}
                     disabled
                 />
             </label>

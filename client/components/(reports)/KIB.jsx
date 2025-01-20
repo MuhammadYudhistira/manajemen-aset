@@ -136,16 +136,16 @@ const KIB = () => {
                                         <td className="border border-black text-center whitespace-nowrap">{index + 1}</td>
                                         <td className="border border-black pl-2 whitespace-nowrap">{aset.kode_barang}</td>
                                         <td className="border border-black pl-2 whitespace-nowrap">{aset.aset.nama_barang}</td>
-                                        <td className="border border-black text-center w-10">{moment(aset.aset.tahun_perolehan).format("YYYY")}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.aset.merk}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.aset.ukuran || "-"}</td>
-                                        <td className="border border-black pr-2 text-right whitespace-nowrap">{aset.aset.harga_satuan}</td>
-                                        <td className="border border-black text-center w-10">{aset.aset.jumlah_barang}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.nomor_rangka || "-"}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.nomor_mesin || "-"}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.nomor_polisi || "-"}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.nomor_bpkb || "-"}</td>
-                                        <td className="border border-black pr-2 text-right whitespace-nowrap">{aset.aset.nilai_perolehan}</td>
+                                        <td className="border border-black text-center w-10">{moment(aset.tahun_perolehan).format("YYYY")}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.merk}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.ukuran || "-"}</td>
+                                        <td className="border border-black pr-2 text-right whitespace-nowrap">{aset.harga_satuan}</td>
+                                        <td className="border border-black text-center w-10">{aset.jumlah_barang}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset?.Aset_Kendaraan?.nomor_rangka || "-"}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset?.Aset_Kendaraan?.nomor_mesin || "-"}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset?.Aset_Kendaraan?.nomor_polisi || "-"}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset?.Aset_Kendaraan?.nomor_bpkb || "-"}</td>
+                                        <td className="border border-black pr-2 text-right whitespace-nowrap">{aset.harga_satuan}</td>
                                     </tr>
                                 )
                             })}

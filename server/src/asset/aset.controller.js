@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 router.get('/penanggung-jawab', authMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    const asset = await getAssetByUser(user.id);
+    const asset = await getAssetByUser(user.nip);
     response(200, asset, 'Berhasil mengambil data', res);
   } catch (error) {
     console.log(error);

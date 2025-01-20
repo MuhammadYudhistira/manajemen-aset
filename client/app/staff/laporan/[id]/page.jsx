@@ -61,7 +61,7 @@ const page = ({ params }) => {
                 deskripsi_kerusakan={damage.deskripsi}
                 perihal={damage.perihal}
                 nama_barang={damage?.detail_aset?.aset?.nama_barang}
-                ruangan={damage?.detail_aset?.ruangan?.nama_ruangan}
+                ruangan={damage?.detail_aset?.lokasi?.nama_lokasi}
                 ref={contentRef}
             />
             {

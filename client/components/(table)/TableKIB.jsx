@@ -22,30 +22,32 @@ const TableKIB = () => {
         },
         {
             header: "Tahun Perolehan",
-            accessorKey: "aset.tahun_perolehan",
+            accessorKey: "tahun_perolehan",
             cell: ({ getValue }) => <p>{moment(getValue()).format("YYYY")}</p>,
         },
         {
             header: "Merk/Model",
-            accessorKey: "aset.merk",
+            accessorKey: "merk",
         },
         {
             header: "Ukuran",
-            accessorKey: "aset.ukuran",
+            accessorKey: "ukuran",
             cell: ({ getValue }) => <p>{getValue() || '-'}</p>,
         },
         {
             header: "Harga Satuan",
-            accessorKey: "aset.harga_satuan",
+            accessorKey: "harga_satuan",
             cell: ({ getValue }) => <p>{formatRupiah(getValue())}</p>,
         },
         {
             header: "Jumlah Barang",
-            accessorKey: "aset.jumlah_barang",
+            accessorKey: "jumlah_barang",
+            cell: ({ getValue }) => <p>1</p>,
+
         },
         {
             header: "Nilai Perolehan",
-            accessorKey: "aset.nilai_perolehan",
+            accessorKey: "harga_satuan",
             cell: ({ getValue }) => <p>{formatRupiah(getValue())}</p>,
         },
     ];
