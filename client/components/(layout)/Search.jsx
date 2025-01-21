@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 const Search = () => {
   const [search, setSearch] = useState('');
   const { data: asets, isLoading } = useSearchDA(search);
-  console.log("🚀 ~ Search ~ asets:", asets)
 
   const onSearchChange = (e) => {
     const newSearch = e.target.value;

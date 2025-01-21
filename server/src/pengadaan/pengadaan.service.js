@@ -35,7 +35,7 @@ const createPengadaan = async (newPengadaanData) => {
           merk: data.merk,
           ukuran: data.ukuran,
           harga_satuan: parseInt(data.harga_satuan),
-          tahun_perolehan: new Date(data.tahun_perolehan),
+          tahun_perolehan: new Date(newPengadaanData.tanggal_pengadaan),
           image: [],
         };
 
