@@ -86,7 +86,7 @@ const createDetailAset = async (newDetailAsetData) => {
     console.log(kendaraan);
   }
 
-  const imageData = newDetailAsetData.image.map((img) => ({
+  const imageData = newDetailAsetData.image?.map((img) => ({
     kode_detail: detailAset.kode_detail,
     link: img,
   }));

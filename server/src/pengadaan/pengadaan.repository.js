@@ -22,13 +22,12 @@ const insertPengadaan = async (newPengadaanData) => {
       tanggal_pengadaan: new Date(newPengadaanData.tanggal_pengadaan),
       dokumen_pengadaan: newPengadaanData?.dokumen_pengadaan,
       Detail_Pengadaan: {
-        create: {
-          kode_barang: newPengadaanData.kode_barang,
-          harga_satuan: parseInt(newPengadaanData.harga_satuan),
-          jumlah_barang: parseInt(newPengadaanData.jumlah_barang),
-          total_harga:
-            newPengadaanData.harga_satuan * newPengadaanData.jumlah_barang,
-        },
+        create: newPengadaanData.detail_barang.map((item) => ({
+          kode_barang: item.kode_barang,
+          harga_satuan: parseInt(item.harga_satuan),
+          jumlah_barang: parseInt(item.jumlah_barang),
+          total_harga: item.harga_satuan * item.jumlah_barang,
+        })),
       },
     },
   });

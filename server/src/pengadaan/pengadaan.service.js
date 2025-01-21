@@ -18,20 +18,34 @@ const getPengadaanByNomor = async (nomor) => {
 };
 
 const createPengadaan = async (newPengadaanData) => {
+  newPengadaanData.detail_barang = newPengadaanData.detail_barang.map(
+    (item) => ({
+      ...item,
+      nomor_pengadaan: newPengadaanData.nomor_pengadaan, // add properti nomor_pengadaan
+    })
+  );
   const pengadaan = await insertPengadaan(newPengadaanData);
-  newDetailAsetData = {
-    kode_barang: newPengadaanData.kode_barang,
-    nomor_pengadaan: newPengadaanData.nomor_pengadaan,
-    merk: newPengadaanData.merk,
-    ukuran: newPengadaanData.ukuran,
-    harga_satuan: newPengadaanData.harga_satuan,
-    id_lokasi: newPengadaanData.id_lokasi,
-    tahun_perolehan: newPengadaanData.tahun_perolehan,
-    image: [],
-  };
-  for (let i = 0; i < newPengadaanData.jumlah_barang; i++) {
-    await createDetailAset(newDetailAsetData);
+  const detail_aset = newPengadaanData.detail_barang;
+
+  for (const data of detail_aset) {
+    // Ulangi sebanyak jumlah_barang
+    const jumlah_barang = parseInt(data.jumlah_barang);
+    for (let i = 0; i < jumlah_barang; i++) {
+      console.log(i);
+      const detailAsetData = {
+        kode_barang: data.kode_barang,
+        nomor_pengadaan: data.nomor_pengadaan,
+        merk: data.merk,
+        ukuran: data.ukuran,
+        id_lokasi: data.id_lokasi,
+        harga_satuan: parseInt(data.harga_satuan),
+        tahun_perolehan: data.tahun_perolehan,
+      };
+
+      await createDetailAset(detailAsetData);
+    }
   }
+
   return pengadaan;
 };
 
