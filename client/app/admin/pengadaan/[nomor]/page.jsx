@@ -1,21 +1,19 @@
 "use client"
-import PemusnahanAset from "@/components/(reports)/PemusnahanAset";
 import { useFetchDetailPengadaan } from "@/hooks/pengadaan/useFetchDetailPengadaan";
 import { formatRupiah } from "@/libs/formatRupiah";
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
 import moment from "moment";
+import { Link } from "next-view-transitions";
 import { notFound } from "next/navigation";
-import React, { useState } from "react";
-import { toast } from "sonner";
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 
 const page = ({ params }) => {
 
   const { data, isLoading, isError, error } = useFetchDetailPengadaan(params.nomor)
-  console.log("🚀 ~ page ~ data:", data)
 
   const total_harga = data?.Detail_Pengadaan.reduce((acc, curr) => {
-    return acc + curr.total_harga; // Pastikan untuk mengembalikan acc yang diperbarui
-  }, 0); // Mulai dengan nilai awal 0
+    return acc + curr.total_harga;
+  }, 0);
 
 
   if (isLoading) {
@@ -116,6 +114,18 @@ const page = ({ params }) => {
             </tfoot>
           </table>
         </div>
+      </div>
+      <div className="p-5 bg-white rounded-lg">
+        {data.dokumen_pengadaan && (
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Dokumen Pengadaan</span>
+            </div>
+            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data.dokumen_pengadaan}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black min-h-28 md:min-h-0">
+              {data.dokumen_pengadaan.split('/').pop()} <PictureAsPdfOutlinedIcon className='ml-5' />
+            </Link>
+          </label>
+        )}
       </div>
     </>
   );

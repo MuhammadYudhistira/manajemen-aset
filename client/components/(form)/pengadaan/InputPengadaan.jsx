@@ -1,9 +1,15 @@
 "use client";
 import DropzoneFile from "@/components/(input)/DropzoneFile";
+import { useFetchAset } from "@/hooks/aset/useFetchAset";
+import { useCreatePengadaan } from "@/hooks/pengadaan/useCreatePengadaan";
+import { useFetchRuangan } from "@/hooks/ruangan/useFetchRuangan";
 import { parseDate } from "@internationalized/date";
 import { DatePicker, Spinner } from "@nextui-org/react";
 import { useFormik } from "formik";
+import { redirect } from "next/navigation";
+import { Router } from "next/router";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const InputPengadaan = () => {
   const [dokumen_pengadaan, setDokumen_pengadaan] = useState([]);
@@ -11,6 +17,19 @@ const InputPengadaan = () => {
 
   const [date, setDate] = useState();
   const today = parseDate(new Date().toISOString().split("T")[0]);
+
+  const { data: lokasi } = useFetchRuangan()
+  const { data: asets } = useFetchAset()
+
+  const { mutate: createPengadaan, isSuccess, isPending } = useCreatePengadaan({
+    onSuccess: () => {
+      toast.success("berhasil menambahkan aset");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Tahun perolehan harus ditambahkan");
+    },
+  });
 
   const handleChangeDate = (newDate) => {
     const formatDate = new Date(newDate);
@@ -58,6 +77,7 @@ const InputPengadaan = () => {
         formData.append(`detail_barang[${index}].tahun_perolehan`, item.tahun_perolehan);
       });
 
+
       // Mengonversi FormData menjadi objek
       const formDataObject = {};
       formData.forEach((value, key) => {
@@ -66,6 +86,8 @@ const InputPengadaan = () => {
 
       // Melihat objek FormData yang telah di-convert
       console.log(formDataObject);
+      createPengadaan(formData);
+
     },
   });
 
@@ -92,6 +114,10 @@ const InputPengadaan = () => {
     newDetailBarang.splice(index, 1);
     formik.setFieldValue("detail_barang", newDetailBarang);
   };
+
+  if (isSuccess) {
+    redirect(`/admin/pengadaan`);
+  }
 
   return (
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
@@ -162,15 +188,22 @@ const InputPengadaan = () => {
                 <div className="label">
                   <span className="label-text">Kode Barang</span>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Kode Barang"
+                <select
+                  className="select bg-blue-50 text-sm"
                   name={`detail_barang[${index}].kode_barang`}
-                  value={item.kode_barang}
                   onChange={handleFormInput}
-                  className="input bg-blue-50 text-sm text-black"
-                  required
-                />
+                >
+                  <option defaultValue={""} hidden>
+                    Kode Barang
+                  </option>
+                  {asets?.listAssets?.map((aset, idx) => {
+                    return (
+                      <option value={aset.kode_barang} key={idx}>
+                        {aset.nama_barang}({aset.kode_barang})
+                      </option>
+                    );
+                  })}
+                </select>
               </label>
               <label className="form-control w-full">
                 <div className="label">
@@ -202,17 +235,24 @@ const InputPengadaan = () => {
               </label>
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Lokasi</span>
+                  <span className="label-text">Ruangan</span>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Lokasi"
+                <select
+                  className="select bg-blue-50 text-sm"
                   name={`detail_barang[${index}].id_lokasi`}
-                  value={item.id_lokasi}
                   onChange={handleFormInput}
-                  className="input bg-blue-50 text-sm text-black"
-                  required
-                />
+                >
+                  <option defaultValue={""} hidden>
+                    Ruangan
+                  </option>
+                  {lokasi?.map((lokasi, idx) => {
+                    return (
+                      <option value={lokasi.id} key={idx}>
+                        {lokasi.nama_lokasi} {/* Tetap tampilkan nama lokasi sebagai label */}
+                      </option>
+                    );
+                  })}
+                </select>
               </label>
               <label className="form-control w-full">
                 <div className="label">
@@ -260,7 +300,7 @@ const InputPengadaan = () => {
           type="submit"
           className="btn mt-4 bg-black text-white hover:border-black hover:bg-white hover:text-black"
         >
-          {formik.isSubmitting ? <Spinner /> : "Tambah Pengadaan"}
+          {isPending ? <Spinner /> : "Tambah Pengadaan"}
         </button>
       </div>
     </form>

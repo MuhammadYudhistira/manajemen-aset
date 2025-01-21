@@ -43,8 +43,35 @@ router.get('/:nomor', async (req, res) => {
 router.post('/', uploadFiles(fileConfigs), async (req, res) => {
   try {
     const data = req.body;
-    data.dokumen_pengadaan = req.body.dokumen_pengadaan[0];
+    // Menangani dokumen_pengadaan jika berupa array
+    data.dokumen_pengadaan = req.body.dokumen_pengadaan?.[0];
+
+    // Proses detail_barang
+    const detailBarang = Object.keys(data)
+      .filter((key) => key.startsWith('detail_barang[')) // Ambil hanya key yang terkait dengan detail_barang
+      .reduce((acc, key) => {
+        const match = key.match(/detail_barang\[(\d+)\]\.(\w+)/); // Match indeks dan properti
+        if (match) {
+          const [, index, prop] = match;
+          acc[index] = acc[index] || {}; // Pastikan ada objek untuk indeks tertentu
+          acc[index][prop] = data[key]; // Set nilai properti
+        }
+        return acc;
+      }, []);
+
+    // Konversi ke array dari objek detail_barang
+    data.detail_barang = Object.values(detailBarang);
+
+    // Hapus properti asli yang sudah diproses
+    Object.keys(data)
+      .filter((key) => key.startsWith('detail_barang['))
+      .forEach((key) => delete data[key]);
+
+    // Logging hasil data setelah transformasi
+    console.log(data);
+
     const pengadaan = await createPengadaan(data);
+
     response(200, pengadaan, 'Berhasil Menambahkan Data', res);
   } catch (error) {
     console.log(error);

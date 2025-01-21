@@ -19,8 +19,10 @@ const getPengadaanByNomor = async (nomor) => {
 
 const createPengadaan = async (newPengadaanData) => {
   try {
-    console.log('🚀 ~ createPengadaan ~ newPengadaanData:', newPengadaanData);
     // Insert pengadaan
+    if (newPengadaanData.tanggal_pengadaan == undefined)
+      throw new Error('Tanggal Pengadaan Tidak Boleh Kosong');
+
     const pengadaan = await insertPengadaan(newPengadaanData);
 
     // Loop melalui setiap detail_barang
