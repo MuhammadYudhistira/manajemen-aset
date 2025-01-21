@@ -18,35 +18,37 @@ const getPengadaanByNomor = async (nomor) => {
 };
 
 const createPengadaan = async (newPengadaanData) => {
-  newPengadaanData.detail_barang = newPengadaanData.detail_barang.map(
-    (item) => ({
-      ...item,
-      nomor_pengadaan: newPengadaanData.nomor_pengadaan, // add properti nomor_pengadaan
-    })
-  );
-  const pengadaan = await insertPengadaan(newPengadaanData);
-  const detail_aset = newPengadaanData.detail_barang;
+  try {
+    console.log('🚀 ~ createPengadaan ~ newPengadaanData:', newPengadaanData);
+    // Insert pengadaan
+    const pengadaan = await insertPengadaan(newPengadaanData);
 
-  for (const data of detail_aset) {
-    // Ulangi sebanyak jumlah_barang
-    const jumlah_barang = parseInt(data.jumlah_barang);
-    for (let i = 0; i < jumlah_barang; i++) {
-      console.log(i);
-      const detailAsetData = {
-        kode_barang: data.kode_barang,
-        nomor_pengadaan: data.nomor_pengadaan,
-        merk: data.merk,
-        ukuran: data.ukuran,
-        id_lokasi: data.id_lokasi,
-        harga_satuan: parseInt(data.harga_satuan),
-        tahun_perolehan: data.tahun_perolehan,
-      };
+    // Loop melalui setiap detail_barang
+    for (const data of newPengadaanData.detail_barang) {
+      const jumlah_barang = parseInt(data.jumlah_barang);
+      // Loop untuk membuat aset berdasarkan jumlah_barang
+      for (let i = 0; i < jumlah_barang; i++) {
+        const detailAsetData = {
+          kode_barang: data.kode_barang,
+          nomor_pengadaan: newPengadaanData.nomor_pengadaan,
+          id_lokasi: parseInt(data.id_lokasi),
+          merk: data.merk,
+          ukuran: data.ukuran,
+          harga_satuan: parseInt(data.harga_satuan),
+          tahun_perolehan: new Date(data.tahun_perolehan),
+          image: [],
+        };
 
-      await createDetailAset(detailAsetData);
+        // Panggil fungsi createDetailAset
+        await createDetailAset(detailAsetData);
+      }
     }
-  }
 
-  return pengadaan;
+    return pengadaan;
+  } catch (error) {
+    console.error('Error detail:', error);
+    throw error;
+  }
 };
 
 const deletePengadaan = async (nomor) => {

@@ -19,6 +19,8 @@ const getDetailDetaletion = async (id) => {
 };
 
 const createDeletion = async (data) => {
+  if (data.kode_detail.length === 0)
+    throw new Error('Pilih aset yang ingin dihapus');
   const deletion = await insertDeletion(data);
   data.kode_detail.forEach((kode_detail) => {
     updateAssetStatus(

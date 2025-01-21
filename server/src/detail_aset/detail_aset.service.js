@@ -74,16 +74,15 @@ const createDetailAset = async (newDetailAsetData) => {
     ...newDetailAsetData,
     kode_detail,
   };
+
   await countDetailAset(data.kode_detail);
-  console.log(data);
   const body = validate(createDetailAsetValidation, data);
 
   const detailAset = await insertDetailAset(body);
 
   if (aset.jenis_barang === 'Kendaraan') {
     newDetailAsetData.kode_detail = detailAset.kode_detail;
-    const kendaraan = await createKendaraan(newDetailAsetData);
-    console.log(kendaraan);
+    await createKendaraan(newDetailAsetData);
   }
 
   const imageData = newDetailAsetData.image?.map((img) => ({

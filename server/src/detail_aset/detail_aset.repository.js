@@ -230,7 +230,7 @@ const searchDetailAset = async (search) => {
 };
 
 const insertDetailAset = async (newDetailAsetData) => {
-  const detailAset = prisma.detail_Aset.create({
+  const detailAset = await prisma.detail_Aset.create({
     data: {
       kode_detail: newDetailAsetData.kode_detail,
       kode_barang: newDetailAsetData.kode_barang,
@@ -240,8 +240,8 @@ const insertDetailAset = async (newDetailAsetData) => {
       ukuran: newDetailAsetData.ukuran,
       harga_satuan: newDetailAsetData.harga_satuan,
       tahun_perolehan: newDetailAsetData.tahun_perolehan,
-      status: newDetailAsetData.status,
-      keterangan: newDetailAsetData.keterangan,
+      status: 'Available',
+      keterangan: null,
     },
   });
 

@@ -1,7 +1,11 @@
 const prisma = require('../../db/index');
 
 const findAllPengadaan = async () => {
-  const pengadaan = await prisma.pengadaan.findMany();
+  const pengadaan = await prisma.pengadaan.findMany({
+    include: {
+      Detail_Pengadaan: true,
+    },
+  });
   return pengadaan;
 };
 
@@ -9,6 +13,22 @@ const findPengadaanByNomor = async (nomor) => {
   const pengadaan = await prisma.pengadaan.findUnique({
     where: {
       nomor_pengadaan: nomor,
+    },
+    include: {
+      Detail_Aset: {
+        include: {
+          aset: {
+            select: {
+              nama_barang: true,
+            },
+          },
+        },
+      },
+      Detail_Pengadaan: {
+        include: {
+          aset: true,
+        },
+      },
     },
   });
   return pengadaan;

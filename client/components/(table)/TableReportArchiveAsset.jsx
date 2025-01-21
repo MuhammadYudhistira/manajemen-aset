@@ -11,6 +11,7 @@ import { toast } from "sonner";
 const TableReportArchiveAsset = () => {
 
     const { data, isLoading, refetch } = useFetchListDeletion()
+    console.log("🚀 ~ TableReportArchiveAsset ~ data:", data)
     const router = useRouter();
 
     const { mutate: deleteDeletion } = useDeleteDeletion({

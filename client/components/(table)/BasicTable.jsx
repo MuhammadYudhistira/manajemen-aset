@@ -129,7 +129,7 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleN
                           <DropdownItem
                             key="new-item"
                             startContent={<PlagiarismOutlinedIcon />}
-                            onPress={() => handleNewItemClick(row.original.id)}
+                            onPress={() => handleNewItemClick(row.original.id || row.original.nomor_pengadaan)}
                           >
                             Detail data
                           </DropdownItem>
@@ -153,7 +153,7 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleN
                                 className={"text-red-500"}
                               />
                             }
-                            onPress={() => handleDeleteClick(row.original.id)}
+                            onPress={() => handleDeleteClick(row.original.id || row.original.nomor_pengadaan)}
                           >
                             Delete data
                           </DropdownItem>

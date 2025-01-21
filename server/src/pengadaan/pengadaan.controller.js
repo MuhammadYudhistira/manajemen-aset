@@ -5,6 +5,7 @@ const {
   getAllPengadaan,
   getPengadaanByNomor,
   createPengadaan,
+  deletePengadaan,
 } = require('./pengadaan.service');
 const { uploadFiles } = require('../middleware/uploadFile');
 
@@ -45,6 +46,17 @@ router.post('/', uploadFiles(fileConfigs), async (req, res) => {
     data.dokumen_pengadaan = req.body.dokumen_pengadaan[0];
     const pengadaan = await createPengadaan(data);
     response(200, pengadaan, 'Berhasil Menambahkan Data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.delete('/:nomor', async (req, res) => {
+  try {
+    const { nomor } = req.params;
+    const data = await deletePengadaan(nomor);
+    response(200, data, 'Berhasil Menghapus Data', res);
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);

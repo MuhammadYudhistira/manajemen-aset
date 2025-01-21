@@ -7,6 +7,7 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import FolderDeleteOutlinedIcon from '@mui/icons-material/FolderDeleteOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import Image from "next/legacy/image";
 import { Link } from 'next-view-transitions'
 import logo from "../../app/icon.svg";
@@ -52,6 +53,11 @@ const Layout = () => {
         <li>
           <Link href="/admin/ruangan">
             <MeetingRoomOutlinedIcon /> Ruangan
+          </Link>
+        </li>
+        <li>
+          <Link href="/admin/pengadaan">
+            <ReceiptLongOutlinedIcon /> Pengadaan
           </Link>
         </li>
         <li>
