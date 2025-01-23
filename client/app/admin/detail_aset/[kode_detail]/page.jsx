@@ -240,10 +240,10 @@ const page = ({ params }) => {
                     <h3 className="text-lg font-medium">Kode Barang</h3>
                     <p className="text-gray-400">{data?.kode_detail}</p>
                   </div>
-                  {/* <div className="space-y-2">
+                  <div className="space-y-2">
                     <h3 className="text-lg font-medium">Nomor Pengadaan</h3>
                     <p className="text-gray-400">{data?.nomor_pengadaan}</p>
-                  </div> */}
+                  </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Lokasi</h3>
                     <p className="text-gray-400">{data?.lokasi?.nama_lokasi}</p>

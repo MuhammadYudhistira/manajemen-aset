@@ -100,7 +100,6 @@ const EditDetailAsetForm = ({ kode_detail }) => {
       formData.append("nomor_mesin", nomor_mesin);
       formData.append("nomor_polisi", nomor_polisi);
       formData.append("nomor_rangka", nomor_rangka);
-      formData.append("nomor_pengadaan", "11");
       for (let i = 0; i < image.length; i++) {
         formData.append(`image`, image[i]);
       }
