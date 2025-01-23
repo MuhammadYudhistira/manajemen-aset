@@ -22,11 +22,17 @@ const findPengadaanByNomor = async (nomor) => {
               nama_barang: true,
             },
           },
+          lokasi: {
+            select: {
+              nama_lokasi: true,
+            },
+          },
         },
       },
       Detail_Pengadaan: {
         include: {
           aset: true,
+          lokasi: true,
         },
       },
     },
@@ -46,6 +52,7 @@ const insertPengadaan = async (newPengadaanData) => {
           kode_barang: item.kode_barang,
           harga_satuan: parseInt(item.harga_satuan),
           jumlah_barang: parseInt(item.jumlah_barang),
+          id_lokasi: parseInt(item.id_lokasi),
           total_harga: item.harga_satuan * item.jumlah_barang,
         })),
       },

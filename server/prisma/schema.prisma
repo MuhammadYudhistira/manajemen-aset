@@ -73,11 +73,12 @@ model User {
 }
 
 model Lokasi {
-  id          Int           @id @default(autoincrement())
-  nama_lokasi String        @db.VarChar(100)
-  Detail_Aset Detail_Aset[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id               Int                @id @default(autoincrement())
+  nama_lokasi      String             @db.VarChar(100)
+  Detail_Aset      Detail_Aset[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Detail_Pengadaan Detail_Pengadaan[]
 
   @@map("lokasi")
 }
@@ -107,15 +108,17 @@ model Pengadaan {
 }
 
 model Detail_Pengadaan {
+  id              String    @id @default(uuid())
   kode_barang     String    @db.VarChar(20)
   nomor_pengadaan String    @db.VarChar(30)
+  id_lokasi       Int
   aset            Aset      @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
   pengadaan       Pengadaan @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
+  lokasi          Lokasi    @relation(references: [id], fields: [id_lokasi])
   harga_satuan    Int
   jumlah_barang   Int
   total_harga     Int
 
-  @@unique([kode_barang, nomor_pengadaan])
   @@map("detail_pengadaan")
 }
 

@@ -10,6 +10,7 @@ import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 const page = ({ params }) => {
 
   const { data, isLoading, isError, error } = useFetchDetailPengadaan(params.nomor)
+  console.log("🚀 ~ page ~ data:", data)
 
   const total_harga = data?.Detail_Pengadaan.reduce((acc, curr) => {
     return acc + curr.total_harga;
@@ -77,6 +78,9 @@ const page = ({ params }) => {
                   Nama Aset
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Lokasi
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                   Tahun Perolehan
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
@@ -93,6 +97,9 @@ const page = ({ params }) => {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {aset?.aset?.nama_barang}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {aset?.lokasi?.nama_lokasi}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {moment(aset?.detail_aset?.aset?.tahun_perolehan).format("DD-MM-YYYY")}
@@ -115,18 +122,18 @@ const page = ({ params }) => {
           </table>
         </div>
       </div>
-      <div className="p-5 bg-white rounded-lg">
-        {data.dokumen_pengadaan && (
+      {data.dokumen_pengadaan && (
+        <div className="p-5 bg-white rounded-lg">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Dokumen Pengadaan</span>
             </div>
-            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data.dokumen_pengadaan}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black min-h-28 md:min-h-0">
-              {data.dokumen_pengadaan.split('/').pop()} <PictureAsPdfOutlinedIcon className='ml-5' />
+            <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.dokumen_pengadaan}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black min-h-28 md:min-h-0">
+              {data?.dokumen_pengadaan.split('/').pop()} <PictureAsPdfOutlinedIcon className='ml-5' />
             </Link>
           </label>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
