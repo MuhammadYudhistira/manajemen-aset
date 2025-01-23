@@ -7,7 +7,6 @@ export const useCreateAset = ({ onSuccess, onError }) => {
       const response = await axios.post("/aset", body, {
         "Content-Type": "multipart/form-data",
       });
-      console.log(response);
       return response;
     },
     onSuccess,

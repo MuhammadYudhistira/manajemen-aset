@@ -17,11 +17,23 @@ const getPengadaanByNomor = async (nomor) => {
   return pengadaan;
 };
 
+const isNomorPengadaanExist = async (nomor) => {
+  const pengadaan = await findPengadaanByNomor(nomor);
+  return pengadaan ? true : false;
+};
+
 const createPengadaan = async (newPengadaanData) => {
   try {
     // Insert pengadaan
-    if (newPengadaanData.tanggal_pengadaan == undefined)
+
+    if (await isNomorPengadaanExist(newPengadaanData.nomor_pengadaan))
+      throw new Error('Nomor Pengadaan Sudah Ada');
+
+    if (newPengadaanData.tanggal_pengadaan === 'undefined')
       throw new Error('Tanggal Pengadaan Tidak Boleh Kosong');
+
+    if (newPengadaanData.detail_barang.length === 0)
+      throw new Error('Tambahkan minimal satu detail barang');
 
     const pengadaan = await insertPengadaan(newPengadaanData);
 

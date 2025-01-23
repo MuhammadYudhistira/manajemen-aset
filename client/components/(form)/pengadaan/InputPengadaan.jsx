@@ -26,8 +26,9 @@ const InputPengadaan = () => {
       toast.success("berhasil menambahkan aset");
     },
     onError: (error) => {
-      console.log(error);
-      toast.error("Tahun perolehan harus ditambahkan");
+      const response = JSON.parse(error.request.response);
+      console.log(response);
+      toast.error(response.message); // Menampilkan pesan error spesifik dari server
     },
   });
 
@@ -192,8 +193,9 @@ const InputPengadaan = () => {
                   className="select bg-blue-50 text-sm"
                   name={`detail_barang[${index}].kode_barang`}
                   onChange={handleFormInput}
+                  required
                 >
-                  <option defaultValue={""} hidden>
+                  <option value={""} hidden>
                     Kode Barang
                   </option>
                   {asets?.listAssets?.map((aset, idx) => {
@@ -241,8 +243,9 @@ const InputPengadaan = () => {
                   className="select bg-blue-50 text-sm"
                   name={`detail_barang[${index}].id_lokasi`}
                   onChange={handleFormInput}
+                  required
                 >
-                  <option defaultValue={""} hidden>
+                  <option value={""} hidden>
                     Ruangan
                   </option>
                   {lokasi?.map((lokasi, idx) => {
