@@ -53,7 +53,6 @@ const insertPengadaan = async (newPengadaanData) => {
           harga_satuan: parseInt(item.harga_satuan),
           jumlah_barang: parseInt(item.jumlah_barang),
           id_lokasi: parseInt(item.id_lokasi),
-          total_harga: item.harga_satuan * item.jumlah_barang,
         })),
       },
     },

@@ -12,8 +12,8 @@ const page = ({ params }) => {
   const { data, isLoading, isError, error } = useFetchDetailPengadaan(params.nomor)
   console.log("🚀 ~ page ~ data:", data)
 
-  const total_harga = data?.Detail_Pengadaan.reduce((acc, curr) => {
-    return acc + curr.total_harga;
+  const total_harga = data?.Detail_Aset?.reduce((acc, curr) => {
+    return acc + curr.harga_satuan;
   }, 0);
 
 

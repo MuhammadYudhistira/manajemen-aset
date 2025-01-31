@@ -101,6 +101,8 @@ model Pengadaan {
   nama_vendor       String
   tanggal_pengadaan DateTime
   dokumen_pengadaan String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   Detail_Pengadaan  Detail_Pengadaan[]
   Detail_Aset       Detail_Aset[]
 
@@ -112,12 +114,13 @@ model Detail_Pengadaan {
   kode_barang     String    @db.VarChar(20)
   nomor_pengadaan String    @db.VarChar(30)
   id_lokasi       Int
+  harga_satuan    Int
+  jumlah_barang   Int
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   aset            Aset      @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
   pengadaan       Pengadaan @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
   lokasi          Lokasi    @relation(references: [id], fields: [id_lokasi])
-  harga_satuan    Int
-  jumlah_barang   Int
-  total_harga     Int
 
   @@map("detail_pengadaan")
 }
@@ -182,6 +185,8 @@ model Penanggung_Jawab {
 
 model Laporan_Kerusakan {
   id            String         @id @default(uuid())
+  id_user       String
+  kode_detail   String
   perihal       String
   deskripsi     String         @db.LongText
   image         String
@@ -189,8 +194,6 @@ model Laporan_Kerusakan {
   approved_date DateTime?
   status        Status_laporan @default(Reported)
   keterangan    String?        @db.LongText
-  id_user       String
-  kode_detail   String
   user          User           @relation(fields: [id_user], references: [nip], onDelete: Cascade, onUpdate: Cascade)
   detail_aset   Detail_Aset    @relation(fields: [kode_detail], references: [kode_detail], onDelete: Cascade, onUpdate: Cascade)
   createdAt     DateTime       @default(now())
@@ -239,6 +242,7 @@ model Penghapusan_Nilai_aset {
   alasan_penghapusan            String                          @db.LongText
   status                        Status_Pengajuan_Penghapusan    @default(Pending)
   keterangan                    String?                         @db.LongText
+  bukti_penghapusan             String?
   createdAt                     DateTime                        @default(now())
   updatedAt                     DateTime                        @updatedAt
   Detail_Penghapusan_Nilai_Aset Detail_Penghapusan_Nilai_Aset[]

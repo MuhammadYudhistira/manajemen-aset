@@ -14,7 +14,7 @@ const getAllDeletion = async () => {
 
 const getDetailDetaletion = async (id) => {
   const deletion = await findDeletionById(id);
-  if (!deletion) throw new Error('Data tidak ditemukan');
+  if (!deletion) throw new Error('Penghapusan nilai aset tidak ditemukan');
   return deletion;
 };
 
@@ -34,9 +34,15 @@ const createDeletion = async (data) => {
 
 const confirmationDeletion = async (id, data) => {
   await getDetailDetaletion(id);
-  const { keterangan } = data;
-  const deletion = await updateDeletionStatus(id, 'Accepted', keterangan);
-  data.kode_detail.forEach((id) => {
+  const { keterangan, bukti_penghapusan } = data;
+  const kode_detail = JSON.parse(data.kode_detail);
+  const deletion = await updateDeletionStatus(
+    id,
+    'Accepted',
+    keterangan,
+    bukti_penghapusan
+  );
+  kode_detail.forEach((id) => {
     updateAssetStatus(
       id,
       'Deletion_Accepted',
@@ -48,9 +54,15 @@ const confirmationDeletion = async (id, data) => {
 
 const rejectionDeletion = async (id, data) => {
   await getDetailDetaletion(id);
-  const { keterangan } = data;
-  const deletion = await updateDeletionStatus(id, 'Rejected', keterangan);
-  data.kode_detail.forEach((id) => {
+  const { keterangan, bukti_penghapusan } = data;
+  const kode_detail = JSON.parse(data.kode_detail);
+  const deletion = await updateDeletionStatus(
+    id,
+    'Rejected',
+    keterangan,
+    bukti_penghapusan
+  );
+  kode_detail.forEach((id) => {
     updateAssetStatus(id, 'Available', 'Aset tersedia');
   });
   return deletion;

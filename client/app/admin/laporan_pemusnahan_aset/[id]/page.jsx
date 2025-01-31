@@ -1,4 +1,5 @@
 "use client"
+import DropzoneFile from "@/components/(input)/DropzoneFile";
 import PemusnahanAset from "@/components/(reports)/PemusnahanAset";
 import { useConfirmDeletion } from "@/hooks/penghapusan_aset/useConfirmDeletion";
 import { useFetchDetailDeletion } from "@/hooks/penghapusan_aset/useFetchDetailDeletion";
@@ -9,8 +10,13 @@ import moment from "moment";
 import { notFound } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import { Link } from "next-view-transitions";
+
 
 const page = ({ params }) => {
+    const [bukti_penghapusan, setBukti_penghapusan] = useState([]);
+    const fileAccept = { "application/pdf": [] };
 
     const { data, isLoading, refetch, isError, error } = useFetchDetailDeletion(params.id)
 
@@ -21,7 +27,9 @@ const page = ({ params }) => {
 
     const { mutate: confirmationMutate } = useConfirmDeletion({
         onError: (error) => {
-            console.log(error)
+            const response = JSON.parse(error.request.response);
+            console.log(response);
+            toast.error(response.message);
         },
         onSuccess: () => {
             toast.success("Berhasil Menyetujui Pengajuan")
@@ -49,23 +57,36 @@ const page = ({ params }) => {
 
     const handleRejectForm = () => {
 
-        const body = {
-            keterangan,
-            kode_detail
-        };
+        const formData = new FormData()
+        formData.append("keterangan", keterangan)
+        formData.append("kode_detail", JSON.stringify(kode_detail))
+        formData.append("bukti_penghapusan", bukti_penghapusan[0])
 
-        rejectionMutate({ id: params.id, body: body })
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Melihat objek FormData yang telah di-convert
+        console.log(formDataObject);
+
+        rejectionMutate({ id: params.id, body: formData })
     }
 
     const handleConfirmForm = () => {
+        const formData = new FormData()
+        formData.append("keterangan", keterangan)
+        formData.append("kode_detail", JSON.stringify(kode_detail))
+        formData.append("bukti_penghapusan", bukti_penghapusan[0])
 
-        const body = {
-            keterangan,
-            kode_detail
-        };
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
 
-        confirmationMutate({ id: params.id, body: body })
-
+        // Melihat objek FormData yang telah di-convert
+        console.log(formDataObject);
+        confirmationMutate({ id: params.id, body: formData })
     }
 
     if (isLoading) {
@@ -192,6 +213,18 @@ const page = ({ params }) => {
                     </div>
                 )}
             </div>
+            {data.bukti_penghapusan && (
+                <div className="p-5 bg-white rounded-lg">
+                    <label className="form-control w-full">
+                        <div className="label">
+                            <span className="label-text">Bukti Penghapusan</span>
+                        </div>
+                        <Link href={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.bukti_penghapusan}`} target="_blank" rel="noopener noreferrer" className="flex items-center input bg-blue-50 text-sm text-black min-h-28 md:min-h-0">
+                            {data?.bukti_penghapusan?.split('/').pop()} <PictureAsPdfOutlinedIcon className='ml-5' />
+                        </Link>
+                    </label>
+                </div>
+            )}
 
             {showForm === 'tolak' && (
                 <div className="mt-4 rounded-xl bg-white p-5">
@@ -202,6 +235,15 @@ const page = ({ params }) => {
                             </div>
                             <input type="text" placeholder="Alasan Penolakan" className="input input-bordered w-full max-w-xs" onChange={(e) => setKeterangan(e.target.value)} />
                         </label>
+                        <div className="label mt-5">
+                            <span className="label-text text-[1rem] font-medium">Bukti Penolakan</span>
+                        </div>
+                        <DropzoneFile
+                            files={bukti_penghapusan}
+                            setFiles={setBukti_penghapusan}
+                            maxFiles={1}
+                            accept={fileAccept}
+                        />
                         <button className="btn bg-white text-Black px-8 mt-4" type="submit">Tolak</button>
                     </form>
                 </div>
@@ -222,6 +264,15 @@ const page = ({ params }) => {
                                 <option value={"Dihancurkan"}>Dihancurkan</option>
                             </select>
                         </label>
+                        <div className="label mt-5">
+                            <span className="label-text text-[1rem] font-medium">Bukti Penghapusan</span>
+                        </div>
+                        <DropzoneFile
+                            files={bukti_penghapusan}
+                            setFiles={setBukti_penghapusan}
+                            maxFiles={1}
+                            accept={fileAccept}
+                        />
                         <button className="btn bg-black text-white mt-4">Konfirmasi</button>
                     </form>
                 </div>

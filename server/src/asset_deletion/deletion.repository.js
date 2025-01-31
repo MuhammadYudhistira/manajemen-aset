@@ -65,7 +65,12 @@ const insertDeletion = async (newDeletionData) => {
   return deletion;
 };
 
-const updateDeletionStatus = async (id, status, keterangan) => {
+const updateDeletionStatus = async (
+  id,
+  status,
+  keterangan,
+  bukti_penghapusan
+) => {
   const deletion = await prisma.penghapusan_Nilai_aset.update({
     where: {
       id: id,
@@ -73,6 +78,7 @@ const updateDeletionStatus = async (id, status, keterangan) => {
     data: {
       status: status,
       keterangan: keterangan,
+      bukti_penghapusan: bukti_penghapusan,
     },
   });
   return deletion;
