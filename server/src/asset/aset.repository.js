@@ -13,7 +13,12 @@ const findAssets = async () => {
       },
     },
   });
-  return assets;
+
+  // Menambahkan jumlah detail aset ke dalam hasil
+  return assets.map((asset) => ({
+    ...asset,
+    jumlahAset: asset.Detail_Aset.length, // Hitung jumlah detail aset
+  }));
 };
 
 const findAssetsByCode = async (code) => {

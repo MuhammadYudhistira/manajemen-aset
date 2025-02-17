@@ -12,6 +12,7 @@ const GridAset = () => {
   const [filter, setFilter] = useState('latest');
   const [search, setSearch] = useState('');
   const { data: asets, isLoading, isError } = useFetchAset();
+  console.log("🚀 ~ GridAset ~ asets:", asets)
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -89,6 +90,7 @@ const GridAset = () => {
             nama={aset.nama_barang}
             jenis={aset.jenis_barang}
             key={aset.id}
+            jumlah={aset.jumlahAset}
             role="admin"
           />
         ))}

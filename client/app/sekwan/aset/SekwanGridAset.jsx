@@ -85,6 +85,7 @@ const SekwanGridAset = () => {
                         nama={aset.nama_barang}
                         kode={aset.kode_barang}
                         ukuran={aset.jenis_barang}
+                        jumlah={aset.jumlahAset}
                         key={aset.kode_barang}
                         role="sekwan"
                     />

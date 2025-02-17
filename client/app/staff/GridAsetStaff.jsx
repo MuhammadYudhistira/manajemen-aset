@@ -90,6 +90,7 @@ const StaffGridAset = () => {
                         key={aset.id}
                         jenis={aset.aset.jenis_barang}
                         keterangan={aset.keterangan}
+                        jumlah={null}
                         role="staff"
                     />
                 ))}

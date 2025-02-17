@@ -87,6 +87,7 @@ const HeadGridAset = () => {
                         kode={aset.kode_barang}
                         ukuran={aset.jenis_barang}
                         key={aset.kode_barang}
+                        jumlah={aset.jumlahAset}
                         role="head"
                     />
                 ))}

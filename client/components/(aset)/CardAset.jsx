@@ -2,7 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 
-const CardAset = ({ kode, image, nama, role, jenis, merk, ukuran, keterangan }) => {
+const CardAset = ({ kode, image, nama, role, jenis, merk, ukuran, keterangan, jumlah }) => {
   return (
     <Link
       key={kode}
@@ -20,6 +20,11 @@ const CardAset = ({ kode, image, nama, role, jenis, merk, ukuran, keterangan }) 
       </div>
       <div className="p-4">
         <h3 className="text-lg font-medium text-gray-900">{nama}</h3>
+        {jumlah !== null && (
+          <p className="text-xs text-gray-500">
+            Jumlah Aset: <p className="badge text-xs">{jumlah}</p>
+          </p>
+        )}
         <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
           {merk} {ukuran}
         </p>
