@@ -47,21 +47,11 @@ const CreateDetailAsetForm = ({ kode }) => {
   const formik = useFormik({
     initialValues: {
       kode_barang: kode,
-      nomor_pengadaan: "",
-      nomor_rangka: "",
-      nomor_mesin: "",
-      nomor_polisi: "",
-      nomor_bpkb: "",
       id_lokasi: "",
     },
     onSubmit: () => {
       const {
         kode_barang,
-        nomor_pengadaan,
-        nomor_bpkb,
-        nomor_mesin,
-        nomor_polisi,
-        nomor_rangka,
         id_lokasi,
         merk,
         ukuran,
@@ -74,11 +64,6 @@ const CreateDetailAsetForm = ({ kode }) => {
       formData.append("ukuran", ukuran);
       formData.append("tahun_perolehan", date);
       formData.append("harga_satuan", harga_satuan);
-      formData.append("nomor_bpkb", nomor_bpkb);
-      formData.append("nomor_mesin", nomor_mesin);
-      formData.append("nomor_polisi", nomor_polisi);
-      formData.append("nomor_rangka", nomor_rangka);
-      formData.append("nomor_pengadaan", "11");
       for (let i = 0; i < image.length; i++) {
         formData.append(`image`, image[i]);
       }

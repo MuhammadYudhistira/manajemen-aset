@@ -17,7 +17,8 @@ export default function withAuth(middleware) {
     }
 
     if (token === undefined && !isLoginPage) {
-      const url = new URL("/login", req.url);
+      const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL;
+      const url = new URL(`${baseUrl}/login`);
       url.searchParams.set("callbackUrl", encodeURI(req.url));
       return NextResponse.redirect(url);
     }

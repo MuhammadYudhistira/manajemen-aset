@@ -62,7 +62,7 @@ const CreateAsetForm = () => {
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Tahun perolehan harus ditambahkan");
+      toast.error(error.data.message);
     },
   });
 

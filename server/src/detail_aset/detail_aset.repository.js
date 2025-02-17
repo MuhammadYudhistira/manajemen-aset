@@ -230,11 +230,12 @@ const searchDetailAset = async (search) => {
 };
 
 const insertDetailAset = async (newDetailAsetData) => {
+  console.log(newDetailAsetData);
   const detailAset = await prisma.detail_Aset.create({
     data: {
       kode_detail: newDetailAsetData.kode_detail,
       kode_barang: newDetailAsetData.kode_barang,
-      nomor_pengadaan: newDetailAsetData.nomor_pengadaan,
+      nomor_pengadaan: newDetailAsetData.nomor_pengadaan || null,
       id_lokasi: newDetailAsetData.id_lokasi,
       merk: newDetailAsetData.merk,
       ukuran: newDetailAsetData.ukuran,

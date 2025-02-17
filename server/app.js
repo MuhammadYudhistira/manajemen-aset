@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
+    origin: ['https://manajemen-aset.yudhistira.site', 'http://localhost:3000'],
     credentials: true,
   })
 );
