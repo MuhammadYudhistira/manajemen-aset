@@ -83,12 +83,12 @@ const StaffGridAset = () => {
                         deskripsi={aset.deskripsi}
                         id={aset.id}
                         image={aset.Detail_Aset_Images ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.Detail_Aset_Images[0]?.link}` : computer}
-                        nama={`${aset.aset.nama_barang} (${aset.kode_detail})`}
+                        nama={`${aset.barang.nama_barang} (${aset.id})`}
                         ukuran={aset.ukuran}
-                        kode={aset.kode_detail}
+                        kode={aset.id}
                         merk={aset.merk}
                         key={aset.id}
-                        jenis={aset.aset.jenis_barang}
+                        jenis={aset.barang.jenis_barang}
                         keterangan={aset.keterangan}
                         jumlah={null}
                         role="staff"

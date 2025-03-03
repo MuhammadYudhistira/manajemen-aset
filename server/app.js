@@ -49,7 +49,7 @@ app.use('/api/user', UserController);
 app.use('/api/detail-aset', detailAsetController);
 app.use('/api/aset-kendaraan', kendaraanController);
 app.use('/api/pengadaan', pengadaanController);
-app.use('/api/pengajuan', pengajuanController);
+app.use('/api/pengajuan', authMiddleware, pengajuanController);
 app.use('/api/dashboard', dashboardController);
 app.use('/api/deletion', deletionController);
 

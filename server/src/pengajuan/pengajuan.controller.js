@@ -33,6 +33,7 @@ router.get('/:no', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const data = req.body;
+    data.nip_pengusul = req.user.nip;
     const pengajuan = await createPengajuan(data);
     response(200, pengajuan, 'Berhasil menambahkan data', res);
   } catch (error) {

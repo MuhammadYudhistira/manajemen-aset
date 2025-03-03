@@ -1,5 +1,6 @@
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import RequestPageOutlinedIcon from '@mui/icons-material/RequestPageOutlined';
 import Image from "next/legacy/image";
 import { Link } from 'next-view-transitions'
 import logo from "@/app/icon.svg";
@@ -31,6 +32,12 @@ const SidebarStaff = () => {
                     <Link href="/staff/laporan">
                         <FolderOpenOutlinedIcon />
                         Laporan kerusakan
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/staff/usulan">
+                        <RequestPageOutlinedIcon />
+                        Usulan Pengadaan
                     </Link>
                 </li>
             </ul>

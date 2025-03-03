@@ -68,11 +68,12 @@ const countAllUser = async () => {
 const countUserByPJ = async () => {
   const userCount = await prisma.user.count({
     where: {
-      Penanggung_Jawab: {
-        some: {},
+      Detail_Pengadaan: {
+        some: {}, // Cek apakah ada relasi ke Detail_Pengadaan
       },
     },
   });
+
   return userCount;
 };
 
