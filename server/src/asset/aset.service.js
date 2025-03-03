@@ -34,13 +34,6 @@ const createAsset = async (newAssetData) => {
   const haveCode = await findAssetsByCode(newAssetData.kode_barang);
 
   if (haveCode) throw new Error('Kode Barang sudah ada');
-  // newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
-  // newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
-  // newAssetData.nilai_perolehan = parseInt(
-  //   newAssetData.jumlah_barang * newAssetData.harga_satuan
-  // );
-
-  // newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
   if (newAssetData.image.length >= 1) {
     newAssetData.image = newAssetData.image[0];
   } else {
@@ -67,23 +60,14 @@ const createAsset = async (newAssetData) => {
 
 const editAsetByCode = async (code, newAssetData) => {
   const oldData = await getAssetByCode(code);
-  // if (newAssetData.harga_satuan && newAssetData.jumlah_barang) {
-  //   newAssetData.harga_satuan = parseInt(newAssetData.harga_satuan);
-  //   newAssetData.jumlah_barang = parseInt(newAssetData.jumlah_barang);
-  //   newAssetData.nilai_perolehan = parseInt(
-  //     newAssetData.jumlah_barang * newAssetData.harga_satuan
-  //   );
-  // }
 
-  // if (newAssetData.tahun_perolehan) {
-  //   newAssetData.tahun_perolehan = new Date(newAssetData.tahun_perolehan);
-  // }
-
+  //check if kode_barang is changed
   if (newAssetData.kode_barang !== oldData.kode_barang) {
     const haveCode = await findAssetsByCode(newAssetData.kode_barang);
     if (haveCode) throw new Error('Kode Barang sudah ada');
   }
 
+  //check if image is changed
   if (newAssetData.image.length >= 1) {
     newAssetData.image = newAssetData.image[0];
     if (oldData.image !== null) {
@@ -107,6 +91,7 @@ const editAsetByCode = async (code, newAssetData) => {
     newAssetData.image = undefined;
   }
 
+  //editing logic
   try {
     const asset = await editAsset(code, newAssetData);
     console.log('🚀 ~ editAsetByCode ~ newAssetData:', newAssetData);

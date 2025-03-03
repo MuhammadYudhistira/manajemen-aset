@@ -1,14 +1,18 @@
 const prisma = require('../../db/index');
 
 const findAssets = async () => {
-  const assets = await prisma.aset.findMany({
+  const assets = await prisma.barang.findMany({
     orderBy: {
       createdAt: 'desc',
     },
     include: {
-      Detail_Aset: {
+      Detail_Pengadaan: {
         include: {
-          lokasi: true,
+          lokasi: {
+            select: {
+              nama_lokasi: true,
+            },
+          },
         },
       },
     },
@@ -17,26 +21,26 @@ const findAssets = async () => {
   // Menambahkan jumlah detail aset ke dalam hasil
   return assets.map((asset) => ({
     ...asset,
-    jumlahAset: asset.Detail_Aset.length, // Hitung jumlah detail aset
+    jumlahAset: asset.Detail_Pengadaan.length, // Hitung jumlah detail aset
   }));
 };
 
 const findAssetsByCode = async (code) => {
-  const asset = await prisma.aset.findUnique({
+  const asset = await prisma.barang.findUnique({
     where: {
       kode_barang: code,
     },
     include: {
-      Detail_Aset: {
+      Detail_Pengadaan: {
         include: {
           lokasi: {
             select: {
               nama_lokasi: true,
             },
           },
-          Penanggung_Jawab: {
+          user: {
             select: {
-              user: true,
+              nama: true,
             },
           },
         },
@@ -119,7 +123,7 @@ const findAssetsByUser = async (nip) => {
 };
 
 const insertAsset = async (assetData) => {
-  const asset = await prisma.aset.create({
+  const asset = await prisma.barang.create({
     data: {
       kode_barang: assetData.kode_barang,
       nama_barang: assetData.nama_barang,
@@ -132,7 +136,7 @@ const insertAsset = async (assetData) => {
 };
 
 const deleteAsset = async (code) => {
-  const asset = await prisma.aset.delete({
+  const asset = await prisma.barang.delete({
     where: {
       kode_barang: code,
     },
@@ -142,7 +146,7 @@ const deleteAsset = async (code) => {
 };
 
 const editAsset = async (code, assetData) => {
-  const asset = await prisma.aset.update({
+  const asset = await prisma.barang.update({
     where: {
       kode_barang: code,
     },
@@ -158,17 +162,17 @@ const editAsset = async (code, assetData) => {
 };
 
 const countAsset = async () => {
-  const assets = await prisma.detail_Aset.count();
-  return assets;
+  const count = await prisma.detail_Pengadaan.count();
+  return count;
 };
 
 const countAssetStatus = async (status) => {
-  const assets = await prisma.detail_Aset.count({
+  const countStatus = await prisma.detail_Pengadaan.count({
     where: {
       status: Array.isArray(status) ? { in: status } : status,
     },
   });
-  return assets;
+  return countStatus;
 };
 
 module.exports = {

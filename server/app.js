@@ -16,6 +16,7 @@ const dashboardController = require('./src/dashboard/dahsboard.controller');
 const deletionController = require('./src/asset_deletion/deletion.controller');
 const kendaraanController = require('./src/aset_kendaraan/kendaraan.controller');
 const pengadaanController = require('./src/pengadaan/pengadaan.controller');
+const pengajuanController = require('./src/pengajuan/pengajuan.controller');
 const { authMiddleware } = require('./src/middleware/authMiddleware');
 
 const app = express();
@@ -48,6 +49,7 @@ app.use('/api/user', UserController);
 app.use('/api/detail-aset', detailAsetController);
 app.use('/api/aset-kendaraan', kendaraanController);
 app.use('/api/pengadaan', pengadaanController);
+app.use('/api/pengajuan', pengajuanController);
 app.use('/api/dashboard', dashboardController);
 app.use('/api/deletion', deletionController);
 

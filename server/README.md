@@ -2,9 +2,9 @@
 
 ## Flow
 
-- [ ] Pengajuan pengadaan aset
-  - [ ] Tabel Pengajuan
-  - [ ] Tabel Detail Pengajuan
+- [x] Pengajuan pengadaan aset
+  - [x] Tabel Pengajuan
+  - [x] Tabel Detail Pengajuan
 - [ ] Pengadaan aset
   - [ ] Tabel Pengadaan
   - [ ] Tabel Detail Pengadaan

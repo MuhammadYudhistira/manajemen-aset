@@ -1,15 +1,14 @@
-const prisma = require("../../db/index");
+const prisma = require('../../db/index');
 const {
   registerUserValidation,
   updateUserValidation,
-} = require("../validation/user-validation");
-const { validate } = require("../validation/validation");
+} = require('../validation/user-validation');
+const { validate } = require('../validation/validation');
 
 const findUser = async () => {
   const user = await prisma.user.findMany();
   return user;
 };
-
 
 const findUserByNip = async (nip) => {
   const user = await prisma.user.findUnique({
@@ -17,15 +16,7 @@ const findUserByNip = async (nip) => {
       nip: nip,
     },
     include: {
-      Penanggung_Jawab: {
-        select: {
-          detail_aset: {
-            include: {
-              aset: true,
-            },
-          },
-        },
-      },
+      Detail_Pengadaan: true,
     },
   });
 

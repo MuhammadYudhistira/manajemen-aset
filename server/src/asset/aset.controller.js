@@ -76,6 +76,7 @@ router.get('/:code', async (req, res) => {
 router.post('/', uploadAssetImage, async (req, res) => {
   try {
     const newAssetData = req.body;
+    console.log('🚀 ~ router.post ~ newAssetData:', newAssetData);
     const asset = await createAsset(newAssetData);
     response(200, asset, 'Berhasil menambahkan data', res);
   } catch (error) {
