@@ -127,15 +127,15 @@ model Detail_Pengajuan {
 }
 
 model Pengadaan {
-  nomor_pengadaan   String             @id @db.VarChar(30)
-  no_pengajuan      String             @db.VarChar(30)
-  nama_vendor       String
-  tanggal_pengadaan DateTime
-  dokumen_pengadaan String?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  Pengajuan         Pengajuan          @relation(references: [no_pengajuan], fields: [no_pengajuan], onDelete: Cascade, onUpdate: Cascade)
-  Detail_Pengadaan  Detail_Pengadaan[]
+  nomor_pengadaan    String             @id @db.VarChar(30)
+  no_pengajuan       String             @db.VarChar(30)
+  nama_vendor        String
+  tanggal_penerimaan DateTime
+  dokumen_pengadaan  String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  Pengajuan          Pengajuan          @relation(references: [no_pengajuan], fields: [no_pengajuan], onDelete: Cascade, onUpdate: Cascade)
+  Detail_Pengadaan   Detail_Pengadaan[]
 
   @@map("pengadaan")
 }

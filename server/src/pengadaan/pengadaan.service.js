@@ -24,8 +24,6 @@ const isNomorPengadaanExist = async (nomor) => {
 
 const createPengadaan = async (newPengadaanData) => {
   try {
-    // Insert pengadaan
-
     if (await isNomorPengadaanExist(newPengadaanData.nomor_pengadaan))
       throw new Error('Nomor Pengadaan Sudah Ada');
 
@@ -38,25 +36,25 @@ const createPengadaan = async (newPengadaanData) => {
     const pengadaan = await insertPengadaan(newPengadaanData);
 
     // Loop melalui setiap detail_barang
-    for (const data of newPengadaanData.detail_barang) {
-      const jumlah_barang = parseInt(data.jumlah_barang);
-      // Loop untuk membuat aset berdasarkan jumlah_barang
-      for (let i = 0; i < jumlah_barang; i++) {
-        const detailAsetData = {
-          kode_barang: data.kode_barang,
-          nomor_pengadaan: newPengadaanData.nomor_pengadaan,
-          id_lokasi: parseInt(data.id_lokasi),
-          merk: data.merk,
-          ukuran: data.ukuran,
-          harga_satuan: parseInt(data.harga_satuan),
-          tahun_perolehan: new Date(newPengadaanData.tanggal_pengadaan),
-          image: [],
-        };
+    // for (const data of newPengadaanData.detail_barang) {
+    //   const jumlah_barang = parseInt(data.jumlah_barang);
+    //   // Loop untuk membuat aset berdasarkan jumlah_barang
+    //   for (let i = 0; i < jumlah_barang; i++) {
+    //     const detailAsetData = {
+    //       kode_barang: data.kode_barang,
+    //       nomor_pengadaan: newPengadaanData.nomor_pengadaan,
+    //       id_lokasi: parseInt(data.id_lokasi),
+    //       merk: data.merk,
+    //       ukuran: data.ukuran,
+    //       harga_satuan: parseInt(data.harga_satuan),
+    //       tahun_perolehan: new Date(newPengadaanData.tanggal_pengadaan),
+    //       image: [],
+    //     };
 
-        // Panggil fungsi createDetailAset
-        await createDetailAset(detailAsetData);
-      }
-    }
+    //     // Panggil fungsi createDetailAset
+    //     await createDetailAset(detailAsetData);
+    //   }
+    // }
 
     return pengadaan;
   } catch (error) {
@@ -66,6 +64,7 @@ const createPengadaan = async (newPengadaanData) => {
 };
 
 const deletePengadaan = async (nomor) => {
+  await getPengadaanByNomor(nomor);
   const pengadaan = await deletePengadaanByNomor(nomor);
   return pengadaan;
 };

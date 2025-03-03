@@ -5,9 +5,9 @@
 - [x] Pengajuan pengadaan aset
   - [x] Tabel Pengajuan
   - [x] Tabel Detail Pengajuan
-- [ ] Pengadaan aset
-  - [ ] Tabel Pengadaan
-  - [ ] Tabel Detail Pengadaan
+- [x] Pengadaan aset
+  - [x] Tabel Pengadaan
+  - [x] Tabel Detail Pengadaan
 - [ ] Pencatatan aset
   - [ ] Tabel aset kendaraan
 - [ ] Laporan kerusakan

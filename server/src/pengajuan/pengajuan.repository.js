@@ -49,6 +49,7 @@ const insertPengajuan = async (newPengajuanData) => {
       title: newPengajuanData.title,
       unit_pengajuan: newPengajuanData.unit_pengajuan,
       tanggal_pengajuan: new Date(newPengajuanData.tanggal_pengajuan),
+      
       Detail_Pengajuan: {
         createMany: {
           data: newPengajuanData.detail_pengajuan.map((item) => ({

@@ -15,24 +15,11 @@ const findPengadaanByNomor = async (nomor) => {
       nomor_pengadaan: nomor,
     },
     include: {
-      Detail_Aset: {
-        include: {
-          aset: {
-            select: {
-              nama_barang: true,
-            },
-          },
-          lokasi: {
-            select: {
-              nama_lokasi: true,
-            },
-          },
-        },
-      },
       Detail_Pengadaan: {
         include: {
-          aset: true,
+          barang: true,
           lokasi: true,
+          user: true,
         },
       },
     },
@@ -41,20 +28,38 @@ const findPengadaanByNomor = async (nomor) => {
 };
 
 const insertPengadaan = async (newPengadaanData) => {
+  if (
+    !newPengadaanData.detail_barang ||
+    newPengadaanData.detail_barang.length === 0
+  ) {
+    throw new Error('Detail barang tidak boleh kosong');
+  }
+
   const pengadaan = await prisma.pengadaan.create({
     data: {
+      no_pengajuan: newPengadaanData.no_pengajuan,
       nomor_pengadaan: newPengadaanData.nomor_pengadaan,
       nama_vendor: newPengadaanData.nama_vendor,
-      tanggal_pengadaan: new Date(newPengadaanData.tanggal_pengadaan),
+      tanggal_penerimaan: new Date(newPengadaanData.tanggal_penerimaan),
       dokumen_pengadaan: newPengadaanData?.dokumen_pengadaan,
       Detail_Pengadaan: {
-        create: newPengadaanData.detail_barang.map((item) => ({
-          kode_barang: item.kode_barang,
-          harga_satuan: parseInt(item.harga_satuan),
-          jumlah_barang: parseInt(item.jumlah_barang),
-          id_lokasi: parseInt(item.id_lokasi),
-        })),
+        createMany: {
+          data: newPengadaanData.detail_barang.map((item) => ({
+            id: `${newPengadaanData.nomor_pengadaan}.${item.kode_barang}.${item.kode_aset}`,
+            kode_barang: item.kode_barang,
+            id_lokasi: Number(item.id_lokasi),
+            nip_penanggung_jawab: item.nip_penanggung_jawab,
+            kode_aset: item.kode_aset,
+            harga_satuan: Number(item.harga_satuan),
+            merk: item.merk,
+            ukuran: item.ukuran,
+            umur_ekonomis: Number(item.umur_ekonomis),
+          })),
+        },
       },
+    },
+    include: {
+      Detail_Pengadaan: true,
     },
   });
 
