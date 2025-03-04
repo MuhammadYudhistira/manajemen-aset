@@ -12,6 +12,7 @@ const page = ({ params }) => {
 
     const contentRef = useRef();
     const { data: damage, isLoading } = useFetchDetailDR(params.id)
+    console.log("🚀 ~ page ~ damage:", damage)
 
     if (isLoading) {
         return (
@@ -33,21 +34,21 @@ const page = ({ params }) => {
                 </div>
                 <div className="flex justify-end gap-3 items-center bg-white py-2 px-4 rounded-lg border border-black w-full md:max-w-max">
                     <p className="text-sm">Di Buat Tanggal: {moment(damage?.createdAt).format("DD-MM-YYYY")}</p>
-                    {damage.status === "Reported" && (
+                    {damage?.status === "Reported" && (
                         <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
-                            <p className="whitespace-nowrap text-sm">{damage.status}</p>
+                            <p className="whitespace-nowrap text-sm">{damage?.status}</p>
                         </span>
                     )}
 
-                    {damage.status === "Approved" && (
+                    {damage?.status === "Approved" && (
                         <span className="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
-                            <p className="whitespace-nowrap text-sm">{damage.status}</p>
+                            <p className="whitespace-nowrap text-sm">{damage?.status}</p>
                         </span>
                     )}
 
-                    {damage.status === "Rejected" && (
+                    {damage?.status === "Rejected" && (
                         <span className="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700">
-                            <p className="whitespace-nowrap text-sm">{damage.status}</p>
+                            <p className="whitespace-nowrap text-sm">{damage?.status}</p>
                         </span>
                     )}
                 </div>
@@ -56,21 +57,21 @@ const page = ({ params }) => {
                 <ButtonLaporan contentRef={contentRef} nama_barang={damage?.detail_aset?.aset?.nama_barang} />
             </div>
             <DamageReport
-                nama={damage.user?.nama}
-                createdAt={damage.createdAt}
-                deskripsi_kerusakan={damage.deskripsi}
-                perihal={damage.perihal}
-                nama_barang={damage?.detail_aset?.aset?.nama_barang}
-                ruangan={damage?.detail_aset?.lokasi?.nama_lokasi}
+                nama={damage?.user?.nama}
+                createdAt={damage?.createdAt}
+                deskripsi_kerusakan={damage?.deskripsi}
+                perihal={damage?.perihal}
+                nama_barang={damage?.detail_pengadaan?.barang?.nama_barang}
+                ruangan={damage?.detail_pengadaan?.lokasi?.nama_lokasi}
                 ref={contentRef}
             />
             {
-                damage.image ? (
+                damage?.image ? (
                     <div className='rounded-xl bg-white p-5 mt-5 border'>
                         <div className="space-y-2">
                             <span className="label-text">Bukti Kerusakan</span>
                             <Image
-                                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${damage.image}`}
+                                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${damage?.image}`}
                                 width={400}
                                 height={400}
                                 alt="gambar kerusakan"
@@ -79,7 +80,7 @@ const page = ({ params }) => {
                     </div>
                 ) : null
             }
-            {damage.status === "Rejected" && (
+            {damage?.status === "Rejected" && (
                 <div className="bg-white rounded-xl p-5 space-y-4">
                     <label className="form-control w-full">
                         <div className="label">
@@ -90,7 +91,7 @@ const page = ({ params }) => {
                             placeholder="Disetujui Oleh"
                             name="nama"
                             className="input bg-red-50 text-sm text-red-500"
-                            value={damage.keterangan}
+                            value={damage?.keterangan}
                             readOnly
                         />
                     </label>

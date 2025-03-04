@@ -2,6 +2,7 @@
 import Dropzone from "@/components/(input)/Dropzone";
 import { useCreateDamageReport } from "@/hooks/damage/useCreateDamageReport";
 import { useFetchDetailDA } from "@/hooks/detail_aset/useFetchDetailDA";
+import { useFetchDetailDP } from "@/hooks/detail_pengadaan/UseFetchDetailDP";
 import { Spinner } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { redirect } from "next/navigation";
@@ -10,7 +11,7 @@ import { toast } from "sonner";
 
 const CreateLaporanKerusakanForm = ({ id }) => {
 
-    const { data: aset, isLoading } = useFetchDetailDA(id)
+    const { data: aset, isLoading } = useFetchDetailDP(id)
     const { mutate: createDamageReport, isPending, isSuccess } = useCreateDamageReport({
         onSuccess: () => {
             toast.success("Berhasil menambahkan laporan kerusakan")
@@ -70,7 +71,7 @@ const CreateLaporanKerusakanForm = ({ id }) => {
                     placeholder="Nama Aset"
                     name="nama"
                     className="input bg-blue-50 text-sm text-black"
-                    value={`${aset?.aset?.nama_barang} (${aset?.kode_detail})`}
+                    value={`${aset?.barang?.nama_barang} (${aset?.id})`}
                     disabled
                 />
             </label>

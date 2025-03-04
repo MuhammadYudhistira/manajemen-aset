@@ -95,7 +95,7 @@ const EditLaporanKerusakanForm = ({ id }) => {
                         placeholder="Nama Aset"
                         name="nama"
                         className="input bg-blue-50 text-sm text-black"
-                        value={`${damage?.detail_aset?.aset?.nama_barang} (${damage?.detail_aset?.kode_barang})`}
+                        value={`${damage?.detail_pengadaan?.barang?.nama_barang} (${damage?.detail_pengadaan?.id})`}
                         disabled
                     />
                 </label>
@@ -132,7 +132,7 @@ const EditLaporanKerusakanForm = ({ id }) => {
                     {damage.image ? (
                         <div className="relative rounded-md shadow-lg max-w-max">
                             <Image
-                                alt={damage?.detail_aset?.kode_barang || "bukti kerusakan"}
+                                alt={damage?.detail_pengadaan?.id || "bukti kerusakan"}
                                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${damage?.image}`}
                                 width={150}
                                 height={150}

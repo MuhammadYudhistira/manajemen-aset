@@ -43,6 +43,7 @@ router.get('/:id', async (req, res) => {
     const data = await getDetailDamage(id);
     response(200, data, 'Berhasil mendapatkan data', res);
   } catch (error) {
+    console.log(error);
     responseError(404, error.message, res);
   }
 });
@@ -72,7 +73,6 @@ router.post('/:id/reject', async (req, res) => {
 router.post('/', uploadDamageImage, async (req, res) => {
   try {
     const user = req.user;
-
     const data = req.body;
     data.id_user = user.nip;
     const damage = await createDemage(data);

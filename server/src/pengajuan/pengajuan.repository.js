@@ -56,8 +56,10 @@ const findPengajuanByNo = async (no) => {
             select: {
               nama_barang: true,
               kode_barang: true,
+              jenis_barang: true,
             },
           },
+          jumlah_barang: true,
         },
       },
     },

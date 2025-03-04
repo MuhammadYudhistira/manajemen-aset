@@ -12,9 +12,9 @@ const page = () => {
   return (
     <>
       <div className=" flex items-center justify-end mt-10">
-        <Link href={"/staff/usulan/create"} className="btn btn-neutral bg-black text-white">Create Usulan</Link>
+        <Link href={"/staff/usulan/create"} className="btn btn-neutral bg-black text-white">Tambah Usulan</Link>
       </div >
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-8 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
         {data?.map((item) => {
           return (
             <div className='bg-white p-5 rounded-lg border space-y-2' key={item.no_pengajuan}>
@@ -23,6 +23,15 @@ const page = () => {
               <div className='flex gap-4 items-center justify-start'>
                 <p className='text-xs text-gray-400'><RoomIcon className='text-[18px]' />{item.unit_pengajuan}</p>
                 <p className='text-xs text-gray-400'><CalendarMonthOutlinedIcon className='text-[18px]' /> {moment(item.tanggal_pengajuan).format("DD-MM-YYYY")}</p>
+                <div className={`
+                    badge text-xs 
+                    ${item.status === "Pending" ? "bg-blue-100 text-blue-600" : ""}
+                    ${item.status === "Approved" ? "bg-green-100 text-green-600" : ""}
+                    ${item.status === "Rejected" ? "bg-red-100 text-red-600" : ""}
+                    ${item.status === "Cancelled" ? "bg-yellow-100 text-yellow-600" : ""}`}>
+                  {item.status}
+                </div>
+
               </div>
               {item.Detail_Pengajuan.map((barang) => {
                 return (
@@ -33,7 +42,7 @@ const page = () => {
                 )
               })}
               <Link href={`/staff/usulan/${item.no_pengajuan}`} className='btn btn-ghost w-full'>
-                View Details
+                Selengkapnya
               </Link>
             </div>
           )

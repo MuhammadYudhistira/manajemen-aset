@@ -1,5 +1,5 @@
 const exporess = require('express');
-const { getListDP } = require('./dp.service');
+const { getListDP, getDetailDP } = require('./dp.service');
 const { response } = require('../response/response');
 const { responseError } = require('../response/responseError');
 
@@ -12,6 +12,16 @@ router.get('/', async (req, res) => {
   } catch (error) {
     console.log(error);
     responseError(500, error.message, res);
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const data = await getDetailDP(req.params.id);
+    response(200, data, 'Berhasil mengambil data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(404, error.message, res);
   }
 });
 

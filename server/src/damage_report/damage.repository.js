@@ -45,10 +45,9 @@ const findDamageById = async (id) => {
       id: id,
     },
     include: {
-      detail_aset: {
-        select: {
-          kode_detail: true,
-          aset: {
+      detail_pengadaan: {
+        include: {
+          barang: {
             select: {
               nama_barang: true,
             },
@@ -58,11 +57,11 @@ const findDamageById = async (id) => {
               nama_lokasi: true,
             },
           },
-        },
-      },
-      user: {
-        select: {
-          nama: true,
+          user: {
+            select: {
+              nama: true,
+            },
+          },
         },
       },
     },
@@ -83,10 +82,9 @@ const findDamageByIdUser = async (id) => {
       perihal: true,
       status: true,
       createdAt: true,
-      detail_aset: {
-        select: {
-          kode_detail: true,
-          aset: {
+      detail_pengadaan: {
+        include: {
+          barang: {
             select: {
               nama_barang: true,
             },

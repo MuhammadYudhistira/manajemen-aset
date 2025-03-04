@@ -2,6 +2,9 @@ const {
   editDetailAsetByKodeDetail,
 } = require('../detail_aset/detail_aset.repository');
 const { getDetailAset } = require('../detail_aset/detail_aset.service');
+const {
+  editStatusDetailPengadaan,
+} = require('../detail_pengadaan/dp.repository');
 const { deleteImage } = require('../middleware/uploadGambar');
 const {
   findAllDamage,
@@ -30,11 +33,7 @@ const createDemage = async (newDamageData) => {
     newDamageData.image = '';
   }
 
-  const newData = {
-    status: 'Damaged',
-  };
-
-  await editDetailAsetByKodeDetail(newDamageData.kode_detail, newData);
+  await editStatusDetailPengadaan(newDamageData.kode_detail, 'Damaged');
 
   const damage = await insertDamage(newDamageData);
   return damage;
