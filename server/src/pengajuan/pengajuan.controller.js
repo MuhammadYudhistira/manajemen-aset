@@ -8,11 +8,23 @@ const {
   detailPengajuan,
   createPengajuan,
   cancelledPengajuan,
+  listPengajuanByUser,
 } = require('./pengajuan.service');
 
 router.get('/', async (req, res) => {
   try {
     const pengajuan = await listPengajuan();
+    response(200, pengajuan, 'Berhasil mengambil data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.get('/user', async (req, res) => {
+  try {
+    const nip = req.user.nip;
+    const pengajuan = await listPengajuanByUser(nip);
     response(200, pengajuan, 'Berhasil mengambil data', res);
   } catch (error) {
     console.log(error);
@@ -33,6 +45,8 @@ router.get('/:no', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const data = req.body;
+    const today = new Date();
+    data.tanggal_pengajuan = today;
     data.nip_pengusul = req.user.nip;
     const pengajuan = await createPengajuan(data);
     response(200, pengajuan, 'Berhasil menambahkan data', res);

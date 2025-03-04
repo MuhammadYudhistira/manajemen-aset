@@ -19,6 +19,31 @@ const findAllPengajuan = async () => {
   return pengajuan;
 };
 
+const findPengajuanByNip = async (nip) => {
+  const pengajuan = await prisma.pengajuan.findMany({
+    where: {
+      nip_pengusul: nip,
+    },
+    include: {
+      Detail_Pengajuan: {
+        select: {
+          Barang: {
+            select: {
+              nama_barang: true,
+              kode_barang: true,
+            },
+          },
+          jumlah_barang: true,
+        },
+      },
+    },
+    orderBy: {
+      tanggal_pengajuan: 'desc',
+    },
+  });
+  return pengajuan;
+};
+
 const findPengajuanByNo = async (no) => {
   const pengajuan = await prisma.pengajuan.findUnique({
     where: {
@@ -49,7 +74,7 @@ const insertPengajuan = async (newPengajuanData) => {
       title: newPengajuanData.title,
       unit_pengajuan: newPengajuanData.unit_pengajuan,
       tanggal_pengajuan: new Date(newPengajuanData.tanggal_pengajuan),
-      
+
       Detail_Pengajuan: {
         createMany: {
           data: newPengajuanData.detail_pengajuan.map((item) => ({
@@ -86,4 +111,5 @@ module.exports = {
   findPengajuanByNo,
   insertPengajuan,
   cancelPengajuan,
+  findPengajuanByNip,
 };

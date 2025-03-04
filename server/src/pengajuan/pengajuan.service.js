@@ -4,10 +4,16 @@ const {
   insertPengajuan,
   cancelPengajuan,
   findPengajuanByNo,
+  findPengajuanByNip,
 } = require('./pengajuan.repository');
 
 const listPengajuan = async () => {
   const pengajuan = await findAllPengajuan();
+  return pengajuan;
+};
+
+const listPengajuanByUser = async (nip) => {
+  const pengajuan = await findPengajuanByNip(nip);
   return pengajuan;
 };
 
@@ -39,4 +45,5 @@ module.exports = {
   detailPengajuan,
   createPengajuan,
   cancelledPengajuan,
+  listPengajuanByUser,
 };

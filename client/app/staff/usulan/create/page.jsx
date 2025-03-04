@@ -1,8 +1,9 @@
+import CreatePengajuanForm from '@/components/(form)/pengajuan/CreatePengajuanForm'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <CreatePengajuanForm />
   )
 }
 
