@@ -1,4 +1,7 @@
 const prisma = require('../../db/index');
+const {
+  findDetailPengadaanByKodeBarang,
+} = require('../detail_pengadaan/dp.repository');
 
 const findAllPengadaan = async () => {
   const pengadaan = await prisma.pengadaan.findMany({
@@ -35,6 +38,46 @@ const insertPengadaan = async (newPengadaanData) => {
     throw new Error('Detail barang tidak boleh kosong');
   }
 
+  const generateKodeAsetBatch = async (kode_barang, jumlah) => {
+    const details = await findDetailPengadaanByKodeBarang(kode_barang);
+    const existingKodeAset = new Set(details.map((d) => d.kode_aset));
+
+    let newKodeAsetList = [];
+    let counter = 1;
+
+    while (newKodeAsetList.length < jumlah) {
+      const newKodeAset = `${String(counter).padStart(3, '0')}`;
+      if (!existingKodeAset.has(newKodeAset)) {
+        newKodeAsetList.push(newKodeAset);
+      }
+      counter++;
+    }
+
+    return newKodeAsetList;
+  };
+
+  const detailBarangWithKodeAset = await Promise.all(
+    newPengadaanData.detail_barang.flatMap(async (item) => {
+      const jumlah = Number(item.jumlah_barang);
+      const kode_aset_list = await generateKodeAsetBatch(
+        item.kode_barang,
+        jumlah
+      );
+
+      return kode_aset_list.map((kode_aset) => ({
+        id: `${newPengadaanData.nomor_pengadaan}.${item.kode_barang}.${kode_aset}`,
+        kode_barang: item.kode_barang,
+        id_lokasi: Number(item.id_lokasi),
+        nip_penanggung_jawab: item.nip_penanggung_jawab,
+        kode_aset,
+        harga_satuan: Number(item.harga_satuan),
+        merk: item.merk,
+        ukuran: item.ukuran,
+        umur_ekonomis: Number(item.umur_ekonomis),
+      }));
+    })
+  ).then((result) => result.flat());
+
   const pengadaan = await prisma.pengadaan.create({
     data: {
       no_pengajuan: newPengadaanData.no_pengajuan,
@@ -44,23 +87,18 @@ const insertPengadaan = async (newPengadaanData) => {
       dokumen_pengadaan: newPengadaanData?.dokumen_pengadaan,
       Detail_Pengadaan: {
         createMany: {
-          data: newPengadaanData.detail_barang.map((item) => ({
-            id: `${newPengadaanData.nomor_pengadaan}.${item.kode_barang}.${item.kode_aset}`,
-            kode_barang: item.kode_barang,
-            id_lokasi: Number(item.id_lokasi),
-            nip_penanggung_jawab: item.nip_penanggung_jawab,
-            kode_aset: item.kode_aset,
-            harga_satuan: Number(item.harga_satuan),
-            merk: item.merk,
-            ukuran: item.ukuran,
-            umur_ekonomis: Number(item.umur_ekonomis),
-          })),
+          data: detailBarangWithKodeAset,
         },
       },
     },
     include: {
       Detail_Pengadaan: true,
     },
+  });
+
+  await prisma.pengajuan.update({
+    where: { no_pengajuan: newPengadaanData.no_pengajuan },
+    data: { status: 'Completed' },
   });
 
   return pengadaan;

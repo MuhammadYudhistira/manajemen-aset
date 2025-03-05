@@ -1,4 +1,4 @@
-const { deleteImage } = require("../middleware/uploadGambar");
+const { deleteImage } = require('../middleware/uploadGambar');
 const {
   findUser,
   findUserById,
@@ -11,19 +11,26 @@ const {
   countUserByPJ,
   deleteUserByNip,
   editUserByNip,
-} = require("./user.repository");
+  findPJ,
+  findUserByRole,
+} = require('./user.repository');
 
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 
 const getUser = async () => {
   const users = await findUser();
   return users;
 };
 
+const getStaff = async () => {
+  const users = await findUserByRole('STAFF');
+  return users;
+};
+
 const countUserStats = async () => {
   const all = await countAllUser();
-  const wanita = await countUserByGender("Wanita");
-  const pria = await countUserByGender("Pria");
+  const wanita = await countUserByGender('Wanita');
+  const pria = await countUserByGender('Pria');
   const pj = await countUserByPJ();
 
   return {
@@ -36,13 +43,18 @@ const countUserStats = async () => {
 
 const getDetailUser = async (nip) => {
   const user = await findUserByNip(nip);
-  if (!user) throw new Error("User tidak ditemukan");
+  if (!user) throw new Error('User tidak ditemukan');
+  return user;
+};
+
+const getPj = async () => {
+  const user = await findPJ();
   return user;
 };
 
 const countUser = async (nip) => {
   const user = await findUserByNip(nip);
-  if (user) throw new Error("User dengan nip tersebut sudah ada");
+  if (user) throw new Error('User dengan nip tersebut sudah ada');
   return user;
 };
 
@@ -116,4 +128,6 @@ module.exports = {
   deleteUser,
   editUser,
   countUserStats,
+  getPj,
+  getStaff,
 };

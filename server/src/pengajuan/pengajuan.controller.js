@@ -9,11 +9,22 @@ const {
   createPengajuan,
   cancelledPengajuan,
   listPengajuanByUser,
+  listAcceptedPengajuan,
 } = require('./pengajuan.service');
 
 router.get('/', async (req, res) => {
   try {
     const pengajuan = await listPengajuan();
+    response(200, pengajuan, 'Berhasil mengambil data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.get('/accepted', async (req, res) => {
+  try {
+    const pengajuan = await listAcceptedPengajuan();
     response(200, pengajuan, 'Berhasil mengambil data', res);
   } catch (error) {
     console.log(error);

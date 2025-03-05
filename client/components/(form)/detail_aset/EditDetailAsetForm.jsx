@@ -14,12 +14,15 @@ import { Spinner } from "@nextui-org/react";
 import React from "react";
 import { useFetchDetailDP } from "@/hooks/detail_pengadaan/UseFetchDetailDP";
 import { useEditDP } from "@/hooks/detail_pengadaan/UseEditDP";
+import { useFetchStaff } from "@/hooks/user/useFetchStaff";
 
 const EditDetailAsetForm = ({ id }) => {
   const { data: lokasi } = useFetchRuangan();
+  const { data: staff } = useFetchStaff();
   const { data: aset, refetch, isLoading } = useFetchDetailDP(id);
 
   const selectedruangan = lokasi?.find((r) => r?.id === aset?.id_lokasi);
+  const selectedStaff = staff?.find((r) => r?.nip === aset?.nip_penanggung_jawab);
 
   const { mutate: deleteImage } = useDeleteDAImage({
     onSuccess: () => {
@@ -54,6 +57,7 @@ const EditDetailAsetForm = ({ id }) => {
     initialValues: {
       id: aset?.id || "",
       id_lokasi: aset?.id_lokasi || "",
+      nip_penanggung_jawab: aset?.nip_penanggung_jawab || "",
       merk: aset?.merk || "",
       ukuran: aset?.ukuran || "",
       nomor_pengadaan: aset?.nomor_pengadaan || "",
@@ -73,10 +77,12 @@ const EditDetailAsetForm = ({ id }) => {
         nomor_mesin,
         nomor_polisi,
         nomor_rangka,
+        nip_penanggung_jawab
       } = formik.values;
       const formData = new FormData();
       formData.append("kode_barang", kode_barang);
       formData.append("id_lokasi", id_lokasi);
+      formData.append("nip_penanggung_jawab", nip_penanggung_jawab);
       formData.append("merk", merk);
       formData.append("ukuran", ukuran);
       formData.append("nomor_bpkb", nomor_bpkb);
@@ -259,6 +265,27 @@ const EditDetailAsetForm = ({ id }) => {
               return (
                 <option value={lokasi?.id} key={index}>
                   {lokasi?.nama_lokasi}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Penanggung Jawab</span>
+          </div>
+          <select
+            className="select bg-blue-50 text-sm"
+            name="nip_penanggung_jawab"
+            onChange={handleFormInput}
+          >
+            <option defaultValue={selectedStaff?.nip} hidden>
+              {selectedStaff?.nama}
+            </option>
+            {staff?.map((item, index) => {
+              return (
+                <option value={item?.nip} key={index}>
+                  {item?.nama}
                 </option>
               );
             })}

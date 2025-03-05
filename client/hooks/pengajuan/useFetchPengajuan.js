@@ -1,11 +1,11 @@
 import { axiosPrivate } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFetchListPengajuanUser = () => {
+export const useFetchPengajuan = () => {
   return useQuery({
-    queryKey: ["listPengajuanUser"],
+    queryKey: ["listPengajuan"],
     queryFn: async () => {
-      const response = await axiosPrivate.get(`/pengajuan/user`);
+      const response = await axiosPrivate.get(`/pengajuan`);
       return response.data.payload;
     },
     retry: false,

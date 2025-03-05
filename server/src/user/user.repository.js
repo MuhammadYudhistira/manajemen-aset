@@ -23,6 +23,50 @@ const findUserByNip = async (nip) => {
   return user;
 };
 
+const findUserByRole = async (role) => {
+  const user = await prisma.user.findMany({
+    where: {
+      role: role,
+    },
+    select: {
+      nama: true,
+      nip: true,
+      image: true,
+    },
+  });
+
+  return user;
+};
+
+const findPJ = async () => {
+  const user = await prisma.user.findMany({
+    where: {
+      Detail_Pengadaan: {
+        some: {}, // Cek apakah ada relasi ke Detail_Pengadaan
+      },
+    },
+    include: {
+      Detail_Pengadaan: {
+        select: {
+          id: true,
+          barang: {
+            select: {
+              nama_barang: true,
+            },
+          },
+          Detail_Aset_Images: {
+            select: {
+              link: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return user;
+};
+
 const insertUser = async (newUserData) => {
   const user = validate(registerUserValidation, newUserData);
 
@@ -95,4 +139,6 @@ module.exports = {
   countAllUser,
   countUserByGender,
   countUserByPJ,
+  findPJ,
+  findUserByRole,
 };

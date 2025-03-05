@@ -48,6 +48,7 @@ enum Status_pengajuan {
   Approved
   Rejected
   Cancelled
+  Completed
 }
 
 enum Jenis_Kelamin {

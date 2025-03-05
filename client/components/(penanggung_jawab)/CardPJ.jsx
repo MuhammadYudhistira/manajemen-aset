@@ -44,7 +44,6 @@ const CardPJ = ({
         deletePJ(selectedId)
     };
 
-    console.log(asets)
 
     return (
         <div className="group rounded-lg border bg-white p-5">
@@ -89,13 +88,13 @@ const CardPJ = ({
                                     </p>
                                 </div>
                             </div>
-                            <Button
+                            {/* <Button
                                 onPress={onOpen}
                                 onClick={() => { setSelectedId(aset.id) }}
                                 className="btn bg-transparent text-red-500 border-0 shadow-none"
                                 size='sm'>
                                 <DeleteOutlineOutlinedIcon className='size-5' />
-                            </Button>
+                            </Button> */}
                         </div>
                     )
                 })}

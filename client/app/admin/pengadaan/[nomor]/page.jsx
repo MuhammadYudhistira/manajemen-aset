@@ -12,7 +12,7 @@ const page = ({ params }) => {
   const { data, isLoading, isError, error } = useFetchDetailPengadaan(params.nomor)
   console.log("🚀 ~ page ~ data:", data)
 
-  const total_harga = data?.Detail_Aset?.reduce((acc, curr) => {
+  const total_harga = data?.Detail_Pengadaan?.reduce((acc, curr) => {
     return acc + curr.harga_satuan;
   }, 0);
 
@@ -56,13 +56,7 @@ const page = ({ params }) => {
           <div>
             <div className="mt-4">
               <p className="text-sm text-gray-500 font-medium">Tanggal Pengajuan</p>
-              <p className="font-bold">{moment(data?.tanggal_pengadaan).format("DD-MM-YYYY")}</p>
-            </div>
-            <div className="mt-4">
-              <p className="text-sm text-gray-500 font-medium">Barang</p>
-              {data?.Detail_Pengadaan?.map((aset) => {
-                return <p className="font-bold" key={aset?.aset?.kode_barang}>{aset.jumlah_barang} {aset?.aset.nama_barang}</p>
-              })}
+              <p className="font-bold">{moment(data?.tanggal_penerimaan).format("DD-MM-YYYY")}</p>
             </div>
           </div>
         </div>
@@ -72,10 +66,10 @@ const page = ({ params }) => {
             <thead className="text-center md:text-left">
               <tr>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Kode Barang
+                  Kode Aset
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Nama Aset
+                  Nama Barang
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                   Lokasi
@@ -89,20 +83,20 @@ const page = ({ params }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {data?.Detail_Aset?.map((aset) => {
+              {data?.Detail_Pengadaan?.map((aset) => {
                 return (
-                  <tr key={aset?.kode_detail}>
+                  <tr key={aset?.id}>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {aset?.kode_detail}
+                      {aset?.id}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {aset?.aset?.nama_barang}
+                      {aset?.barang?.nama_barang} ( {aset?.barang?.kode_barang} )
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {aset?.lokasi?.nama_lokasi}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {moment(aset?.detail_aset?.aset?.tahun_perolehan).format("DD-MM-YYYY")}
+                      {moment(aset?.tanggal_penerimaan).format("DD-MM-YYYY")}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {formatRupiah(aset?.harga_satuan)}

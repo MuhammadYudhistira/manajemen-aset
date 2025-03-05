@@ -63,6 +63,16 @@ const findDetailPengadaanById = async (id) => {
   return detailPengadaan;
 };
 
+const findDetailPengadaanByKodeBarang = async (kode_barang) => {
+  const detailPengadaan = await prisma.detail_Pengadaan.findMany({
+    where: {
+      kode_barang: kode_barang,
+    },
+  });
+
+  return detailPengadaan;
+};
+
 const editStatusDetailPengadaan = async (id, status, keterangan) => {
   const detailPengadaan = await prisma.detail_Pengadaan.update({
     where: {
@@ -81,6 +91,7 @@ const editDetailPengadaan = async (id, data) => {
     where: { id },
     data: {
       id_lokasi: parseInt(data.id_lokasi),
+      nip_penanggung_jawab: data.nip_penanggung_jawab,
       merk: data.merk,
       ukuran: data.ukuran,
       Aset_Kendaraan: {
@@ -117,6 +128,7 @@ const deleteDetailPengadaanById = async (id) => {
 module.exports = {
   findAllDetailPengadaan,
   findDetailPengadaanById,
+  findDetailPengadaanByKodeBarang,
   editStatusDetailPengadaan,
   editDetailPengadaan,
   deleteDetailPengadaanById,

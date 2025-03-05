@@ -14,6 +14,11 @@ const findAllPengajuan = async () => {
           jumlah_barang: true,
         },
       },
+      user: {
+        select: {
+          nama: true,
+        },
+      },
     },
   });
   return pengajuan;
@@ -68,6 +73,29 @@ const findPengajuanByNo = async (no) => {
   return pengajuan;
 };
 
+const findPengajuanByStatus = async (status) => {
+  const pengajuan = await prisma.pengajuan.findMany({
+    where: {
+      status: status,
+    },
+    include: {
+      user: {
+        select: {
+          nama: true,
+          image: true,
+        },
+      },
+      Detail_Pengajuan: {
+        include: {
+          Barang: true,
+        },
+      },
+    },
+  });
+
+  return pengajuan;
+};
+
 const insertPengajuan = async (newPengajuanData) => {
   const pengajuan = await prisma.pengajuan.create({
     data: {
@@ -114,4 +142,5 @@ module.exports = {
   insertPengajuan,
   cancelPengajuan,
   findPengajuanByNip,
+  findPengajuanByStatus,
 };
