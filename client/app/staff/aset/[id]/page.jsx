@@ -34,7 +34,7 @@ const page = ({ params }) => {
                 </div>
                 <QrCode
                     aset={`${data?.barang?.nama_barang} ${data?.merk}`}
-                    kode_detail={data.id}
+                    kode_detail={data?.id}
                     kode_barang={data?.id}
                     ruangan={data?.lokasi?.nama_lokasi}
                     tahun={moment(data?.pengadaan?.tanggal_penerimaan).format("YYYY")}
@@ -66,7 +66,7 @@ const page = ({ params }) => {
                                         <li>
                                             <QrCode
                                                 aset={`${data?.barang?.nama_barang} ${data?.merk}`}
-                                                kode_detail={data.id}
+                                                kode_detail={data?.id}
                                                 kode_barang={data?.id}
                                                 ruangan={data?.lokasi?.nama_lokasi}
                                                 tahun={moment(data?.pengadaan?.tanggal_penerimaan).format("YYYY")}

@@ -1,5 +1,4 @@
 "use client";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -25,10 +24,10 @@ import computer from "@/public/computer.jpg";
 import { useDeleteAset } from "@/hooks/aset/useDeleteAset";
 import { notFound, redirect } from "next/navigation";
 import { toast } from "sonner";
-import { formatRupiah } from "@/libs/formatRupiah";
 
 const page = ({ params }) => {
   const { data, isLoading, isError, error } = useFetchDetailAset(params.kode);
+  console.log("🚀 ~ page ~ data:", data)
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
@@ -62,33 +61,31 @@ const page = ({ params }) => {
         <div className="mr-auto hidden rounded-md bg-white font-medium md:block">
           <Breadcrumbs variant="bordered" radius="sm">
             <BreadcrumbItem href="/admin">Home</BreadcrumbItem>
-            <BreadcrumbItem href="/admin/aset">List Aset</BreadcrumbItem>
+            <BreadcrumbItem href="/admin/aset">List Barang</BreadcrumbItem>
             <BreadcrumbItem href={`/admin/aset/${data?.kode_barang}`}>
-              Aset
+              Barang
             </BreadcrumbItem>
           </Breadcrumbs>
         </div>
         <Suspense fallback={<Spinner />}>
           <>
-            {data?.Detail_Aset?.length !== data?.jumlah_barang && (
-              <Link
-                href={`/admin/aset/${params.kode}/create`}
-                className="btn bg-white text-black"
-              >
-                <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-              </Link>
-            )}
+            {/* <Link
+              href={`/admin/aset/${params.kode}/create`}
+              className="btn bg-white text-black"
+            >
+              <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
+            </Link> */}
             <Link
               href={`/admin/aset/${data?.kode_barang}/edit`}
               className="btn bg-white text-black"
             >
-              <EditOutlinedIcon /> Edit Aset
+              <EditOutlinedIcon /> Edit Barang
             </Link>
             <Button
               onPress={onOpen}
               className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
             >
-              <DeleteOutlineOutlinedIcon /> Delete Aset
+              <DeleteOutlineOutlinedIcon /> Delete Barang
             </Button>
             <Modal
               isOpen={isOpen}
@@ -140,22 +137,20 @@ const page = ({ params }) => {
               tabIndex={0}
               className="menu dropdown-content z-[1] w-72 space-y-2 rounded-box bg-base-100 p-2 shadow"
             >
-              <li>
-                {data?.Detail_Aset?.length !== data?.jumlah_barang && (
-                  <Link
-                    href={`/admin/aset/${params.id}/create`}
-                    className="btn bg-white text-black"
-                  >
-                    <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
-                  </Link>
-                )}
-              </li>
+              {/* <li>
+                <Link
+                  href={`/admin/aset/${params.id}/create`}
+                  className="btn bg-white text-black"
+                >
+                  <AddCircleOutlineOutlinedIcon /> Tambah Detail Aset
+                </Link>
+              </li> */}
               <li>
                 <Link
                   href={`/admin/aset/${data?.kode_barang}/edit`}
                   className="btn bg-white text-black"
                 >
-                  <EditOutlinedIcon /> Edit Aset
+                  <EditOutlinedIcon /> Edit Barang
                 </Link>
               </li>
               <li>
@@ -163,7 +158,7 @@ const page = ({ params }) => {
                   onPress={onOpen}
                   className="btn bg-white text-red-500 hover:border-red-300 hover:bg-red-50"
                 >
-                  <DeleteOutlineOutlinedIcon /> Delete Aset
+                  <DeleteOutlineOutlinedIcon /> Delete Barang
                 </Button>
               </li>
             </ul>
@@ -198,7 +193,7 @@ const page = ({ params }) => {
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Jumlah Barang</h3>
-                    <p className="text-gray-400">{data?.Detail_Aset?.length}</p>
+                    <p className="text-gray-400">{data?.Detail_Pengadaan?.length}</p>
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-medium">Jenis Aset</h3>
@@ -216,14 +211,14 @@ const page = ({ params }) => {
               </div>
             ) : (
               <div className="mt-6 overflow-x-auto">
-                {data?.Detail_Aset?.length === 0 ? (
+                {data?.Detail_Pengadaan?.length === 0 ? (
                   "Belum Ada Detail Aset"
                 ) : (
                   <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                     <thead className="text-center md:text-left">
                       <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                          Kode Barang
+                          Kode Aset
                         </th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                           Lokasi
@@ -242,11 +237,11 @@ const page = ({ params }) => {
                     </thead>
 
                     <tbody className="divide-y divide-gray-200">
-                      {data?.Detail_Aset?.map((detail) => {
+                      {data?.Detail_Pengadaan?.map((detail) => {
                         return (
                           <tr key={detail.id}>
                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                              {detail.kode_detail}
+                              {detail.id}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                               {detail.lokasi.nama_lokasi}
@@ -256,11 +251,7 @@ const page = ({ params }) => {
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                               <div className="avatar">
-                                <p>
-                                  {detail.Penanggung_Jawab.length !== 0
-                                    ? detail?.Penanggung_Jawab[0]?.user?.nama
-                                    : "Belum ada penanggung jawab"}
-                                </p>
+                                <p>{detail.user.nama}</p>
                               </div>
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
@@ -269,7 +260,7 @@ const page = ({ params }) => {
                             <td className="whitespace-nowrap px-4 py-2">
                               <div className="lg:tooltip" data-tip="Detail">
                                 <Link
-                                  href={`/admin/detail_aset/${detail.kode_detail}`}
+                                  href={`/admin/detail_aset/${detail.id}`}
                                 >
                                   <MoreHorizIcon />
                                 </Link>

@@ -10,25 +10,14 @@ import { useDeleteDAImage } from "@/hooks/detail_aset/useDeleteDAImage";
 import { toast } from "sonner";
 import { useEditDA } from "@/hooks/detail_aset/useEditDA";
 import { redirect } from "next/navigation";
-import { DatePicker, Spinner } from "@nextui-org/react";
-import { parseDate } from "@internationalized/date";
+import { Spinner } from "@nextui-org/react";
 import React from "react";
-import moment from "moment";
+import { useFetchDetailDP } from "@/hooks/detail_pengadaan/UseFetchDetailDP";
+import { useEditDP } from "@/hooks/detail_pengadaan/UseEditDP";
 
-const EditDetailAsetForm = ({ kode_detail }) => {
+const EditDetailAsetForm = ({ id }) => {
   const { data: lokasi } = useFetchRuangan();
-  const { data: aset, refetch, isLoading } = useFetchDA(kode_detail);
-
-  const today = parseDate(new Date().toISOString().split("T")[0]);
-
-  const dateString = new Date(aset?.tahun_perolehan);
-  const defaultDate = moment(dateString).format("YYYY-MM-DD");
-  const [date, setDate] = useState(defaultDate);
-
-  const handleChangeDate = (newDate) => {
-    const formatDate = new Date(newDate);
-    setDate(formatDate);
-  };
+  const { data: aset, refetch, isLoading } = useFetchDetailDP(id);
 
   const selectedruangan = lokasi?.find((r) => r?.id === aset?.id_lokasi);
 
@@ -47,7 +36,7 @@ const EditDetailAsetForm = ({ kode_detail }) => {
     mutate: editDetailAset,
     isSuccess,
     isPending,
-  } = useEditDA({
+  } = useEditDP({
     onSuccess: () => {
       toast.success("Berhasil mengupdate data detail aset");
     },
@@ -63,18 +52,15 @@ const EditDetailAsetForm = ({ kode_detail }) => {
 
   const formik = useFormik({
     initialValues: {
-      kode_barang: aset?.kode_barang || "",
+      id: aset?.id || "",
       id_lokasi: aset?.id_lokasi || "",
       merk: aset?.merk || "",
       ukuran: aset?.ukuran || "",
-      kode_detail: aset?.kode_detail || "",
+      nomor_pengadaan: aset?.nomor_pengadaan || "",
       nomor_rangka: aset?.Aset_Kendaraan?.nomor_rangka || "",
       nomor_mesin: aset?.Aset_Kendaraan?.nomor_mesin || "",
       nomor_polisi: aset?.Aset_Kendaraan?.nomor_polisi || "",
       nomor_bpkb: aset?.Aset_Kendaraan?.nomor_bpkb || "",
-      keterangan: aset?.keterangan || "",
-      nomor_pengadaan: aset?.nomor_pengadaan || "",
-      harga_satuan: aset?.harga_satuan || "",
     },
     enableReinitialize: true,
     onSubmit: () => {
@@ -83,7 +69,6 @@ const EditDetailAsetForm = ({ kode_detail }) => {
         id_lokasi,
         merk,
         ukuran,
-        harga_satuan,
         nomor_bpkb,
         nomor_mesin,
         nomor_polisi,
@@ -94,8 +79,6 @@ const EditDetailAsetForm = ({ kode_detail }) => {
       formData.append("id_lokasi", id_lokasi);
       formData.append("merk", merk);
       formData.append("ukuran", ukuran);
-      formData.append("tahun_perolehan", date || null);
-      formData.append("harga_satuan", harga_satuan);
       formData.append("nomor_bpkb", nomor_bpkb);
       formData.append("nomor_mesin", nomor_mesin);
       formData.append("nomor_polisi", nomor_polisi);
@@ -103,7 +86,7 @@ const EditDetailAsetForm = ({ kode_detail }) => {
       for (let i = 0; i < image.length; i++) {
         formData.append(`image`, image[i]);
       }
-      editDetailAset({ kode: kode_detail, body: formData });
+      editDetailAset({ id: id, body: formData });
 
       // Melihat isi formData
       for (let pair of formData.entries()) {
@@ -127,7 +110,7 @@ const EditDetailAsetForm = ({ kode_detail }) => {
   };
 
   if (isSuccess) {
-    redirect(`/admin/detail_aset/${kode_detail}`);
+    redirect(`/admin/detail_aset/${id}`);
   }
 
   if (isLoading) {
@@ -139,14 +122,26 @@ const EditDetailAsetForm = ({ kode_detail }) => {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Kode Detail</span>
+            <span className="label-text">Kode Aset</span>
           </div>
           <input
             type="text"
-            placeholder="Kode Detail"
-            name="kode_detail"
-            value={formik.values.kode_detail}
-            onChange={handleFormInput}
+            placeholder="Kode Aset"
+            name="id"
+            value={formik.values.id}
+            className="input bg-blue-50 text-sm text-black"
+            disabled
+          />
+        </label>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Nomor Pengadaan</span>
+          </div>
+          <input
+            type="text"
+            placeholder="nomor Pengadaan"
+            name="nomor_pengadaan"
+            value={formik.values.nomor_pengadaan}
             className="input bg-blue-50 text-sm text-black"
             disabled
           />
@@ -191,21 +186,7 @@ const EditDetailAsetForm = ({ kode_detail }) => {
             className="input bg-blue-50 text-sm text-black"
           />
         </label> */}
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Harga Satuan</span>
-          </div>
-          <input
-            type="number"
-            placeholder="Harga Satuan"
-            name="harga_satuan"
-            value={formik.values.harga_satuan}
-            onChange={handleFormInput}
-            className="input bg-blue-50 text-sm text-black"
-            required
-          />
-        </label>
-        {aset?.aset?.jenis_barang === 'Kendaraan' && (
+        {aset?.barang?.jenis_barang === 'Kendaraan' && (
           <>
             <label className="form-control w-full">
               <div className="label">
@@ -284,17 +265,6 @@ const EditDetailAsetForm = ({ kode_detail }) => {
           </select>
         </label>
       </div>
-      <DatePicker
-        maxValue={today}
-        defaultValue={parseDate(defaultDate)}
-        name="tahun_perolehan"
-        onChange={handleChangeDate}
-        className="z-0"
-        labelPlacement="outside"
-        showMonthAndYearPickers
-        label={`Tahun perolehan`}
-        color="primary"
-      />
       <div className="label flex flex-col items-start gap-3">
         <span className="label-text">Gambar Barang</span>
         <div className="flex gap-3">

@@ -106,7 +106,7 @@ const deleteCustodianById = async (id) => {
 const findAllUsersWhoCustodian = async () => {
   const listUsers = await prisma.user.findMany({
     where: {
-      Penanggung_Jawab: {
+      Detail_Pengadaan: {
         some: {},
       },
     },
@@ -114,27 +114,22 @@ const findAllUsersWhoCustodian = async () => {
       nama: true,
       nip: true,
       image: true,
-      Penanggung_Jawab: {
+      Detail_Pengadaan: {
         select: {
           id: true,
-          detail_aset: {
+          lokasi: {
             select: {
-              kode_detail: true,
-              merk: true,
-              aset: {
-                select: {
-                  nama_barang: true,
-                },
-              },
-              kode_barang: true,
-              lokasi: {
-                select: {
-                  nama_lokasi: true,
-                },
-              },
-              Detail_Aset_Images: {
-                take: 1,
-              },
+              nama_lokasi: true,
+            },
+          },
+          barang: {
+            select: {
+              nama_barang: true,
+            },
+          },
+          Detail_Aset_Images: {
+            select: {
+              link: true,
             },
           },
         },

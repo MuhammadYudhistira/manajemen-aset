@@ -44,6 +44,8 @@ const CardPJ = ({
         deletePJ(selectedId)
     };
 
+    console.log(asets)
+
     return (
         <div className="group rounded-lg border bg-white p-5">
             <div className='flex gap-3'>
@@ -71,19 +73,19 @@ const CardPJ = ({
                         <div className='flex justify-between gap-3 bg-gray-200 p-2 rounded-lg overflow-auto' key={aset.id}>
                             <div className='flex gap-3'>
                                 <Image
-                                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.detail_aset?.Detail_Aset_Images[0]?.link}`}
+                                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset?.Detail_Aset_Images[0]?.link}`}
                                     width={500}
                                     height={500}
-                                    alt={aset.detail_aset.aset.nama_barang}
+                                    alt={aset?.barang.nama_barang}
                                     priority
                                     className="size-[50px] rounded-lg object-cover object-center"
                                 />
                                 <div>
                                     <h3 className="text-left font-medium text-gray-900">
-                                        {aset.detail_aset.aset.nama_barang}
+                                        {aset?.barang.nama_barang}
                                     </h3>
                                     <p className="flex w-full justify-between text-xs font-medium text-gray-500">
-                                        Kode Aset: {aset.detail_aset.kode_barang}
+                                        Kode Aset: {aset?.id}
                                     </p>
                                 </div>
                             </div>

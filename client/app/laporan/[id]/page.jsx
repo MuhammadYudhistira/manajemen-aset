@@ -58,7 +58,7 @@ const page = ({ params }) => {
                             placeholder="Nama Aset"
                             name="nama"
                             className="input bg-blue-50 text-sm text-black"
-                            value={`${damage?.detail_aset?.aset?.nama_barang} (${damage?.detail_aset?.kode_barang})`}
+                            value={`${damage?.detail_pengadaan?.barang?.nama_barang} (${damage?.detail_pengadaan?.kode_barang})`}
                             disabled
                         />
                     </label>

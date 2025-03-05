@@ -8,6 +8,7 @@ import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import FolderDeleteOutlinedIcon from '@mui/icons-material/FolderDeleteOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import RequestPageOutlinedIcon from '@mui/icons-material/RequestPageOutlined';
 import Image from "next/legacy/image";
 import { Link } from 'next-view-transitions'
 import logo from "../../app/icon.svg";
@@ -37,7 +38,7 @@ const Layout = () => {
         </li>
         <li>
           <Link href="/admin/aset">
-            <Inventory2OutlinedIcon /> Aset
+            <Inventory2OutlinedIcon /> Barang
           </Link>
         </li>
         <li>
@@ -53,6 +54,12 @@ const Layout = () => {
         <li>
           <Link href="/admin/ruangan">
             <MeetingRoomOutlinedIcon /> Ruangan
+          </Link>
+        </li>
+        <li>
+          <Link href="/admin/usulan">
+            <RequestPageOutlinedIcon />
+            Usulan Pengadaan
           </Link>
         </li>
         <li>
