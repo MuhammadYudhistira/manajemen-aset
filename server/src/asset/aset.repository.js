@@ -32,6 +32,11 @@ const findAssetsByCode = async (code) => {
     },
     include: {
       Detail_Pengadaan: {
+        orderBy: {
+          pengadaan: {
+            tanggal_penerimaan: 'desc',
+          },
+        },
         include: {
           lokasi: {
             select: {
@@ -43,6 +48,7 @@ const findAssetsByCode = async (code) => {
               nama: true,
             },
           },
+          pengadaan: true,
         },
       },
     },

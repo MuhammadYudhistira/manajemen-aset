@@ -19,6 +19,7 @@ const page = ({ params }) => {
     const fileAccept = { "application/pdf": [] };
 
     const { data, isLoading, refetch, isError, error } = useFetchDetailDeletion(params.id)
+    console.log("🚀 ~ page ~ data:", data)
 
     const [keterangan, setKeterangan] = useState(null)
     const [showForm, setShowForm] = useState(null);
@@ -189,16 +190,16 @@ const page = ({ params }) => {
                                 return (
                                     <tr key={aset?.id}>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {aset?.detail_aset.kode_detail}
+                                            {aset?.detail_pengadaan?.id}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {aset?.detail_aset.aset.nama_barang}
+                                            {aset?.detail_pengadaan?.barang?.nama_barang}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {moment(aset?.detail_aset.aset.tahun_perolehan).format("DD-MM-YYYY")}
+                                            {moment(aset?.detail_pengadaan?.pengadaan?.tanggal_penerimaan).format("DD-MM-YYYY")}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                            {formatRupiah(aset?.detail_aset.harga_satuan)}
+                                            {formatRupiah(aset?.detail_pengadaan?.harga_satuan)}
                                         </td>
                                     </tr>
                                 )
@@ -213,7 +214,7 @@ const page = ({ params }) => {
                     </div>
                 )}
             </div>
-            {data.bukti_penghapusan && (
+            {data?.bukti_penghapusan && (
                 <div className="p-5 bg-white rounded-lg">
                     <label className="form-control w-full">
                         <div className="label">

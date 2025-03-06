@@ -247,7 +247,7 @@ const page = ({ params }) => {
                               {detail.lokasi.nama_lokasi}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                              {moment(detail.tahun_perolehan).format("DD-MM-YYYY")}
+                              {moment(detail.pengadaan.tanggal_penerimaan).format("DD-MM-YYYY")}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                               <div className="avatar">

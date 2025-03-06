@@ -6,6 +6,7 @@ const {
   findPengajuanByNo,
   findPengajuanByNip,
   findPengajuanByStatus,
+  changePengajuanStatus,
 } = require('./pengajuan.repository');
 
 const listPengajuan = async () => {
@@ -46,6 +47,13 @@ const cancelledPengajuan = async (no) => {
   return pengajuan;
 };
 
+const reviewPengajuan = async (no, data) => {
+  await detailPengajuan(no);
+
+  const pengajuan = await changePengajuanStatus(no, data);
+  return pengajuan;
+};
+
 module.exports = {
   listPengajuan,
   detailPengajuan,
@@ -53,4 +61,5 @@ module.exports = {
   cancelledPengajuan,
   listPengajuanByUser,
   listAcceptedPengajuan,
+  reviewPengajuan,
 };

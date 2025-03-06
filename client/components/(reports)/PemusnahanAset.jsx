@@ -69,16 +69,16 @@ const PemusnahanAset = ({ asets, title, createdAt }) => {
                                 return (
                                     <tr key={aset.id}>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
-                                            {aset.detail_aset.kode_detail}
+                                            {aset.detail_pengadaan.id}
                                         </td>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
-                                            {aset.detail_aset.aset.nama_barang}
+                                            {aset.detail_pengadaan.barang.nama_barang}
                                         </td>
                                         <td className="whitespace-nowrap px-4 font-medium text-center text-gray-900 border-collapse border border-black">
-                                            {moment(aset.detail_aset.aset.tahun_perolehan).format("DD MMMM YYYY")}
+                                            {moment(aset?.detail_pengadaan?.pengadaan?.tanggal_penerimaan).format("DD MMMM YYYY")}
                                         </td>
                                         <td className="whitespace-nowrap px-4 font-medium text-gray-900 border-collapse border border-black">
-                                            {formatRupiah(aset.detail_aset.harga_satuan)}
+                                            {formatRupiah(aset.detail_pengadaan.harga_satuan)}
                                         </td>
                                     </tr>
                                 )

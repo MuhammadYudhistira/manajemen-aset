@@ -10,6 +10,7 @@ const {
   cancelledPengajuan,
   listPengajuanByUser,
   listAcceptedPengajuan,
+  reviewPengajuan,
 } = require('./pengajuan.service');
 
 router.get('/', async (req, res) => {
@@ -74,6 +75,30 @@ router.post('/:no/cancel', async (req, res) => {
   try {
     await cancelledPengajuan(req.params.no);
     response(200, null, 'Berhasil membatalkan pengajuan', res);
+  } catch (error) {
+    console.log(error);
+    responseError(404, error.message, res);
+  }
+});
+
+router.post('/:no/approve', async (req, res) => {
+  try {
+    const body = req.body;
+    body.status = 'Approved';
+    const pengajuan = await reviewPengajuan(req.params.no, body);
+    response(200, pengajuan, 'Berhasil membatalkan pengajuan', res);
+  } catch (error) {
+    console.log(error);
+    responseError(404, error.message, res);
+  }
+});
+
+router.post('/:no/reject', async (req, res) => {
+  try {
+    const body = req.body;
+    body.status = 'Rejected';
+    const pengajuan = await reviewPengajuan(req.params.no, body);
+    response(200, pengajuan, 'Berhasil membatalkan pengajuan', res);
   } catch (error) {
     console.log(error);
     responseError(404, error.message, res);

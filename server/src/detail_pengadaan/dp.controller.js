@@ -6,6 +6,8 @@ const {
   deleteDetailPengadaan,
   unarchiveDP,
   archiveDP,
+  getActiveDP,
+  getSearchDetailPengadaan,
 } = require('./dp.service');
 const { response } = require('../response/response');
 const { responseError } = require('../response/responseError');
@@ -25,6 +27,30 @@ router.get('/', async (req, res) => {
     response(200, data, 'Berhasil mengambil data', res);
   } catch (error) {
     console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.get('/active', async (req, res) => {
+  try {
+    const data = await getActiveDP();
+    response(200, data, 'Berhasil mengambil data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.get('/search', async (req, res) => {
+  try {
+    const { kode } = req.query;
+    const data = await getSearchDetailPengadaan(kode);
+    response(200, data, 'Berhasil mendapatkan data', res);
+  } catch (error) {
+    console.log(error);
+    if (error.message === 'Data tidak ditemukan') {
+      responseError(404, error.message, res);
+    }
     responseError(500, error.message, res);
   }
 });

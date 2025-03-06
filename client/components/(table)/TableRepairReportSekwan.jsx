@@ -14,10 +14,10 @@ const TableRepairReportSekwan = () => {
     const columns = [
         {
             header: "Nama Aset",
-            accessorKey: "laporan_kerusakan.detail_aset.aset.nama_barang",
+            accessorKey: "laporan_kerusakan.detail_pengadaan.barang.nama_barang",
             cell: (info) => {
                 const row = info.row.original;
-                const kode = row?.laporan_kerusakan.detail_aset?.kode_barang;
+                const kode = row?.laporan_kerusakan.detail_pengadaan?.id;
                 return (
                     <p>
                         {info.getValue()} ({kode})

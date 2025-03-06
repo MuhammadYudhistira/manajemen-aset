@@ -5,10 +5,11 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Avatar, Spinner } from '@nextui-org/react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useSearchDP } from '@/hooks/detail_pengadaan/useSearchDP';
 
 const Search = () => {
   const [search, setSearch] = useState('');
-  const { data: asets, isLoading } = useSearchDA(search);
+  const { data: asets, isLoading } = useSearchDP(search);
 
   const onSearchChange = (e) => {
     const newSearch = e.target.value;
@@ -31,13 +32,13 @@ const Search = () => {
         <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-64 overflow-y-auto p-2 shadow mt-3">
           {asets?.map((aset) => {
             return (
-              <Link href={`/detail_aset/${aset.kode_detail}`} key={aset.kode_detail}>
+              <Link href={`/detail_aset/${aset.id}`} key={aset.id}>
                 <li>
                   <div className="flex gap-2 items-center">
-                    <Avatar alt={aset.aset.nama_barang} className="flex-shrink-0" size="sm" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset?.Detail_Aset_Images[0]?.link}`} />
+                    <Avatar alt={aset.barang.nama_barang} className="flex-shrink-0" size="sm" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset?.Detail_Aset_Images[0]?.link}`} />
                     <div className="flex flex-col">
-                      <span className="text-small">{aset.kode_detail}</span>
-                      <span className="text-tiny text-default-400">{aset.aset.nama_barang}</span>
+                      <span className="text-small">{aset.id}</span>
+                      <span className="text-tiny text-default-400">{aset.barang.nama_barang}</span>
                     </div>
                   </div>
                 </li>

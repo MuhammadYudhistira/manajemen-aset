@@ -105,9 +105,9 @@ const page = () => {
           <h3 className="text-sm/tight sm:text-medium font-semibold">Aset Terbaru</h3>
           {data?.listAset.map((aset) => {
             return (
-              <Link href={`/admin/detail_aset/${aset.kode_detail}`} className="flex items-center gap-4">
+              <Link href={`/admin/detail_aset/${aset.id}`} className="flex items-center gap-4">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.aset.image}`}
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${aset.barang.image}`}
                   alt="profil"
                   width={500} height={500}
                   className="size-10 rounded-full object-cover"
@@ -115,9 +115,9 @@ const page = () => {
 
                 <div>
                   <h3 className="text-sm/tight sm:text-medium font-medium text-gray-900">
-                    {aset.aset.nama_barang}
+                    {aset.barang.nama_barang}
                   </h3>
-                  <p className="mt-0.5 text-sm/tight text-gray-400">{moment(aset.tahun_perolehan).format("DD MMMM YYYY")}</p>
+                  <p className="mt-0.5 text-sm/tight text-gray-400">{moment(aset.pengadaan.tanggal_penerimaan).format("DD MMMM YYYY")}</p>
                 </div>
               </Link>
             )

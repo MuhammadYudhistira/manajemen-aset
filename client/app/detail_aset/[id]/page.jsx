@@ -18,10 +18,11 @@ import useSession from "@/hooks/session/useSession";
 import { usePathname } from "next/navigation";
 import QrCode from "@/components/(reports)/QrCode";
 import { formatRupiah } from "@/libs/formatRupiah";
+import { useFetchDetailDP } from "@/hooks/detail_pengadaan/UseFetchDetailDP";
 
 const page = ({ params }) => {
 
-    const { data, isLoading } = useFetchDetailDA(params.id)
+    const { data, isLoading } = useFetchDetailDP(params.id)
     const { session } = useSession()
     const pathname = usePathname()
 
@@ -44,11 +45,11 @@ const page = ({ params }) => {
                     </Breadcrumbs>
                 </div>
                 <QrCode
-                    aset={`${data?.aset?.nama_barang} ${data?.merk}`}
-                    kode_detail={data.kode_detail}
-                    kode_barang={data?.kode_detail}
+                    aset={`${data?.barang?.nama_barang} ${data?.merk}`}
+                    kode_detail={data?.id}
+                    kode_barang={data?.id}
                     ruangan={data?.lokasi?.nama_lokasi}
-                    tahun={moment(data?.createdAt).format("YYYY")}
+                    tahun={moment(data?.pengadaan?.tanggal_penerimaan).format("YYYY")}
                 />
                 {session?.role === "STAFF" &&
                     <Link href={`/staff/laporan/aset/${params.id}`} className="btn bg-white text-black">
@@ -78,11 +79,11 @@ const page = ({ params }) => {
                                     >
                                         <li>
                                             <QrCode
-                                                aset={`${data?.aset?.nama_barang} ${data?.merk}`}
-                                                kode_detail={data.kode_detail}
-                                                kode_barang={data?.kode_detail}
+                                                aset={`${data?.barang?.nama_barang} ${data?.merk}`}
+                                                kode_detail={data?.id}
+                                                kode_barang={data?.id}
                                                 ruangan={data?.lokasi?.nama_lokasi}
-                                                tahun={moment(data?.createdAt).format("YYYY")}
+                                                tahun={moment(data?.pengadaan?.tanggal_penerimaan).format("YYYY")}
                                             />
                                         </li>
                                     </ul>
@@ -104,27 +105,19 @@ const page = ({ params }) => {
                                     </div>
                                     <div className="space-y-2">
                                         <h1 className="text-xl font-bold uppercase">
-                                            {data?.aset?.nama_barang}
+                                            {data?.barang?.nama_barang}
                                         </h1>
                                         <div className="space-y-2">
                                             <h3 className="text-lg font-medium">Kode Barang</h3>
-                                            <p className="text-gray-400">{data?.kode_detail}</p>
+                                            <p className="text-gray-400">{data?.id}</p>
                                         </div>
-                                        {/* <div className="space-y-2">
-                    <h3 className="text-lg font-medium">Nomor Pengadaan</h3>
-                    <p className="text-gray-400">{data?.nomor_pengadaan}</p>
-                  </div> */}
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Nomor Pengadaan</h3>
+                                            <p className="text-gray-400">{data?.nomor_pengadaan}</p>
+                                        </div>
                                         <div className="space-y-2">
                                             <h3 className="text-lg font-medium">Lokasi</h3>
                                             <p className="text-gray-400">{data?.lokasi?.nama_lokasi}</p>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <h3 className="text-lg font-medium">Harga Satuan</h3>
-                                            <p className="text-gray-400">{formatRupiah(data?.harga_satuan)}</p>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <h3 className="text-lg font-medium">Tahun Perolehan</h3>
-                                            <p className="text-gray-400">{moment(data?.tahun_perolehan).format("YYYY-MM-DD")}</p>
                                         </div>
                                         <div className="space-y-2">
                                             <h3 className="text-lg font-medium">Status</h3>
@@ -152,6 +145,14 @@ const page = ({ params }) => {
                                 <div className="mt-4 flex flex-col md:flex-row justify-between">
                                     <div className="w-[50%] space-y-2">
                                         <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Harga Satuan</h3>
+                                            <p className="text-gray-400">{formatRupiah(data?.harga_satuan)}</p>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Tahun Perolehan</h3>
+                                            <p className="text-gray-400">{moment(data?.pengadaan?.tanggal_penerimaan).format("YYYY-MM-DD")}</p>
+                                        </div>
+                                        <div className="space-y-2">
                                             <h3 className="text-lg font-medium">Merk</h3>
                                             <p className="text-gray-400">{data?.merk}</p>
                                         </div>
@@ -159,41 +160,6 @@ const page = ({ params }) => {
                                             <h3 className="text-lg font-medium">Ukuran</h3>
                                             <p className="text-gray-400">{data?.ukuran}</p>
                                         </div>
-                                        {data?.aset?.jenis_barang === 'Kendaraan' && (<>
-                                            <div className="space-y-2">
-                                                <h3 className="text-lg font-medium">Nomor Rangka</h3>
-                                                {data?.Aset_Kendaraan?.nomor_rangka ? (
-                                                    <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_rangka}</p>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </div>
-                                            <div className="space-y-2">
-                                                <h3 className="text-lg font-medium">Nomor Mesin</h3>
-                                                {data?.Aset_Kendaraan?.nomor_mesin ? (
-                                                    <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_mesin}</p>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </div>
-                                            <div className="space-y-2">
-                                                <h3 className="text-lg font-medium">Nomor Polisi</h3>
-                                                {data?.Aset_Kendaraan?.nomor_polisi ? (
-                                                    <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_polisi}</p>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </div>
-                                            <div className="space-y-2">
-                                                <h3 className="text-lg font-medium">Nomor BPKB</h3>
-                                                {data?.Aset_Kendaraan?.nomor_bpkb ? (
-                                                    <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_bpkb}</p>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </div>
-                                        </>)
-                                        }
                                         {data?.status === "Inactive" &&
                                             <div className="space-y-2">
                                                 <h3 className="text-lg font-medium">keterangan</h3>
@@ -204,61 +170,66 @@ const page = ({ params }) => {
                                     <div className="w-[50%] mt-4">
                                         <img
                                             alt="qrcode"
-                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${[process.env.NEXT_PUBLIC_QR_URL]}${params.iddetail}`}
+                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${[process.env.NEXT_PUBLIC_QR_URL]}${params.kode_detail}`}
                                             className="rounded-lg object-cover"
                                         />
                                     </div>
                                 </div>
+                                {data?.barang?.jenis_barang === 'Kendaraan' && (
+                                    <div className="grid grid-cols-2 mt-2">
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Nomor Rangka</h3>
+                                            {data?.Aset_Kendaraan?.nomor_rangka ? (
+                                                <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_rangka}</p>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Nomor Mesin</h3>
+                                            {data?.Aset_Kendaraan?.nomor_mesin ? (
+                                                <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_mesin}</p>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Nomor Polisi</h3>
+                                            {data?.Aset_Kendaraan?.nomor_polisi ? (
+                                                <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_polisi}</p>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-medium">Nomor BPKB</h3>
+                                            {data?.Aset_Kendaraan?.nomor_bpkb ? (
+                                                <p className="text-gray-400">{data?.Aset_Kendaraan?.nomor_bpkb}</p>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </div>
+                                    </div>)
+                                }
                             </>
                         )}
                     </div>
                     <div className="space-y-5">
                         <div className="rounded-xl bg-white p-5">
                             <h2 className="text-lg font-medium">Penanggung Jawab</h2>
-                            {isLoading ? (
-                                <div className="mt-4">
-                                    <div className="avatar space-x-2">
-                                        <div className="skeleton w-16 shrink-0 rounded-full"></div>
-                                        <div className="skeleton w-16 shrink-0 rounded-full"></div>
-                                        <div className="skeleton w-16 shrink-0 rounded-full"></div>
+                            <div className="p-5 flex gap-8">
+                                <div className="avatar">
+                                    <div className="w-32 rounded-full">
+                                        <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.user?.image}`} />
                                     </div>
                                 </div>
-                            ) : (
-                                <>
-                                    {data?.Penanggung_Jawab?.length > 0 ? (
-                                        <div className="flex gap-2 mt-4">
-                                            {data?.Penanggung_Jawab?.map((pj, index) => {
-                                                return (
-                                                    <Tooltip showArrow placement="bottom" key={index} delay={1000}
-                                                        content={
-                                                            <div className="space-y-2 p-5 min-h-[121px] w-[360px]">
-                                                                <div className="avatar">
-                                                                    <div className="w-16 rounded-full">
-                                                                        <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.user.image}`} />
-                                                                    </div>
-                                                                </div>
-                                                                <p className="text-md font-semibold">{pj.nama}</p>
-                                                                <p className="text-xs font-medium text-gray-500">{pj.user.nip}</p>
-                                                                <p className="text-xs font-medium text-gray-500">{pj.user.role}</p>
-                                                                <p className="text-xs font-medium text-gray-500">{pj.user.no_hp}</p>
-                                                                <p className="text-xs font-medium text-gray-500">{pj.user.alamat}</p>
-                                                            </div>
-                                                        }
-                                                    >
-                                                        <div className="avatar">
-                                                            <div className="w-16 rounded-full">
-                                                                <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${pj.user.image}`} />
-                                                            </div>
-                                                        </div>
-                                                    </Tooltip>
-                                                )
-                                            })}
-                                        </div>
-                                    ) : (
-                                        <p>Belum ada Penanggung Jawab</p>
-                                    )}
-                                </>
-                            )}
+                                <div className="space-y-2">
+                                    <p className="text-md font-semibold">{data?.user?.nama}</p>
+                                    <p className="text-xs font-medium text-gray-500">{data?.user?.nip}</p>
+                                    <p className="text-xs font-medium text-gray-500">{data?.user?.no_hp}</p>
+                                    <p className="text-xs font-medium text-gray-500">{data?.user?.alamat}</p>
+                                </div>
+                            </div>
                         </div>
                         <div className="space-y-2 rounded-xl bg-white p-5 max-h-[200px] overflow-y-auto">
                             <h2 className="text-lg font-medium">Riwayat Laporan kerusakan</h2>

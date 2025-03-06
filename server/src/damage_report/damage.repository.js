@@ -13,10 +13,10 @@ const findAllDamage = async () => {
           image: true,
         },
       },
-      detail_aset: {
+      detail_pengadaan: {
         select: {
-          kode_detail: true,
-          aset: {
+          id: true,
+          barang: {
             select: {
               nama_barang: true,
             },

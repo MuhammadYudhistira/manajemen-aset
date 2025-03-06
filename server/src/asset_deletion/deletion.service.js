@@ -22,49 +22,45 @@ const createDeletion = async (data) => {
   if (data.kode_detail.length === 0)
     throw new Error('Pilih aset yang ingin dihapus');
   const deletion = await insertDeletion(data);
-  data.kode_detail.forEach((kode_detail) => {
-    updateAssetStatus(
-      kode_detail,
-      'Request_Deletion',
-      'Sedang merequest penghapusan nilai aset'
-    );
-  });
   return deletion;
 };
 
 const confirmationDeletion = async (id, data) => {
   await getDetailDetaletion(id);
   const { keterangan, bukti_penghapusan } = data;
-  const kode_detail = JSON.parse(data.kode_detail);
+
+  const keterangan_aset = {
+    status: 'Deletion_Accepted',
+    keterangan: 'Penghapusan nilai aset disetujui',
+  };
+
   const deletion = await updateDeletionStatus(
     id,
     'Accepted',
     keterangan,
-    bukti_penghapusan
+    bukti_penghapusan,
+    data.kode_detail,
+    keterangan_aset
   );
-  kode_detail.forEach((id) => {
-    updateAssetStatus(
-      id,
-      'Deletion_Accepted',
-      'Penghapusan nilai aset disetujui'
-    );
-  });
+
   return deletion;
 };
 
 const rejectionDeletion = async (id, data) => {
   await getDetailDetaletion(id);
   const { keterangan, bukti_penghapusan } = data;
-  const kode_detail = JSON.parse(data.kode_detail);
+  const keterangan_aset = {
+    status: 'Available',
+    keterangan: 'Aset Tersedia',
+  };
   const deletion = await updateDeletionStatus(
     id,
     'Rejected',
     keterangan,
-    bukti_penghapusan
+    bukti_penghapusan,
+    data.kode_detail,
+    keterangan_aset
   );
-  kode_detail.forEach((id) => {
-    updateAssetStatus(id, 'Available', 'Aset tersedia');
-  });
   return deletion;
 };
 

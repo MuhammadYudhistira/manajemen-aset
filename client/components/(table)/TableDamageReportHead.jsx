@@ -15,10 +15,10 @@ const TableDamageReportHead = () => {
     const columns = [
         {
             header: "Nama Aset",
-            accessorKey: "detail_aset.aset.nama_barang",
+            accessorKey: "detail_pengadaan.barang.nama_barang",
             cell: (info) => {
                 const row = info.row.original;
-                const kode = row?.detail_aset?.kode_detail;
+                const kode = row?.detail_pengadaan?.id;
                 return (
                     <p>
                         {info.getValue()} ({kode})
@@ -51,7 +51,7 @@ const TableDamageReportHead = () => {
         },
         {
             header: "Lokasi",
-            accessorKey: "detail_aset.lokasi.nama_lokasi",
+            accessorKey: "detail_pengadaan.lokasi.nama_lokasi",
         },
         {
             header: "Status",

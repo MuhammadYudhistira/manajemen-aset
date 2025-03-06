@@ -3,6 +3,7 @@ import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import HomeRepairServiceOutlinedIcon from "@mui/icons-material/HomeRepairServiceOutlined";
 import LaptopOutlinedIcon from "@mui/icons-material/LaptopOutlined";
+import RequestPageOutlinedIcon from '@mui/icons-material/RequestPageOutlined';
 import Image from "next/legacy/image";
 import { Link } from 'next-view-transitions'
 import logo from "@/app/icon.svg";
@@ -33,6 +34,12 @@ const SidebarSekwan = () => {
                 <li>
                     <Link href="/sekwan/aset">
                         <Inventory2OutlinedIcon /> Aset
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/sekwan/usulan">
+                        <RequestPageOutlinedIcon />
+                        Usulan Pengadaan
                     </Link>
                 </li>
                 <li>

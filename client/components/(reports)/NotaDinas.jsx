@@ -177,12 +177,26 @@ const NotaDinas = ({ deskripsi_kerusakan, biaya_perbaikan, no_rekening, perihal,
                 </Button>
                 {session?.role === "SEKWAN" && status !== "Completed" ? (
                     <>
-                        <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
-                            <CheckOutlinedIcon /> Setuju
-                        </Button>
-                        <Button onPress={onOpen2} className="btn bg-white text-black border border-black w-full md:w-auto">
-                            <CloseOutlinedIcon /> Tolak
-                        </Button>
+                        {status === "Rejected" && (
+                            <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
+                                <CheckOutlinedIcon /> Setuju
+                            </Button>
+                        )}
+                        {status === "Approved" && (
+                            <Button onPress={onOpen2} className="btn bg-white text-black border border-black w-full md:w-auto">
+                                <CloseOutlinedIcon /> Tolak
+                            </Button>
+                        )}
+                        {status === "Reported" && (
+                            <>
+                                <Button onPress={onOpen1} className="btn bg-white text-black border border-black w-full md:w-auto">
+                                    <CheckOutlinedIcon /> Setuju
+                                </Button>
+                                <Button onPress={onOpen2} className="btn bg-white text-black border border-black w-full md:w-auto">
+                                    <CloseOutlinedIcon /> Tolak
+                                </Button>
+                            </>
+                        )}
                     </>
                 ) : (
                     session?.role === "KEPALA_BAGIAN" && status === "Approved" && (

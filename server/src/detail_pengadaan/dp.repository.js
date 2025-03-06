@@ -22,6 +22,66 @@ const findAllDetailPengadaan = async () => {
   return listDP;
 };
 
+const findActiveDetailPengadaan = async () => {
+  const detailPengadaan = await prisma.detail_Pengadaan.findMany({
+    where: {
+      status: {
+        notIn: ['Inactive', 'Deletion_Accepted'],
+      },
+    },
+    include: {
+      barang: {
+        select: {
+          nama_barang: true,
+          kode_barang: true,
+          jenis_barang: true,
+        },
+      },
+      Aset_Kendaraan: true,
+      pengadaan: true,
+    },
+  });
+
+  return detailPengadaan;
+};
+
+const searchDetailPengadaan = async (search) => {
+  const detailAset = await prisma.detail_Pengadaan.findMany({
+    where: {
+      OR: [
+        {
+          id: {
+            contains: search,
+          },
+        },
+        {
+          barang: {
+            nama_barang: {
+              contains: search,
+            },
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      merk: true,
+      barang: {
+        select: {
+          nama_barang: true,
+        },
+      },
+      Detail_Aset_Images: {
+        select: {
+          link: true,
+        },
+      },
+    },
+  });
+
+  return detailAset;
+};
+
 const findDetailPengadaanById = async (id) => {
   const detailPengadaan = await prisma.detail_Pengadaan.findUnique({
     where: {
@@ -132,4 +192,6 @@ module.exports = {
   editStatusDetailPengadaan,
   editDetailPengadaan,
   deleteDetailPengadaanById,
+  findActiveDetailPengadaan,
+  searchDetailPengadaan,
 };

@@ -6,14 +6,15 @@ const findAllRepair = async () => {
       laporan_kerusakan: {
         select: {
           perihal: true,
-          detail_aset: {
+          detail_pengadaan: {
             select: {
-              kode_barang: true,
-              aset: {
+              id: true,
+              barang: {
                 select: {
                   nama_barang: true,
                 },
               },
+              lokasi: true,
             },
           },
         },
@@ -34,11 +35,11 @@ const findRepairById = async (id) => {
           perihal: true,
           deskripsi: true,
           createdAt: true,
-          detail_aset: {
+          detail_pengadaan: {
             select: {
-              kode_detail: true,
+              id: true,
               kode_barang: true,
-              aset: {
+              barang: {
                 select: {
                   nama_barang: true,
                 },

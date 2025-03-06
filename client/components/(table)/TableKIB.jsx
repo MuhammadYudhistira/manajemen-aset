@@ -5,10 +5,10 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import BasicTable from "./BasicTable";
 import { formatRupiah } from "@/libs/formatRupiah";
-import { useFetchActiveDA } from "@/hooks/detail_aset/useFetchActiveDA";
+import { useFetchActiveDP } from "@/hooks/detail_pengadaan/useFetchActiveDP";
 
 const TableKIB = () => {
-    const { data, isLoading } = useFetchActiveDA();
+    const { data, isLoading } = useFetchActiveDP();
     const router = useRouter();
 
     const columns = [
@@ -18,11 +18,11 @@ const TableKIB = () => {
         },
         {
             header: "Nama Barang",
-            accessorKey: "aset.nama_barang",
+            accessorKey: "barang.nama_barang",
         },
         {
             header: "Tahun Perolehan",
-            accessorKey: "tahun_perolehan",
+            accessorKey: "pengadaan.tanggal_penerimaan",
             cell: ({ getValue }) => <p>{moment(getValue()).format("YYYY")}</p>,
         },
         {
@@ -38,12 +38,6 @@ const TableKIB = () => {
             header: "Harga Satuan",
             accessorKey: "harga_satuan",
             cell: ({ getValue }) => <p>{formatRupiah(getValue())}</p>,
-        },
-        {
-            header: "Jumlah Barang",
-            accessorKey: "jumlah_barang",
-            cell: ({ getValue }) => <p>1</p>,
-
         },
         {
             header: "Nilai Perolehan",

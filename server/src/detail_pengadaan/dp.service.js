@@ -7,6 +7,8 @@ const {
   editDetailPengadaan,
   deleteDetailPengadaanById,
   editStatusDetailPengadaan,
+  findActiveDetailPengadaan,
+  searchDetailPengadaan,
 } = require('./dp.repository');
 
 const getListDP = async () => {
@@ -20,6 +22,18 @@ const getDetailDP = async (id) => {
     throw new Error('Detail Pengadaan tidak ditemukan');
   }
   return detail;
+};
+
+const getActiveDP = async () => {
+  const list = await findActiveDetailPengadaan();
+  return list;
+};
+
+const getSearchDetailPengadaan = async (search) => {
+  const data = await searchDetailPengadaan(search);
+  if (!data) throw new Error('Data tidak ditemukan');
+
+  return data;
 };
 
 const updateDetailPengadaan = async (id, data) => {
@@ -62,4 +76,6 @@ module.exports = {
   deleteDetailPengadaan,
   archiveDP,
   unarchiveDP,
+  getActiveDP,
+  getSearchDetailPengadaan,
 };

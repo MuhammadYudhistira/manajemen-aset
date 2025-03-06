@@ -7,15 +7,16 @@ import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 import moment from "moment";
 import { Spinner } from "@nextui-org/react";
-import { useFetchActiveDA } from "@/hooks/detail_aset/useFetchActiveDA";
 import { formatRupiah } from "@/libs/formatRupiah";
+import { useFetchActiveDP } from "@/hooks/detail_pengadaan/useFetchActiveDP";
 
 const KIB = () => {
 
-    const { data, isLoading } = useFetchActiveDA();
+    const { data, isLoading } = useFetchActiveDP();
+    console.log("🚀 ~ KIB ~ data:", data)
 
     const totalNilaiPerolehan = data?.reduce((total, item) => {
-        return total + item.aset.nilai_perolehan;
+        return total + item.harga_satuan;
     }, 0);
 
     const contentRef = useRef();
@@ -135,8 +136,8 @@ const KIB = () => {
                                     <tr className={`px-4 text-xs text-left ${index % 2 !== 0 ? 'bg-gray-300' : ''}`} key={aset.id}>
                                         <td className="border border-black text-center whitespace-nowrap">{index + 1}</td>
                                         <td className="border border-black pl-2 whitespace-nowrap">{aset.kode_barang}</td>
-                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.aset.nama_barang}</td>
-                                        <td className="border border-black text-center w-10">{moment(aset.tahun_perolehan).format("YYYY")}</td>
+                                        <td className="border border-black pl-2 whitespace-nowrap">{aset.barang.nama_barang}</td>
+                                        <td className="border border-black text-center w-10">{moment(aset.pengadaan.tanggal_penerimaan).format("YYYY")}</td>
                                         <td className="border border-black pl-2 whitespace-nowrap">{aset.merk}</td>
                                         <td className="border border-black pl-2 whitespace-nowrap">{aset.ukuran || "-"}</td>
                                         <td className="border border-black pr-2 text-right whitespace-nowrap">{aset.harga_satuan}</td>

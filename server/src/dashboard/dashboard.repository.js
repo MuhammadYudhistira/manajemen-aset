@@ -1,27 +1,46 @@
 const prisma = require('../../db/index');
 
 const nilaiAset = async () => {
-  const result = await prisma.detail_Aset.groupBy({
-    by: ['tahun_perolehan'],
-    _sum: {
+  const result = await prisma.detail_Pengadaan.findMany({
+    select: {
       harga_satuan: true,
-    },
-    orderBy: {
-      tahun_perolehan: 'asc',
+      pengadaan: {
+        select: {
+          tanggal_penerimaan: true,
+        },
+      },
     },
   });
 
-  return result.map((item) => ({
-    tahun: new Date(item.tahun_perolehan).getFullYear().toString(),
-    nilaiAset: item._sum.harga_satuan,
+  // Mengelompokkan berdasarkan tahun dari tanggal_penerimaan
+  const groupedByYear = result.reduce((acc, detail) => {
+    const year = detail.pengadaan?.tanggal_penerimaan
+      ? new Date(detail.pengadaan.tanggal_penerimaan).getFullYear().toString()
+      : 'Unknown';
+
+    if (!acc[year]) {
+      acc[year] = 0;
+    }
+    acc[year] += detail.harga_satuan ?? 0;
+    return acc;
+  }, {});
+
+  // Format hasil menjadi array
+  return Object.entries(groupedByYear).map(([tahun, nilaiAset]) => ({
+    tahun,
+    nilaiAset,
   }));
 };
 
 const jumlahAset = async () => {
-  const allDetails = await prisma.detail_Aset.findMany({
+  const allDetails = await prisma.detail_Pengadaan.findMany({
     select: {
-      tahun_perolehan: true,
-      kode_detail: true,
+      id: true,
+      pengadaan: {
+        select: {
+          tanggal_penerimaan: true,
+        },
+      },
     },
     where: {
       status: {
@@ -30,9 +49,12 @@ const jumlahAset = async () => {
     },
   });
 
-  // Mengelompokkan berdasarkan tahun
+  // Mengelompokkan berdasarkan tahun penerimaan
   const groupedByYear = allDetails.reduce((acc, detail) => {
-    const year = detail.tahun_perolehan.getFullYear();
+    const year = detail.pengadaan?.tanggal_penerimaan
+      ? new Date(detail.pengadaan.tanggal_penerimaan).getFullYear()
+      : 'Unknown'; // Cegah error jika `tanggal_penerimaan` null
+
     if (!acc[year]) {
       acc[year] = 0;
     }
@@ -65,7 +87,7 @@ const listUsers = async () => {
 };
 
 const listAset = async () => {
-  const asets = await prisma.detail_Aset.findMany({
+  const asets = await prisma.detail_Pengadaan.findMany({
     take: 5,
     where: {
       status: {
@@ -73,16 +95,22 @@ const listAset = async () => {
       },
     },
     orderBy: {
-      tahun_perolehan: 'desc',
+      pengadaan: {
+        tanggal_penerimaan: 'desc',
+      },
     },
     select: {
-      kode_detail: true,
-      tahun_perolehan: true,
-      aset: {
+      id: true,
+      barang: {
         select: {
           kode_barang: true,
           nama_barang: true,
           image: true,
+        },
+      },
+      pengadaan: {
+        select: {
+          tanggal_penerimaan: true,
         },
       },
     },
@@ -91,12 +119,12 @@ const listAset = async () => {
 };
 
 const totalAset = async () => {
-  const total = await prisma.detail_Aset.aggregate({
+  const total = await prisma.detail_Pengadaan.aggregate({
     _sum: {
       harga_satuan: true, // Total nilai aset dari harga_satuan
     },
     _count: {
-      kode_detail: true, // Total jumlah aset berdasarkan kode_detail
+      id: true, // Total jumlah aset berdasarkan kode_detail
     },
     where: {
       status: {
@@ -107,7 +135,7 @@ const totalAset = async () => {
 
   return {
     totalNilaiAset: total._sum.harga_satuan || 0, // Pastikan nilai tidak undefined
-    totalJumlahAset: total._count.kode_detail || 0,
+    totalJumlahAset: total._count.id || 0,
   };
 };
 
@@ -147,7 +175,6 @@ const countDashboardSekwan = async () => {
   });
 
   const totalAsets = await totalAset();
-  console.log('🚀 ~ countDashboardSekwan ~ totalAsets:', totalAsets);
   const total = await prisma.perbaikan.count();
 
   return (count = {

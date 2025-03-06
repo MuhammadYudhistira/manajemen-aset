@@ -136,6 +136,20 @@ const cancelPengajuan = async (no) => {
   return pengajuan;
 };
 
+const changePengajuanStatus = async (no, data) => {
+  const pengajuan = await prisma.pengajuan.update({
+    where: {
+      no_pengajuan: no,
+    },
+    data: {
+      status: data.status,
+      keterangan: data.keterangan,
+    },
+  });
+
+  return pengajuan;
+};
+
 module.exports = {
   findAllPengajuan,
   findPengajuanByNo,
@@ -143,4 +157,5 @@ module.exports = {
   cancelPengajuan,
   findPengajuanByNip,
   findPengajuanByStatus,
+  changePengajuanStatus,
 };

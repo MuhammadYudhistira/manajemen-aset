@@ -242,7 +242,7 @@ model Perbaikan_Images {
 }
 
 model Penghapusan_Nilai_aset {
-  id                            String                          @id @default(uuid())
+  no_penghapusan                String                          @id
   title                         String                          @db.VarChar(200)
   alasan_penghapusan            String                          @db.LongText
   status                        Status_Pengajuan_Penghapusan    @default(Pending)
@@ -269,14 +269,13 @@ enum Status_Penghapusan {
 
 model Detail_Penghapusan_Nilai_Aset {
   id                    String                 @id @default(uuid())
-  id_penghapusan        String
+  no_penghapusan        String
   kode_detail           String
-  pengajuan_penghapusan Penghapusan_Nilai_aset @relation(fields: [id_penghapusan], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pengajuan_penghapusan Penghapusan_Nilai_aset @relation(fields: [no_penghapusan], references: [no_penghapusan], onDelete: Cascade, onUpdate: Cascade)
   detail_pengadaan      Detail_Pengadaan       @relation(fields: [kode_detail], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  // status                Status_Penghapusan     @default(Pending)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
 
-  @@unique([id_penghapusan, kode_detail])
+  @@unique([no_penghapusan, kode_detail])
   @@map("detail_penghapusan_nilai_aset")
 }

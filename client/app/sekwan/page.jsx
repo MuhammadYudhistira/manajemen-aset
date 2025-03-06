@@ -67,7 +67,7 @@ const page = () => {
           <div>
             <p className="text-xl font-medium text-gray-900">{dataSekwan?.count.total}</p>
 
-            <p className="text-sm text-gray-500">Laporan Kerusakan</p>
+            <p className="text-sm text-gray-500">Laporan Perbaikan</p>
           </div>
         </article>
         <article className="flex items-center gap-4 rounded-xl border bg-white p-6">

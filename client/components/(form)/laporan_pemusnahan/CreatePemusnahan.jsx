@@ -1,43 +1,44 @@
 "use client";
 import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
+import { useFetchListDetailPengadaan } from "@/hooks/detail_pengadaan/useFetchListDetailPengadaan";
 import axios from "@/libs/axios";
 import { Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "sonner";
 
 const CreatePemusnahan = () => {
-    const [image, setImage] = useState([]);
-    const fileAccept = { "image/png": [], "image/jpg": [], "image/jpeg": [] };
 
-    const { data: asets, isLoading } = useFetchListDA()
+    const { data: asets } = useFetchListDetailPengadaan()
 
     const filteredAssets = asets?.filter(asset => asset.status !== 'Request_Deletion' && asset.status !== 'Deletion_Accepted');
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set());
 
-    // Memetakan selectedKeys (ID aset) ke format nama_barang (kode_barang)
+    // mapping selectedKeys (ID aset) ke format nama_barang (kode_barang)
     const selectedValues = React.useMemo(() => {
         return Array.from(selectedKeys).map((key) => {
-            const selectedAset = asets.find(aset => aset.kode_detail === key); // Temukan aset berdasarkan ID
-            return selectedAset ? `${selectedAset.aset.nama_barang} (${selectedAset.kode_detail})` : '';
+            const selectedAset = asets.find(aset => aset.id === key); // Temukan aset berdasarkan ID
+            return selectedAset ? `${selectedAset.barang.nama_barang} (${selectedAset.id})` : '';
         });
     }, [selectedKeys, asets]);
 
     const formik = useFormik({
         initialValues: {
+            no_penghapusan: "",
             title: "",
             alasan_penghapusan: "",
         },
         onSubmit: () => {
-            const { title, alasan_penghapusan } = formik.values;
+            const { no_penghapusan, title, alasan_penghapusan } = formik.values;
 
             // Convert selectedKeys to array of asset IDs
             const selectedKeysArray = Array.from(selectedKeys);
 
             const body = {
+                no_penghapusan,
                 title,
                 alasan_penghapusan,
                 kode_detail: selectedKeysArray,
@@ -77,6 +78,19 @@ const CreatePemusnahan = () => {
 
     return (
         <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
+            <label className="form-control w-full">
+                <div className="label">
+                    <span className="label-text">Nomor Penghapusan</span>
+                </div>
+                <input
+                    type="text"
+                    placeholder="Nomor Penghapusan"
+                    name="no_penghapusan"
+                    onChange={handleFormInput}
+                    className="input bg-blue-50 text-sm text-black"
+                    required
+                />
+            </label>
             <label className="form-control w-full">
                 <div className="label">
                     <span className="label-text">Title</span>
@@ -126,8 +140,8 @@ const CreatePemusnahan = () => {
                         onSelectionChange={setSelectedKeys}
                     >
                         {filteredAssets?.map((aset) => (
-                            <ListboxItem key={aset.kode_detail} textValue={`${aset.aset.nama_barang} (${aset.kode_detail})`}>
-                                {`${aset.aset.nama_barang} (${aset.kode_detail})`}
+                            <ListboxItem key={aset.id} textValue={`${aset.barang.nama_barang} (${aset.id})`}>
+                                {`${aset.barang.nama_barang} (${aset.id})`}
                             </ListboxItem>
                         ))}
                     </Listbox>
