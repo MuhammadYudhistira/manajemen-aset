@@ -70,6 +70,12 @@ const InputPengadaan = () => {
       formData.append("nomor_pengadaan", nomor_pengadaan);
       formData.append("no_pengajuan", nomor_pengajuan);
       formData.append("nama_vendor", nama_vendor);
+
+      if (!date) {
+        toast.error("Tanggal penerimaan harus dipilih!");
+        return;
+      }
+
       formData.append("tanggal_penerimaan", new Date(date).toISOString()); // Format ISO agar lebih rapi
       formData.append("dokumen_pengadaan", dokumen_pengadaan[0]);
 
@@ -149,7 +155,7 @@ const InputPengadaan = () => {
             className="text-black mt-2"
             labelPlacement="outside"
             showMonthAndYearPickers
-            label="Tahun perolehan"
+            label="Tanggal Penerimaan"
             color={"primary"}
           />
           <div className="label mt-5">
@@ -208,10 +214,10 @@ const InputPengadaan = () => {
 
       {/* Detail barang */}
       {formik.values.detail_barang.map((barang, index) => (
-        <div className="rounded-xl bg-white p-5">
-          <div className="space-y-2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <React.Fragment key={index}>
+        <React.Fragment key={index}>
+          <div className="rounded-xl bg-white p-5">
+            <div className="space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <label className="form-control w-full">
                   <div className="label">
                     <span className="label-text">Kode Barang</span>
@@ -219,7 +225,7 @@ const InputPengadaan = () => {
                   <input
                     className="input bg-blue-50 text-sm"
                     name={`detail_barang[${index}].kode_barang`}
-                    placeholder="Jumlah barang"
+                    placeholder="Kode barang"
                     value={barang.kode_barang}
                     onChange={handleFormInput}
                     disabled
@@ -332,10 +338,10 @@ const InputPengadaan = () => {
                     className="input bg-blue-50 text-sm text-black"
                   />
                 </label>
-              </React.Fragment>
+              </div>
             </div>
           </div>
-        </div>
+        </React.Fragment>
       ))}
 
       {/* Submit Button */}

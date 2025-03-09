@@ -28,7 +28,7 @@ const Header = ({ role }) => {
           </svg>
         </label>
         <div className="flex-1 space-x-2">
-          <Link href={"/"} className="btn btn-ghost text-xl">SIMAS</Link>
+          <Link href={"/"} className="btn btn-ghost text-xl">SIMA</Link>
           <QRScanner />
           {role !== "staff" && <Search />}
         </div>
