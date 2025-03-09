@@ -47,6 +47,8 @@ const createPengadaan = async (newPengadaanData) => {
       );
     }
 
+    if(!newPengadaanData.no_pengajuan) throw new Error ("Pilih minimal satu pengusulan")
+
     if (
       !Array.isArray(newPengadaanData.detail_barang) ||
       newPengadaanData.detail_barang.length === 0
