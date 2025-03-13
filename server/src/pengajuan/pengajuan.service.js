@@ -7,6 +7,7 @@ const {
   findPengajuanByNip,
   findPengajuanByStatus,
   changePengajuanStatus,
+  getLastPengajuan,
 } = require('./pengajuan.repository');
 
 const listPengajuan = async () => {
@@ -32,10 +33,24 @@ const detailPengajuan = async (no) => {
   return pengajuan;
 };
 
-const createPengajuan = async (newPengajuanData) => {
-  const hasData = await findPengajuanByNo(newPengajuanData.no_pengajuan);
+const generateNomorPengajuan = async () => {
+  const lasPengajuan = await getLastPengajuan(); // Ambil data terakhir dari database
+  if (!lasPengajuan || !lasPengajuan.no_pengajuan) {
+    return 'PGJ001';
+  }
 
-  if (hasData) throw new Error('Nomor pengajuan sudah ada');
+  const lastNumber = parseInt(lasPengajuan.no_pengajuan.slice(3), 10); // Ambil hanya angka setelah 'PGJ'
+  const nextNumber = lastNumber + 1;
+  return `PGJ${String(nextNumber).padStart(3, '0')}`;
+};
+
+const createPengajuan = async (newPengajuanData) => {
+  if (!newPengajuanData.no_pengajuan) {
+    newPengajuanData.no_pengajuan = await generateNomorPengajuan();
+  }
+
+  console.log(newPengajuanData.no_pengajuan);
+
   const pengajuan = await insertPengajuan(newPengajuanData);
   return pengajuan;
 };

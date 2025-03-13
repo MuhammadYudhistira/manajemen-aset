@@ -51,6 +51,8 @@ router.post('/', uploadFiles(fileConfigs), async (req, res) => {
     response(200, pengadaan, 'Berhasil Menambahkan Data', res);
   } catch (error) {
     console.log(error);
+    if (error.code === 'P2003')
+      responseError(400, 'Pilih minimal satu pengajuan pengadaan', res);
     responseError(500, error.message, res);
   }
 });

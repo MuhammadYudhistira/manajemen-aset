@@ -30,6 +30,12 @@ const findPengadaanByNomor = async (nomor) => {
   return pengadaan;
 };
 
+const getLastPengadaan = async () => {
+  return await prisma.pengadaan.findFirst({
+    orderBy: { nomor_pengadaan: 'desc' },
+  });
+};
+
 const insertPengadaan = async (newPengadaanData) => {
   if (
     !newPengadaanData.detail_barang ||
@@ -119,4 +125,5 @@ module.exports = {
   findPengadaanByNomor,
   insertPengadaan,
   deletePengadaanByNomor,
+  getLastPengadaan,
 };

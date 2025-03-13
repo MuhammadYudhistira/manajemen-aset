@@ -150,6 +150,12 @@ const changePengajuanStatus = async (no, data) => {
   return pengajuan;
 };
 
+const getLastPengajuan = async () => {
+  return await prisma.pengajuan.findFirst({
+    orderBy: { no_pengajuan: 'desc' },
+  });
+};
+
 module.exports = {
   findAllPengajuan,
   findPengajuanByNo,
@@ -158,4 +164,5 @@ module.exports = {
   findPengajuanByNip,
   findPengajuanByStatus,
   changePengajuanStatus,
+  getLastPengajuan,
 };

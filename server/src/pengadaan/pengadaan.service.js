@@ -6,6 +6,7 @@ const {
   findPengadaanByNomor,
   deletePengadaanByNomor,
   insertPengadaan,
+  getLastPengadaan,
 } = require('./pengadaan.repository');
 
 const getAllPengadaan = async () => {
@@ -19,17 +20,19 @@ const getPengadaanByNomor = async (nomor) => {
   return pengadaan;
 };
 
-const isNomorPengadaanExist = async (nomor) => {
-  const pengadaan = await findPengadaanByNomor(nomor);
-  return pengadaan ? true : false;
+const generateNomorPengadaan = async () => {
+  const lastPengadaan = await getLastPengadaan(); // Ambil data terakhir dari database
+  if (!lastPengadaan || !lastPengadaan.nomor_pengadaan) {
+    return 'P001'; 
+  }
+
+  const lastNumber = parseInt(lastPengadaan.nomor_pengadaan.slice(1), 10); 
+  const nextNumber = lastNumber + 1;
+  return `P${String(nextNumber).padStart(3, '0')}`; 
 };
 
 const createPengadaan = async (newPengadaanData) => {
   try {
-    if (await isNomorPengadaanExist(newPengadaanData.nomor_pengadaan)) {
-      throw new Error('Nomor Pengadaan Sudah Ada');
-    }
-
     if (
       !newPengadaanData.tanggal_penerimaan ||
       newPengadaanData.tanggal_penerimaan === 'undefined'
@@ -47,13 +50,19 @@ const createPengadaan = async (newPengadaanData) => {
       );
     }
 
-    if(!newPengadaanData.no_pengajuan) throw new Error ("Pilih minimal satu pengusulan")
+    if (!newPengadaanData.no_pengajuan)
+      throw new Error('Pilih minimal satu pengusulan');
 
     if (
       !Array.isArray(newPengadaanData.detail_barang) ||
       newPengadaanData.detail_barang.length === 0
     ) {
       throw new Error('Tambahkan minimal satu detail barang');
+    }
+
+    // Generate nomor pengadaan otomatis jika belum ada
+    if (!newPengadaanData.nomor_pengadaan) {
+      newPengadaanData.nomor_pengadaan = await generateNomorPengadaan();
     }
 
     // Insert pengadaan ke database

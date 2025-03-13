@@ -124,6 +124,15 @@ const updateRepairById = async (id, newRepairData) => {
       berita_acara: newRepairData.berita_acara,
       faktur: newRepairData.faktur,
       kuitansi: newRepairData.kuitansi,
+      laporan_kerusakan: {
+        update: {
+          detail_pengadaan: {
+            update: {
+              status: 'Available',
+            },
+          },
+        },
+      },
     },
   });
   return repair;

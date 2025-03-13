@@ -1,6 +1,5 @@
 "use client";
 import DropzoneFile from "@/components/(input)/DropzoneFile";
-import { useFetchAset } from "@/hooks/aset/useFetchAset";
 import { useCreatePengadaan } from "@/hooks/pengadaan/useCreatePengadaan";
 import { useFetchAcceptedPengajuan } from "@/hooks/pengajuan/useFetchAcceptedPengajuan";
 import { useFetchRuangan } from "@/hooks/ruangan/useFetchRuangan";
@@ -42,7 +41,6 @@ const InputPengadaan = () => {
 
   const formik = useFormik({
     initialValues: {
-      nomor_pengadaan: "",
       nama_vendor: "",
       tanggal_pengadaan: "",
       detail_barang: [
@@ -59,7 +57,6 @@ const InputPengadaan = () => {
     },
     onSubmit: () => {
       const {
-        nomor_pengadaan,
         nama_vendor,
         nomor_pengajuan,
         detail_barang, // Ambil detail_barang langsung
@@ -67,7 +64,6 @@ const InputPengadaan = () => {
 
       // FormData untuk CreateRepairReport
       const formData = new FormData();
-      formData.append("nomor_pengadaan", nomor_pengadaan);
       formData.append("no_pengajuan", nomor_pengajuan);
       formData.append("nama_vendor", nama_vendor);
 
@@ -122,19 +118,6 @@ const InputPengadaan = () => {
     <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <div className="rounded-xl bg-white p-5">
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Nomor Pengadaan</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Nomor Pengadaan"
-              name="nomor_pengadaan"
-              onChange={handleFormInput}
-              className="input bg-blue-50 text-sm text-black"
-              required
-            />
-          </label>
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Nama Vendor</span>

@@ -53,6 +53,12 @@ const findDeletionById = async (id) => {
   return Deletion;
 };
 
+const getLastDeletion = async () => {
+  return await prisma.penghapusan_Nilai_aset.findFirst({
+    orderBy: { no_penghapusan: 'desc' },
+  });
+};
+
 const insertDeletion = async (newDeletionData) => {
   const deletion = await prisma.penghapusan_Nilai_aset.create({
     data: {
@@ -135,4 +141,5 @@ module.exports = {
   findDeletionById,
   updateDeletionStatus,
   deleteDeleteionById,
+  getLastDeletion,
 };

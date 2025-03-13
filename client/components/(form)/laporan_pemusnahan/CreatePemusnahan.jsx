@@ -27,7 +27,6 @@ const CreatePemusnahan = () => {
 
     const formik = useFormik({
         initialValues: {
-            no_penghapusan: "",
             title: "",
             alasan_penghapusan: "",
         },
@@ -38,7 +37,6 @@ const CreatePemusnahan = () => {
             const selectedKeysArray = Array.from(selectedKeys);
 
             const body = {
-                no_penghapusan,
                 title,
                 alasan_penghapusan,
                 kode_detail: selectedKeysArray,
@@ -78,19 +76,6 @@ const CreatePemusnahan = () => {
 
     return (
         <form className="w-full space-y-2" onSubmit={formik.handleSubmit}>
-            <label className="form-control w-full">
-                <div className="label">
-                    <span className="label-text">Nomor Penghapusan</span>
-                </div>
-                <input
-                    type="text"
-                    placeholder="Nomor Penghapusan"
-                    name="no_penghapusan"
-                    onChange={handleFormInput}
-                    className="input bg-blue-50 text-sm text-black"
-                    required
-                />
-            </label>
             <label className="form-control w-full">
                 <div className="label">
                     <span className="label-text">Title</span>

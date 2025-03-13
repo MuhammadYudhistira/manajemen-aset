@@ -107,8 +107,6 @@ const inputLaporan = async (id, newRepairData) => {
     status: 'Available',
   };
 
-  await editDetailAsetByKodeDetail(oldData.laporan_kerusakan.detail_aset.kode_detail, newData);
-
   const repair = await updateRepairById(id, data);
   return repair;
 };

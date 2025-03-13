@@ -22,7 +22,6 @@ const CreatePengajuanForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      no_pengajuan: "",
       title: "",
       unit_pengajuan: "",
       detail_pengajuan: [],
@@ -70,20 +69,6 @@ const CreatePengajuanForm = () => {
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         <div className='bg-white p-5 rounded-lg border space-y-2'>
           <h3 className='text-xl font-semibold'>Request Detail</h3>
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Nomor Pengajuan</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Nomor Pengajuan"
-              name="no_pengajuan"
-              onChange={handleFormInput}
-              value={formik.values.no_pengajuan}
-              className="input bg-blue-50 text-sm text-black"
-              required
-            />
-          </label>
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Request Title</span>

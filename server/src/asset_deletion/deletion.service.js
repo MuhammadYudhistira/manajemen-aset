@@ -5,6 +5,7 @@ const {
   findDeletionById,
   updateDeletionStatus,
   deleteDeleteionById,
+  getLastDeletion,
 } = require('./deletion.repository');
 
 const getAllDeletion = async () => {
@@ -18,9 +19,24 @@ const getDetailDetaletion = async (id) => {
   return deletion;
 };
 
+const generateNomorPenghapusan = async () => {
+  const lastDeletion = await getLastDeletion(); // Ambil data terakhir dari database
+  if (!lastDeletion || !lastDeletion.no_penghapusan) {
+    return 'DLT001'; // Jika belum ada data, mulai dari P001
+  }
+
+  const lastNumber = parseInt(lastDeletion.no_penghapusan.slice(3), 10); // Ambil angka setelah 'P'
+  const nextNumber = lastNumber + 1;
+  return `DLT${String(nextNumber).padStart(3, '0')}`; // Format ke PXXX
+};
+
 const createDeletion = async (data) => {
   if (data.kode_detail.length === 0)
     throw new Error('Pilih aset yang ingin dihapus');
+
+  if (!data.no_penghapusan) {
+    data.no_penghapusan = await generateNomorPenghapusan();
+  }
   const deletion = await insertDeletion(data);
   return deletion;
 };

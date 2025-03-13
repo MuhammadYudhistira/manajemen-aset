@@ -31,6 +31,14 @@ const TableReportArchiveAsset = () => {
 
     const columns = [
         {
+            header: "Nomor Penghapusan",
+            accessorKey: "id",
+            cell: (info) => {
+                const text = info.getValue();
+                return <p className="">{text}</p>;
+            },
+        },
+        {
             header: "Title",
             accessorKey: "title",
             cell: (info) => {
