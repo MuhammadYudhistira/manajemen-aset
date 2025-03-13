@@ -6,6 +6,9 @@ const {
   updateDeletionStatus,
   deleteDeleteionById,
   getLastDeletion,
+  findDetailDeletionById,
+  deleteDetailDeletionById,
+  updateDeletionById,
 } = require('./deletion.repository');
 
 const getAllDeletion = async () => {
@@ -86,6 +89,25 @@ const deleteDeletion = async (id) => {
   return deletion;
 };
 
+const getDetailDeletion = async (id) => {
+  const detailDeletion = await findDetailDeletionById(id);
+  if (!detailDeletion)
+    throw new Error('Penghapusan nilai aset tidak ditemukan');
+  return detailDeletion;
+};
+
+const deleteDetailDeletion = async (id) => {
+  await getDetailDeletion(id);
+  const deletion = await deleteDetailDeletionById(id);
+  return deletion;
+};
+
+const updateDeletion = async (id, data) => {
+  await getDetailDetaletion(id);
+  const deletion = await updateDeletionById(id, data);
+  return deletion;
+};
+
 module.exports = {
   getAllDeletion,
   createDeletion,
@@ -93,4 +115,6 @@ module.exports = {
   confirmationDeletion,
   rejectionDeletion,
   deleteDeletion,
+  deleteDetailDeletion,
+  updateDeletion,
 };

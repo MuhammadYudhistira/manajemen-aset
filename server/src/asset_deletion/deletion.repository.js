@@ -135,6 +135,49 @@ const deleteDeleteionById = async (id) => {
   return deletion;
 };
 
+const deleteDetailDeletionById = async (id) => {
+  const detailDeletion = await prisma.detail_Penghapusan_Nilai_Aset.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  await prisma.detail_Pengadaan.update({
+    where: {
+      id: detailDeletion.kode_detail,
+    },
+    data: {
+      status: 'Available',
+    },
+  });
+
+  return detailDeletion;
+};
+
+const findDetailDeletionById = async (id) => {
+  const detailDeletion = await prisma.detail_Penghapusan_Nilai_Aset.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return detailDeletion;
+};
+
+const updateDeletionById = async (id, data) => {
+  const deletion = await prisma.penghapusan_Nilai_aset.update({
+    where: {
+      no_penghapusan: id,
+    },
+    data: {
+      title: data.title,
+      alasan_penghapusan: data.alasan_penghapusan,
+    },
+  });
+
+  return deletion;
+};
+
 module.exports = {
   insertDeletion,
   findAllDeletion,
@@ -142,4 +185,7 @@ module.exports = {
   updateDeletionStatus,
   deleteDeleteionById,
   getLastDeletion,
+  deleteDetailDeletionById,
+  findDetailDeletionById,
+  updateDeletionById,
 };

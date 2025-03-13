@@ -98,6 +98,15 @@ const TableReportArchiveAsset = () => {
         router.push(`/admin/laporan_pemusnahan_aset/${id}`);
     };
 
+    const hendleEditClick = (id) => {
+        const deletion = findDataById(id)
+        if (deletion.status !== "Accepted" && deletion.status !== "Rejected") {
+            router.push(`/admin/laporan_pemusnahan_aset/${id}/edit`);
+        } else {
+            toast.info("Laporan sudah direview tidak bisa mengubah laporan")
+        }
+    };
+
     const handleDeleteClik = (id) => {
         const deletion = findDataById(id)
         if (deletion.status !== "Accepted" && deletion.status !== "Rejected") {
@@ -125,6 +134,7 @@ const TableReportArchiveAsset = () => {
                 columns={columns}
                 handleNewItemClick={handleNewItemClick}
                 handleDeleteClick={handleDeleteClik}
+                handleEditClick={hendleEditClick}
             />
         </>
     );

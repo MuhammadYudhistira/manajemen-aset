@@ -6,6 +6,8 @@ const {
   confirmationDeletion,
   rejectionDeletion,
   deleteDeletion,
+  deleteDetailDeletion,
+  updateDeletion,
 } = require('./deletion.service');
 const { response } = require('../response/response');
 const { responseError } = require('../response/responseError');
@@ -31,6 +33,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.delete('/detail/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const detailDeletion = await deleteDetailDeletion(id);
+    response(200, detailDeletion, 'Berhasil menghapus data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -46,6 +59,18 @@ router.post('/', async (req, res) => {
   try {
     const newDeletionData = req.body;
     const deletion = await createDeletion(newDeletionData);
+    response(200, deletion, 'Berhasil menambahkan data', res);
+  } catch (error) {
+    console.log(error);
+    responseError(500, error.message, res);
+  }
+});
+
+router.patch('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const newDeletionData = req.body;
+    const deletion = await updateDeletion(id, newDeletionData);
     response(200, deletion, 'Berhasil menambahkan data', res);
   } catch (error) {
     console.log(error);

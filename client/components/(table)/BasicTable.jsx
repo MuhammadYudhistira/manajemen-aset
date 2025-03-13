@@ -118,53 +118,51 @@ const BasicTable = ({ data, columns, handleDeleteClick, handleEditClick, handleN
                     </td>
                   ))}
                   <td>
-                    <div className="tooltip" data-tip="Action">
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button className="bg-white">
-                            <MoreHorizIcon className="text-blue-500" />
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          variant="faded"
-                          aria-label="Dropdown menu with icons"
-                        >
-                          {handleNewItemClick && (
-                            <DropdownItem
-                              key="new-item"
-                              startContent={<PlagiarismOutlinedIcon />}
-                              onPress={() => handleNewItemClick(row.original.id || row.original.nomor_pengadaan)}
-                            >
-                              Detail data
-                            </DropdownItem>
-                          )}
-                          {handleEditClick && (
-                            <DropdownItem
-                              key="edit"
-                              startContent={<ModeEditOutlineOutlinedIcon />}
-                              onPress={() => handleEditClick(row.original.id)}
-                            >
-                              Edit data
-                            </DropdownItem>
-                          )}
-                          {handleDeleteClick && (
-                            <DropdownItem
-                              key="delete"
-                              className="bg-red-50 text-red-500"
-                              color="danger"
-                              startContent={
-                                <DeleteOutlineOutlinedIcon
-                                  className={"text-red-500"}
-                                />
-                              }
-                              onPress={() => handleDeleteClick(row.original.id || row.original.nomor_pengadaan)}
-                            >
-                              Delete data
-                            </DropdownItem>
-                          )}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </div>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button className="bg-white">
+                          <MoreHorizIcon className="text-blue-500" />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        variant="faded"
+                        aria-label="Dropdown menu with icons"
+                      >
+                        {handleNewItemClick && (
+                          <DropdownItem
+                            key="new-item"
+                            startContent={<PlagiarismOutlinedIcon />}
+                            onPress={() => handleNewItemClick(row.original.id || row.original.nomor_pengadaan)}
+                          >
+                            Detail data
+                          </DropdownItem>
+                        )}
+                        {handleEditClick && (
+                          <DropdownItem
+                            key="edit"
+                            startContent={<ModeEditOutlineOutlinedIcon />}
+                            onPress={() => handleEditClick(row.original.id)}
+                          >
+                            Edit data
+                          </DropdownItem>
+                        )}
+                        {handleDeleteClick && (
+                          <DropdownItem
+                            key="delete"
+                            className="bg-red-50 text-red-500"
+                            color="danger"
+                            startContent={
+                              <DeleteOutlineOutlinedIcon
+                                className={"text-red-500"}
+                              />
+                            }
+                            onPress={() => handleDeleteClick(row.original.id || row.original.nomor_pengadaan)}
+                          >
+                            Delete data
+                          </DropdownItem>
+                        )}
+                      </DropdownMenu>
+                    </Dropdown>
                   </td>
                 </tr>
               ))

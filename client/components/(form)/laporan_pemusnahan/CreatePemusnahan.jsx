@@ -31,7 +31,7 @@ const CreatePemusnahan = () => {
             alasan_penghapusan: "",
         },
         onSubmit: () => {
-            const { no_penghapusan, title, alasan_penghapusan } = formik.values;
+            const { title, alasan_penghapusan } = formik.values;
 
             // Convert selectedKeys to array of asset IDs
             const selectedKeysArray = Array.from(selectedKeys);
