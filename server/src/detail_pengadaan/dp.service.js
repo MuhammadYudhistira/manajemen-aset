@@ -37,6 +37,7 @@ const getSearchDetailPengadaan = async (search) => {
 };
 
 const updateDetailPengadaan = async (id, data) => {
+  console.log('🚀 ~ updateDetailPengadaan ~ data:', data);
   await getDetailDP(id);
   const updatedDetailPengadaan = await editDetailPengadaan(id, data);
 

@@ -13,26 +13,28 @@ import {
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useFormik } from "formik";
 import { useFetchUser } from "@/hooks/user/useFetchUser";
-import { useFetchListDA } from "@/hooks/detail_aset/useFetchListDA";
 import { toast } from "sonner";
-import { useFetchCustodian } from "@/hooks/penanggung_jawab/useFetchCustodian";
-import { useCreateCustodian } from "@/hooks/penanggung_jawab/useCreateCustodian";
 import { useFetchUserWhoseCustodian } from "@/hooks/penanggung_jawab/useFetchUserWhoseCustodian";
+import { useEditDP } from "@/hooks/detail_pengadaan/UseEditDP";
+import { useFetchListDetailPengadaan } from "@/hooks/detail_pengadaan/useFetchListDetailPengadaan";
 
 const CreatePJForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data } = useFetchUser();
-  const { data: asets } = useFetchListDA();
-  const { refetch } = useFetchUserWhoseCustodian();
+  const { data: asets, refetch: refetchAset } = useFetchListDetailPengadaan();
+  const listAsets = asets?.filter((aset) => aset.nip_penanggung_jawab === null);
+
+  const { refetch: refetchUser } = useFetchUserWhoseCustodian();
 
   const staffUsers = data?.users?.filter(user =>
     user.role === 'STAFF'
   );
 
-  const { mutate: createCustodian, isPending } = useCreateCustodian({
+  const { mutate: createCustodian, isPending } = useEditDP({
     onSuccess: () => {
       toast.success("Berhasil menambahkan data penanggung jawab");
-      refetch();
+      refetchUser();
+      refetchAset();
     },
     onError: (error) => {
       console.log(error);
@@ -47,7 +49,9 @@ const CreatePJForm = () => {
     },
     onSubmit: () => {
       const { id_user, kode_detail } = formik.values;
-      createCustodian({ id_user, kode_detail });
+      const formData = new FormData();
+      formData.append("nip_penanggung_jawab", id_user);
+      createCustodian({ id: kode_detail, body: formData });
     },
   });
 
@@ -107,10 +111,10 @@ const CreatePJForm = () => {
                       <option defaultValue={""} hidden>
                         Nama Aset
                       </option>
-                      {asets.map((aset) => {
+                      {listAsets.map((aset) => {
                         return (
-                          <option value={aset.kode_detail} key={aset.kode_detail}>
-                            {aset.aset.nama_barang} ({aset.kode_detail})
+                          <option value={aset.id} key={aset.id}>
+                            {aset.barang.nama_barang} ({aset.id})
                           </option>
                         );
                       })}

@@ -10,11 +10,11 @@ const page = () => {
 
   return (
     <>
-      {/* <div className="mt-8 flex gap-4">
+      <div className="mt-8 flex gap-4">
         <div className="ml-auto">
           <CreatePJForm />
         </div>
-      </div> */}
+      </div>
 
       <div className="my-8">
         <h1 className="text-2xl font-bold">Penanggung Jawab</h1>

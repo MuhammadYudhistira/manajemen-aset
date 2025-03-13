@@ -16,6 +16,7 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import { useDeleteCustodian } from "@/hooks/penanggung_jawab/useDeleteCustodian";
 import { toast } from "sonner";
 import { useFetchUserWhoseCustodian } from "@/hooks/penanggung_jawab/useFetchUserWhoseCustodian";
+import { useEditDP } from "@/hooks/detail_pengadaan/UseEditDP";
 
 const CardPJ = ({
     profile,
@@ -29,7 +30,7 @@ const CardPJ = ({
     const { refetch } = useFetchUserWhoseCustodian()
 
 
-    const { mutate: deletePJ, isPending } = useDeleteCustodian({
+    const { mutate: deletePJ, isPending } = useEditDP({
         onSuccess: () => {
             toast.info("berhasil menghapus data penanggung jawab");
             refetch();
@@ -41,7 +42,9 @@ const CardPJ = ({
     });
 
     const handleClick = () => {
-        deletePJ(selectedId)
+        const formData = new FormData();
+        formData.append("nip_penanggung_jawab", "");
+        deletePJ({ id: selectedId, body: formData });
     };
 
 
@@ -88,13 +91,13 @@ const CardPJ = ({
                                     </p>
                                 </div>
                             </div>
-                            {/* <Button
+                            <Button
                                 onPress={onOpen}
                                 onClick={() => { setSelectedId(aset.id) }}
                                 className="btn bg-transparent text-red-500 border-0 shadow-none"
                                 size='sm'>
                                 <DeleteOutlineOutlinedIcon className='size-5' />
-                            </Button> */}
+                            </Button>
                         </div>
                     )
                 })}

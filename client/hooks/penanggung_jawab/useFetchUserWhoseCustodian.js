@@ -8,5 +8,6 @@ export const useFetchUserWhoseCustodian = () => {
       return response.data.payload;
     },
     queryKey: ["penanggungJawabUsers"],
+    refetchOnWindowFocus: true,
   });
 };

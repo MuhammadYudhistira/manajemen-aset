@@ -3,7 +3,6 @@ import React from "react";
 import CardPJ from "./CardPJ";
 
 const GridPJ = ({ data, isLoading }) => {
-    console.log("🚀 ~ GridPJ ~ data:", data)
 
     if (isLoading) {
         return (

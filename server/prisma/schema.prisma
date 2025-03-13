@@ -146,7 +146,7 @@ model Detail_Pengadaan {
   kode_barang                   String                          @db.VarChar(20)
   nomor_pengadaan               String                          @db.VarChar(30)
   id_lokasi                     Int
-  nip_penanggung_jawab          String                          @db.VarChar(18)
+  nip_penanggung_jawab          String?                         @db.VarChar(18)
   kode_aset                     String
   harga_satuan                  Int
   merk                          String?                         @db.VarChar(50)
@@ -159,7 +159,7 @@ model Detail_Pengadaan {
   barang                        Barang                          @relation(references: [kode_barang], fields: [kode_barang], onDelete: Cascade, onUpdate: Cascade)
   pengadaan                     Pengadaan                       @relation(references: [nomor_pengadaan], fields: [nomor_pengadaan], onDelete: Cascade, onUpdate: Cascade)
   lokasi                        Lokasi                          @relation(references: [id], fields: [id_lokasi])
-  user                          User                            @relation(references: [nip], fields: [nip_penanggung_jawab])
+  user                          User?                           @relation(references: [nip], fields: [nip_penanggung_jawab])
   Aset_Kendaraan                Aset_Kendaraan?
   Detail_Aset_Images            Detail_Aset_Images[]
   Laporan_Kerusakan             Laporan_Kerusakan[]

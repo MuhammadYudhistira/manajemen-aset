@@ -150,8 +150,9 @@ const editDetailPengadaan = async (id, data) => {
   const detail_Pengadaan = await prisma.detail_Pengadaan.update({
     where: { id },
     data: {
-      id_lokasi: parseInt(data.id_lokasi),
-      nip_penanggung_jawab: data.nip_penanggung_jawab,
+      id_lokasi: data.id_lokasi ? Number(data.id_lokasi) : undefined,
+      nip_penanggung_jawab:
+        data.nip_penanggung_jawab === '' ? null : data.nip_penanggung_jawab,
       merk: data.merk,
       ukuran: data.ukuran,
       Aset_Kendaraan: {
